@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context path="/sigpepws" docBase="context" reloadable="true"
+         crossContext="true">
+
+    <!--Arabidopsis thaliana-->
+    <Resource name="jdbc/SigPepDbArabidopsisThaliana" auth="Container"
+                  type="javax.sql.DataSource"
+                  maxActive="100" maxIdle="30" maxWait="10000"
+                  username="anonymous" password=""
+                  driverClassName="com.mysql.jdbc.Driver"
+                  url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_arabidopsis_thaliana?autoReconnect=true"/>
+
+    <!--Caenorhabditis elegans-->
+    <Resource name="jdbc/SigPepDbCaenorhabditisElegans" auth="Container"
+                  type="javax.sql.DataSource"
+                  maxActive="100" maxIdle="30" maxWait="10000"
+                  username="anonymous" password=""
+                  driverClassName="com.mysql.jdbc.Driver"
+                  url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_caenorhabditis_elegans?autoReconnect=true"/>
+
+    <!--Danio rerio-->
+    <Resource name="jdbc/SigPepDbDanioRerio" auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="anonymous" password=""
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_danio_rerio?autoReconnect=true"/>
+
+    <!--Homo sapiens-->
+    <Resource name="jdbc/SigPepDbHomoSapiens" auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="anonymous" password=""
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_homo_sapiens?autoReconnect=true"/>
+
+    <!--Mus musculus-->
+    <Resource name="jdbc/SigPepDbMusMusculus" auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="anonymous" password=""
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_mus_musculus?autoReconnect=true"/>
+
+    <!--Rattus norvegicus-->
+    <Resource name="jdbc/SigPepDbRattusNorvegicus" auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="anonymous" password=""
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_rattus_norvegicus?autoReconnect=true"/>
+
+    <!--Saccharomyces cerevisiae-->
+    <Resource name="jdbc/SigPepDbSaccharomycesCerevisiae" auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="anonymous" password=""
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_saccharomyces_cerevisiae?autoReconnect=true"/>
+
+</Context>
