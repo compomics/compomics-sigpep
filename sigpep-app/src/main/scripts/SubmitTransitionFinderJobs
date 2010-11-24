@@ -1,0 +1,55 @@
+export JAVA_HOME=/ebi/research/software/Linux_x86_64/opt/stow/jdk1.5.0_02/opt/java/jdk1.5.0_02
+export PATH=$JAVA_HOME/bin:$PATH
+
+QUEUE_SHORT="64bitbigmem"
+QUEUE_LONG="64bitbigmem"
+
+MASS_INTERVAL=10
+
+USERNAME=$1
+PASSWORD=$2
+TAX_ID=$3
+PROTEASE=$4
+PTM=$5
+Z_PRE=$6
+Z_PRO=$7
+MASS_ACCURACY=$8
+OUT_DIR=$9
+
+#submit separat jobs for the specified mass intervals every 1 second(s)
+for ((  i=600 ; i < 4000; i=i+$MASS_INTERVAL ))
+do
+
+  #choose queue depending according to mass range
+  if ((i < 1600))
+  then
+      QUEUE=$QUEUE_LONG
+  else
+      QUEUE=$QUEUE_SHORT
+  fi
+
+  j=$(( $i + $MASS_INTERVAL ))
+
+  #build output and log filenames
+  FILENAME="barcodes_${TAX_ID}_zpre${Z_PRE}_zpro${Z_PRO}_acc${MASS_ACCURACY}_${PROTEASES}_ptm_${PTM}_$i-$j"
+  OUT="${OUT_DIR}/${FILENAME}.tab"
+  LOG="${OUT_DIR}/${FILENAME}.log"
+
+  #remove existing result and log files
+  rm $OUT
+  rm $LOG
+
+  #submit job
+  echo "Submitting TransitionFinder job for NCBI taxon ID $TAX_ID; signature peptide mass range $i to $j Da"
+
+  #build command line to submit job
+  QCOMMAND="bsub -o $LOG -q $QUEUE"
+  COMMAND="./TransitionFinder --user=${USERNAME} --password=${PASSWORD} --taxon=${TAX_ID} --out=${OUT}  --precursorIonChargeStates=${Z_PRE} --productIonChargeStates=${Z_PRO} --massAccuracy=${MASS_ACCURACY} --protease=${PROTEASE} --ptm=${PTM} --precursorLowerMassCutOff=${i} --precursorUpperMassCutOff=${j}"
+  echo $QCOMMAND $COMMAND
+
+  #submit job
+  $QCOMMAND $COMMAND
+
+  sleep 1s
+  
+done
