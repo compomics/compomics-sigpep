@@ -1,0 +1,15 @@
+<document>
+  <properties>
+    <title>Signature Peptide Project - Persistence</title>
+    <author email="mmueller@ebi.ac.uk">Michael Mueller</author>
+  </properties>
+  <body>
+
+    <release version="0.4" date="2008-01-18" description="">
+      <action dev="mmueller" type="update">
+        Project split up into modules.
+      </action>
+    </release>
+
+  </body>
+</document>

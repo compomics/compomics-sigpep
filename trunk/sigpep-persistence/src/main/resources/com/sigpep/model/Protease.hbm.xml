@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.compomics.sigpep.model.impl">
+
+    <class name="ProteaseImpl" table="protease">
+
+        <id name="id" type="integer" unsaved-value="null" column="protease_id">
+            <generator class="native"/>
+        </id>
+
+        <property name="shortName" column="name"/>
+        <property name="fullName" column="full_name"/>
+        <property name="cleaves" column="cleavage_site"/>
+
+        <!--<set name="peptides" table="protease2peptide_feature" inverse="true">-->
+            <!--<key column="protease_id"/>-->
+            <!--<many-to-many column="peptide_feature_id" unique="true" entity-name="PeptideFeature"/>-->
+        <!--</set>-->
+
+    </class>
+
+    <!---->
+    <!--Named Queries-->
+    <!---->
+
+    <!--selects all proteases in the database-->
+    <query name="allProteases">from com.compomics.sigpep.model.Protease</query>
+
+    <!-- selects all proteases with the specified short name(s)-->
+    <query name="proteaseByShortName">from com.compomics.sigpep.model.Protease where shortName IN (:shortName)</query>
+
+
+</hibernate-mapping>

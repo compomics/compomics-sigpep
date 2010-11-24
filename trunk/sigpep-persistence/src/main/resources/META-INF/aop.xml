@@ -1,0 +1,20 @@
+<!DOCTYPE aspectj PUBLIC
+        "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+
+    <weaver>
+
+        <!-- only weave classes in domain object model -->
+        <include within="com.compomics.sigpep.model.impl.*"/>
+
+    </weaver>
+
+    <aspects>
+
+        <!-- weave in HibernateSessionTransactionInterceptor -->
+        <aspect name="com.compomics.sigpep.persistence.dao.HibernateSessionTransactionInterceptor"/>
+
+    </aspects>
+
+  </aspectj>
+

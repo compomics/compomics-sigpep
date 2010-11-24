@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.compomics.sigpep.model.impl">
+
+    <class name="PeptideFeatureImpl" table="peptide_feature">
+
+        <id name="id" type="integer" unsaved-value="null" column="peptide_feature_id">
+            <generator class="native"/>
+        </id>
+
+        <many-to-one name="featureObject" column="peptide_id" class="FeaturePeptideImpl"/>
+
+        <component name="location" class="com.compomics.sigpep.model.impl.SequenceLocationImpl"> <!-- class attribute optional -->
+            <many-to-one name="sequence" column="sequence_id" class="ProteinSequenceImpl" />
+            <property name="start" column="pos_start"/>
+            <property name="end" column="pos_end"/>
+        </component>
+
+        <set name="proteases" table="protease2peptide_feature" inverse="true">
+            <key column="peptide_feature_id"/>
+            <many-to-many column="protease_id" unique="true" class="ProteaseImpl"/>
+        </set>
+
+        <set name="spliceEventFeatures" table="peptide_feature2splice_event_feature">
+            <key column="peptide_feature_id"/>
+            <many-to-many column="splice_event_feature_id" class="SpliceEventFeatureImpl"/>
+        </set>
+
+
+
+    </class>
+
+    
+
+
+    <class name="SpliceEventFeatureImpl" table="splice_event_feature">
+
+        <id name="id" type="integer" unsaved-value="null" column="splice_event_feature_id">
+            <generator class="native"/>
+        </id>
+
+        <many-to-one name="featureObject" column="splice_event_id" class="FeatureSpliceEventImpl"/>
+
+        <component name="location" class="com.compomics.sigpep.model.impl.SequenceLocationImpl"> <!-- class attribute optional -->
+            <many-to-one name="sequence" column="sequence_id" class="ProteinSequenceImpl" />
+            <property name="start" column="pos_start"/>
+            <property name="end" column="pos_end"/>
+        </component>
+
+        <set name="peptideFeatures" table="peptide_feature2splice_event_feature" inverse="true">
+            <key column="splice_event_feature_id"/>
+            <many-to-many column="peptide_feature_id" unique="true" class="PeptideFeatureImpl"/>
+        </set>
+
+    </class>
+
+    <query name="peptideFeatureById">from com.compomics.sigpep.model.impl.FeaturePeptideImpl where id IN (:peptideFeatureId)</query>
+        
+</hibernate-mapping>
