@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.compomics.sigpep</groupId>
+    <artifactId>sigpep</artifactId>
+    <packaging>pom</packaging>
+    <version>0.5</version>
+    <name>sigpep</name>
+    <url>http://www.ebi.ac.uk/~mmueller/public_html/project/sigpep</url>
+
+    <modules>
+        <!--<module>sigpep-analysis</module>-->
+        <module>sigpep-persistence</module>
+        <module>sigpep-model</module>
+        <module>sigpep-app</module>
+        <module>sigpep-util</module>
+        <!--<module>sigpep-web</module>-->
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>ebi-repo</id>
+            <name>The EBI internal repository</name>
+            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        
+        <repository>
+            <id>genesis-maven-repository</id>
+            <name>Genesis repository</name>
+            <url>http://genesis.UGent.be/maven</url>
+            <layout>legacy</layout>
+        </repository>
+
+        <!-- UGent Genesis Maven 2 repository -->
+        <repository>
+            <id>genesis-maven2-repository</id>
+            <name>Genesis maven2 repository</name>
+            <url>http://genesis.UGent.be/maven2</url>
+            <layout>default</layout>
+        </repository>
+
+    </repositories>
+
+
+    <!-- The deployment maven2 repository-->
+      <distributionManagement>
+        <repository>
+            <id>genesis-maven2-repo</id>
+            <name>Genesis Maven Repository</name>
+            <url>scp://genesis.ugent.be/home/maven/public_html/maven2</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-idea-plugin</artifactId>
+                <configuration>
+                    <jdkName>1.5</jdkName>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-2</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/bin.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+    <reporting>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+            <!--changes-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>changes-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </reporting>
+
+</project>
