@@ -1,0 +1,20 @@
+ -----
+ Signature Peptide Project
+ -----
+ Michael Mueller
+ -----
+ January 2008
+
+Overview
+
+ The persistence module comprises code to setup and access the persistence layer. This includes
+ classes to perform and process <in silico> proteolytic digests, persist them to the database and
+ access the database using Hibernate object-relational mapping.
+
+
+Database
+
+ The persistence layer is based on a MySQL database. The SQL scripts to setup the database schema
+ can be found here.
+
+[images/sigpep_schema.gif] The SigPepDB schema
