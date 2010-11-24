@@ -1,0 +1,76 @@
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation=
+                 "http://java.sun.com/xml/ns/javaee
+            http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>SigPep Query Service</display-name>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
+    <servlet>
+        <!--<display-name>SigPepQuery</display-name>-->
+        <!--<servlet-name>SigPepQuery</servlet-name>-->
+        <servlet-name>SigPepQueryServiceServlet</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <!--<servlet-name>SigPepQuery</servlet-name>-->
+        <servlet-name>SigPepQueryServiceServlet</servlet-name>
+        <url-pattern>/queryService</url-pattern>
+    </servlet-mapping>
+
+    <!--JNDI resources-->
+    <resource-ref>
+        <description>
+            Resource reference to a factory for java.sql.Connection
+            instances that may be used for talking to a particular
+            database that is configured in the server.xml/context.xml
+            file.
+        </description>
+        <res-ref-name>jdbc/SigPepDbArabidopsisThaliana</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <resource-ref>
+        <res-ref-name>jdbc/SigPepDbCaenorhabditisElegans</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <resource-ref>
+        <res-ref-name>jdbc/SigPepDbDanioRerio</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <resource-ref>
+        <res-ref-name>jdbc/SigPepDbHomoSapiens</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <resource-ref>
+        <res-ref-name>jdbc/SigPepDbMusMusculus</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <resource-ref>
+        <res-ref-name>jdbc/SigPepDbRattusNorvegicus</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
+    <resource-ref>
+        <res-ref-name>jdbc/SigPepDbSaccharomycesCerevisiae</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+        
+    <welcome-file-list>
+        <welcome-file>selectOrganism.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>
