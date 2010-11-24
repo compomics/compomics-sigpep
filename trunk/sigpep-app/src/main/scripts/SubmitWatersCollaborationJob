@@ -1,0 +1,26 @@
+export JAVA_HOME=/ebi/research/software/Linux_x86_64/opt/stow/jdk1.5.0_02/opt/java/jdk1.5.0_02
+export PATH=$JAVA_HOME/bin:$PATH
+
+QUEUE="64bitbigmem"
+
+GENE_ID_INFILE=$1
+CHARGE_STATE_INFILE=$2
+OUT_DIR=$3
+
+#build output and log filenames
+LOG="waters.log"
+
+#remove existing log file
+rm $LOG
+
+#submit job
+echo "Submitting job for to ${QUEUE}."
+
+#build command line to submit job
+QCOMMAND="bsub -o $LOG -q $QUEUE"
+COMMAND="./WatersCollaboration ${GENE_ID_INFILE} ${CHARGE_STATE_INFILE} ${OUT_DIR}"
+echo $QCOMMAND $COMMAND
+
+#submit job
+$QCOMMAND $COMMAND
+

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+CLASS_PATH=./sigpep-app-0.5.jar
+VM_MIN_MEMORY=1000
+VM_MAX_MEMORY=5000
+
+java -cp $CLASS_PATH \
+     -javaagent:./lib/spring-agent-2.5.5.jar \
+     -Xms${VM_MIN_MEMORY}m \
+     -Xmx${VM_MAX_MEMORY}m \
+     com.compomics.sigpep.analysis.SignatureTransitionFinderExecutor \
+     $*
