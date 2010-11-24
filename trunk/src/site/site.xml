@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Signature Peptide Project">
+
+
+    <bannerRight>
+        <name>EMBL - EBI</name>
+        <src>images/ebi_logo.jpg</src>
+        <href>http://www.ebi.ac.uk/</href>
+    </bannerRight>
+
+
+    <body>
+
+        <links>
+            <item name="Apache" href="http://www.apache.org/"/>
+            <item name="Maven 1.x" href="http://maven.apache.org/maven-1.x/"/>
+            <item name="Maven 2" href="http://maven.apache.org/"/>
+        </links>
+
+        <menu name="Signature Peptide Project">
+            <item name="Overview" href="index.html"/>
+            <item name="Release Notes" href="release-notes.apt"/>
+            <item name="General Information" href="about.html"/>
+            <item name="Road Map" href="roadmap.html"/>
+        </menu>
+
+        <menu ref="reports"/>
+        <menu ref="modules"/>
+
+    </body>
+</project>

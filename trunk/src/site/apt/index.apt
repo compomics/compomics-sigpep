@@ -1,0 +1,35 @@
+ -----
+ Signature Peptide Project
+ -----
+ Michael Mueller
+ -----
+ January 2008
+
+Introduction
+
+ The Signature Peptide Project aims to increase sensitivity and specificity of mass spectrometry
+ based proteomics studies through a) increasing the fraction of the unambigiously identifiable
+ proteome and b) targeted detection of peptides uniquely identifying a specific protein species.
+
+
+Supported Organisms
+
+*----------------------------+-------------------+
+| <<Species>>                | <<NCBI Taxon ID>> |
+*----------------------------+-------------------+
+| <Homo sapiens>             | 9606              |
+*----------------------------+-------------------+
+| <Mus musculus>             | 10090             |
+*----------------------------+-------------------+
+| <Rattus norvegicus>        | 10116             |
+*----------------------------+-------------------+
+| <Danie rerio>              | 7955              |
+*----------------------------+-------------------+
+| <Drosophila melanogaster>  | 7227              |
+*----------------------------+-------------------+
+| <Caenorhabitis elegans>    | 6239              |
+*----------------------------+-------------------+
+| <Saccharomyces cerevisiae> | 4932              |
+*----------------------------+-------------------+
+Basis for the calculations to predict signature peptides is the Ensembl proteome of the respective
+species
