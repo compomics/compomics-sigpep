@@ -30,5 +30,4 @@ public class StandaloneApplicationLocator extends ApplicationLocator {
     public SigPepApplication getApplication() {
         return sigPepApplication;
     }
-
 }

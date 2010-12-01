@@ -20,7 +20,7 @@ public class SpringHibernateObjectDaoFactory extends ObjectDaoFactory {
     static {
 
         //required to intitialise Spring/AspectJ aspect weaving on class loader level
-        new ClassPathXmlApplicationContext("/META-INF/persistenceSpringContext.xml");
+        // new ClassPathXmlApplicationContext("/META-INF/persistenceSpringContext.xml");
     }
 
     public SpringHibernateObjectDaoFactory() {

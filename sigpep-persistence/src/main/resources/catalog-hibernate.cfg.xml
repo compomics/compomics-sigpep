@@ -26,7 +26,8 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <!--<property name="hibernate.current_session_context_class">org.hibernate.context.ManagedSessionContext</property>-->
 
-        <mapping resource="uk/ac/ebi/sigpep/model/Organism.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/Organism.hbm.xml"/>
+
 
     </session-factory>
 

@@ -26,14 +26,14 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <!--<property name="hibernate.current_session_context_class">org.hibernate.context.ManagedSessionContext</property>-->
 
-        <mapping resource="uk/ac/ebi/sigpep/model/Organism.hbm.xml"/>
-        <mapping resource="uk/ac/ebi/sigpep/model/Gene.hbm.xml"/>
-        <mapping resource="uk/ac/ebi/sigpep/model/Protein.hbm.xml"/>
-        <mapping resource="uk/ac/ebi/sigpep/model/ProteinSequence.hbm.xml"/>
-        <mapping resource="uk/ac/ebi/sigpep/model/Feature.hbm.xml"/>
-        <mapping resource="uk/ac/ebi/sigpep/model/FeatureObject.hbm.xml"/>
-        <mapping resource="uk/ac/ebi/sigpep/model/Protease.hbm.xml"/>
-        <mapping resource="uk/ac/ebi/sigpep/model/Exon.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/Organism.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/Gene.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/Protein.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/ProteinSequence.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/Feature.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/FeatureObject.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/Protease.hbm.xml"/>
+        <mapping resource="com/compomics/sigpep/model/Exon.hbm.xml"/>
 
     </session-factory>
 
