@@ -9,9 +9,9 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <!--http://static.springframework.org/spring/docs/2.5.x/reference/aop.html-->
 
     <!-- this switches on the load-time weaving -->
-    <context:load-time-weaver/>
+    <!--<context:load-time-weaver/>-->
 
-    <!--<context:load-time-weaver-->
-            <!--weaver-class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver"/>-->
+    <context:load-time-weaver
+            weaver-class="org.springframework.instrument.classloading.ReflectiveLoadTimeWeaver"/>
 
 </beans>

@@ -193,7 +193,7 @@
                     <exclude>**/sql/*</exclude>
                 </excludes>
                 <includes>
-                    <include>**/uk/ac/ebi/sigpep/model/*</include>
+                    <include>**/com/compomics/sigpep/model/*</include>
                     <include>**/*</include>
                 </includes>
             </resource>

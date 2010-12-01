@@ -98,20 +98,20 @@ public class SigPepAppTest {
 
         //create signature transition finder
         logger.info("creating signature transition finder");
-                        SignatureTransitionFinder finder = session.createSignatureTransitionFinder(backgroundPeptides,
-                                SignatureTransitionFinderType.FIRST);
- 
+
+        SignatureTransitionFinder finder = session.createSignatureTransitionFinder(backgroundPeptides,
+                SignatureTransitionFinderType.FIRST);
 
 //        SignatureTransitionFinder finder = session.createSignatureTransitionFinder(
-//                    backgroundPeptides,
-//                    targetProductIonTypes,
-//                    backgroundProductIonTypes,
-//                    observedChargeStates,
-//                    productIonChargeStates,
-//                    massAccuracy,
-//                    minimumCombinationSize,
-//                    maximumCombinationSize,
-//                    type);
+//                backgroundPeptides,
+//                targetProductIonTypes,
+//                backgroundProductIonTypes,
+//                observedChargeStates,
+//                productIonChargeStates,
+//                massAccuracy,
+//                minimumCombinationSize,
+//                maximumCombinationSize,
+//                type);
 
         logger.info("finding signature transitions");
         List<SignatureTransition> st = finder.findSignatureTransitions(signaturePeptides);
@@ -121,7 +121,7 @@ public class SigPepAppTest {
 
             try {
 
-                OutputStream os = new FileOutputStream("/home/mmueller/tmp/" + t.getPeptide().getSequenceString() + ".tsv");
+                OutputStream os = new FileOutputStream("/Users/kennyhelsens/Proteomics/Projects/1011/1011_sigpep/data/" + t.getPeptide().getSequenceString() + ".tsv");
 
                 SignatureTransitionMassMatrix m = new SignatureTransitionMassMatrix(t);
                 m.write(os);

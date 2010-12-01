@@ -55,18 +55,27 @@
             <scope>test</scope>
         </dependency>
 
+
+
         <!--commons configuration-->
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>
-            <version>1.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-collections</groupId>
-                    <artifactId>commons-collections</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>1.4</version>
         </dependency>
+
+        <!--&lt;!&ndash;commons configuration&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>commons-configuration</groupId>-->
+            <!--<artifactId>commons-configuration</artifactId>-->
+            <!--<version>1.5</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>commons-collections</groupId>-->
+                    <!--<artifactId>commons-collections</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
 
 
         <!--Log4J-->
