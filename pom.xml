@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <version>0.5</version>
     <name>sigpep</name>
-    <url>http://www.ebi.ac.uk/~mmueller/public_html/project/sigpep</url>
+    <url>http://compomics-sigpep.googlecode.com</url>
 
     <modules>
         <!--<module>sigpep-analysis</module>-->
@@ -19,6 +19,8 @@
     </modules>
 
     <repositories>
+
+        <!-- EBI internal repository -->
         <repository>
             <id>ebi-repo</id>
             <name>The EBI internal repository</name>
@@ -30,7 +32,8 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        
+
+        <!-- UGent Genesis Maven 1 repository -->
         <repository>
             <id>genesis-maven-repository</id>
             <name>Genesis repository</name>
@@ -46,11 +49,32 @@
             <layout>default</layout>
         </repository>
 
+        <!-- MBARI Maven Repository - needed for jama -->
+        <repository>
+            <id>mbari-maven-repository</id>
+            <name>MBARI Maven Repository</name>
+            <url>http://mbari-maven-repository.googlecode.com/svn/repository/</url>
+        </repository>
+
+        <!-- JBoss Repository - needed for jms -->
+        <repository>
+            <id>JBOSS</id>
+            <name>JBoss Repository</name>
+            <url>http://repository.jboss.org/maven2</url>
+        </repository>
+        
+        <!-- CHiBi Repository - needed for Rserve and REngine -->
+        <repository>
+            <id>CHiBi</id>
+            <name>CHiBi Repository</name>
+            <url>http://www.chibi.ubc.ca/maven2</url>
+        </repository>
+
     </repositories>
 
 
     <!-- The deployment maven2 repository-->
-      <distributionManagement>
+    <distributionManagement>
         <repository>
             <id>genesis-maven2-repo</id>
             <name>Genesis Maven Repository</name>
