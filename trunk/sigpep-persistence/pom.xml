@@ -56,10 +56,10 @@
         </dependency>
 
         <dependency>
-                   <groupId>com.compomics.ensh</groupId>
-                   <artifactId>ensh-core</artifactId>
-                   <version>0.1</version>
-               </dependency>
+            <groupId>com.compomics.ensh</groupId>
+            <artifactId>ensh-core</artifactId>
+            <version>0.1</version>
+        </dependency>
                  
 
         <!--Spring Framework-->

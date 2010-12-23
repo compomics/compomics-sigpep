@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -95,15 +96,16 @@
 
         <!-- Rserve -->
         <dependency>
-            <groupId>org.rosuda</groupId>
+            <groupId>RoSuDA</groupId>
             <artifactId>Rserve</artifactId>
-            <version>0.5-2</version>
+            <version>0.5-3</version> <!-- original version: 0.5-2, 0.6-0 is also available -->
         </dependency>
 
+        <!-- REngine -->
         <dependency>
-            <groupId>org.rosuda</groupId>
+            <groupId>RoSuDA</groupId>
             <artifactId>REngine</artifactId>
-            <version>0.5-2</version>
+            <version>0.5-3</version> <!-- original version: 0.5-2, 0.6-0 is also available -->
         </dependency>
 
         <dependency>
