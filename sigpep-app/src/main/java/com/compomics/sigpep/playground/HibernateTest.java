@@ -10,6 +10,8 @@ import com.compomics.sigpep.model.constants.Organisms;
 import com.compomics.sigpep.persistence.util.HibernateUtil;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 17-Jan-2008<br/>
@@ -22,7 +24,11 @@ public class HibernateTest {
      */
     private static Logger logger = Logger.getLogger(HibernateTest.class);
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 
         int ncbiTaxonId = 4932;
@@ -62,6 +68,5 @@ public class HibernateTest {
 
         t2.commit();
         s2.close();
-        
     }
 }

@@ -12,7 +12,6 @@ import com.opensymphony.oscache.base.Cache;
  */
 public abstract class CacheFactory {
 
-
     /** the singleton instance  */
     private static CacheFactory ourInstance;
 
@@ -37,11 +36,9 @@ public abstract class CacheFactory {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
         }
 
         return ourInstance;
-
     }
 
     /**
@@ -50,5 +47,4 @@ public abstract class CacheFactory {
      * @return cache the cache
      */
     public abstract Cache createCache();
-
 }

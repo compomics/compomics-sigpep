@@ -68,7 +68,6 @@ public class SigPepApplicationImpl implements SigPepApplication {
         for(String chargeState : productIonChargeStates){
             defaultProductIonChargeStates.add(new Integer(chargeState));
         }
-
     }
 
     /** the SigPepSession factory  */
@@ -82,7 +81,6 @@ public class SigPepApplicationImpl implements SigPepApplication {
     public SigPepSessionFactory getSigPepSessionFactory() {
         return sigPepSessionFactory;
     }
-
 
     /**
      * Sets the SigPepSessionFactory of the SigPepApplication.
@@ -162,5 +160,4 @@ public class SigPepApplicationImpl implements SigPepApplication {
     public int getDefaultMaximumSignatureTransitionSize() {
         return defaultMaximumSignatureTransitionSize;
     }
-
 }

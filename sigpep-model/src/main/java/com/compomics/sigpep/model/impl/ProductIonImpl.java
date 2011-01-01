@@ -5,7 +5,6 @@ import com.compomics.sigpep.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Implementation of ProductIon.
  *
@@ -30,9 +29,9 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      * @param endCoordinate   the end coordinate in the precursor ion proteinSequence
      */
     ProductIonImpl(PrecursorIon precursorIon,
-                   ProductIonType type,
-                   int startCoordinate,
-                   int endCoordinate) {
+            ProductIonType type,
+            int startCoordinate,
+            int endCoordinate) {
 
         if (precursorIon == null) {
             throw new IllegalArgumentException("PrecursorIon cannot be NULL.");
@@ -58,7 +57,6 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
         this.type = type;
         this.startCoordinate = startCoordinate;
         this.endCoordinate = endCoordinate;
-
     }
 
     /**
@@ -90,18 +88,17 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
 
         double retVal = 0;
 
-        if (type == ProductIonType.X ||
-                type == ProductIonType.Y ||
-                type == ProductIonType.Y_CIRCLE ||
-                type == ProductIonType.Y_STAR ||
-                type == ProductIonType.Z) {
+        if (type == ProductIonType.X
+                || type == ProductIonType.Y
+                || type == ProductIonType.Y_CIRCLE
+                || type == ProductIonType.Y_STAR
+                || type == ProductIonType.Z) {
 
             retVal = precursorIon.getNeutralMassCTerminalGroup();
 
         }
 
         return retVal;
-
     }
 
     /**
@@ -115,20 +112,19 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
 
         double retVal = 0;
 
-        if (type == ProductIonType.A ||
-                type == ProductIonType.A_CIRCLE ||
-                type == ProductIonType.A_STAR ||
-                type == ProductIonType.B ||
-                type == ProductIonType.B_CIRCLE ||
-                type == ProductIonType.B_STAR ||
-                type == ProductIonType.C) {
+        if (type == ProductIonType.A
+                || type == ProductIonType.A_CIRCLE
+                || type == ProductIonType.A_STAR
+                || type == ProductIonType.B
+                || type == ProductIonType.B_CIRCLE
+                || type == ProductIonType.B_STAR
+                || type == ProductIonType.C) {
 
             retVal = precursorIon.getNeutralMassNTerminalGroup();
 
         }
 
         return retVal;
-
     }
 
     /**
@@ -156,11 +152,9 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      * @return the monoisotopic mass in Da
      */
     public double getNeutralMassPeptide() {
-
         double unmodifiedMass = this.calculateNeutralMass(type);
         double modificationMass = getModificationMass();
         return unmodifiedMass + modificationMass;
-
     }
 
     /**
@@ -170,11 +164,9 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      * @return the monoisotopic mass in Da
      */
     public double getNeutralMassResidues() {
-
         double unmodifiedMass = calculateResidueMass(this.getSequenceString());
         double modificationMass = getModificationMass();
         return unmodifiedMass + modificationMass;
-
     }
 
     /**
@@ -182,14 +174,14 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      *
      * @return a list of PTMs which is empty if there are not PTMs occuring on the fragment
      */
-    public List<Modification> getPostTranslationalModifications(){
+    public List<Modification> getPostTranslationalModifications() {
         List<Modification> retVal = new ArrayList<Modification>();
         if (precursorIon.getPeptide() instanceof ModifiedPeptide) {
             ModifiedPeptide modifiedPeptide = (ModifiedPeptide) precursorIon.getPeptide();
             for (Integer pos : modifiedPeptide.getPostTranslationalModifications().keySet()) {
 
                 //check if modification is in coordinate range of fragment ion
-                if(pos >= startCoordinate && pos <= endCoordinate){
+                if (pos >= startCoordinate && pos <= endCoordinate) {
                     Modification ptm = modifiedPeptide.getPostTranslationalModifications().get(pos);
                     retVal.add(ptm);
                 }
@@ -197,6 +189,7 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
             }
 
         }
+
         return retVal;
     }
 
@@ -205,7 +198,7 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      *
      * @return the monoisotopic mass in Da
      */
-    public double getModificationMass(){
+    public double getModificationMass() {
         double retVal = 0;
 
         if (precursorIon.getPeptide() instanceof ModifiedPeptide) {
@@ -213,14 +206,12 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
             for (Integer pos : modifiedPeptide.getPostTranslationalModifications().keySet()) {
 
                 //check if modification is in coordinate range of fragment ion
-                if(pos >= startCoordinate && pos <= endCoordinate){
+                if (pos >= startCoordinate && pos <= endCoordinate) {
                     Modification ptm = modifiedPeptide.getPostTranslationalModifications().get(pos);
                     double mass = ptm.getMassDifference();
                     retVal = retVal + mass;
                 }
-
             }
-
         }
 
         return retVal;
@@ -262,7 +253,6 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
         double retVal;
 
         switch (type) {
-
 
             case A:
 
@@ -334,13 +324,10 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
             default:
 
                 retVal = -1;
-
         }
 
         return retVal;
-
     }
-
 
     /**
      * Returns the theoretical m/z value of the product ion.
@@ -349,10 +336,8 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      * @return the product ion m/z value
      */
     public double getMassOverCharge(int z) {
-
         double neutralMass = this.getNeutralMassPeptide();
         return calculateMassOverCharge(neutralMass, z);
-
     }
 
     /**
@@ -362,10 +347,8 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      * @return the number of occurances
      */
     public int getResidueCount(String aminoAcid) {
-
         String sequenceWithoutResidues = this.getSequenceString().toUpperCase().replaceAll(aminoAcid.toUpperCase(), "");
         return this.getSequenceString().length() - sequenceWithoutResidues.length();
-
     }
 
     /**
@@ -376,15 +359,27 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      *         start and end coordinates and are of the same type
      */
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ProductIon)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ProductIon)) {
+            return false;
+        }
 
         ProductIonImpl that = (ProductIonImpl) o;
 
-        if (endCoordinate != that.endCoordinate) return false;
-        if (startCoordinate != that.startCoordinate) return false;
-        if (precursorIon != null ? !precursorIon.equals(that.precursorIon) : that.precursorIon != null) return false;
-        if (type != that.type) return false;
+        if (endCoordinate != that.endCoordinate) {
+            return false;
+        }
+        if (startCoordinate != that.startCoordinate) {
+            return false;
+        }
+        if (precursorIon != null ? !precursorIon.equals(that.precursorIon) : that.precursorIon != null) {
+            return false;
+        }
+        if (type != that.type) {
+            return false;
+        }
 
         return true;
     }
@@ -409,8 +404,7 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
                 + precursorIon.getSequenceString() + "["
                 + startCoordinate + "-" + endCoordinate + "]"
                 + "; M(neutral) = " + this.getNeutralMassPeptide()
-                + "; m/z (z=1) = " + this.getMassOverCharge(1) +
-                "; proteinSequence = " + this.getSequenceString();
+                + "; m/z (z=1) = " + this.getMassOverCharge(1)
+                + "; proteinSequence = " + this.getSequenceString();
     }
-
 }

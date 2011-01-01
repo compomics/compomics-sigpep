@@ -13,6 +13,8 @@ import java.io.OutputStream;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 03-Jun-2008<br/>
@@ -24,6 +26,11 @@ public class SigPepAppTest {
     //private static String outputFolder = "/Users/hba041/muller_temp/";
     private static String outputFolder = "/Users/kennyhelsens/Proteomics/Projects/1011/1011_sigpep/data/";
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         Set<ProductIonType> targetProductIonTypes = new HashSet<ProductIonType>();

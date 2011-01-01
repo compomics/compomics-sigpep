@@ -1,7 +1,6 @@
 package com.compomics.sigpep;
 
 import com.compomics.sigpep.model.*;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -290,5 +289,4 @@ public interface SigPepQueryService {
      * @return a map of sequence lengths and peptide frequencies
      */
     Map<Integer, Integer> getPeptideLengthFrequencyForProteaseCombination(Protease... protease);
-
 }

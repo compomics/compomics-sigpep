@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -18,18 +20,38 @@ public class FeatureSpliceEventImpl extends SpliceEventImpl implements FeatureSp
 
     private Set<SpliceEventFeature> features;
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param sessionFactory
+     */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -58,10 +80,11 @@ public class FeatureSpliceEventImpl extends SpliceEventImpl implements FeatureSp
     public Set<ProteinSequence> getParentSequences() {
 
         Set<ProteinSequence> retVal = new HashSet<ProteinSequence>();
+        
         for (Feature f : features) {
             retVal.add(f.getLocation().getSequence());
         }
-        return retVal;
 
+        return retVal;
     }
 }

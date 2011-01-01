@@ -5,6 +5,8 @@ import com.compomics.sigpep.model.*;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -19,26 +21,56 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
     private Set<Protease> proteases;
     private Set<SpliceEventFeature> spliceEventFeatures;
 
+    /**
+     * @TODO: JavaDoc missing
+     */
     protected PeptideFeatureImpl() {
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param peptide
+     * @param location
+     * @param proteases
+     */
     public PeptideFeatureImpl(FeaturePeptide peptide, SequenceLocation location, Set<Protease> proteases) {
         super(location, peptide);
         this.proteases=proteases;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param sessionFactory
+     */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -97,6 +129,7 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
         this.spliceEventFeatures=spliceEventFeatures;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PeptideFeature)) return false;
@@ -109,13 +142,14 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
         return true;
     }
 
+    @Override
     public int hashCode() {        
         int result = location.hashCode();
         result = 31 * result + proteases.hashCode();
         return result;
     }
 
-
+    @Override
     public String toString() {
         return "PeptideFeatureImpl{" +
                 "location=" + location +

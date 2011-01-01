@@ -38,7 +38,6 @@ import com.compomics.sigpep.model.Persistable;
 @Aspect
 public class HibernateSessionTransactionInterceptor {
 
-
     @Around("methodsToBeProfiled()")
     public Object invoke(ProceedingJoinPoint pjp) throws Throwable {
 
@@ -68,5 +67,4 @@ public class HibernateSessionTransactionInterceptor {
     @Pointcut("execution(public java.util.Collection+ com.compomics.sigpep.model.Persistable.get*(..))")
     public void methodsToBeProfiled() {
     }
-
 }

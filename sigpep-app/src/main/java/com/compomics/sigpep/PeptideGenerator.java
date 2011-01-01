@@ -185,8 +185,6 @@ public interface PeptideGenerator {
      */
     Set<Peptide> getPeptidesByProteinAccession(String proteinAccession);
 
-
-
     /**
      * Returns a map of peptide sequence strings and sets of accessions
      * of the proteins that emit the peptide sequence for all proteins
@@ -217,5 +215,4 @@ public interface PeptideGenerator {
      * @return a map of gene accessions and sets of peptide sequence objects
      */
     Map<String, Set<Peptide>> getPeptidesByGeneAccessionAndGeneLevelDegeneracy(Set<String> geneAccessions, int degeneracy);
-
 }

@@ -3,6 +3,8 @@ package com.compomics.sigpep.persistence.rdbms.helper;
 import java.net.URL;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 30-Apr-2009<br/>
@@ -23,5 +25,4 @@ public interface SequenceRetriever {
      * @throws RuntimeException       if an exception occurs during sequence retrieval
      */
     boolean fetch(String organismScientificName, int organismNcbiTaxonID, String databaseVersion, URL destination) throws RuntimeException;
-
 }

@@ -1,6 +1,9 @@
 package com.compomics.sigpep.analysis.query;
 
 /**
+ * @TODO: JavaDoc missing.
+ * @TODO: All code in this class is commented out...
+ * 
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 15-Oct-2007<br>

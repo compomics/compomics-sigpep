@@ -1,16 +1,15 @@
 package com.compomics.sigpep.persistence.rdbms.helper.impl;
 
-import be.proteomics.dbtoolkit.io.implementations.FASTADBLoader;
-import be.proteomics.dbtoolkit.io.interfaces.DBLoader;
 import be.proteomics.dbtoolkit.toolkit.EnzymeDigest;
 import org.apache.log4j.Logger;
 import com.compomics.sigpep.persistence.rdbms.helper.ProteolyticDigest;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-May-2009<br/>
@@ -31,14 +30,31 @@ public class DBToolkitProteolyticDigest implements ProteolyticDigest {
 
     private double highMass = 4000;
 
+    /**
+     * Default constructor.
+     */
     public DBToolkitProteolyticDigest() {
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param enzyme
+     * @param missedCleavages
+     */
     public DBToolkitProteolyticDigest(String enzyme, int missedCleavages) {
         this.enzyme = enzyme;
         this.missedCleavages = missedCleavages;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param enzyme
+     * @param missedCleavages
+     * @param lowMass
+     * @param highMass
+     */
     public DBToolkitProteolyticDigest(String enzyme, int missedCleavages, int lowMass, int highMass) {
         this.enzyme = enzyme;
         this.missedCleavages = missedCleavages;
@@ -84,7 +100,6 @@ public class DBToolkitProteolyticDigest implements ProteolyticDigest {
         // <output_db_name>\n\n\tNote that an existing output file will be silently overwritten!"
 
         return false;
-
     }
 
     public String getEnzyme() {

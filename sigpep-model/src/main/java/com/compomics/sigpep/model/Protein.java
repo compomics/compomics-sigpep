@@ -1,7 +1,5 @@
 package com.compomics.sigpep.model;
 
-import java.util.Set;
-
 /**
  * A protein is associated with exactly one gene and has exactly one sequence.
  * <p/>
@@ -53,7 +51,4 @@ public interface Protein {
      * @param sequence the sequence
      */
     void setSequence(ProteinSequence sequence);
-
-    
-
 }

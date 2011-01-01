@@ -20,29 +20,47 @@ public class GeneImpl implements Gene, Persistable {
      * the organism
      */
     private Organism organism;
-
     /**
      * the primary database cross reference
      */
     private DbXref primaryDbXref;
-
     /**
      * the proteins encoded by this gene
      */
     private Set<Protein> proteins;
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @param sessionFactory
+     */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -97,13 +115,18 @@ public class GeneImpl implements Gene, Persistable {
      * @return true if equal, false otherwise
      */
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Gene)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Gene)) {
+            return false;
+        }
 
         Gene gene = (Gene) o;
 
-        if (primaryDbXref != null ? !primaryDbXref.equals(gene.getPrimaryDbXref()) : gene.getPrimaryDbXref() != null)
+        if (primaryDbXref != null ? !primaryDbXref.equals(gene.getPrimaryDbXref()) : gene.getPrimaryDbXref() != null) {
             return false;
+        }
 
         return true;
     }
@@ -119,8 +142,8 @@ public class GeneImpl implements Gene, Persistable {
      * {@inherit}
      */
     public String toString() {
-        return "GeneImpl{" +
-                "primaryDbXref=" + primaryDbXref +
-                '}';
+        return "GeneImpl{"
+                + "primaryDbXref=" + primaryDbXref
+                + '}';
     }
 }

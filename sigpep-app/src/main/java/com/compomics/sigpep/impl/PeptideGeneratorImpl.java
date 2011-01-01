@@ -7,6 +7,8 @@ import com.compomics.sigpep.PeptideGenerator;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Mar-2008<br/>
@@ -119,9 +121,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
 
         //add array to list
         this.peptideFeatures.get(proteinSequenceId).add(coordinates);
-
     }
-
 
     /**
      * Returns the names of the proteases peptides are generate for.
@@ -159,11 +159,9 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * @param modification one or more modifications
      */
     public void setPostTranslationalModification(Modification... modification) {
-
         Set<Modification> ptms = new LinkedHashSet<Modification>();
         Collections.addAll(ptms, modification);
         this.setPostTranslationalModifications(ptms);
-
     }
 
     /**
@@ -190,13 +188,10 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
                 int peptideDegree = peptide2Degree.get(peptideSequence);
                 peptideDegree++;
                 peptide2Degree.put(peptideSequence, peptideDegree);
-
             }
-
         }
 
         return peptide2Degree;
-
     }
 
     /**
@@ -217,7 +212,6 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
             }
         }
         return retVal;
-
     }
 
     /**
@@ -228,11 +222,8 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * @return set of peptide objects
      */
     public Set<Peptide> getPeptidesByProteinLevelDegeneracy(int degeneracy) {
-
         return this.getPeptidesByProteinAccessionAndProteinSequenceLevelDegeneracy(null, degeneracy);
-
     }
-
 
     /**
      * Returns a map of protein accessions and sets of proteolytic peptides emitted by
@@ -243,9 +234,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * @return a map of protein accessions and sets of peptide sequence strings
      */
     public Map<String, Set<String>> getPeptideSequencesByProteinAccessionAndProteinSequenceLevelDegeneracy(Set<String> proteinAccessions, int degeneracy) {
-
         return getProteinAccessionToPeptideSequenceMap(proteinAccessions, degeneracy);
-
     }
 
     /**
@@ -256,9 +245,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * @return a map of all protein accessions and sets of peptide sequence strings
      */
     public Map<String, Set<String>> getPeptideSequencesByProteinAccessionAndProteinSequenceLevelDegeneracy(int degeneracy) {
-
         return getProteinAccessionToPeptideSequenceMap(null, degeneracy);
-
     }
 
     /**
@@ -268,9 +255,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * @return a map of protein accessions and peptide sequence strings
      */
     public Map<String, Set<String>> getProteinAccessionToPeptideSequenceMap() {
-
         return getProteinAccessionToPeptideSequenceMap(null, -1);
-
     }
 
     /**
@@ -280,9 +265,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * @return set of peptide sequence strings
      */
     public Set<String> getPeptideSequences() {
-
         return this.getPeptideSequenceDegeneracy().keySet();
-
     }
 
     /**
@@ -295,9 +278,11 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
 
         Map<String, Set<Peptide>> accession2PeptideMap = this.getPeptidesByProteinAccessionSetAndProteinLevelDegeneracy(null, -1);
         Set<Peptide> retVal = new HashSet<Peptide>();
+
         for (Set<Peptide> peptideSet : accession2PeptideMap.values()) {
             retVal.addAll(peptideSet);
         }
+
         return retVal;
     }
 
@@ -328,16 +313,15 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
                             if (!retVal.containsKey(accession)) {
                                 retVal.put(accession, new HashSet<String>());
                             }
-                            retVal.get(accession).add(peptide);
 
+                            retVal.get(accession).add(peptide);
                         }
                     }
                 }
             }
-
         }
-        return retVal;
 
+        return retVal;
     }
 
     /**
@@ -381,7 +365,6 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
         }
 
         return this.getPeptidesByProteinAccessionSetAndProteinLevelDegeneracy(proteinAccessions, degeneracy);
-
     }
 
     /**
@@ -408,8 +391,8 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
         for (Set<Peptide> peptideSet : accession2PeptideMap.values()) {
             retVal.addAll(peptideSet);
         }
-        return retVal;
 
+        return retVal;
     }
 
     /**
@@ -429,8 +412,8 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
         for (Set<Peptide> peptideSet : accession2PeptideMap.values()) {
             retVal.addAll(peptideSet);
         }
-        return retVal;
 
+        return retVal;
     }
 
     /**
@@ -444,9 +427,6 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
     public Map<String, Set<Peptide>> getProteinAccessionToPeptideMap(Set<String> proteinAccessions) {
         return getPeptidesByProteinAccessionSetAndProteinLevelDegeneracy(proteinAccessions, -1);
     }
-
-
-
 
     /**
      * Returns a map of gene accessions and sets of proteolytic peptide object
@@ -517,13 +497,11 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
                             }
                         }
                     }
-
                 }
             }
         }
 
         return retVal;
-
     }
 
     /**
@@ -547,11 +525,9 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
                 }
                 retVal.get(peptideSequence).addAll(proteinAccessions);
             }
-
         }
 
         return retVal;
-
     }
 
 //    public Map<String, Set<Peptide>> getPeptidesByGeneAccessionSetAndGeneLevelDegreeOld(Set<String> geneAccessions, int degree) {
@@ -605,8 +581,6 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
 //        return retVal;
 //
 //    }
-
-
     /**
      * Returns the peptides of the specified degeneracy, generated from a set of protein sequences
      * identified by the protein acessions passed as a parameter.
@@ -654,12 +628,10 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
                         }
                     }
                 }
-
             }
         }
 
         return retVal;
-
     }
 
     /**
@@ -693,8 +665,8 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
             } else {
                 peptideOrigins.add(PeptideOrigin.INTERNAL);
             }
-
         }
+
         peptide.setOrigins(peptideOrigins);
 
         //apply post translational modifications
@@ -704,10 +676,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
         retVal.addAll(modifiedPeptides);
 
         return retVal;
-
     }
-
-
 
     /**
      * Returns a map of peptide sequence strings and sets of accessions
@@ -727,11 +696,9 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
                 Set<String> geneAccessions = this.sequenceIdToGeneAccessionMap.get(sequenceId);
                 retVal.put(peptideSequence, geneAccessions);
             }
-
         }
 
         return retVal;
-
     }
 
     /**
@@ -754,15 +721,11 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
                 if (!peptide2SequenceId.containsKey(peptideSequence)) {
                     peptide2SequenceId.put(peptideSequence, new HashSet<Integer>());
                 }
+
                 peptide2SequenceId.get(peptideSequence).add(sequenceId);
-
             }
-
         }
 
         return peptide2SequenceId;
-
     }
-
-
 }

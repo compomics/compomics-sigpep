@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.Map;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 01-Aug-2008<br/>
@@ -18,22 +20,40 @@ public class ExclusionScoreCalculator extends Thread {
     private Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix;
     private int number1;
     private int number2;
-
     private double score;
 
-    public ExclusionScoreCalculator(Set<ProductIon> productIonCombination,
-                                    Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix) {
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param productIonCombination
+     * @param exclusionMatrix
+     */
+    public ExclusionScoreCalculator(
+            Set<ProductIon> productIonCombination,
+            Map<ProductIon,
+            Map<Peptide, Integer>> exclusionMatrix) {
         this.productIonCombination = productIonCombination;
         this.exclusionMatrix = exclusionMatrix;
         this.run();
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param number1
+     * @param number2
+     */
     public ExclusionScoreCalculator(int number1, int number2) {
         this.number1 = number1;
         this.number2 = number2;
         this.run();
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public synchronized double getScore() {
         return score;
     }
@@ -54,10 +74,12 @@ public class ExclusionScoreCalculator extends Thread {
         calculateExclusionScore();
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * @TODO: all code in this method is commented out...
+     */
     private synchronized void calculateExclusionScore() {
-
 //        score = number1 + number2;
-
 //            score = 0;
 //
 //            Map<Peptide, Integer> combinedExclusion = new LinkedHashMap<Peptide, Integer>();
@@ -79,9 +101,7 @@ public class ExclusionScoreCalculator extends Thread {
 //                    } else {
 //                        combinedExclusion.put(peptide, excludes);
 //                    }
-//
 //                }
-//
 //            }
 //
 //            //check if all peptides are excluded...
@@ -102,11 +122,13 @@ public class ExclusionScoreCalculator extends Thread {
 //                score = combinedExlcusionCount / maxExclusionCount;
 //
 //            }
-
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 
         for (int i = 0; i < 1000; i++) {

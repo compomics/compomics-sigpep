@@ -5,6 +5,8 @@ import com.compomics.sigpep.model.*;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 13-Feb-2008<br/>
@@ -27,11 +29,8 @@ public class ModifiedPeptideImpl extends AbstractPeptide implements ModifiedPept
      *
      * @param peptide the peptide
      */
-
     protected ModifiedPeptideImpl(Peptide peptide) {
-
         this.peptide = peptide;
-
     }
 
     /**

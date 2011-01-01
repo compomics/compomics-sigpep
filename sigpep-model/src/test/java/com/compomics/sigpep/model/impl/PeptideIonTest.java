@@ -5,6 +5,9 @@ import static org.junit.Assert.assertEquals;
 import com.compomics.sigpep.model.ProductIonType;
 
 /**
+ * @TODO: JavaDoc missing
+ * @TODO: most of the code in this test is commented out...
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 27-Nov-2007<br/>

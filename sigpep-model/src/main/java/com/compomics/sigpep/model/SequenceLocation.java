@@ -18,7 +18,6 @@ public interface SequenceLocation {
      */
     ProteinSequence getSequence();
 
-
     /**
      * Sets the protein sequence the peptide is contained in.
      * @param proteinSequence the protein sequence
@@ -52,5 +51,4 @@ public interface SequenceLocation {
      * @param end the end coordinate
      */
     void setEnd(int end);
-
 }

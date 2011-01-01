@@ -11,7 +11,6 @@ import com.compomics.sigpep.persistence.config.Configuration;
  */
 public abstract class CatalogDaoFactory {
 
-
     /** provides access to the persistence layer configuration  */
     private static Configuration config = Configuration.getInstance();
 
@@ -44,7 +43,6 @@ public abstract class CatalogDaoFactory {
         }
 
         return ourInstance;
-
     }
 
     /**
@@ -55,14 +53,15 @@ public abstract class CatalogDaoFactory {
     public abstract CatalogDao createCatalogDao();
 
 
+    /**
+     * The main method. Used for testing purposes.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-
         CatalogDao dao = CatalogDaoFactory.getInstance().createCatalogDao();
         for(Organism o : dao.getOrganisms()){
-
             System.out.println(o);
-
         }
     }
-    
 }

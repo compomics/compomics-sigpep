@@ -1,13 +1,13 @@
 package com.compomics.sigpep.persistence.dao.impl;
 
 import org.hibernate.SessionFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.compomics.sigpep.persistence.dao.impl.SpringHibernateObjectDao;
 import com.compomics.sigpep.persistence.dao.ObjectDaoFactory;
 import com.compomics.sigpep.persistence.dao.ObjectDao;
 import com.compomics.sigpep.persistence.util.HibernateUtil;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jun-2008<br/>
@@ -23,19 +23,22 @@ public class SpringHibernateObjectDaoFactory extends ObjectDaoFactory {
         // new ClassPathXmlApplicationContext("/META-INF/persistenceSpringContext.xml");
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     */
     public SpringHibernateObjectDaoFactory() {
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param taxonId the taxonomy id
+     * @return the ObjectDao
+     */
     public ObjectDao createObjectDao(int taxonId) {
-
         SpringHibernateObjectDao retVal = new SpringHibernateObjectDao();
-
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory(taxonId);
-        
         retVal.setSessionFactory(sessionFactory);
-
         return retVal;
-
     }
-
 }

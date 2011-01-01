@@ -45,7 +45,6 @@ public class DbcpDataSourceFactory extends DataSourceFactory {
         } catch (Exception e) {
             throw new RuntimeException("Exception while creating data source.", e);
         }
-
     }
 
     public DataSource createCatalogDataSource(){
@@ -61,7 +60,5 @@ public class DbcpDataSourceFactory extends DataSourceFactory {
         } catch (Exception e) {
             throw new RuntimeException("Exception while creating data source.", e);
         }
-
     }
-
 }

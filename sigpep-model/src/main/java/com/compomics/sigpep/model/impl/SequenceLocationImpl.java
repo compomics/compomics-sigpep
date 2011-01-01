@@ -89,7 +89,7 @@ public class SequenceLocationImpl implements SequenceLocation {
         this.end = end;
     }
 
-
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SequenceLocationImpl)) return false;

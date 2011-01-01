@@ -90,7 +90,9 @@ public abstract class AbstractPeptideIon implements PeptideIon {
     public static double calculateProductIonMass(String sequence, ProductIonType type, int fragmentLength, double massNTerm, double massCTerm) {
 
         if (fragmentLength > sequence.length()){
-            throw new IllegalArgumentException("The the length of the fragment ion cannot be greater then the length of the peptide proteinSequence. (" + fragmentLength + " > " + sequence.length() + ")");
+            throw new IllegalArgumentException(
+                    "The the length of the fragment ion cannot be greater then the length of the peptide proteinSequence. ("
+                    + fragmentLength + " > " + sequence.length() + ")");
         }
 
         String fragmentSequence;
@@ -98,7 +100,6 @@ public abstract class AbstractPeptideIon implements PeptideIon {
         double retVal;
 
         switch (type) {
-
 
             case A:
 
@@ -179,7 +180,6 @@ public abstract class AbstractPeptideIon implements PeptideIon {
         }
 
         return retVal;
-
     }
 
     /**
@@ -197,7 +197,6 @@ public abstract class AbstractPeptideIon implements PeptideIon {
             totalResidueMass += aaMasses.getDouble("" + aa);
 
         return totalResidueMass;
-
     }
 
     /**
@@ -217,7 +216,6 @@ public abstract class AbstractPeptideIon implements PeptideIon {
 
         //add H2O mass
         return totalResidueMass + massNTerm + massCTerm;
-
     }
 
     /**
@@ -228,9 +226,7 @@ public abstract class AbstractPeptideIon implements PeptideIon {
      * @return the monoisotopic mass in Da
      */
     public static double calculatePeptideMass(String peptideSequence) {
-
         return calculatePeptideMass(peptideSequence, massH, massH + massO);
-
     }
 
     /**
@@ -248,7 +244,6 @@ public abstract class AbstractPeptideIon implements PeptideIon {
 
         //calculate mass over charge
         return calculateMassOverCharge(peptideMass, z);
-
     }
 
     /**
@@ -267,7 +262,6 @@ public abstract class AbstractPeptideIon implements PeptideIon {
 
         //calculate mass over charge
         return calculateMassOverCharge(peptideMass, z);
-
     }
 
     /**
@@ -294,7 +288,6 @@ public abstract class AbstractPeptideIon implements PeptideIon {
 
         //return mass over charge
         return ionMass / z;
-
     }
 
     /**
@@ -305,19 +298,33 @@ public abstract class AbstractPeptideIon implements PeptideIon {
      * @return the peptide mass in Da
      */
     public static double calculatePeptideMassFromMassOverCharge(double massOverCharge, int z) {
-
         return massOverCharge * z - z * massH;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Map<Integer, Double> getAllowedChargeStates() {
         return allowedChargeStates;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param allowedChargeStates
+     */
     public void setAllowedChargeStates(Map<Integer, Double> allowedChargeStates) {
         this.allowedChargeStates = allowedChargeStates;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @param z
+     * @param probability
+     */
     public void addAllowedChargeState(int z, double probability){
         this.allowedChargeStates.put(z, probability);
     }

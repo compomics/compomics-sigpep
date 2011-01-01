@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public interface ModifiedPeptide extends Peptide {
 
-     /**
+    /**
      * Returns the post translational modifications.
      *
      * @return a map of post translational modifications and their respective position in the sequence
@@ -25,5 +25,4 @@ public interface ModifiedPeptide extends Peptide {
      * @return the peptide
      */
     Peptide getUnmodifiedPeptide();
-
 }

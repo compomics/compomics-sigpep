@@ -1,6 +1,5 @@
 package com.compomics.sigpep.persistence.rdbms.helper.impl;
 
-
 import org.apache.log4j.Logger;
 import org.apache.commons.configuration.ConfigurationUtils;
 import com.compomics.dbtools.SqlScript;
@@ -15,6 +14,8 @@ import java.net.URL;
 import java.io.IOException;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 29-Apr-2009<br/>
@@ -36,7 +37,6 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
      * the URL of the catalog schema
      */
     private String catalogSchemaUrl = config.getString("sigpep.db.url") + "/" + config.getString("sigpep.db.schema.catalog");
-
 
     /**
      * username of user with admin priviliges
@@ -68,17 +68,14 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
     /**
      * Initialises the SigPep database by setting up the catalog schema.
      *
-     * * @return true if the database has been initialised successfully, false if not.
+     * @return true if the database has been initialised successfully, false if not.
      */
     public boolean initialise() {
-
 
         try {
 
             String scriptFilePath = Configuration.getInstance().getString("sigpep.db.create.catalog.schema.sql");
-
             URL urlSqlScript = ConfigurationUtils.locate(scriptFilePath);
-
             Connection conn = DriverManager.getConnection(config.getString("sigpep.db.url") + "/", adminUsername, adminPassword);
 
             Statement s = conn.createStatement();
@@ -96,7 +93,6 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
         }
 
         return isInitialised();
-
     }
 
     /**

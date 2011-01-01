@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -21,6 +23,14 @@ public class SignatureTransitionFinderExecutor {
     private static Configuration config = Configuration.getInstance();
     private static int massPrecission = config.getInt("sigpep.app.monoisotopic.mass.precision");
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param printWriter
+     * @param proteinAccession
+     * @param geneAccession
+     * @param transition
+     */
     public static void writeResultEntry(PrintWriter printWriter,
                                         String proteinAccession,
                                         String geneAccession,
@@ -65,6 +75,7 @@ public class SignatureTransitionFinderExecutor {
             }
 
         }
+
         if (transition.getProductIons().size() == 0) {
             printWriter.print("0");
         }
@@ -107,18 +118,20 @@ public class SignatureTransitionFinderExecutor {
         ////
         printWriter.println(geneAccession);
 
-
-
         ////
         //11. score
         ////
         printWriter.println(transition.getExclusionScore());
 
         printWriter.flush();
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param args
+     * @return
+     */
     public static Map<String, String> parseCommandLineArguments(String[] args) {
 
         //parse command line arguments
@@ -137,9 +150,13 @@ public class SignatureTransitionFinderExecutor {
         }
 
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         //default values
@@ -179,7 +196,6 @@ public class SignatureTransitionFinderExecutor {
 
             System.out.println(usage);
             System.exit(1);
-
         }
 
         try {
@@ -376,8 +392,6 @@ public class SignatureTransitionFinderExecutor {
             logger.error(e);
             e.printStackTrace();
         }
-
-
     }
 
 //    private Map<Double, Set<Peptide>> populateTargetPrecursorStore(Collection<? extends Peptide> peptides) {

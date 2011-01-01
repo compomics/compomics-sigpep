@@ -51,11 +51,9 @@ public abstract class RConnectionProvider {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
         }
 
         return ourInstance;
-
     }
 
     /**
@@ -64,5 +62,4 @@ public abstract class RConnectionProvider {
      * @return thr R connection
      */
     public abstract RConnection getRConnection();
-
 }

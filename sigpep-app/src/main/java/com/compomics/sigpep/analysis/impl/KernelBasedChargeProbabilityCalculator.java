@@ -12,6 +12,8 @@ import com.compomics.sigpep.analysis.ChargeProbabilityCalculator;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 15-Aug-2008<br/>
@@ -23,6 +25,11 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     private Set<Integer> allowedChargeStates;
     private RConnection rConnection;
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param observedPeptideMassChargeStateCombinations
+     */
     public KernelBasedChargeProbabilityCalculator(List<Map<Double, Integer>> observedPeptideMassChargeStateCombinations) {
 
         this.observedPeptideMassChargeStateCombinations = observedPeptideMassChargeStateCombinations;
@@ -31,10 +38,14 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
         } catch (RserveException e) {
             throw new RuntimeException("Excpetion while connecting to R. Make sure Rserve is installed and running.", e);
         }
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param mass
+     * @return
+     */
     public Map<Double, Map<Integer, Double>> getChargeProbablitiesGivenMass(double... mass) {
 
         Map<Double, Map<Integer, Double>> retVal = new TreeMap<Double, Map<Integer, Double>>();
@@ -56,9 +67,15 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
             }
         }
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param z
+     * @param mass
+     * @return
+     */
     public double[] getProbabilityOfChargeGivenMass(int z, double... mass) {
 
         double[] retVal = new double[0];
@@ -81,14 +98,17 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
             } catch (RserveException e) {
                 throw new RuntimeException("Exception while communicating with R.", e);
             }
-
         }
 
         return retVal;
-
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     * @throws RserveException
+     */
     private RConnection setUpREnvironment() throws RserveException {
 
         //connect to R
@@ -120,7 +140,6 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
 
         REXP binSizeRexp = new REXPInteger(chargeBinSize);
         REXP loessSpanRexp = new REXPDouble(loessSpan);
-
 
 
         //assign charges and masses to R variable
@@ -177,9 +196,14 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
                 "}");
 
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param doubles
+     * @return
+     */
     private double[] collectionOfDoublesToArrayOfPrimitives(Collection<Double> doubles) {
 
         double[] retVal = new double[doubles.size()];
@@ -189,9 +213,14 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
             i++;
         }
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param integers
+     * @return
+     */
     private int[] collectionOfIntegersToArrayOfPrimitives(Collection<Integer> integers) {
 
         int[] retVal = new int[integers.size()];
@@ -201,13 +230,22 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
             i++;
         }
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public Set<Integer> getAllowedChargeStates() {
         return allowedChargeStates;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @throws Throwable
+     */
     protected void finalize() throws Throwable {
         //clean up
         rConnection.close();

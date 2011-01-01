@@ -5,6 +5,8 @@ import com.compomics.sigpep.model.FeatureObject;
 import com.compomics.sigpep.model.SequenceLocation;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -15,9 +17,18 @@ public abstract class AbstractFeature<O  extends FeatureObject> implements Featu
     protected SequenceLocation location;
     protected O featureObject;
 
+    /**
+     * @TODO: JavaDoc missing
+     */
     protected AbstractFeature() {
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param location
+     * @param featureObject
+     */
     protected AbstractFeature(SequenceLocation location, O featureObject) {
         this.location = location;
         this.featureObject = featureObject;
@@ -58,6 +69,4 @@ public abstract class AbstractFeature<O  extends FeatureObject> implements Featu
     public void setFeatureObject(O featureObject) {
         this.featureObject=featureObject;
     }
-
-    
 }

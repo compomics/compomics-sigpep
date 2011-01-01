@@ -13,20 +13,31 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
  * Time: 13:44:31<br/>
  */
-public class FindAllMapProductIonScanner extends AbstractMapProductIonScanner{
+public class FindAllMapProductIonScanner extends AbstractMapProductIonScanner {
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param targetProductIonTypes
+     * @param backgroundProductIonTypes
+     * @param productIonChargeStates
+     * @param massAccuracy
+     * @param minimumCombinationSize
+     * @param maximumCombinationSize
+     */
     public FindAllMapProductIonScanner(HashSet<ProductIonType> targetProductIonTypes,
-                                       HashSet<ProductIonType> backgroundProductIonTypes,
-                                       HashSet<Integer> productIonChargeStates,
-                                       Double massAccuracy,
-                                       Integer minimumCombinationSize,
-                                       Integer maximumCombinationSize) {
+            HashSet<ProductIonType> backgroundProductIonTypes,
+            HashSet<Integer> productIonChargeStates,
+            Double massAccuracy,
+            Integer minimumCombinationSize,
+            Integer maximumCombinationSize) {
 
         super(targetProductIonTypes,
                 backgroundProductIonTypes,
@@ -37,6 +48,14 @@ public class FindAllMapProductIonScanner extends AbstractMapProductIonScanner{
 
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param exclusionMatrix
+     * @param minCombinationSize
+     * @param maxCombinationSize
+     * @return
+     */
     protected Map<Set<ProductIon>, Double> getUniqueProductIonCombinations(Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix, int minCombinationSize, int maxCombinationSize) {
         Map<Set<ProductIon>, Double> retVal = Collections.synchronizedMap(new HashMap<Set<ProductIon>, Double>());
 
@@ -56,7 +75,6 @@ public class FindAllMapProductIonScanner extends AbstractMapProductIonScanner{
                 ExclusionScoreCalculator<Map<Set<ProductIon>, Double>> calculator = exclusionScoreCalculatorFactory.getCalculator(combination, exclusionMatrix);
                 Future<Map<Set<ProductIon>, Double>> f = executorService.submit(calculator);
                 results.add(f);
-
             }
 
             for (Future<Map<Set<ProductIon>, Double>> result : results) {
@@ -68,11 +86,8 @@ public class FindAllMapProductIonScanner extends AbstractMapProductIonScanner{
                 } catch (ExecutionException e) {
                     throw new RuntimeException("Exception while finding unique product ion combination.", e);
                 }
-
             }
-
         }
-
 
         return retVal;
     }

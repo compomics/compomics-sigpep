@@ -28,20 +28,14 @@ import java.util.*;
  * User: mmueller
  * Date: 07-Sep-2007
  * Time: 16:18:42
- * To change this template use File | Settings | File Templates.
  */
 public class SigPepDatabase extends MySqlDatabase {
 
     private static Configuration configuration = Configuration.getInstance();
-
     private static String sigPepSchemaPrefix = configuration.getString("sigpep.db.schema.prefix");
-
     private static Logger logger = Logger.getLogger(SigPepDatabase.class);
-
     private int ncbiTaxonId;
-
     private static Organisms organisms = Organisms.getInstance();
-
     private static final int ERROR_CODE_TOO_MANY_CONNECTIONS = 1040;
 
     /**
@@ -53,7 +47,9 @@ public class SigPepDatabase extends MySqlDatabase {
     public static String getSpeciesSuffix(int ncbiTaxonId) {
         if (organisms.contains((ncbiTaxonId))) {
             return organisms.getSpeciesName(ncbiTaxonId).replace(" ", "_");
-        } else return "";
+        } else {
+            return "";
+        }
     }
 
     /**
@@ -81,8 +77,9 @@ public class SigPepDatabase extends MySqlDatabase {
     public static int getNcbiTaxonId(String speciesSuffix) {
 
         String speciesName = speciesSuffix.replace("_", " ");
-        if (organisms.contains(speciesName))
+        if (organisms.contains(speciesName)) {
             return organisms.getNcbiTaxonId(speciesName);
+        }
 
         return 0;
     }
@@ -121,7 +118,7 @@ public class SigPepDatabase extends MySqlDatabase {
 
     ///////////////////
     //getters & setters
-
+    ///////////////////
     /**
      * Returns the NCBI taxon ID of the species of this Database object.
      *
@@ -154,12 +151,10 @@ public class SigPepDatabase extends MySqlDatabase {
         Statement s = con.createStatement();
 
         for (Iterator<String> statements = script.getStatementIterator(); statements.hasNext();) {
-
             String statement = statements.next();
             statement = SqlUtil.setParameter(statement, "schemaName", schemaName, false);
             logger.info(statement);
             s.execute(statement);
-
         }
 
         //close statement
@@ -167,7 +162,6 @@ public class SigPepDatabase extends MySqlDatabase {
 
         //close connection
         con.close();
-
     }
 
     /**
@@ -177,9 +171,7 @@ public class SigPepDatabase extends MySqlDatabase {
      * @throws IOException  if the SQL script required to create the database cannot be read
      */
     public void createSchema() throws SQLException, IOException {
-
         createSchema(ncbiTaxonId);
-
     }
 
     /**
@@ -208,12 +200,10 @@ public class SigPepDatabase extends MySqlDatabase {
         Statement s = con.createStatement();
 
         for (Iterator<String> statements = script.getStatementIterator(); statements.hasNext();) {
-
             String statement = statements.next();
             statement = SqlUtil.setParameter(statement, "schemaName", schemaName, false);
             logger.info(statement);
             s.execute(statement);
-
         }
 
         //close statement
@@ -221,8 +211,6 @@ public class SigPepDatabase extends MySqlDatabase {
 
         //close connection
         con.close();
-
-
     }
 
     /**
@@ -264,7 +252,6 @@ public class SigPepDatabase extends MySqlDatabase {
         } catch (SQLException e) {
             logger.error("Exception while persisting digest to database.", e);
         }
-
     }
 
     /**
@@ -281,7 +268,6 @@ public class SigPepDatabase extends MySqlDatabase {
         for (String file : new File(inputDirectory).list()) {
 
             if (file.endsWith(".tsv")) {
-
                 logger.info("loading data from file " + file + "...");
 
                 Statement s = con.createStatement();
@@ -294,13 +280,10 @@ public class SigPepDatabase extends MySqlDatabase {
 
                 s.execute("LOAD DATA LOCAL INFILE '" + infile + "' INTO TABLE " + targetTable);
                 s.close();
-
             }
-
         }
 
         con.close();
-
     }
 
     /**
@@ -312,13 +295,11 @@ public class SigPepDatabase extends MySqlDatabase {
     private void populateTableSignaturePeptide() throws SQLException {
 
         Connection con = this.getConnection();
-
         Statement s = con.createStatement();
         s.execute("INSERT INTO signature_peptide SELECT peptide_id FROM peptide_feature GROUP BY peptide_id HAVING count(distinct sequence_id) = 1");
         s.close();
 
         con.close();
-
     }
 
     /**
@@ -330,25 +311,28 @@ public class SigPepDatabase extends MySqlDatabase {
     private void populateTableSequence2SignatureProtease() throws SQLException {
 
         Connection con = this.getConnection();
-
         Statement s = con.createStatement();
-        s.execute("INSERT INTO sequence2signature_protease(sequence_id,protease_id,signature_peptide_count)\n" +
-                "SELECT pep2pro.sequence_id,\n" +
-                "       pep2prot.protease_id,\n" +
-                "       count(sp.peptide_id)\n" +
-                "FROM signature_peptide sp,\n" +
-                "         peptide2protease pep2prot,\n" +
-                "         peptide_feature pep2pro\n" +
-                "WHERE sp.peptide_id = pep2pro.peptide_id\n" +
-                "    AND sp.peptide_id = pep2prot.peptide_id\n" +
-                "GROUP BY pep2pro.sequence_id,\n" +
-                "         pep2prot.protease_id");
+        s.execute("INSERT INTO sequence2signature_protease(sequence_id,protease_id,signature_peptide_count)\n"
+                + "SELECT pep2pro.sequence_id,\n"
+                + "       pep2prot.protease_id,\n"
+                + "       count(sp.peptide_id)\n"
+                + "FROM signature_peptide sp,\n"
+                + "         peptide2protease pep2prot,\n"
+                + "         peptide_feature pep2pro\n"
+                + "WHERE sp.peptide_id = pep2pro.peptide_id\n"
+                + "    AND sp.peptide_id = pep2prot.peptide_id\n"
+                + "GROUP BY pep2pro.sequence_id,\n"
+                + "         pep2prot.protease_id");
         s.close();
-
         con.close();
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     * @throws SQLException
+     */
     private Map<String, Integer> fetchProteinAccession2SequenceIdMap() throws SQLException {
         try {
             Map<String, Integer> retVal = new HashMap<String, Integer>();
@@ -357,14 +341,12 @@ public class SigPepDatabase extends MySqlDatabase {
             Statement s = con.createStatement();
 
             ResultSet rs = s.executeQuery(
-                    "SELECT prot.protein_accession, prot2seq.sequence_id " +
-                            "FROM protein prot, protein2sequence prot2seq " +
-                            "WHERE prot.protein_id=prot2seq.protein_id");
+                    "SELECT prot.protein_accession, prot2seq.sequence_id "
+                    + "FROM protein prot, protein2sequence prot2seq "
+                    + "WHERE prot.protein_id=prot2seq.protein_id");
 
             while (rs.next()) {
-
                 retVal.put(rs.getString(1), rs.getInt(2));
-
             }
 
             return retVal;
@@ -373,6 +355,14 @@ public class SigPepDatabase extends MySqlDatabase {
         }
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param ensemblVersion
+     * @param ensemblIds
+     * @return
+     * @throws EnshException
+     */
     public Map<String, Set<String>> fetchEnsemblSpliceEvents(int ensemblVersion, Set<String> ensemblIds) throws EnshException {
 
         Map<String, Set<String>> retVal = new HashMap<String, Set<String>>();
@@ -400,12 +390,7 @@ public class SigPepDatabase extends MySqlDatabase {
 
             Session session = sessionFactory.openSession();
 
-            Criteria criteria = session.createCriteria("Translation")
-                    .setFetchMode("stableId", FetchMode.JOIN)
-                    .setFetchMode("transcript", FetchMode.JOIN)
-                    .setFetchMode("transcript.exons", FetchMode.JOIN)
-                    .createAlias("stableId", "stId")
-                    .add(Restrictions.in("stId.stableId", ensemblIdSubList));
+            Criteria criteria = session.createCriteria("Translation").setFetchMode("stableId", FetchMode.JOIN).setFetchMode("transcript", FetchMode.JOIN).setFetchMode("transcript.exons", FetchMode.JOIN).createAlias("stableId", "stId").add(Restrictions.in("stId.stableId", ensemblIdSubList));
 
             for (Translation translation : (Iterable<Translation>) criteria.list()) {
 
@@ -434,21 +419,25 @@ public class SigPepDatabase extends MySqlDatabase {
                 }
 
                 processedIds.add(ensemblId);
-
             }
 
             session.flush();
             session.clear();
             session.close();
-
         }
 
         logger.info(counter + " translations of " + ensemblIds.size() + " processed...");
 
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param ensemblVersion
+     * @throws SQLException
+     * @throws EnshException
+     */
     public void importSpliceEvents(int ensemblVersion) throws SQLException, EnshException {
 
         logger.info("fetching protein accession -> sequence ID map...");
@@ -479,21 +468,26 @@ public class SigPepDatabase extends MySqlDatabase {
         logger.info("populating table 'peptide2splice_event'...");
         int rowsInserted = populateTablePeptide2SpliceEvent();
         logger.info(+rowsInserted + " rows inserted");
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     * @throws SQLException
+     */
     private int populateTablePeptide2SpliceEvent() throws SQLException {
 
         String sql =
-                "    INSERT INTO peptide2splice_event (peptide_id, splice_event_id) " +
-                        "SELECT DISTINCT pep.peptide_id, " +
-                        "                spel.splice_event_id " +
-                        "           FROM protein_sequence seq, " +
-                        "                splice_event_location spel, " +
-                        "                peptide pep " +
-                        "          WHERE seq.sequence_id=spel.sequence_id " +
-                        "            AND (seq.sequence_id=pep.sequence_id AND pep.pos_start < spel.pos_start AND pep.pos_end > spel.pos_end)  " +
-                        "       ORDER BY seq.sequence_id, spel.pos_start";
+                "    INSERT INTO peptide2splice_event (peptide_id, splice_event_id) "
+                + "SELECT DISTINCT pep.peptide_id, "
+                + "                spel.splice_event_id "
+                + "           FROM protein_sequence seq, "
+                + "                splice_event_location spel, "
+                + "                peptide pep "
+                + "          WHERE seq.sequence_id=spel.sequence_id "
+                + "            AND (seq.sequence_id=pep.sequence_id AND pep.pos_start < spel.pos_start AND pep.pos_end > spel.pos_end)  "
+                + "       ORDER BY seq.sequence_id, spel.pos_start";
 
         Connection con = null;
         Statement s = null;
@@ -521,10 +515,16 @@ public class SigPepDatabase extends MySqlDatabase {
                 }
             } catch (SQLException e) { //do nothing
             }
-
         }
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param exonAccessions
+     * @return
+     * @throws SQLException
+     */
     private Map<String, Integer> insertExons(Set<String> exonAccessions) throws SQLException {
 
         Connection con = null;
@@ -548,7 +548,6 @@ public class SigPepDatabase extends MySqlDatabase {
                 if (++counter % 1000 == 0) {
                     logger.info(counter + " exons of " + exonAccessions.size() + " processed...");
                 }
-
             }
 
             logger.info(counter + " exons of " + exonAccessions.size() + " processed...");
@@ -562,22 +561,13 @@ public class SigPepDatabase extends MySqlDatabase {
                 generatedKeys.next();
                 int key = generatedKeys.getInt(1);
                 retVal.put(accession, key);
-
             }
 
             s.close();
             con.close();
 
-
             return retVal;
-
-        }
-
-        catch (
-                SQLException e
-                )
-
-        {
+        } catch (SQLException e) {
             throw new SQLException("Exception while inserting into table exon.", e);
         } finally {
 
@@ -594,10 +584,17 @@ public class SigPepDatabase extends MySqlDatabase {
                 }
             } catch (SQLException e) { //do nothing
             }
-
         }
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param exonAccession2Id
+     * @param spliceEvents
+     * @return
+     * @throws SQLException
+     */
     private Map<String, Integer> insertSpliceEvents(Map<String, Integer> exonAccession2Id, Set<String> spliceEvents) throws SQLException {
 
         Connection con = null;
@@ -626,7 +623,6 @@ public class SigPepDatabase extends MySqlDatabase {
                 if (++counter % 1000 == 0) {
                     logger.info(counter + " splice events of " + spliceEvents.size() + " processed...");
                 }
-
             }
 
             logger.info(counter + " splice events of " + spliceEvents.size() + " processed...");
@@ -636,11 +632,9 @@ public class SigPepDatabase extends MySqlDatabase {
             ResultSet generatedKeys = s.getGeneratedKeys();
 
             for (String event : sortedSpliceEvents) {
-
                 generatedKeys.next();
                 int key = generatedKeys.getInt(1);
                 retVal.put(event, key);
-
             }
 
             s.close();
@@ -665,14 +659,20 @@ public class SigPepDatabase extends MySqlDatabase {
                 }
             } catch (SQLException e) { //do nothing
             }
-
         }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param proteinAccession2SequenceId
+     * @param spliceEvent2Id
+     * @param spliceEvent2SequenceLocation
+     * @throws SQLException
+     */
     private void insertSpliceEventLocations(Map<String, Integer> proteinAccession2SequenceId,
-                                            Map<String, Integer> spliceEvent2Id,
-                                            Map<String, Set<String>> spliceEvent2SequenceLocation)
+            Map<String, Integer> spliceEvent2Id,
+            Map<String, Set<String>> spliceEvent2SequenceLocation)
             throws SQLException {
 
         Connection con = null;
@@ -711,31 +711,22 @@ public class SigPepDatabase extends MySqlDatabase {
                             s.addBatch();
 
                             uniqueRows.add(row);
-
                         }
-
                     } else {
                         logger.error("No SigPep entry for protein " + proteinAccession + "...");
                     }
-
                 }
-
 
                 if (++counter % 1000 == 0) {
                     logger.info(counter + " splice events of " + spliceEvent2SequenceLocation.size() + " processed...");
                 }
-
-
             }
 
             logger.info(counter + " splice events of " + spliceEvent2SequenceLocation.size() + " processed...");
 
-
             s.executeBatch();
-
             s.close();
             con.close();
-
 
         } catch (SQLException e) {
             throw new SQLException("Exception while inserting data into table splice_event_location.", e);
@@ -754,7 +745,6 @@ public class SigPepDatabase extends MySqlDatabase {
                 }
             } catch (SQLException e) { //do nothing
             }
-
         }
     }
 
@@ -783,21 +773,22 @@ public class SigPepDatabase extends MySqlDatabase {
         retVal.put("sequence2signature_protease", 0);
         retVal.put("signature_peptide", 0);
 
-//fetch IDs of Ensembl translations of biotype 'protein_coding'
+        //fetch IDs of Ensembl translations of biotype 'protein_coding'
         Set<String> ensemblProteinCodingTranslations = fetchEnsemblProteinCodingTranslationIds(ensemblVersion);
-        if (ensemblProteinCodingTranslations.size() == 0)
+        if (ensemblProteinCodingTranslations.size() == 0) {
             return retVal;
+        }
 
-//fetch protein_ids of SigPep proteins not in the above set of Ensembl transations
+        //fetch protein_ids of SigPep proteins not in the above set of Ensembl transations
         Set<Integer> proteinIds = fetchNonProteinCodingProteinIds(ensemblProteinCodingTranslations);
-        if (proteinIds.size() == 0)
+        if (proteinIds.size() == 0) {
             return retVal;
+        }
 
         retVal = deleteRelatedDatbaseEntries(proteinIds);
 
-//delete related database entries
+        //delete related database entries
         return retVal;
-
     }
 
     /**
@@ -828,14 +819,14 @@ public class SigPepDatabase extends MySqlDatabase {
             String deleteFromSequence2SignatureProtease = "DELETE FROM sequence2signature_protease WHERE sequence_id NOT IN (SELECT sequence_id FROM protein_sequence)";
             String deleteFromSignaturePeptide = "DELETE FROM signature_peptide WHERE peptide_id NOT IN (SELECT peptide_id FROM peptide)";
 
-//set parameter values of DELETE FROM protein... statement
+            //set parameter values of DELETE FROM protein... statement
             deleteFromProtein = SqlUtil.setParameterSet(deleteFromProtein, "proteinIds", proteinIds);
 
-//get database connection and create statement
+            //get database connection and create statement
             Connection con = this.getConnection();
             Statement s = con.createStatement();
 
-//execute DELETE statements
+            //execute DELETE statements
             int updateCount;
             updateCount = s.executeUpdate(deleteFromProtein);
             retVal.put("protein", updateCount);
@@ -887,14 +878,14 @@ public class SigPepDatabase extends MySqlDatabase {
             //get database connection
             Connection con = this.getConnection();
 
-//create statement
+            //create statement
             Statement s = con.createStatement();
 
-//set Ensembl IDs as parameter values of SQL statements
+            //set Ensembl IDs as parameter values of SQL statements
             String fetchNonProteinCodingEnsemblTranslations = "SELECT protein_id FROM protein WHERE protein_accession NOT IN (:ensemblIds)";
             fetchNonProteinCodingEnsemblTranslations = SqlUtil.setParameterSet(fetchNonProteinCodingEnsemblTranslations, "ensemblIds", ensemblProteinCodingTranslationIds);
 
-//fetch IDs
+            //fetch IDs
             ResultSet rs = s.executeQuery(fetchNonProteinCodingEnsemblTranslations);
             while (rs.next()) {
                 int proteinId = rs.getInt("protein_id");
@@ -907,7 +898,6 @@ public class SigPepDatabase extends MySqlDatabase {
         }
 
         return retVal;
-
     }
 
     /**
@@ -925,34 +915,33 @@ public class SigPepDatabase extends MySqlDatabase {
 
         Set<String> retVal = new HashSet<String>();
 
-//create Database object for Ensembl Mart database
+        //create Database object for Ensembl Mart database
         String host = "martdb.ensembl.org";
         int port = 3316;
         String database = "ensembl_mart_" + ensemblVersion;
         Database ensemblMart = SimpleDatabaseFactory.createMySQLDatabase(host, port, database);
 
-//create Ensembl Mart table name for species
+        //create Ensembl Mart table name for species
         String sigPepSchemaName = getSchemaName(ncbiTaxonId);
         String ensemblMartTablePrefix = sigPepSchemaName.split("_")[1].substring(0, 1) + //the first character of the species name
                 sigPepSchemaName.split("_")[2];
         String ensemblMartTableSuffix = "gene_ensembl__transcript__main";
         String ensemblMartTableName = ensemblMartTablePrefix + "_" + ensemblMartTableSuffix;
 
-//fetch ensembl translation ids of proteins of biotype 'protein_coding'
+        //fetch ensembl translation ids of proteins of biotype 'protein_coding'
         try {
 
             //get database connection
             Connection con = ensemblMart.getConnection();
 
-//execute query
+            //execute query
             String queryStatement = "SELECT DISTINCT translation_stable_id FROM " + ensemblMartTableName + " WHERE biotype = 'protein_coding'";
             Statement s = con.createStatement();
             ResultSet rs = s.executeQuery(queryStatement);
-            while (rs.next()) {
 
+            while (rs.next()) {
                 String ensemblId = rs.getString("translation_stable_id");
                 retVal.add(ensemblId);
-
             }
 
             rs.close();
@@ -963,7 +952,6 @@ public class SigPepDatabase extends MySqlDatabase {
         }
 
         return retVal;
-
     }
 
     /**
@@ -986,7 +974,7 @@ public class SigPepDatabase extends MySqlDatabase {
 
             } catch (SQLException e) {
 
-                if (e.getErrorCode() == ERROR_CODE_TOO_MANY_CONNECTIONS){
+                if (e.getErrorCode() == ERROR_CODE_TOO_MANY_CONNECTIONS) {
 
                     try {
 
@@ -995,40 +983,36 @@ public class SigPepDatabase extends MySqlDatabase {
                     } catch (InterruptedException ie) {
                         logger.error("Exception while attempting to establish JDBC connection to SigPep database.", ie);
                     }
-
                 } else {
                     throw e;
                 }
-
             }
 
             if (sigPepDatabaseConnection != null) {
                 break;
             }
-
         }
 
         return sigPepDatabaseConnection;
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         try {
-
             SigPepDatabase sigPepDb = new SigPepDatabase("mmueller", "".toCharArray(), 9606);
-
             sigPepDb.importSpliceEvents(46);
 
         } catch (DatabaseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (EnshException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
-
     }
-
 }

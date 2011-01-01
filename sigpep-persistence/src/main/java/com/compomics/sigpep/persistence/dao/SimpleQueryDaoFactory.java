@@ -3,6 +3,8 @@ package com.compomics.sigpep.persistence.dao;
 import com.compomics.sigpep.persistence.config.Configuration;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 03-Jun-2008<br/>
@@ -14,6 +16,11 @@ public abstract class SimpleQueryDaoFactory {
     private static String simpleQueryDaoClass = config.getString("sigpep.db.simple.query.dao.factory.class");
     private static SimpleQueryDaoFactory ourInstance;
 
+    /**
+     * Creates a SimpleQueryDaoFactory instance.
+     *
+     * @return the SimpleQueryDaoFactory instance
+     */
     public static SimpleQueryDaoFactory getInstance() {
 
         if (ourInstance == null) {
@@ -31,9 +38,13 @@ public abstract class SimpleQueryDaoFactory {
         }
 
         return ourInstance;
-
     }
 
+    /**
+     * Creates a SimpleQueryDao from a taxonomy id.
+     *
+     * @param taxonId the taxonomy id to create the SimpleQueryDao from.
+     * @return the SimpleQueryDao
+     */
     public abstract SimpleQueryDao createSimpleQueryDao(int taxonId);
-
 }

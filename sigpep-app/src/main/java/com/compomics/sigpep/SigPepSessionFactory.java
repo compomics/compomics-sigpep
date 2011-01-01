@@ -1,7 +1,6 @@
 package com.compomics.sigpep;
 
 import com.compomics.sigpep.model.Organism;
-
 import java.util.Set;
 
 /**
@@ -36,5 +35,4 @@ public interface SigPepSessionFactory {
      * @return a SigPep session
      */
     SigPepSession createSigPepSession(Organism organism);
-
 }

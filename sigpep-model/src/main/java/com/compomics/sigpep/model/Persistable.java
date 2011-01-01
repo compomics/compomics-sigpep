@@ -1,6 +1,5 @@
 package com.compomics.sigpep.model;
 
-
 /**
  * Implemented by object that can be persisted to a database.
  * <p/>
@@ -25,8 +24,18 @@ public interface Persistable {
      */
     void setId(int id);
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     Object getSessionFactory();
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param sessionFactory
+     */
     void setSessionFactory(Object sessionFactory);
 
 }

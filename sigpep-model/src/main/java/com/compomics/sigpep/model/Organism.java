@@ -38,5 +38,4 @@ public interface Organism {
      */
     void setScientificName(String scientificName);
 
-
 }

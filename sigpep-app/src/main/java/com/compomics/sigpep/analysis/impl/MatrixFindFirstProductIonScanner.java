@@ -2,7 +2,6 @@ package com.compomics.sigpep.analysis.impl;
 
 import Jama.Matrix;
 import org.apache.log4j.Logger;
-import com.compomics.sigpep.analysis.ProductIonScanner;
 import com.compomics.sigpep.analysis.SignatureTransitionFinderType;
 import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.model.impl.MassOverChargeRangeImpl;
@@ -12,6 +11,8 @@ import com.compomics.sigpep.util.SigPepUtil;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Feb-2008<br/>
@@ -19,15 +20,22 @@ import java.util.*;
  */
 public class MatrixFindFirstProductIonScanner {
 
-
     protected static Logger logger = Logger.getLogger(MatrixFindFirstProductIonScanner.class);
-
     int massPrecission = 4;
 
+    /**
+     * @TODO: JavaDoc missing.
+     */
     public MatrixFindFirstProductIonScanner() {
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param peptides
+     * @param productIonTypes
+     * @return
+     */
     private SortedMap<Double, Set<ProductIon>> createBackgroundProductIonStore(Collection<? extends Peptide> peptides, Set<ProductIonType> productIonTypes) {
 
         SortedMap<Double, Set<ProductIon>> retVal = new TreeMap<Double, Set<ProductIon>>();
@@ -44,10 +52,8 @@ public class MatrixFindFirstProductIonScanner {
                         retVal.put(mass, new HashSet<ProductIon>());
                     }
                     retVal.get(mass).add(product);
-
                 }
             }
-
         }
 
         return retVal;
@@ -66,14 +72,14 @@ public class MatrixFindFirstProductIonScanner {
      * @return a transition unique to the target peptide
      */
     public List<SignatureTransition> findSignatureTransitions(Peptide targetPeptide,
-                                                                 Set<Peptide> backgroundPeptides,
-                                                                 Set<ProductIonType> targetProductIonTypes,
-                                                                 Set<ProductIonType> backgroundProductIonTypes,
-                                                                 Set<Integer> productIonChargeStates,
-                                                                 double massAccuracy,
-                                                                 int minimumCombinationSize,
-                                                                 int maximumCombinationSize,
-                                                                 SignatureTransitionFinderType searchType) {
+            Set<Peptide> backgroundPeptides,
+            Set<ProductIonType> targetProductIonTypes,
+            Set<ProductIonType> backgroundProductIonTypes,
+            Set<Integer> productIonChargeStates,
+            double massAccuracy,
+            int minimumCombinationSize,
+            int maximumCombinationSize,
+            SignatureTransitionFinderType searchType) {
 
         List<SignatureTransition> retVal = new ArrayList<SignatureTransition>();
         SignatureTransition transition = new SignatureTransitionImpl(targetPeptide, backgroundPeptides);
@@ -159,7 +165,6 @@ public class MatrixFindFirstProductIonScanner {
                             backgroundPeptide2Index.put(backgroundPeptide, m++);
                         }
 
-
                         int backgroundPeptideIndex = backgroundPeptide2Index.get(backgroundPeptide);
                         //logger.info("backgroundPeptideIndex = " + backgroundPeptideIndex + "; targetProductIonIndex = " + targetProductIonIndex);
                         try {
@@ -169,10 +174,7 @@ public class MatrixFindFirstProductIonScanner {
                         }
                     }
                 }
-
-
             }
-
         }
 
         //get unique combination of target product ions
@@ -195,14 +197,11 @@ public class MatrixFindFirstProductIonScanner {
             } catch (NullPointerException e) {
                 logger.warn("NullPointerException when trying to parse target product ion name " + targetProductIonName + " of target peptide " + targetPeptide + ".");
             }
-
         }
 
         retVal.add(transition);
         return retVal;
-
     }
-
 
     /**
      * Determines a set of product ions which is required and sufficient
@@ -262,14 +261,11 @@ public class MatrixFindFirstProductIonScanner {
         // peptides.
         double remainingOverlappingPeptides = matrix.getRowDimension();
 
-
         return determineColumnCombination(matrix,
                 processedColumns,
                 remainingOverlappingPeptides,
                 overlappingPeptides,
-                0
-        );
-
+                0);
     }
 
     /**
@@ -293,10 +289,10 @@ public class MatrixFindFirstProductIonScanner {
      * @return a set of column indexes
      */
     private Set<Integer> determineColumnCombination(Matrix matrix,
-                                                    Set<Integer> includedColumns,
-                                                    double previousColumnSum,
-                                                    Matrix previousIntersection,
-                                                    int iteration) {
+            Set<Integer> includedColumns,
+            double previousColumnSum,
+            Matrix previousIntersection,
+            int iteration) {
 
         iteration++;
 
@@ -314,7 +310,6 @@ public class MatrixFindFirstProductIonScanner {
         // observed ones)
         int indexColumnWithBestColumnSum = -1;
         double bestColumnSum = previousColumnSum;
-
 
         for (int n = 0; n < matrix.getColumnDimension(); n++) {
 
@@ -354,7 +349,6 @@ public class MatrixFindFirstProductIonScanner {
             if (bestColumnSum == 0) {
                 break;
             }
-
         }
 
         //add the column index resulting in the smallest column sum to processed columns
@@ -365,19 +359,13 @@ public class MatrixFindFirstProductIonScanner {
         // this result
         if (bestColumnSum == 0) {
             return includedColumns;
-        }
-        //if none of the columns lead to an improvement of the combined column sum
+        } //if none of the columns lead to an improvement of the combined column sum
         // and the column sum is still not 0 there is no discriminatory combination
         else if (indexColumnWithBestColumnSum == -1 && bestColumnSum > 0) {
             return new TreeSet<Integer>();
-        }
-        //else keep searching...
+        } //else keep searching...
         else {
             return determineColumnCombination(matrix, includedColumns, bestColumnSum, bestIntersection, iteration);
         }
-
     }
-
-
 }
-

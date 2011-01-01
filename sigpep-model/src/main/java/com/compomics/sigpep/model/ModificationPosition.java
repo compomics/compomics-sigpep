@@ -1,6 +1,8 @@
 package com.compomics.sigpep.model;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 13-Mar-2008<br/>
@@ -51,5 +53,4 @@ public enum ModificationPosition {
     public int getIntegerValue() {
         return integerValue;
     }
-
 }

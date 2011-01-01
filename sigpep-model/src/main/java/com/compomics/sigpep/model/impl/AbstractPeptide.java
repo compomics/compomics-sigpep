@@ -8,6 +8,8 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>
@@ -68,7 +70,6 @@ public abstract class AbstractPeptide implements Peptide {
         return this.getSequenceString().length();
     }
 
-
     /**
      * Returns the sequence positions of a residue.
      *
@@ -88,17 +89,14 @@ public abstract class AbstractPeptide implements Peptide {
         }
 
         return retVal;
-
     }
 
     /**
      * {@inherit}
      */
     public int getResidueCount(String residue) {
-
         String sequenceWithoutResidues = this.getSequenceString().toUpperCase().replaceAll(residue.toUpperCase(), "");
         return this.getSequenceString().length() - sequenceWithoutResidues.length();
-
     }
 
     /**
@@ -183,9 +181,7 @@ public abstract class AbstractPeptide implements Peptide {
                         modPep.getPostTranslationalModifications().put(ModificationPosition.C_TERMINAL.getIntegerValue(), modification);
                         retVal.add(modPep);
                     }
-
                 }
-
             }
 
             if (!modification.isStatic()) {
@@ -217,7 +213,6 @@ public abstract class AbstractPeptide implements Peptide {
                 } else {
                     modPep = new ModifiedPeptideImpl(peptide);
                 }
-
 
                 int modifiedResidues = 0;
 
@@ -258,7 +253,6 @@ public abstract class AbstractPeptide implements Peptide {
                                 modPep.getPostTranslationalModifications().put(1, modification);
                                 modifiedResidues++;
                             }
-
                         }
 
                     } else if (modification.getPosition() == ModificationPosition.C_TERMINAL) {
@@ -272,9 +266,7 @@ public abstract class AbstractPeptide implements Peptide {
                                 modPep.getPostTranslationalModifications().put(peptideLength, modification);
                                 modifiedResidues++;
                             }
-
                         }
-
                     } else if (modification.getPosition() == ModificationPosition.INTERNAL) {
 
                         int peptideLength = modPep.getSequenceLength();
@@ -288,12 +280,9 @@ public abstract class AbstractPeptide implements Peptide {
                                     modPep.getPostTranslationalModifications().put(position, modification);
                                     modifiedResidues++;
                                 }
-
                             }
                         }
-
                     }
-
                 }
 
                 //if any residues were modified
@@ -354,7 +343,6 @@ public abstract class AbstractPeptide implements Peptide {
                                     modPep.getPostTranslationalModifications().put(position, modification);
                                     modifiedResidues++;
                                 }
-
                             }
 
                             //if any residues were modified
@@ -364,7 +352,6 @@ public abstract class AbstractPeptide implements Peptide {
                                 retVal.add(modPep);
                             }
                         }
-
                     }
 
                     //also add unmodified peptide
@@ -407,7 +394,6 @@ public abstract class AbstractPeptide implements Peptide {
                                 modPep.getPostTranslationalModifications().put(1, modification);
                                 modifiedResidues++;
                             }
-
                         }
 
                         //if any residues were modified
@@ -428,7 +414,6 @@ public abstract class AbstractPeptide implements Peptide {
                                 modPep.getPostTranslationalModifications().put(peptideLength, modification);
                                 modifiedResidues++;
                             }
-
                         }
 
                         //if any residues were modified
@@ -469,7 +454,6 @@ public abstract class AbstractPeptide implements Peptide {
                                         modPep.getPostTranslationalModifications().put(position, modification);
                                         modifiedResidues++;
                                     }
-
                                 }
 
                                 //if any residues were modified
@@ -479,17 +463,12 @@ public abstract class AbstractPeptide implements Peptide {
                                     retVal.add(modPep);
                                 }
                             }
-
                         }
-
                     }
-
                 }
 
                 retVal.add(peptide);
-
             }
-
         }
 
         return retVal;
@@ -516,7 +495,6 @@ public abstract class AbstractPeptide implements Peptide {
             return retVal;
         }
 
-
         LinkedHashSet<Modification> ptmsWithStaticPtmsFirst = new LinkedHashSet<Modification>();
         for (Modification ptm : modifications) {
             if (ptm.isStatic()) {
@@ -532,7 +510,6 @@ public abstract class AbstractPeptide implements Peptide {
 
         Iterator<Modification> ptms = ptmsWithStaticPtmsFirst.iterator();
 
-
         if (ptms.hasNext()) {
             Modification ptm = ptms.next();
             Set<Peptide> modifiedPeptides = this.applyModification(this, ptm);
@@ -547,7 +524,6 @@ public abstract class AbstractPeptide implements Peptide {
             //retVal.addAll(modifiedPeptides);
 
             retVal.addAll(applyModififcationsRecursively(modifiedPeptides, ptms));
-
         }
 
         //because we might have added an unmodified 'dummy'
@@ -555,12 +531,18 @@ public abstract class AbstractPeptide implements Peptide {
 
         return retVal;
 //        return removeUnmodified(retVal);
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param peptides
+     * @return
+     */
     private List<ModifiedPeptide> removeUnmodified(List<Peptide> peptides) {
 
         List<ModifiedPeptide> retVal = new ArrayList<ModifiedPeptide>();
+
         for (Peptide peptide : peptides) {
             if (peptide.isModified()) {
                 retVal.add((ModifiedPeptide) peptide);
@@ -568,9 +550,15 @@ public abstract class AbstractPeptide implements Peptide {
         }
 
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param peptides
+     * @param ptms
+     * @return
+     */
     private Set<Peptide> applyModififcationsRecursively(Set<Peptide> peptides, Iterator<Modification> ptms) {
 
         if (ptms.hasNext()) {
@@ -590,7 +578,6 @@ public abstract class AbstractPeptide implements Peptide {
         } else {
             return peptides;
         }
-
     }
 
     /**

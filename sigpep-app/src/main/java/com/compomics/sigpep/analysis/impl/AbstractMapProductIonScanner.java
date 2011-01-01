@@ -11,6 +11,8 @@ import com.compomics.sigpep.util.SigPepUtil;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -20,14 +22,12 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
 
     protected Configuration config = Configuration.getInstance();
     protected int massPrecission = config.getInt("sigpep.app.monoisotopic.mass.precision");
-
     protected Set<ProductIonType> targetProductIonTypes;
     protected Set<ProductIonType> backgroundProductIonTypes;
     protected Set<Integer> productIonChargeStates;
     protected double massAccuracy;
     protected int minimumCombinationSize;
     protected int maximumCombinationSize;
-
     protected ExclusionScoreCalculatorFactory exclusionScoreCalculatorFactory = ExclusionScoreCalculatorFactory.getInstance();
 
     /**
@@ -41,11 +41,11 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @param maximumCombinationSize    the maximum product ion combination size of the signature transition
      */
     public AbstractMapProductIonScanner(HashSet<ProductIonType> targetProductIonTypes,
-                                        HashSet<ProductIonType> backgroundProductIonTypes,
-                                        HashSet<Integer> productIonChargeStates,
-                                        Double massAccuracy,
-                                        Integer minimumCombinationSize,
-                                        Integer maximumCombinationSize) {
+            HashSet<ProductIonType> backgroundProductIonTypes,
+            HashSet<Integer> productIonChargeStates,
+            Double massAccuracy,
+            Integer minimumCombinationSize,
+            Integer maximumCombinationSize) {
 
         this.targetProductIonTypes = targetProductIonTypes;
         this.backgroundProductIonTypes = backgroundProductIonTypes;
@@ -53,7 +53,6 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
         this.massAccuracy = massAccuracy;
         this.minimumCombinationSize = minimumCombinationSize;
         this.maximumCombinationSize = maximumCombinationSize;
-
     }
 
     /**
@@ -65,7 +64,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @return a map of scored combinations
      */
     public List<SignatureTransition> findSignatureTransitions(Peptide targetPeptide,
-                                                              Set<Peptide> isobaricPeptides) {
+            Set<Peptide> isobaricPeptides) {
 
         List<SignatureTransition> retVal = new ArrayList<SignatureTransition>();
 
@@ -77,8 +76,8 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
                 massAccuracy);
 
         Map<Set<ProductIon>, Double> signatureProductIonCombinations = getUniqueProductIonCombinations(exclusionMatrix,
-                    minimumCombinationSize,
-                    maximumCombinationSize);
+                minimumCombinationSize,
+                maximumCombinationSize);
 
         for (Set<ProductIon> combination : signatureProductIonCombinations.keySet()) {
 
@@ -97,11 +96,9 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
             transition.setProductIonChargeStates(productIonChargeStates);
 
             retVal.add(transition);
-
         }
 
         return retVal;
-
     }
 
     /**
@@ -136,9 +133,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
                 } else {
                     combinedExclusion.put(peptide, excludes);
                 }
-
             }
-
         }
 
         //check if all peptides are excluded...
@@ -161,9 +156,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
         }
 
         return retVal;
-
     }
-
 
     /**
      * Creates a map of product ions grouped by neutral mass.
@@ -173,7 +166,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @return a map of monoisotopic masses and product ions sets
      */
     protected SortedMap<Double, Set<ProductIon>> createProductIonStore(Collection<? extends Peptide> peptides,
-                                                                     Set<ProductIonType> productIonTypes) {
+            Set<ProductIonType> productIonTypes) {
 
         SortedMap<Double, Set<ProductIon>> retVal = new TreeMap<Double, Set<ProductIon>>();
 
@@ -189,10 +182,8 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
                         retVal.put(mass, new HashSet<ProductIon>());
                     }
                     retVal.get(mass).add(product);
-
                 }
             }
-
         }
 
         return retVal;
@@ -206,7 +197,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @return a map of monoisotopic masses and frequencies
      */
     protected Map<Double, Integer> getProductIonMassDistribution(Collection<? extends Peptide> peptides,
-                                                               Set<ProductIonType> productIonTypes) {
+            Set<ProductIonType> productIonTypes) {
 
         //insert background product ion masses into table
         Map<Double, Integer> retVal = new TreeMap<Double, Integer>();
@@ -224,14 +215,11 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
                     int frequency = retVal.get(mass);
                     frequency++;
                     retVal.put(mass, frequency);
-
                 }
             }
-
         }
 
         return retVal;
-
     }
 
     /**
@@ -299,9 +287,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
                     retVal.get(targetProductIon).put(peptide, 1);
 
                 }
-
             }
-
         }
 
         //populate exclusion matrix
@@ -338,10 +324,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
 
                         }
                     }
-
-
                 }
-
             }
         }
 
@@ -351,5 +334,4 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
     protected abstract Map<Set<ProductIon>, Double> getUniqueProductIonCombinations(Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix,
             int minCombinationSize,
             int maxCombinationSize);
-
 }

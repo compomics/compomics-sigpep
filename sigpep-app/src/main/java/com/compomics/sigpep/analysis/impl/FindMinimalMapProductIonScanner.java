@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -20,17 +22,25 @@ import java.util.concurrent.Future;
  */
 public class FindMinimalMapProductIonScanner extends AbstractMapProductIonScanner {
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param targetProductIonTypes
+     * @param backgroundProductIonTypes
+     * @param productIonChargeStates
+     * @param massAccuracy
+     * @param minimumCombinationSize
+     * @param maximumCombinationSize
+     */
     public FindMinimalMapProductIonScanner(HashSet<ProductIonType> targetProductIonTypes,
-                                           HashSet<ProductIonType> backgroundProductIonTypes,
-                                           HashSet<Integer> productIonChargeStates,
-                                           Double massAccuracy,
-                                           Integer minimumCombinationSize,
-                                           Integer maximumCombinationSize) {
+            HashSet<ProductIonType> backgroundProductIonTypes,
+            HashSet<Integer> productIonChargeStates,
+            Double massAccuracy,
+            Integer minimumCombinationSize,
+            Integer maximumCombinationSize) {
 
         super(targetProductIonTypes, backgroundProductIonTypes, productIonChargeStates, massAccuracy, minimumCombinationSize, maximumCombinationSize);
-
     }
-
 
     /**
      * Returns the first signature product ion combination found.
@@ -47,52 +57,46 @@ public class FindMinimalMapProductIonScanner extends AbstractMapProductIonScanne
 
         Map<Set<ProductIon>, Double> retVal = Collections.synchronizedMap(new HashMap<Set<ProductIon>, Double>());
 
-                Set<ProductIon> targetProductIons = exclusionMatrix.keySet();
+        Set<ProductIon> targetProductIons = exclusionMatrix.keySet();
 
-                //get thread pool
-                ExecutorService executorService = ExecutorServiceLocator.getInstance().getExecutorService();
-                List<Future<Map<Set<ProductIon>, Double>>> results = new ArrayList<Future<Map<Set<ProductIon>, Double>>>();
+        //get thread pool
+        ExecutorService executorService = ExecutorServiceLocator.getInstance().getExecutorService();
+        List<Future<Map<Set<ProductIon>, Double>>> results = new ArrayList<Future<Map<Set<ProductIon>, Double>>>();
 
-                //iterate over all combinations in size range...
-                for (int k = minCombinationSize; k <= maxCombinationSize; k++) {
+        //iterate over all combinations in size range...
+        for (int k = minCombinationSize; k <= maxCombinationSize; k++) {
 
-                    Combinations<ProductIon> combinations = new Combinations<ProductIon>(k, targetProductIons);
-                    while (combinations.hasNext()) {
+            Combinations<ProductIon> combinations = new Combinations<ProductIon>(k, targetProductIons);
+            while (combinations.hasNext()) {
 
-                        Set<ProductIon> combination = combinations.next();
+                Set<ProductIon> combination = combinations.next();
 
-                        //...and create and execute a thread to calculate the
-                        //exclusion score for each combination
-                        ExclusionScoreCalculator<Map<Set<ProductIon>, Double>> calculator = exclusionScoreCalculatorFactory.getCalculator(combination, exclusionMatrix);
-                        Future<Map<Set<ProductIon>, Double>> f = executorService.submit(calculator);
-                        results.add(f);
+                //...and create and execute a thread to calculate the
+                //exclusion score for each combination
+                ExclusionScoreCalculator<Map<Set<ProductIon>, Double>> calculator = exclusionScoreCalculatorFactory.getCalculator(combination, exclusionMatrix);
+                Future<Map<Set<ProductIon>, Double>> f = executorService.submit(calculator);
+                results.add(f);
+            }
 
-                    }
+            //...get the results for each combination
+            for (Future<Map<Set<ProductIon>, Double>> result : results) {
 
-                    //...get the results for each combination
-                    for (Future<Map<Set<ProductIon>, Double>> result : results) {
-
-                        try {
-                            retVal.putAll(result.get());
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException("Exception while finding unique product ion combination.", e);
-                        } catch (ExecutionException e) {
-                            throw new RuntimeException("Exception while finding unique product ion combination.", e);
-                        }
-
-                    }
-
-                    //stop search if  combination size k yields
-                    //unique product ion combination(s)...
-                    if (retVal.size() > 0) {
-                        break;
-                    }
-
+                try {
+                    retVal.putAll(result.get());
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("Exception while finding unique product ion combination.", e);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException("Exception while finding unique product ion combination.", e);
                 }
+            }
 
-                return retVal;
-        
+            //stop search if  combination size k yields
+            //unique product ion combination(s)...
+            if (retVal.size() > 0) {
+                break;
+            }
+        }
+
+        return retVal;
     }
-
-
 }

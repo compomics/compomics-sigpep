@@ -97,7 +97,6 @@ public interface Modification {
      */
     void setStatic(boolean stable);
 
-
     /**
      * Returns the chemical formula of the modification.
      *

@@ -37,5 +37,4 @@ public enum PeptideOrigin {
     public String getName() {
         return name;
     }
-
 }

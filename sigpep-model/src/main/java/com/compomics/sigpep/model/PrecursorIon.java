@@ -69,5 +69,4 @@ public interface PrecursorIon extends PeptideIon, Comparable<PrecursorIon> {
      */
     void setNeutralMassCTerminalGroup(double massCTerminalGroup);
 
-
 }

@@ -1,7 +1,6 @@
 package com.compomics.sigpep.impl;
 
 import com.compomics.sigpep.ExecutorServiceLocator;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,5 +29,4 @@ public class CachedThreadPoolExecutorServiceLocator extends ExecutorServiceLocat
 
         return executorService;
     }
-
 }

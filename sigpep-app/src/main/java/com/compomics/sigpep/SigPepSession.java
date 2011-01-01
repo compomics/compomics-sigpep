@@ -9,12 +9,13 @@ import com.compomics.sigpep.model.ProductIonType;
 import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.persistence.dao.ObjectDao;
 import com.compomics.sigpep.persistence.dao.SimpleQueryDao;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 02-Jun-2008<br/>
@@ -147,6 +148,4 @@ public interface SigPepSession {
      */
     SignatureTransitionFinder createSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
                                                               SignatureTransitionFinderType type);
-
-
 }

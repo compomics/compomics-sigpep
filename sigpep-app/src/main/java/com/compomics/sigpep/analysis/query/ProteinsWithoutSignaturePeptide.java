@@ -13,6 +13,9 @@ import com.compomics.dbtools.DatabaseException;
 import com.compomics.sigpep.persistence.rdbms.SigPepDatabase;
 
 /**
+ * @TODO: JavaDoc missing.
+ * @TODO: All code in this class is commented out...
+ * 
  * Created by IntelliJ IDEA.</br>
  * User: mmueller</br>
  * Date: 04-Sep-2007</br>

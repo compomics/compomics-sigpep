@@ -1,11 +1,12 @@
 package com.compomics.sigpep.persistence.dao;
 
-import javax.sql.DataSource;
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 29-May-2008<br/>
@@ -42,37 +43,49 @@ public interface SimpleQueryDao {
     int getProteaseCount();
 
     /**
-     * @return
+     * Returns the sequence ids and strings.
+     *
+     * @return the sequence ids and strings
      */
     Map<Integer, String> getSequenceIdsAndStrings();
 
     /**
-     * @param proteaseShortNames
-     * @return
+     * Returns the peptide sequences by protease short names.
+     *
+     * @param proteaseShortNames the short names for the proteases
+     * @return the peptide sequences
      */
     Set<String> getPeptideSequencesByProteaseShortNames(Set<String> proteaseShortNames);
 
     /**
-     * @param proteaseShortNames
-     * @return
+     * Returns the signature peptide sequences by short protease names.
+     *
+     * @param proteaseShortNames the short names for the proteases
+     * @return the signature peptide sequences
      */
     Set<String> getSignaturePeptideSequencesByProteaseShortNames(Set<String> proteaseShortNames);
 
     /**
-     * @param proteaseShortNames
-     * @return
+     * Returns the signature peptide ids by protease short names protein level.
+     *
+     * @param proteaseShortNames the short names for the proteases
+     * @return the signature peptide ids by protease short names protein level
      */
     Set<Integer> getSignaturePeptideIdsByProteaseShortNamesProteinLevel(Set<String> proteaseShortNames);
 
     /**
-     * @param proteaseShortNames
-     * @return
+     * Returns the signature peptide ids by protease short names gene level.
+     *
+     * @param proteaseShortNames the short names for the proteases
+     * @return the signature peptide ids 
      */
     Set<Integer> getSignaturePeptideIdsByProteaseShortNamesGeneLevel(Set<String> proteaseShortNames);
 
 
     /**
-     * @return
+     * Returns the species taonomy ids and names.
+     *
+     * @return the species taonomy ids and names
      */
     Map<Integer, String> getSpeciesTaxonIdsAndNames();
 
@@ -168,45 +181,54 @@ public interface SimpleQueryDao {
     Map<Integer, String> getProteinIdsToProteinAccessionMap();
 
     /**
-     * @param peptideId
-     * @param sequenceId
-     * @return
+     * Returns the peptide feature ids by peptide id and sequence id.
+     *
+     * @param peptideId the peptide ids
+     * @param sequenceId the sequence ids
+     * @return the peptide feature ids
      */
     Set<Integer> getPeptideFeatureIdsByPeptideIdAndSequenceId(Set<Integer> peptideId, Set<Integer> sequenceId);
 
     /**
-     * @return
+     * Returns the accessions alternatively spliced genes transcript level.
+     *
+     * @return the accessions alternatively spliced genes transcript level
      */
     Set<String> getAccessionsAlternativelySplicedGenesTranscriptLevel();
 
     /**
+     * Returns the accessions alternatively spliced genes transition level.
      *
-     * @return
+     * @return the accessions alternatively spliced genes transition level
      */
     Set<String> getAccessionsAlternativelySplicedGenesTranslationLevel();
 
     /**
-     * @param proteaseShortNames
-     * @return
+     * Return the peptide length frequency by protease short names.
+     *
+     * @param proteaseShortNames the short names for the proteases
+     * @return the peptide length frequency
      */
     Map<Integer, Integer> getPeptideLengthFrequencyByProteaseShortName(Set<String> proteaseShortNames);
 
     /**
+     * Returns the gene accession numbers.
      *
-     * @return
+     * @return the gene accession numbers
      */
     Set<String> getGeneAccessions();
 
     /**
+     * Returns the protein sequence strings.
      *
-     * @return
+     * @return the protein sequence strings
      */
     Set<String> getProteinSequenceStrings();
 
     /**
-     *
-     * @return
+     * Returns the protein accession numbers.
+     * 
+     * @return the protein accession numbers
      */
     Set<String> getProteinAccessions();
-
 }

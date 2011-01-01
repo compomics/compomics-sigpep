@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
+ * @TODO: JavaDoc missing
+ * 
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 25-Sep-2007<br>
@@ -24,6 +26,11 @@ public class Organisms {
     private Map<String, Integer> speciesName2NcbiTaxonId = new TreeMap<String, Integer>();
     private Map<Integer, String> ncbiTaxonId2SpeciesName = new TreeMap<Integer, String>();
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public static Organisms getInstance() {
         if (ourInstance == null) {
             try {
@@ -35,11 +42,20 @@ public class Organisms {
         return ourInstance;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param propertiesFile
+     * @throws ConfigurationException
+     */
     private Organisms(String propertiesFile) throws ConfigurationException {       
         this.speciesConfig = new PropertiesConfiguration(propertiesFile);
         this.populateMaps();
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     */
     private void populateMaps() {
 
         speciesName2NcbiTaxonId = new TreeMap<String, Integer>();
@@ -56,6 +72,12 @@ public class Organisms {
         }
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param speciesName
+     * @return
+     */
     public int getNcbiTaxonId(String speciesName) {
 
         if (speciesName2NcbiTaxonId.containsKey(speciesName))
@@ -64,28 +86,54 @@ public class Organisms {
 
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param ncbiTaxonId
+     * @return
+     */
     public String getSpeciesName(int ncbiTaxonId) {
 
         if (ncbiTaxonId2SpeciesName.containsKey(ncbiTaxonId))
             return ncbiTaxonId2SpeciesName.get(ncbiTaxonId);
         else return "";
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Set<String> getSpeciesNames() {
         return speciesName2NcbiTaxonId.keySet();
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Set<Integer> getNcbiTaxonIds() {
         return ncbiTaxonId2SpeciesName.keySet();
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param speciesName
+     * @return
+     */
     public boolean contains(String speciesName) {
         return speciesName2NcbiTaxonId.containsKey(speciesName);
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param ncbiTaxonId
+     * @return
+     */
     public boolean contains(int ncbiTaxonId) {
         return ncbiTaxonId2SpeciesName.containsKey(ncbiTaxonId);
     }
-
 }

@@ -1,11 +1,13 @@
 package com.compomics.sigpep.analysis.query;
 
 /**
+ * @TODO: JavaDoc missing.
+ * @TODO: All code in this class is commented out...
+ *
  * Created by IntelliJ IDEA.
  * User: mmueller
  * Date: 16-Aug-2007
  * Time: 14:48:39
- * To change this template use File | Settings | File Templates.
  */
 public class PeptideQuery  {
 
