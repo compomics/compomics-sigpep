@@ -1,7 +1,5 @@
 package com.compomics.sigpep.model;
 
-import java.util.Set;
-
 /**
  * A splice event is defined by an upstream and downstream exon.
  * <p/>
@@ -39,6 +37,4 @@ public interface SpliceEvent {
      * @param exon the exon
      */
     void setDownstreamExon(Exon exon);
-
-    
 }

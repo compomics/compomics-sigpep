@@ -9,6 +9,8 @@ import com.compomics.sigpep.util.SigPepUtil;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 25-Mar-2008<br/>
@@ -29,7 +31,6 @@ public class PeptideGeneratorImplTest {
 
     @BeforeClass
     public static void unitSetup() {
-
 
         application = applicationLocator.getApplication();
         sessionFactory = application.getSigPepSessionFactory();
@@ -159,10 +160,10 @@ public class PeptideGeneratorImplTest {
 
             }
 
-
-            assertTrue("Modified peptide count (" + modifiedPeptideCount + ") is not equal expected modified peptide count (" + expectedModifiedPeptideCount + ") for modification " + ptm + ".", modifiedPeptideCount == expectedModifiedPeptideCount);
-            System.out.println("Modified peptide count (" + modifiedPeptideCount + "); expected modified peptide count (" + expectedModifiedPeptideCount + ") for modification " + ptm + ".");
-
+            assertTrue("Modified peptide count (" + modifiedPeptideCount + ") is not equal expected modified peptide count ("
+                    + expectedModifiedPeptideCount + ") for modification " + ptm + ".", modifiedPeptideCount == expectedModifiedPeptideCount);
+            System.out.println("Modified peptide count (" + modifiedPeptideCount + "); expected modified peptide count ("
+                    + expectedModifiedPeptideCount + ") for modification " + ptm + ".");
         }
 
         //check the number of modified peptides for non-static PTMs
@@ -253,8 +254,10 @@ public class PeptideGeneratorImplTest {
                 expectedModifiedPeptideCountTotal = expectedModifiedPeptideCountTotal + count;
             }
 
-            assertTrue("Modified peptide count (" + modifiedPeptideCount + ") is not equal expected modified peptide count (" + expectedModifiedPeptideCountTotal + ") for modification " + ptm + ".", modifiedPeptideCount == expectedModifiedPeptideCountTotal);
-            System.out.println("Modified peptide count (" + modifiedPeptideCount + "); expected modified peptide count (" + expectedModifiedPeptideCountTotal + ") for modification " + ptm + ".");
+            assertTrue("Modified peptide count (" + modifiedPeptideCount + ") is not equal expected modified peptide count ("
+                    + expectedModifiedPeptideCountTotal + ") for modification " + ptm + ".", modifiedPeptideCount == expectedModifiedPeptideCountTotal);
+            System.out.println("Modified peptide count (" + modifiedPeptideCount + "); expected modified peptide count ("
+                    + expectedModifiedPeptideCountTotal + ") for modification " + ptm + ".");
 
         }
 
@@ -345,7 +348,6 @@ public class PeptideGeneratorImplTest {
                 }
 
                 peptideSequence2ExpectedNonStaticModifiedPeptideCount.put(sequenceString, expectedModifiedPeptideCount);
-
             }
 
             //calculate expected statically modified peptide count
@@ -376,8 +378,6 @@ public class PeptideGeneratorImplTest {
                     expectedStaticallyAndNonStaticallyModifiedPeptides.add(peptide.getSequenceString());
                 }
             }
-
-
         }
 
         int expectedStaticModificationOnlyCount = expectedStaticallyModifiedPeptides.size();
@@ -408,9 +408,9 @@ public class PeptideGeneratorImplTest {
               System.out.println("staticAndNonStaticModifiedPeptideCount = " + staticAndNonStaticModifiedPeptideCount);
         System.out.println("peptidesThatShouldBeNonStaticallyModified = " + peptidesThatShouldBeNonStaticallyModified);
 
-        assertTrue("Modified peptide count (" + modifiedPeptideCount + ") is not equal expected modified peptide count (" + expectedModifiedPeptideCountTotal + ") for modification combination " + aStaticPtm + " AND " + aNonStaticPtm + ".", modifiedPeptideCount == expectedModifiedPeptideCountTotal);
+        assertTrue("Modified peptide count (" + modifiedPeptideCount + ") is not equal expected modified peptide count ("
+                + expectedModifiedPeptideCountTotal + ") for modification combination " + aStaticPtm + " AND " + aNonStaticPtm + ".", modifiedPeptideCount == expectedModifiedPeptideCountTotal);
 
     }
-
 }
 

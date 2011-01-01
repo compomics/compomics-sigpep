@@ -1,13 +1,15 @@
 package com.compomics.sigpep.playground;
 
 /**
+ * @TODO: JavaDoc missing.
+ * @TODO: all code in this class is commented out...
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 17-Apr-2008<br/>
  * Time: 14:49:25<br/>
  */
 public class Publication {
-
 
 //    /**
 //     * Extracts the genome and proteome coverage by transition size from a SignatureTransitionFinderImpl result file.

@@ -13,6 +13,8 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 07-Aug-2008<br/>
@@ -22,12 +24,18 @@ public class WatersCollaboration {
 
     private static Logger logger = Logger.getLogger(WatersCollaboration.class);
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 
 //        String targetInputFile = "/home/mmueller/data/sigpep/collab_waters/heart_and_lysosomal_ensembl_gene_ids.txt";
 //        String observedChargeStatesInputFile = "/home/mmueller/data/sigpep/collab_waters/michael_charge_details.tab";
 //        String outputDir = "/home/mmueller/data/sigpep/collab_waters/transitions";
 
+        /////////////
         //input files
         /////////////
 
@@ -40,6 +48,7 @@ public class WatersCollaboration {
         //directory to write the results to
         String outputDir = args[2];
 
+        ////////////////////
         //search paratmeters
         ////////////////////
 
@@ -76,8 +85,9 @@ public class WatersCollaboration {
         //the target species
         int taxonId = 9606;
 
+        ////////////////////////
         //setupDatabase search
-        ////////////
+        ////////////////////////
 
         //read gene ids from file
         logger.info("reading gene ids from file " + targetInputFile);
@@ -145,6 +155,7 @@ public class WatersCollaboration {
 
             logger.info(signaturePeptides.size() + " signature peptides found");
             int i = 1;
+
             for (Peptide peptide : signaturePeptides) {
 
                 logger.info("searching signature transitions for " + peptide.getSequenceString() + " (" + i + "/" + signaturePeptides.size() + ")");
@@ -156,13 +167,18 @@ public class WatersCollaboration {
                 writeResult(outputDir, geneAccession, st);
                 i++;
             }
+
             logger.info("");
 
         }
-
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param filename
+     * @return
+     */
     public static List<Map<Double, Integer>> readPeptideChargeStates(String filename) {
 
         List<Map<Double, Integer>> retVal = new ArrayList<Map<Double, Integer>>();
@@ -190,6 +206,12 @@ public class WatersCollaboration {
         return retVal;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param filename
+     * @return
+     */
     private static Set<String> readIdentifiers(String filename) {
 
         Set<String> retVal = new TreeSet<String>();
@@ -212,9 +234,17 @@ public class WatersCollaboration {
         return retVal;
     }
 
-    private static void writeResult(String directory,
-                                    String geneAccession,
-                                    Collection<SignatureTransition> transitions) {
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param directory
+     * @param geneAccession
+     * @param transitions
+     */
+    private static void writeResult(
+            String directory,
+            String geneAccession,
+            Collection<SignatureTransition> transitions) {
 
         //create output directory if it doesn't exist
         String outputDirName = directory + "/" + geneAccession;
@@ -223,16 +253,21 @@ public class WatersCollaboration {
             outputDir.mkdir();
         }
 
-
         appendToTable(outputDirName, geneAccession, transitions);
-
         createTransitionPlotMatrix(outputDirName, geneAccession, transitions);
-
     }
 
-    private static void createTransitionPlotMatrix(String directory,
-                                                   String geneAccession,
-                                                   Collection<SignatureTransition> transitions) {
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param directory
+     * @param geneAccession
+     * @param transitions
+     */
+    private static void createTransitionPlotMatrix(
+            String directory,
+            String geneAccession,
+            Collection<SignatureTransition> transitions) {
 
         if (transitions.size() > 0) {
 
@@ -255,17 +290,20 @@ public class WatersCollaboration {
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-
-
         }
-
-
     }
 
-    private static void appendToTable(String directory,
-                                      String geneAccession,
-                                      Collection<SignatureTransition> transitions) {
-
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param directory
+     * @param geneAccession
+     * @param transitions
+     */
+    private static void appendToTable(
+            String directory,
+            String geneAccession,
+            Collection<SignatureTransition> transitions) {
 
         try {
 
@@ -283,12 +321,13 @@ public class WatersCollaboration {
                 for (Integer charge : allowedChargeStates.keySet()) {
 
                     double probability = allowedChargeStates.get(charge);
+
                     if (probability > previousProbability) {
                         mostProbableCharge = charge;
                         chargeStateProbability = probability;
                     }
-                    previousProbability = probability;
 
+                    previousProbability = probability;
                 }
 
                 //gene accession
@@ -316,7 +355,7 @@ public class WatersCollaboration {
                 line.append("\t");
 
                 //z probability
-                line.append(SigPepUtil.round(chargeStateProbability,4));
+                line.append(SigPepUtil.round(chargeStateProbability, 4));
                 line.append("\t");
 
                 //precursor m/z
@@ -349,7 +388,6 @@ public class WatersCollaboration {
                 line.append(SigPepUtil.round(t.getExclusionScore(), 2));
 
                 pw.println(line);
-
             }
 
             pw.close();
@@ -357,8 +395,5 @@ public class WatersCollaboration {
         } catch (IOException e) {
             logger.error(e);
         }
-
-
     }
-
 }

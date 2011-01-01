@@ -1,6 +1,5 @@
 package com.compomics.sigpep.analysis.query;
 
-
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -33,6 +32,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 22-Jan-2008<br/>
@@ -42,6 +43,9 @@ public class SpliceIsoformCoverage {
 
     private static Logger logger = Logger.getLogger(SpliceIsoformCoverage.class);
 
+    /**
+     * @TODO: JavaDoc missing.
+     */
     private static final String SQL_SELECT_SPLICE_ISOFORM_COVERAGE =
             "SELECT gene.gene_accession, " +
                     "       splice_isoform.splice_isoform_count, " +
@@ -64,28 +68,43 @@ public class SpliceIsoformCoverage {
                     "  AND peptide.peptide_id=query_peptide_temp.peptide_id " +
                     "GROUP BY (gene.gene_accession)";
 
+    /**
+     * @TODO: JavaDoc missing.
+     */
     private static final String SQL_CREATE_TABLE_PEPTIDE_TEMP =
             "CREATE TEMPORARY TABLE query_peptide_temp (" +
                     "peptide_id  INT UNSIGNED " +
                     ")ENGINE=InnoDB";
 
+    /**
+     * @TODO: JavaDoc missing.
+     */
     private static final String SQL_INSERT_INTO_TABLE_QUERY_PEPTIDE_TEMP =
             "INSERT INTO query_peptide_temp (peptide_id) VALUES (?)";
 
     private SigPepDatabase sigPepDatabase;
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param sigPepDatabase
+     */
     public SpliceIsoformCoverage(SigPepDatabase sigPepDatabase) {
         this.sigPepDatabase = sigPepDatabase;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param peptideIds
+     * @param printWriter
+     */
     public void reportSpliceIsoformCoverage(Set<Integer> peptideIds, PrintWriter printWriter) {
-
 
         try {
 
             Database inMemoryDatabase = SimpleDatabaseFactory.createHSqlTransientInProcessDatabase("sigpep_temp");
             Connection connectionInMemoryDb = inMemoryDatabase.getConnection();
-
 
             logger.info("creating report 'splice isoform coverage'...");
 
@@ -115,7 +134,6 @@ public class SpliceIsoformCoverage {
                     logger.info("executing batch...");
                     ps.executeBatch();
                 }
-
             }
 
             logger.info("executing batch...");
@@ -136,9 +154,11 @@ public class SpliceIsoformCoverage {
         } catch (DatabaseException e) {
             logger.error("Exception while reporting splice isoform coverage.", e);
         }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     */
     public void reportSpliceEventCoverage(){
 
         String query =
@@ -168,6 +188,12 @@ public class SpliceIsoformCoverage {
 
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param peptideIds
+     * @param printWriter
+     */
     public void reportSpliceEventCoverage(Set<Integer> peptideIds, PrintWriter printWriter) {
 
         logger.info("starting splice event analysis...");
@@ -256,7 +282,6 @@ public class SpliceIsoformCoverage {
 
                                                 event = "splice_site";
                                                 eventLocation = exonCount + "_" + (exonCount + 1) + "[" + boundary + "]";
-
                                             }
 
                                             //...if it does not cross exon boundary it provides only
@@ -265,9 +290,7 @@ public class SpliceIsoformCoverage {
 
                                             event = "exon_usage";
                                             eventLocation = "" + exonCount;
-
                                         }
-
                                     }
 
                                     Object[] rowValues = new Object[tableColumnCount];
@@ -280,21 +303,15 @@ public class SpliceIsoformCoverage {
                                     rowValues[6] = event;
                                     rowValues[7] = eventLocation;
                                     table.writeRow(rowValues);
-
-
                                 }
-
-
                             }
 
                             sigPepSession.evict(peptide);
-
                         }
 
                         enshSession.evict(translation);
                         sigPepSession.evict(sequence);
                         sigPepSession.evict(protein);
-
                     }
 
                     sigPepSession.evict(gene);
@@ -302,13 +319,10 @@ public class SpliceIsoformCoverage {
                     if (geneCount % 100 == 0) {
                         logger.info(geneCount + " genes processed...");
                     }
-
                 }
-
             }
 
             logger.info(geneCount + " genes processed...");
-
         } catch (SQLException e) {
             logger.error(e);
         } catch (EnshException e) {
@@ -318,11 +332,16 @@ public class SpliceIsoformCoverage {
         logger.info("done...");
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param inputFile
+     * @param pw
+     */
     public void createSpliceAnalysisSummary(URL inputFile, PrintWriter pw) {
 
         try {
         
-
             SessionFactory enshSessionFactory = Ensh.getSessionFactory(9606, 45);
             Session enshSession = enshSessionFactory.openSession();
             Query enshQuery = enshSession.createQuery("from Translation");
@@ -336,19 +355,16 @@ public class SpliceIsoformCoverage {
                 String stableId = translation.getStableId().getStableId();
                 String status = translation.getTranscript().getStatus();
                 ensemblTranslationStatus.put(stableId, status);
-
             }
 
             logger.info("fetching Ensembl gene status...");
             enshQuery = enshSession.createQuery("from Gene");
             HashMap<String, String> ensemblGeneStatus = new HashMap<String, String>();
             for (Iterator<com.compomics.ensh.core.model.Gene> genes = enshQuery.iterate(); genes.hasNext();) {
-
                 com.compomics.ensh.core.model.Gene gene = genes.next();
                 String stableId = gene.getStableId().getStableId();
                 String status = gene.getStatus();
                 ensemblGeneStatus.put(stableId, status);
-
             }
 
             enshSession.close();
@@ -430,15 +446,11 @@ public class SpliceIsoformCoverage {
                     logger.info("no status for " + ensemblProteinId);
 
                 } else if (proteinStatus.equalsIgnoreCase("known")) {
-
                     allSigPepKnown.add(sigPepId);
                     allProteinKnown.add(ensemblProteinId);
-
                 } else {
-
                     allSigPepNovel.add(sigPepId);
                     allProteinNovel.add(ensemblProteinId);
-
                 }
 
                 if (Boolean.parseBoolean(geneAltSplice)) {
@@ -446,19 +458,12 @@ public class SpliceIsoformCoverage {
                 }
 
                 if (geneStatus == null) {
-
                     logger.info("no status for " + ensemblGeneId);
-
                 } else if (geneStatus.equalsIgnoreCase("known")) {
-
                     allGeneKnown.add(ensemblGeneId);
-
                 } else {
-
                     allGeneNovel.add(ensemblGeneId);
-
                 }
-
 
                 if (event.startsWith("exon_usage")) {
 
@@ -466,21 +471,14 @@ public class SpliceIsoformCoverage {
                     exonUsageProtein.add(ensemblProteinId);
 
                     if (proteinStatus == null) {
-
                         logger.info("no status for " + ensemblProteinId);
-
                     } else if (proteinStatus.equalsIgnoreCase("known")) {
-
                         exonUsageSigPepKnown.add(sigPepId);
                         exonUsageProteinKnown.add(ensemblProteinId);
-
                     } else {
-
                         exonUsageSigPepNovel.add(sigPepId);
                         exonUsageProteinNovel.add(ensemblProteinId);
-
                     }
-
 
                     exonUsageGene.add(ensemblGeneId);
                     if (Boolean.parseBoolean(geneAltSplice)) {
@@ -488,38 +486,25 @@ public class SpliceIsoformCoverage {
                     }
 
                     if (geneStatus == null) {
-
                         logger.info("no status for " + ensemblGeneId);
-
                     } else if (geneStatus.equalsIgnoreCase("known")) {
-
                         exonUsageGeneKnown.add(ensemblGeneId);
-
                     } else {
-
                         exonUsageGeneNovel.add(ensemblGeneId);
-
                     }
-
                 } else if (event.startsWith("splice_site")) {
 
                     spliceSiteUsageSigPep.add(sigPepId);
                     spliceSiteUsageProtein.add(ensemblProteinId);
 
                     if (proteinStatus == null) {
-
                         logger.info("no status for " + ensemblProteinId);
-
                     } else if (proteinStatus.equalsIgnoreCase("known")) {
-
                         spliceSiteUsageSigPepKnown.add(sigPepId);
                         spliceSiteUsageProteinKnown.add(ensemblProteinId);
-
                     } else {
-
                         spliceSiteUsageSigPepNovel.add(sigPepId);
                         spliceSiteUsageProteinNovel.add(ensemblProteinId);
-
                     }
 
 
@@ -529,41 +514,27 @@ public class SpliceIsoformCoverage {
                     }
 
                     if (geneStatus == null) {
-
                         logger.info("no status for " + ensemblGeneId);
-
                     } else if (geneStatus.equalsIgnoreCase("known")) {
-
                         spliceSiteUsageGeneKnown.add(ensemblGeneId);
 
                     } else {
-
                         spliceSiteUsageGeneNovel.add(ensemblGeneId);
-
                     }
-
-
                 } else if (event.startsWith("alt_splice_site")) {
 
                     altSpliceSiteUsageSigPep.add(sigPepId);
                     altSpliceSiteUsageProtein.add(ensemblProteinId);
 
                     if (proteinStatus == null) {
-
                         logger.info("no status for " + ensemblProteinId);
-
                     } else if (proteinStatus.equalsIgnoreCase("known")) {
-
                         altSpliceSiteUsageSigPepKnown.add(sigPepId);
                         altSpliceSiteUsageProteinKnown.add(ensemblProteinId);
-
                     } else {
-
                         altSpliceSiteUsageSigPepNovel.add(sigPepId);
                         altSpliceSiteUsageProteinNovel.add(ensemblProteinId);
-
                     }
-
 
                     altSpliceSiteUsageGene.add(ensemblGeneId);
                     if (Boolean.parseBoolean(geneAltSplice)) {
@@ -571,21 +542,13 @@ public class SpliceIsoformCoverage {
                     }
 
                     if (geneStatus == null) {
-
                         logger.info("no status for " + ensemblGeneId);
-
                     } else if (geneStatus.equalsIgnoreCase("known")) {
-
                         altSpliceSiteUsageGeneKnown.add(ensemblGeneId);
-
                     } else {
-
                         altSpliceSiteUsageGeneNovel.add(ensemblGeneId);
-
                     }
-
                 }
-
             }
 
             is.close();
@@ -662,17 +625,20 @@ public class SpliceIsoformCoverage {
 
 
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (EnshException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 //        catch (DatabaseException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            e.printStackTrace(); 
 //        }
-
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
 //        try {
@@ -701,14 +667,13 @@ public class SpliceIsoformCoverage {
 //            logger.error(e);
 //        }
 
-
         try {
 
             SigPepDatabase sigPepDb = new SigPepDatabase(args[0], args[1].toCharArray(), new Integer(args[2]));
             SpliceIsoformCoverage sic = new SpliceIsoformCoverage(sigPepDb);
 
             sic.createSpliceAnalysisSummary(
-                    new File("/home/mmueller/data/sigpep/barcodes_9606_zmin2_zmax2_acc1_tryp_mox_true_splice_analysis.tab").toURI().toURL(),
+                    new File("/home/mmueller/data/sigpep/barcodes_9606_zmin2_zmax2_acc1_tryp_mox_true_splice_analysis.tab").toURI().toURL(), // @TODO: remove hardcoded values!
                     new PrintWriter(System.out));
 
         } catch (DatabaseException e) {
@@ -716,6 +681,5 @@ public class SpliceIsoformCoverage {
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
     }
 }

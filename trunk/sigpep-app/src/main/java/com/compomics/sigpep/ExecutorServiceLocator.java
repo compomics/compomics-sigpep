@@ -43,11 +43,9 @@ public abstract class ExecutorServiceLocator {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
         }
 
         return ourInstance;
-
     }
 
     /**

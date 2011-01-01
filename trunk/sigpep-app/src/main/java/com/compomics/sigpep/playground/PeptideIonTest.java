@@ -3,6 +3,8 @@ package com.compomics.sigpep.playground;
 import com.compomics.sigpep.model.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 11-Jan-2008<br/>
@@ -10,6 +12,11 @@ import com.compomics.sigpep.model.*;
  */
 public class PeptideIonTest {
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         Peptide p = PeptideFactory.createPeptide("MYWFR");
@@ -25,7 +32,6 @@ public class PeptideIonTest {
         for(ProductIon prod : pi.getProductIons(ProductIonType.B)){
             System.out.println(prod.getMassOverCharge(1));
         }
-
 
 //        PrecursorIonImpl precursor = new PrecursorIonImpl("AMQWEMWE");
 //
@@ -47,9 +53,6 @@ public class PeptideIonTest {
 //            }
 //
 //            System.out.println("");
-//
-//
 //        }
     }
-
 }

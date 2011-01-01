@@ -60,7 +60,6 @@ public interface ProteinSequence {
      */
     Set<SpliceEventFeature> getSpliceEvents();
 
-
     /**
      * Sets the locations of the transcript splice sites in the protein sequence.
      *
@@ -72,8 +71,17 @@ public interface ProteinSequence {
      */
     void setSpliceEvents(Set<SpliceEventFeature> spliceEvents);
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public Set<PeptideFeature> getSignaturePeptides();
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param signaturePeptides
+     */
     public void setSignaturePeptides(Set<PeptideFeature> signaturePeptides);
-
 }

@@ -5,6 +5,8 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 
 /**
+ * @TODO: JavaDoc missing
+ * 
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 09-Oct-2007<br>

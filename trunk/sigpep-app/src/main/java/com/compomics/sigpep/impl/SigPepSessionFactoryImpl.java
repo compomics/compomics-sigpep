@@ -34,11 +34,9 @@ public class SigPepSessionFactoryImpl implements SigPepSessionFactory {
      * defined in the sigpep-persistence.properties file
      */
     public SigPepSessionFactoryImpl() {
-
         this(SimpleQueryDaoFactory.getInstance(),
                 ObjectDaoFactory.getInstance(),
                 CatalogDaoFactory.getInstance());
-
     }
 
     /**
@@ -74,7 +72,6 @@ public class SigPepSessionFactoryImpl implements SigPepSessionFactory {
 
         //return session
         return new SigPepSessionImpl(simpleQueryDao, objectDao, sessionCache);
-
     }
 
     /**
@@ -177,5 +174,4 @@ public class SigPepSessionFactoryImpl implements SigPepSessionFactory {
     public void setCatalogDaoFactory(CatalogDaoFactory catalogDaoFactory) {
         this.catalogDaoFactory = catalogDaoFactory;
     }
-
 }

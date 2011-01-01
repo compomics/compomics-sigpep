@@ -43,11 +43,9 @@ public abstract class ApplicationLocator {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
         }
 
         return ourInstance;
-
     }
 
     /**
@@ -56,5 +54,4 @@ public abstract class ApplicationLocator {
      * @return a SigPepApplication bean
      */
     public abstract SigPepApplication getApplication();
-
 }

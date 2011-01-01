@@ -1,10 +1,10 @@
 package com.compomics.sigpep.model;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 07-Mar-2008<br/>

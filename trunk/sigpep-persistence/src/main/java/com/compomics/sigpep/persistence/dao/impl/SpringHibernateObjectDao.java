@@ -1,6 +1,5 @@
 package com.compomics.sigpep.persistence.dao.impl;
 
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -42,7 +41,6 @@ import java.util.Set;
  */
 public class SpringHibernateObjectDao extends HibernateDaoSupport implements ObjectDao {
 
-
     /**
      * Constructs an Object DAO (for use with the Spring Bean Factory).
      * The Hibernate session factory must be set via the respective setter.
@@ -64,6 +62,11 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
     //Organism queries
     //////////////////
 
+    /**
+     * Get the organism.
+     *
+     * @return the organism
+     */
     public Organism getOrganism() {
 
         Session session = this.getSessionFactory().openSession();
@@ -77,13 +80,17 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         } else {
             throw new DataRetrievalFailureException("Organism not retrievable.");
         }
-
     }
 
     //////////////////
     //Protease queries
     //////////////////
 
+    /**
+     * Get all proteases.
+     *
+     * @return the protease.
+     */
     public Set<Protease> getAllProteases() {
 
         Set<Protease> retVal = new HashSet<Protease>();
@@ -97,9 +104,14 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         session.getTransaction().commit();
 
         return retVal;
-
     }
 
+    /**
+     * Get the protease by short name.
+     *
+     * @param shortName the protease short name
+     * @return the protease
+     */
     public Protease getProteaseByShortName(String shortName) {
 
         Session session = this.getSessionFactory().openSession();
@@ -114,9 +126,14 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         } else {
             throw new DataRetrievalFailureException("No protease with short name " + shortName + ".");
         }
-
     }
 
+    /**
+     * Get the protease set by short name.
+     *
+     * @param shortName the protease short name
+     * @return the proteases
+     */
     public Set<Protease> getProteaseSetByShortName(Set<String> shortName) {
 
         Set<Protease> retVal = new HashSet<Protease>();
@@ -130,13 +147,17 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         session.getTransaction().commit();
 
         return retVal;
-
     }
 
     //////////////
     //Gene queries
     //////////////
 
+    /**
+     * Get all genes.
+     *
+     * @return the genes.
+     */
     public Set<Gene> getAllGenes() {
         Set<Gene> retVal = new HashSet<Gene>();
 
@@ -153,6 +174,12 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         return retVal;
     }
 
+    /**
+     * Get genes by acession number.
+     *
+     * @param accession the gene accession number
+     * @return the gene
+     */
     public Gene getGeneByAccession(String accession) {
 
         Session session = this.getSessionFactory().openSession();
@@ -167,10 +194,14 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         } else {
             throw new DataRetrievalFailureException("No gene with accession " + accession + ".");
         }
-
     }
 
-
+    /**
+     * Get the gene set by accession number.
+     *
+     * @param geneAccession the list of gene accession numbers
+     * @return the set of genes
+     */
     public Set<Gene> getGeneSetByAccession(Set<String> geneAccession) {
 
         Set<Gene> retVal = new HashSet<Gene>();
@@ -196,18 +227,21 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
                     retVal.add((Gene) setResultSessionFactory(o));
                 }
             }
-
         }
         session.getTransaction().commit();
 
         return retVal;
-
     }
 
     /////////////////
     //Protein queries
     /////////////////
 
+    /**
+     * Get all proteins.
+     *
+     * @return the set of proteins
+     */
     public Set<Protein> getAllProteins() {
 
         Set<Protein> retVal = new HashSet<Protein>();
@@ -225,6 +259,12 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         return retVal;
     }
 
+    /**
+     * Get protein by accession number.
+     *
+     * @param accession the protein accession number
+     * @return the protein
+     */
     public Protein getProteinByAccession(String accession) {
 
         Session session = this.getSessionFactory().openSession();
@@ -238,7 +278,6 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         } else {
             throw new DataRetrievalFailureException("No protein with accession " + accession + ".");
         }
-
     }
 
     /**
@@ -270,19 +309,22 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
                     retVal.add((Protein) setResultSessionFactory(o));
                 }
             }
-
         }
 
         session.getTransaction().commit();
 
         return retVal;
-
     }
 
     //////////////////
     //Sequence queries
     //////////////////
 
+    /**
+     * Get all protein sequences.
+     *
+     * @return the set of protein sequences
+     */
     public Set<ProteinSequence> getAllProteinSequences() {
 
         Set<ProteinSequence> retVal = new HashSet<ProteinSequence>();
@@ -298,13 +340,18 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         session.getTransaction().commit();
 
         return retVal;
-
     }
 
     /////////////////
     //Peptide queries
     /////////////////
 
+    /**
+     * Get peptide by id.
+     *
+     * @param peptideId the peptide id
+     * @return the peptide
+     */
     public Peptide getPeptideById(String peptideId) {
 
         Session session = this.getSessionFactory().openSession();
@@ -318,16 +365,26 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         } else {
             throw new DataRetrievalFailureException("No peptide with id " + peptideId + ".");
         }
-
     }
 
+    /**
+     * Get peptide feature by sequence.
+     *
+     * Note: not implemented, always returns null!
+     *
+     * @param peptideSequence the peptide sequence
+     * @return the peptide feqture
+     */
     public PeptideFeature getPeptideFeatureBySequence(String peptideSequence) {
-
-        return null;
-
+        return null; // @TODO: implement!!
     }
 
-
+    /**
+     * Get peptide feature by id.
+     *
+     * @param ids the feature ids
+     * @return the set of peptide featues.
+     */
     public Set<PeptideFeature> getPeptideFeatureById(Set<Integer> ids) {
 
         Set<PeptideFeature> retVal = new HashSet<PeptideFeature>();
@@ -336,7 +393,6 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         session.beginTransaction();
         Query query = session.getNamedQuery("peptideFeatureById").setParameter("peptideFeatureId", ids);
 
-
         for (Object o : query.list()) {
             retVal.add((PeptideFeature) setResultSessionFactory(o));
         }
@@ -344,16 +400,18 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
         session.getTransaction().commit();
 
         return retVal;
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param object
+     * @return
+     */
     public Object setResultSessionFactory(Object object) {
 
         Persistable p = (Persistable) object;
         p.setSessionFactory(this.getSessionFactory());
         return p;
-
     }
-
 }

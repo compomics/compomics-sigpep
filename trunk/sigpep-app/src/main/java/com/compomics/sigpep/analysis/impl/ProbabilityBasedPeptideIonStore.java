@@ -13,6 +13,8 @@ import java.util.*;
 import org.apache.log4j.Logger;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Aug-2008<br/>
@@ -21,31 +23,45 @@ import org.apache.log4j.Logger;
 public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements PeptideIonStore<P> {
 
     protected static Logger logger = Logger.getLogger(ProbabilityBasedPeptideIonStore.class);
-
     private SortedMap<Double, Set<P>> store;
-
     private int massPrecission = Configuration.getInstance().getInt("sigpep.app.monoisotopic.mass.precision");
     private List<Map<Double, Integer>> observedMassChargeStateCombinations;
     private double massAccuracy;
     private ChargeProbabilityCalculator chargeProbabilityCalculator;
     private double probabilityThreshold = 0.1;
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param observedMassChargeStateCombinations
+     * @param massAccuracy
+     * @param massPrecission
+     */
     public ProbabilityBasedPeptideIonStore(List<Map<Double, Integer>> observedMassChargeStateCombinations,
-                                           double massAccuracy,
-                                           int massPrecission) {
+            double massAccuracy,
+            int massPrecission) {
         this(observedMassChargeStateCombinations, massAccuracy);
         this.massPrecission = massPrecission;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param observedMassChargeStateCombinations
+     * @param massAccuracy
+     */
     public ProbabilityBasedPeptideIonStore(List<Map<Double, Integer>> observedMassChargeStateCombinations,
-                                           double massAccuracy) {
+            double massAccuracy) {
         this.chargeProbabilityCalculator = new KernelBasedChargeProbabilityCalculator(observedMassChargeStateCombinations);
         this.observedMassChargeStateCombinations = observedMassChargeStateCombinations;
         this.massAccuracy = massAccuracy;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param peptideIons
+     */
     public void populate(Collection<P> peptideIons) {
 
         //logger.info("ProbabilityBasedPeptideIonStore.populate");
@@ -63,9 +79,11 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
         }
 
         assignChargeStates();
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     */
     private void assignChargeStates() {
 
         //logger.info("ProbabilityBasedPeptideIonStore.assignChargeStates");
@@ -76,7 +94,6 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
             uniqueMasses[i] = mass;
             i++;
         }
-
 
         Map<Double, Map<Integer, Double>> chargeProbabilities = chargeProbabilityCalculator.getChargeProbablitiesGivenMass(uniqueMasses);
 
@@ -92,22 +109,29 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
                         peptideIon.addAllowedChargeState(z, p);
                     }
                 }
-
             }
-
         }
 
         //logger.info("done");
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param mass
+     * @return
+     */
     public Set<P> getPeptideIonsWithMass(double mass) {
-
         return store.get(mass);
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param lowerMassLimit
+     * @param upperMassLimit
+     * @return
+     */
     public Set<P> getPeptideIonsInMassRange(double lowerMassLimit, double upperMassLimit) {
 
         Set<P> retVal = new HashSet<P>();
@@ -115,26 +139,32 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
             retVal.addAll(peptideIons);
         }
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param peptideIon
+     * @return
+     */
     public Map<Integer, Set<P>> getPeptideIonsWithOverlappingMassOverCharge(P peptideIon) {
 
         double mass = peptideIon.getNeutralMassPeptide();
         mass = SigPepUtil.round(mass, massPrecission);
         return getPeptideIonsWithOverlappingMassOverCharge(mass);
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param neutralMassPeptide
+     * @return
+     */
     public Map<Integer, Set<P>> getPeptideIonsWithOverlappingMassOverCharge(double neutralMassPeptide) {
 
-        
         double mass = SigPepUtil.round(neutralMassPeptide, massPrecission);
-
         Map<Integer, Set<P>> retVal = new TreeMap<Integer, Set<P>>();
-
         Map<Double, Map<Integer, Double>> chargeProbabilityByMass = chargeProbabilityCalculator.getChargeProbablitiesGivenMass(mass);
-
         Map<Integer, Double> chargeProbability = chargeProbabilityByMass.get(mass);
 
         //get most probable charge state
@@ -147,9 +177,7 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
                 mostProbableCharge = charge;
             }
             previousProbability = probability;
-
         }
-
 
         if (mostProbableCharge != -1) {
 
@@ -158,14 +186,11 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
             Set<Integer> targetChargeState = new HashSet<Integer>();
             targetChargeState.add(mostProbableCharge);
 
-
             MassOverChargeRange targetPeptideMassOverChargeRange = new MassOverChargeRangeImpl(mass, targetChargeState, massAccuracy);
 
             for (Integer charge : chargeProbabilityCalculator.getAllowedChargeStates()) {
 
-
                 List<MassOverChargeRange[]> backgroundPeptideMassOverChargeRanges = targetPeptideMassOverChargeRange.getFlankingPeptideMassOverChargeRanges(charge);
-
 
                 for (MassOverChargeRange[] backgroundPeptideMassOverChargeRange : backgroundPeptideMassOverChargeRanges) {
 
@@ -179,50 +204,76 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
                         if (pCharge[0] >= probabilityThreshold) {
                             peptideIons.add(peptideIon);
                         }
-
                     }
-
                 }
-
             }
 
             retVal.put(mostProbableCharge, peptideIons);
-
-
         }
 
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public Set<Double> getUniqueNeutralPeptideIonMasses() {
         return store.keySet();
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public List<Map<Double, Integer>> getObservedMassChargeStateCombinations() {
         return observedMassChargeStateCombinations;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param observedMassChargeStateCombinations
+     */
     public void setObservedMassChargeStateCombinations(List<Map<Double, Integer>> observedMassChargeStateCombinations) {
         this.observedMassChargeStateCombinations = observedMassChargeStateCombinations;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public double getMassAccuracy() {
         return massAccuracy;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param massAccuracy
+     */
     public void setMassAccuracy(double massAccuracy) {
         this.massAccuracy = massAccuracy;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public int getMassPrecission() {
         return massPrecission;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param massPrecission
+     */
     public void setMassPrecission(int massPrecission) {
         this.massPrecission = massPrecission;
     }
-
-
-
 }

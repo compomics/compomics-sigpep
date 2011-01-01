@@ -3,6 +3,8 @@ package com.compomics.sigpep.persistence.rdbms.helper;
 import java.net.URL;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-May-2009<br/>
@@ -20,7 +22,6 @@ public interface ProteolyticDigest {
      */
     boolean digestSequenceDatabase(URL sequenceDatabaseInput, URL digestDestination);
 
-
     String getEnzyme();
 
     void setEnzyme(String enzyme);
@@ -36,5 +37,4 @@ public interface ProteolyticDigest {
     double getHighMass();
 
     void setHighMass(double highMass);
-
 }

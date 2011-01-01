@@ -1,7 +1,6 @@
 package com.compomics.sigpep;
 
 import com.compomics.sigpep.model.ProductIonType;
-
 import java.util.Set;
 
 /**
@@ -84,5 +83,4 @@ public interface SigPepApplication {
      * @return the maximum number of product ions defining a signature transition 
      */
     public int getDefaultMaximumSignatureTransitionSize();
-
 }

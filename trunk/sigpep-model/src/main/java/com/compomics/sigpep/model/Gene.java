@@ -33,7 +33,6 @@ public interface Gene {
      */
     DbXref getPrimaryDbXref();
 
-
     /**
      * The the primary database cross-reference of the gene.
      *

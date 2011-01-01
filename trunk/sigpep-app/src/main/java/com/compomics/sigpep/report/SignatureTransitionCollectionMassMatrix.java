@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Aug-2008<br/>
@@ -27,10 +29,20 @@ public class SignatureTransitionCollectionMassMatrix {
 
     private Collection<SignatureTransition> signatureTransitions;
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param signatureTransitions
+     */
     public SignatureTransitionCollectionMassMatrix(Collection<SignatureTransition> signatureTransitions) {
         this.signatureTransitions = signatureTransitions;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param outputStream
+     */
     public void write(OutputStream outputStream) {
 
         if (signatureTransitions.size() > 0) {
@@ -91,8 +103,8 @@ public class SignatureTransitionCollectionMassMatrix {
                         targetMz.add("" + SigPepUtil.round(pi.getMassOverCharge(z), massPrecission));
                     }
                 }
+                
                 dtw.writeRow(targetMz.toArray());
-
             }
 
             //write background product ion m/z
@@ -111,11 +123,10 @@ public class SignatureTransitionCollectionMassMatrix {
                             backgroundMz.add("" + SigPepUtil.round(pi.getMassOverCharge(z), massPrecission));
                         }
                     }
-                    dtw.writeRow(backgroundMz.toArray());
 
+                    dtw.writeRow(backgroundMz.toArray());
                 }
             }
-
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.compomics.sigpep.persistence.rdbms;
 
 import com.compomics.sigpep.persistence.config.Configuration;
-
 import javax.sql.DataSource;
 
 /**
@@ -42,11 +41,9 @@ public abstract class DataSourceFactory {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
         }
 
         return ourInstance;
-
     }
 
     /**
@@ -63,5 +60,4 @@ public abstract class DataSourceFactory {
      * @return a data source
      */
     public abstract DataSource createCatalogDataSource();
-    
 }

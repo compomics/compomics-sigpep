@@ -48,13 +48,10 @@ public class CacheFactoryImpl extends CacheFactory {
                 config.getString("sigpep.app.cache.persistence.class"),
                 config.getInt("sigpep.app.cache.capacity"));
 
-
         PersistenceListener pl = new HashDiskPersistenceListener();
 
         retVal.setPersistenceListener(pl.configure(osCacheConfig));
 
         return retVal;
-
     }
-
 }

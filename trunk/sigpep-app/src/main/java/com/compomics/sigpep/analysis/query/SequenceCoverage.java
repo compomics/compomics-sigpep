@@ -21,6 +21,8 @@ import java.sql.Statement;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 10-Apr-2008<br/>
@@ -28,12 +30,10 @@ import java.util.*;
  */
 public class SequenceCoverage {
 
-
     /**
      * the log4j logger
      */
     private static Logger logger = Logger.getLogger(SequenceCoverage.class);
-
     private SigPepDatabase sigPepDatabase;
 
     /**
@@ -56,7 +56,7 @@ public class SequenceCoverage {
         logger.info("creating signature peptide coverage report...");
 
         ApplicationContext appContext = new ClassPathXmlApplicationContext("config/applicationContext.xml");
-        SigPepSessionFactory sessionFactory = (SigPepSessionFactory)appContext.getBean("sigPepSessionFactory");
+        SigPepSessionFactory sessionFactory = (SigPepSessionFactory) appContext.getBean("sigPepSessionFactory");
         Organism organism = sessionFactory.getOrganism(9606);
         SigPepSession session = sessionFactory.createSigPepSession(organism);
         SigPepQueryService service = session.createSigPepQueryService();
@@ -81,43 +81,42 @@ public class SequenceCoverage {
             //alternatively spliced genes (sequence level)
 
             try {
-                s.execute("INSERT INTO gene_altsplice(gene_id) " +
-                        "   SELECT g2pro.gene_id " +
-                        "    FROM gene2protein g2pro, " +
-                        "         protein2sequence pro2seq " +
-                        "   WHERE g2pro.protein_id=pro2seq.protein_id " +
-                        "GROUP BY g2pro.gene_id " +
-                        "HAVING count(pro2seq.sequence_id) > 1");
+                s.execute("INSERT INTO gene_altsplice(gene_id) "
+                        + "   SELECT g2pro.gene_id "
+                        + "    FROM gene2protein g2pro, "
+                        + "         protein2sequence pro2seq "
+                        + "   WHERE g2pro.protein_id=pro2seq.protein_id "
+                        + "GROUP BY g2pro.gene_id "
+                        + "HAVING count(pro2seq.sequence_id) > 1");
             } catch (SQLException e) {
                 logger.error(e);
             }
             try {
-                s.execute("INSERT INTO sequence_altsplice(sequence_id) " +
-                        "                     SELECT DISTINCT protein2sequence.sequence_id " +
-                        "                     FROM gene2protein, " +
-                        "                          protein2sequence " +
-                        "                     WHERE gene2protein.protein_id=protein2sequence.protein_id " +
-                        "                       AND gene2protein.gene_id IN ( " +
-                        "                     SELECT gene_id " +
-                        "                     FROM gene_altsplice " +
-                        "                     )");
-            }
-            catch (SQLException e) {
+                s.execute("INSERT INTO sequence_altsplice(sequence_id) "
+                        + "                     SELECT DISTINCT protein2sequence.sequence_id "
+                        + "                     FROM gene2protein, "
+                        + "                          protein2sequence "
+                        + "                     WHERE gene2protein.protein_id=protein2sequence.protein_id "
+                        + "                       AND gene2protein.gene_id IN ( "
+                        + "                     SELECT gene_id "
+                        + "                     FROM gene_altsplice "
+                        + "                     )");
+            } catch (SQLException e) {
                 logger.error(e);
             }
 
             try {
                 //signature peptides
-                s.execute(SqlUtil.setParameterSet("INSERT INTO signature_peptides(peptide_id) " +
-                        "SELECT peptide_degeneracy.peptide_id " +
-                        "              FROM " +
-                        "             (SELECT pf.peptide_id, count(distinct pf.sequence_id) as sequence_count " +
-                        "                FROM peptide_feature pf, protease2peptide_feature pf2prot , protease prot " +
-                        "               WHERE pf.peptide_feature_id=pf2prot.peptide_feature_id " +
-                        "                 AND pf2prot.protease_id=prot.protease_id " +
-                        "                 AND prot.name IN (:proteaseCombination) " +
-                        "            GROUP BY pf.peptide_id) peptide_degeneracy " +
-                        "             WHERE peptide_degeneracy.sequence_count = 1", "proteaseCombination", proteaseNames));
+                s.execute(SqlUtil.setParameterSet("INSERT INTO signature_peptides(peptide_id) "
+                        + "SELECT peptide_degeneracy.peptide_id "
+                        + "              FROM "
+                        + "             (SELECT pf.peptide_id, count(distinct pf.sequence_id) as sequence_count "
+                        + "                FROM peptide_feature pf, protease2peptide_feature pf2prot , protease prot "
+                        + "               WHERE pf.peptide_feature_id=pf2prot.peptide_feature_id "
+                        + "                 AND pf2prot.protease_id=prot.protease_id "
+                        + "                 AND prot.name IN (:proteaseCombination) "
+                        + "            GROUP BY pf.peptide_id) peptide_degeneracy "
+                        + "             WHERE peptide_degeneracy.sequence_count = 1", "proteaseCombination", proteaseNames));
             } catch (SQLException e) {
                 logger.error(e);
             }
@@ -126,29 +125,28 @@ public class SequenceCoverage {
             Set<Integer> sequenceIdAltSplice = new HashSet<Integer>();
 
             ResultSet rsAltSplice = s.executeQuery("SELECT sequence_id FROM sequence_altsplice");
-            while(rsAltSplice.next()){
+            while (rsAltSplice.next()) {
                 sequenceIdAltSplice.add(rsAltSplice.getInt("sequence_id"));
             }
             rsAltSplice.close();
 
             ResultSet rsCoverage = s.executeQuery(SqlUtil.setParameterSet(
-                    "SELECT pf.sequence_id, CHAR_LENGTH(seq.aa_sequence) AS sequence_length, pf.peptide_id , pf.pos_start, pf.pos_end " +
-                            "  FROM peptide_feature pf, " +
-                            "       protein_sequence seq, " +
-                            "       protease2peptide_feature prot2pf, " +
-                            "       protease prot," +
-                            "       signature_peptides sp " +
-                            "WHERE pf.sequence_id=seq.sequence_id " +
-                            "  AND pf.peptide_feature_id=prot2pf.peptide_feature_id " +
-                            "  AND prot2pf.protease_id=prot.protease_id " +
-                            "  AND prot.name IN (:proteaseCombination)" +
-                            "  AND pf.peptide_id=sp.peptide_id", "proteaseCombination", proteaseNames));
+                    "SELECT pf.sequence_id, CHAR_LENGTH(seq.aa_sequence) AS sequence_length, pf.peptide_id , pf.pos_start, pf.pos_end "
+                    + "  FROM peptide_feature pf, "
+                    + "       protein_sequence seq, "
+                    + "       protease2peptide_feature prot2pf, "
+                    + "       protease prot,"
+                    + "       signature_peptides sp "
+                    + "WHERE pf.sequence_id=seq.sequence_id "
+                    + "  AND pf.peptide_feature_id=prot2pf.peptide_feature_id "
+                    + "  AND prot2pf.protease_id=prot.protease_id "
+                    + "  AND prot.name IN (:proteaseCombination)"
+                    + "  AND pf.peptide_id=sp.peptide_id", "proteaseCombination", proteaseNames));
 
-            PrintWriter pw  = new PrintWriter(outputFileName);
+            PrintWriter pw = new PrintWriter(outputFileName);
             DelimitedTableWriter dtw = new DelimitedTableWriter(pw, "\t", false);
 
             Map<Integer, SequenceCoverageObject> result = new TreeMap<Integer, SequenceCoverageObject>();
-
 
             while (rsCoverage.next()) {
 
@@ -159,7 +157,7 @@ public class SequenceCoverage {
                 int end = rsCoverage.getInt("pos_end");
 
                 SequenceCoverageObject sco = null;
-                if(result.containsKey(sequenceId)){
+                if (result.containsKey(sequenceId)) {
                     sco = result.get(sequenceId);
                 } else {
                     sco = new SequenceCoverageObject(sequenceId);
@@ -170,40 +168,34 @@ public class SequenceCoverage {
                 sco.setSequenceLength(sequenceLength);
 
                 result.put(sequenceId, sco);
-
-
             }
-
 
             rsCoverage.close();
             s.close();
 
             dtw.writeHeader("sequence_id", "sequence_length", "coverage", "peptide_count");
-            for(SequenceCoverageObject sco : result.values()){
+            for (SequenceCoverageObject sco : result.values()) {
 
                 boolean altSplice = sequenceIdAltSplice.contains(sco.getSequenceId());
 
                 dtw.writeRow(sco.getSequenceId(),
                         sco.getSequenceLength(),
-                        sco.getCoverage().size(), 
+                        sco.getCoverage().size(),
                         sco.getPeptideIds().size(),
                         altSplice);
-
-
             }
 
             pw.close();
-
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
+            logger.error(e);
+        } catch (SQLException e) {
             logger.error(e);
         }
-        catch (SQLException e) {
-            logger.error(e);
-        }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     */
     class SequenceCoverageObject {
 
         private int sequenceId;
@@ -250,12 +242,18 @@ public class SequenceCoverage {
         }
 
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof SequenceCoverageObject)) return false;
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof SequenceCoverageObject)) {
+                return false;
+            }
 
             SequenceCoverageObject that = (SequenceCoverageObject) o;
 
-            if (sequenceId != that.sequenceId) return false;
+            if (sequenceId != that.sequenceId) {
+                return false;
+            }
 
             return true;
         }
@@ -265,10 +263,15 @@ public class SequenceCoverage {
         }
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 
         try {
-            SigPepDatabase sigPepDb = new SigPepDatabase("mmueller", "".toCharArray(), 9606);
+            SigPepDatabase sigPepDb = new SigPepDatabase("mmueller", "".toCharArray(), 9606); // @TODO: remove hardcoded value!
             SequenceCoverage sc = new SequenceCoverage(sigPepDb);
             Set<String> proteaseNames = new HashSet<String>();
             //proteaseNames.add("lysc");
@@ -278,14 +281,10 @@ public class SequenceCoverage {
             //proteaseNames.add("v8de");
             //proteaseNames.add("tryp");
 
-
-            sc.reportSequenceCoverageByProteaseCombination("/home/mmueller/svn/manuscripts/sigpep/data/sequence_coverage_pepa.csv", proteaseNames);
-
+            sc.reportSequenceCoverageByProteaseCombination("/home/mmueller/svn/manuscripts/sigpep/data/sequence_coverage_pepa.csv", proteaseNames); // @TODO: remove hardcoded value!
 
         } catch (DatabaseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-
     }
 }

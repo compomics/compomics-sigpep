@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 06-Aug-2008<br/>
@@ -26,10 +28,20 @@ public class SignatureTransitionMassMatrix implements Writable {
 
     private SignatureTransition signatureTransition;
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param signatureTransition
+     */
     public SignatureTransitionMassMatrix(SignatureTransition signatureTransition) {
         this.signatureTransition = signatureTransition;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param outputStream
+     */
     public void write(OutputStream outputStream) {
 
         Peptide target = signatureTransition.getPeptide();
@@ -53,8 +65,8 @@ public class SignatureTransitionMassMatrix implements Writable {
                 barcodeMz.add("" + SigPepUtil.round(pi.getMassOverCharge(z), massPrecission));
             }
         }
-        dtw.writeRow(barcodeMz.toArray());
 
+        dtw.writeRow(barcodeMz.toArray());
 
         for (ProductIonType type : targetProductIonTypes) {
             //write target product ion m/z
@@ -69,8 +81,8 @@ public class SignatureTransitionMassMatrix implements Writable {
                     targetMz.add("" + SigPepUtil.round(pi.getMassOverCharge(z), massPrecission));
                 }
             }
-            dtw.writeRow(targetMz.toArray());
 
+            dtw.writeRow(targetMz.toArray());
         }
 
         //write background product ion m/z
@@ -89,11 +101,9 @@ public class SignatureTransitionMassMatrix implements Writable {
                         backgroundMz.add("" + SigPepUtil.round(pi.getMassOverCharge(z), massPrecission));
                     }
                 }
-                dtw.writeRow(backgroundMz.toArray());
 
+                dtw.writeRow(backgroundMz.toArray());
             }
         }
-
-
     }
 }

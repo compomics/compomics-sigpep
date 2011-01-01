@@ -5,6 +5,8 @@ import com.compomics.sigpep.model.*;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -14,11 +16,8 @@ public class SpliceEventFeatureImpl extends AbstractFeature<FeatureSpliceEvent> 
 
     private int id;
     private Object sessionFactory;
-
     private FeatureSpliceEvent spliceEvent;
     private Set<PeptideFeature> peptideFeatures;
-
-
 
     /**
      * Returns the object representing the feature.
@@ -29,18 +28,38 @@ public class SpliceEventFeatureImpl extends AbstractFeature<FeatureSpliceEvent> 
         return spliceEvent;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param sessionFactory
+     */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -51,7 +70,7 @@ public class SpliceEventFeatureImpl extends AbstractFeature<FeatureSpliceEvent> 
      * @param spliceEvent the feature object
      */
     public void setFeatureObject(FeatureSpliceEvent spliceEvent) {
-        this.spliceEvent=spliceEvent;
+        this.spliceEvent = spliceEvent;
     }
 
     /**
@@ -69,32 +88,42 @@ public class SpliceEventFeatureImpl extends AbstractFeature<FeatureSpliceEvent> 
      * @param peptideFeatures the peptides
      */
     public void setPeptideFeatures(Set<PeptideFeature> peptideFeatures) {
-        this.peptideFeatures=peptideFeatures;
+        this.peptideFeatures = peptideFeatures;
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SpliceEventFeature)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SpliceEventFeature)) {
+            return false;
+        }
 
         SpliceEventFeature that = (SpliceEventFeature) o;
 
-        if (!spliceEvent.equals(that.getFeatureObject())) return false;
-        if (!location.equals(that.getLocation())) return false;
+        if (!spliceEvent.equals(that.getFeatureObject())) {
+            return false;
+        }
+        if (!location.equals(that.getLocation())) {
+            return false;
+        }
 
         return true;
     }
 
-     public int hashCode() {
+    @Override
+    public int hashCode() {
         int result;
         result = spliceEvent.hashCode();
         result = 31 * result + location.hashCode();
         return result;
     }
 
-
+    @Override
     public String toString() {
-        return "SpliceEventFeatureImpl{" +
-                "spliceEvent=" + spliceEvent +
-                ", location=" + location +"}";
+        return "SpliceEventFeatureImpl{"
+                + "spliceEvent=" + spliceEvent
+                + ", location=" + location + "}";
     }
 }

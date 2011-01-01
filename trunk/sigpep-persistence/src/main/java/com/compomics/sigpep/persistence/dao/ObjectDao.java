@@ -2,10 +2,11 @@ package com.compomics.sigpep.persistence.dao;
 
 import com.compomics.sigpep.model.*;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 29-May-2008<br/>
@@ -62,8 +63,4 @@ public interface ObjectDao {
     public Peptide getPeptideById(String peptideSequence);
 
     public PeptideFeature getPeptideFeatureBySequence(String peptideSequence);
-
-
-
-
 }

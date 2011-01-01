@@ -16,17 +16,14 @@ public class DbXrefImpl implements DbXref {
      * the database name
      */
     private String databaseName;
-
     /**
      * the database accession
      */
     private String accession;
-
     /**
      * the database identifier
      */
     private String identifier;
-
     /**
      * the entry version
      */
@@ -45,7 +42,6 @@ public class DbXrefImpl implements DbXref {
     public void setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
     }
-
 
     /**
      * {@inherit}
@@ -89,7 +85,6 @@ public class DbXrefImpl implements DbXref {
         this.version = version;
     }
 
-
     /**
      * Checks for equality.
      *
@@ -97,15 +92,24 @@ public class DbXrefImpl implements DbXref {
      * @return return true if the object is a DbXref object with identical database name, accession and version
      */
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DbXref)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DbXref)) {
+            return false;
+        }
 
         DbXref dbXref = (DbXref) o;
 
-        if (version != dbXref.getVersion()) return false;
-        if (accession != null ? !accession.equals(dbXref.getAccession()) : dbXref.getAccession() != null) return false;
-        if (databaseName != null ? !databaseName.equals(dbXref.getDatabaseName()) : dbXref.getDatabaseName() != null)
+        if (version != dbXref.getVersion()) {
             return false;
+        }
+        if (accession != null ? !accession.equals(dbXref.getAccession()) : dbXref.getAccession() != null) {
+            return false;
+        }
+        if (databaseName != null ? !databaseName.equals(dbXref.getDatabaseName()) : dbXref.getDatabaseName() != null) {
+            return false;
+        }
 
         return true;
     }
@@ -125,10 +129,10 @@ public class DbXrefImpl implements DbXref {
      * {@inherit}
      */
     public String toString() {
-        return "DbXrefImpl{" +
-                "databaseName='" + databaseName + '\'' +
-                ", accession='" + accession + '\'' +
-                ", version=" + version +
-                '}';
+        return "DbXrefImpl{"
+                + "databaseName='" + databaseName + '\''
+                + ", accession='" + accession + '\''
+                + ", version=" + version
+                + '}';
     }
 }

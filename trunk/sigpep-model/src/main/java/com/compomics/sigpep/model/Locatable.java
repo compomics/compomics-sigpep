@@ -24,5 +24,4 @@ public interface Locatable {
      */
     void setLocation(SequenceLocation location);
 
-
 }

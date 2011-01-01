@@ -4,6 +4,8 @@ import com.compomics.sigpep.model.ModificationPosition;
 import com.compomics.sigpep.model.Modification;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Feb-2008<br/>
@@ -33,13 +35,13 @@ public class ModificationImpl implements Modification {
      * @param position       the position of the modification
      */
     public ModificationImpl(String name,
-                                             String description,
-                                             String residue,
-                                             String formula,
-                                             double massDifference,
-                                             boolean isStable,
-                                             boolean isStatic,
-                                             ModificationPosition position) {
+            String description,
+            String residue,
+            String formula,
+            double massDifference,
+            boolean isStable,
+            boolean isStatic,
+            ModificationPosition position) {
         this.residue = residue;
         this.formula = formula;
         this.description = description;
@@ -124,34 +126,74 @@ public class ModificationImpl implements Modification {
         this.stable = stable;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public boolean isStatic() {
         return isStatic;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param isStatic
+     */
     public void setStatic(boolean isStatic) {
         this.isStatic = isStatic;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public String getFormula() {
         return formula;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param formula
+     */
     public void setFormula(String formula) {
         this.formula = formula;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public ModificationPosition getPosition() {
         return position;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param position
+     */
     public void setPosition(ModificationPosition position) {
         this.position = position;
     }
@@ -165,22 +207,40 @@ public class ModificationImpl implements Modification {
         return (position == null || position != ModificationPosition.NON_POSITIONAL);
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Modification)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Modification)) {
+            return false;
+        }
 
         Modification that = (Modification) o;
 
-        if (isStatic != that.isStatic()) return false;
-        if (stable != that.isStable()) return false;
-        if (!formula.equals(that.getFormula())) return false;
-        if (!name.equals(that.getName())) return false;
-        if (!residue.equals(that.getResidue())) return false;
-        if (!position.equals(that.getPosition())) return false;
+        if (isStatic != that.isStatic()) {
+            return false;
+        }
+        if (stable != that.isStable()) {
+            return false;
+        }
+        if (!formula.equals(that.getFormula())) {
+            return false;
+        }
+        if (!name.equals(that.getName())) {
+            return false;
+        }
+        if (!residue.equals(that.getResidue())) {
+            return false;
+        }
+        if (!position.equals(that.getPosition())) {
+            return false;
+        }
 
         return true;
     }
 
+    @Override
     public int hashCode() {
         int result;
         result = residue.hashCode();
@@ -192,16 +252,16 @@ public class ModificationImpl implements Modification {
         return result;
     }
 
+    @Override
     public String toString() {
-        return "ModificationImpl{" +
-                "name=" + name +
-                ", residue=" + residue +
-                ", formula=" + formula +
-                ", massDifference=" + massDifference +
-                ", isStatic=" + isStatic +
-                ", isStable=" + stable +
-                ", position=" + position +
-                '}';
+        return "ModificationImpl{"
+                + "name=" + name
+                + ", residue=" + residue
+                + ", formula=" + formula
+                + ", massDifference=" + massDifference
+                + ", isStatic=" + isStatic
+                + ", isStable=" + stable
+                + ", position=" + position
+                + '}';
     }
-
 }

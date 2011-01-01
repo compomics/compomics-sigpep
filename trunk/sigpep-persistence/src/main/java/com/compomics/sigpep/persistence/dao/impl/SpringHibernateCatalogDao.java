@@ -7,12 +7,11 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import com.compomics.sigpep.model.Organism;
 import com.compomics.sigpep.persistence.dao.CatalogDao;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
+ * @TODO: JavaDoc missing
  *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
@@ -38,7 +37,6 @@ public class SpringHibernateCatalogDao extends HibernateDaoSupport implements Ca
         this.setSessionFactory(sessionFactory);
     }
 
-
     /**
      * Returns the organisms available in the SigPep database.
      *
@@ -54,7 +52,6 @@ public class SpringHibernateCatalogDao extends HibernateDaoSupport implements Ca
         session.getTransaction().commit();
         session.close();        
         return result;
-
     }
 
     /**
@@ -72,7 +69,5 @@ public class SpringHibernateCatalogDao extends HibernateDaoSupport implements Ca
         session.getTransaction().commit();
         session.close();
         return retVal;
-
     }
-    
 }

@@ -3,6 +3,8 @@ package com.compomics.sigpep.report;
 import java.io.OutputStream;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 06-Aug-2008<br/>
@@ -11,5 +13,4 @@ import java.io.OutputStream;
 public interface Writable {
 
     void write(OutputStream outputStream);
-
 }

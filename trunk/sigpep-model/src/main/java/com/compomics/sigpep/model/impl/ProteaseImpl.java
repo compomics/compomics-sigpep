@@ -28,25 +28,53 @@ public class ProteaseImpl implements Protease, Persistable {
 
     private String cleaves;
 
+    /**
+     * @TODO: JavaDoc missing
+     */
     protected ProteaseImpl(){        
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param name
+     */
     public ProteaseImpl(String name) {
         this.shortName = name;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @param sessionFactory
+     */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

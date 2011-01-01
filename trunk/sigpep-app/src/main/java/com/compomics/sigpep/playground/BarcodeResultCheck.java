@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 07-Mar-2008<br/>
@@ -23,9 +25,12 @@ import java.util.*;
  */
 public class BarcodeResultCheck {
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
-
 
         try {
 
@@ -33,17 +38,17 @@ public class BarcodeResultCheck {
 
             DelimitedTableReader dtr = new DelimitedTableReader(new FileInputStream(filename), "\t");
             Set<String> barcodeResultPeptides = new HashSet<String>();
-            for(Iterator<String[]> rows = dtr.read(); rows.hasNext();){
+            for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
                 String[] row = rows.next();
                 barcodeResultPeptides.add(row[0]);
 
             }
 
             ApplicationContext appContext = new ClassPathXmlApplicationContext("config/applicationContext.xml");
-        SigPepSessionFactory sessionFactory = (SigPepSessionFactory)appContext.getBean("sigPepSessionFactory");
-        Organism organism = sessionFactory.getOrganism(9606);
-        SigPepSession session = sessionFactory.createSigPepSession(organism);
-        SigPepQueryService service = session.createSigPepQueryService();
+            SigPepSessionFactory sessionFactory = (SigPepSessionFactory) appContext.getBean("sigPepSessionFactory");
+            Organism organism = sessionFactory.getOrganism(9606);
+            SigPepSession session = sessionFactory.createSigPepSession(organism);
+            SigPepQueryService service = session.createSigPepQueryService();
             Protease protease = service.getProteaseByShortName("tryp");
             Set<String> signaturePeptides = service.getSignaturePeptideSequencesForProtease(protease);
 
@@ -51,21 +56,19 @@ public class BarcodeResultCheck {
 
             signaturePeptides.removeAll(barcodeResultPeptides);
             Map<Double, String> uniqueMasses = new TreeMap<Double, String>();
-            for(String peptide : signaturePeptides){
-                double mass = SigPepUtil.round(PeptideFactory.createPeptide(peptide).getPrecursorIon().getNeutralMassPeptide(),4);
+            for (String peptide : signaturePeptides) {
+                double mass = SigPepUtil.round(PeptideFactory.createPeptide(peptide).getPrecursorIon().getNeutralMassPeptide(), 4);
 //                System.out.println(mass + " " + peptide);
                 uniqueMasses.put(mass, peptide);
             }
 //            System.out.println(signaturePeptides.size());
 
-            for(Double mass: uniqueMasses.keySet()){
+            for (Double mass : uniqueMasses.keySet()) {
                 System.out.println(mass + " " + uniqueMasses.get(mass));
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } 
-
+        }
     }
-
 }

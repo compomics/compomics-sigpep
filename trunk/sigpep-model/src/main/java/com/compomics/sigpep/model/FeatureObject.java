@@ -26,14 +26,11 @@ public interface FeatureObject<F extends Feature> {
      */
     void setFeatures(Set<F> features);
 
-    
     /**
      * Returns the sequences the peptide is emitted by not taking into account the protease.
      *
      * @return the parent sequences
      */
     Set<ProteinSequence> getParentSequences();
-
-
 
 }

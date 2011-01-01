@@ -59,7 +59,6 @@ public class SigPepSessionImpl implements SigPepSession {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
     /**
@@ -79,9 +78,7 @@ public class SigPepSessionImpl implements SigPepSession {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
-
 
     /**
      * Returns the session organism.
@@ -177,7 +174,6 @@ public class SigPepSessionImpl implements SigPepSession {
         Set<String> proteases = new HashSet<String>();
         Collections.addAll(proteases, proteaseShortNames);
         return createPeptideGenerator(proteases);
-
     }
 
     /**
@@ -219,7 +215,6 @@ public class SigPepSessionImpl implements SigPepSession {
                     this.getCache().cancelUpdate(proteinSequencesKey);
                 }
             }
-
         }
 
         //get sequence ID-to-protein-accession map
@@ -248,7 +243,6 @@ public class SigPepSessionImpl implements SigPepSession {
                     this.getCache().cancelUpdate(sequenceId2ProteinAccessionMapKey);
                 }
             }
-
         }
 
         //create sequence ID-to-gene-accession map
@@ -256,10 +250,8 @@ public class SigPepSessionImpl implements SigPepSession {
         Map<Integer, Set<String>> sequenceId2GeneAccessionMap;
 
         try {
-
             //check if map is in cache
             sequenceId2GeneAccessionMap = (Map<Integer, Set<String>>) this.getCache().getFromCache(sequenceId2GeneAccessionMapMapKey);
-
         } catch (NeedsRefreshException e) {
 
             //if not get
@@ -279,7 +271,6 @@ public class SigPepSessionImpl implements SigPepSession {
 
                     }
                     sequenceId2GeneAccessionMap.put(sequenceId, geneAccessions);
-
                 }
 
                 // Store in the cache
@@ -292,7 +283,6 @@ public class SigPepSessionImpl implements SigPepSession {
                     this.getCache().cancelUpdate(sequenceId2GeneAccessionMapMapKey);
                 }
             }
-
         }
 
         //get peptide featureCoordinates
@@ -319,7 +309,6 @@ public class SigPepSessionImpl implements SigPepSession {
                     this.getCache().cancelUpdate(featureCoordinatesKey);
                 }
             }
-
         }
 
         //set retVal properties
@@ -329,7 +318,6 @@ public class SigPepSessionImpl implements SigPepSession {
         retVal.setPeptideFeatures(featureCoordinates);
 
         return retVal;
-
     }
 
     /**
@@ -355,15 +343,16 @@ public class SigPepSessionImpl implements SigPepSession {
      * @param type                      the type of signature transition finder
      * @return a signature transition finder
      */
-    public SignatureTransitionFinder createSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-                                                                     Set<ProductIonType> targetProductIonTypes,
-                                                                     Set<ProductIonType> backgroundProductIonTypes,
-                                                                     Set<Integer> precursorIonChargeStates,
-                                                                     Set<Integer> productIonChargeStates,
-                                                                     double massAccuracy,
-                                                                     int minimumCombinationSize,
-                                                                     int maximumCombinationSize,
-                                                                     SignatureTransitionFinderType type) {
+    public SignatureTransitionFinder createSignatureTransitionFinder(
+            Set<Peptide> backgroundPeptides,
+            Set<ProductIonType> targetProductIonTypes,
+            Set<ProductIonType> backgroundProductIonTypes,
+            Set<Integer> precursorIonChargeStates,
+            Set<Integer> productIonChargeStates,
+            double massAccuracy,
+            int minimumCombinationSize,
+            int maximumCombinationSize,
+            SignatureTransitionFinderType type) {
 
         SignatureTransitionFinder retVal = null;
 
@@ -401,11 +390,9 @@ public class SigPepSessionImpl implements SigPepSession {
                         minimumCombinationSize,
                         maximumCombinationSize);
                 break;
-
         }
 
         return retVal;
-
     }
 
     /**
@@ -424,14 +411,14 @@ public class SigPepSessionImpl implements SigPepSession {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-                                                                     Set<ProductIonType> targetProductIonTypes,
-                                                                     Set<ProductIonType> backgroundProductIonTypes,
-                                                                     List<Map<Double, Integer>> observedPrecursorIonChargeStates,
-                                                                     Set<Integer> productIonChargeStates,
-                                                                     double massAccuracy,
-                                                                     int minimumCombinationSize,
-                                                                     int maximumCombinationSize,
-                                                                     SignatureTransitionFinderType type) {
+            Set<ProductIonType> targetProductIonTypes,
+            Set<ProductIonType> backgroundProductIonTypes,
+            List<Map<Double, Integer>> observedPrecursorIonChargeStates,
+            Set<Integer> productIonChargeStates,
+            double massAccuracy,
+            int minimumCombinationSize,
+            int maximumCombinationSize,
+            SignatureTransitionFinderType type) {
 
         SignatureTransitionFinder retVal = null;
 
@@ -469,11 +456,9 @@ public class SigPepSessionImpl implements SigPepSession {
                         minimumCombinationSize,
                         maximumCombinationSize);
                 break;
-
         }
 
         return retVal;
-
     }
 
     /**
@@ -484,8 +469,7 @@ public class SigPepSessionImpl implements SigPepSession {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-                                                                     SignatureTransitionFinderType type) {
-
+            SignatureTransitionFinderType type) {
 
         return createSignatureTransitionFinder(backgroundPeptides,
                 application.getDefaultTargetProductIonTypes(),
@@ -496,8 +480,5 @@ public class SigPepSessionImpl implements SigPepSession {
                 application.getDefaultMinimumSignatureTransitionSize(),
                 application.getDefaultMaximumSignatureTransitionSize(),
                 type);
-
     }
-
-
 }

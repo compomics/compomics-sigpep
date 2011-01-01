@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * @TODO: JavaDoc missing
+ * 
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 22-Oct-2007<br>
@@ -30,7 +32,7 @@ public class PeptideMassRangeTest {
 
     @Test
     public void testGetAccuracy() {
-        MassOverChargeRangeImpl pmr = new MassOverChargeRangeImpl(peptideMass, chargeStates,accuracy);
+        MassOverChargeRangeImpl pmr = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
         double expected = accuracy;
         assertTrue(pmr.getMassAccuracy() == expected);
     } // testGetAccuracy()
@@ -42,7 +44,6 @@ public class PeptideMassRangeTest {
         pmr.setMassAccuracy(expected);
         assertTrue(pmr.getMassAccuracy() == expected);
     } // testSetAccuracy()
-
 
     @Test
     public void testGetMaximumCharge() {
@@ -64,7 +65,7 @@ public class PeptideMassRangeTest {
 
         MassOverChargeRangeImpl pmr = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
 
-        for(int z : pmr.getChargeStates()){
+        for (int z : pmr.getChargeStates()) {
             double expected = PrecursorIonImpl.calculateMassOverCharge(peptideMass, z);
             assertTrue(pmr.getPeptideIonMassOverCharge(z) == expected);
         }
@@ -88,9 +89,9 @@ public class PeptideMassRangeTest {
 
     @Test
     public void testGetLowerBound() {
-        MassOverChargeRangeImpl pmr = new MassOverChargeRangeImpl(peptideMass, chargeStates,  accuracy);
+        MassOverChargeRangeImpl pmr = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
 
-        for(int z : pmr.getChargeStates()){
+        for (int z : pmr.getChargeStates()) {
             double expected = PrecursorIonImpl.calculateMassOverCharge(peptideMass, z) - accuracy;
             assertTrue(pmr.getLowerBound(z) == expected);
         }
@@ -100,7 +101,7 @@ public class PeptideMassRangeTest {
     public void testGetUpperBound() {
         MassOverChargeRangeImpl pmr = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
 
-        for(int z : pmr.getChargeStates()){
+        for (int z : pmr.getChargeStates()) {
             double expected = PrecursorIonImpl.calculateMassOverCharge(peptideMass, z) + accuracy;
             assertTrue(pmr.getUpperBound(z) == expected);
         }
@@ -124,17 +125,16 @@ public class PeptideMassRangeTest {
     } // testEquals()
 
     @Test
-        public void testCompareTo() {
-            MassOverChargeRangeImpl pmr1 = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
-            MassOverChargeRangeImpl pmr2 = new MassOverChargeRangeImpl(peptideMass + 1, chargeStates, accuracy);
+    public void testCompareTo() {
+        MassOverChargeRangeImpl pmr1 = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
+        MassOverChargeRangeImpl pmr2 = new MassOverChargeRangeImpl(peptideMass + 1, chargeStates, accuracy);
 
-            assertTrue(pmr1.compareTo(pmr1) == 0);
-            assertTrue(pmr1.compareTo(pmr2) == -1);
-            assertTrue(pmr2.compareTo(pmr1) == 1);
+        assertTrue(pmr1.compareTo(pmr1) == 0);
+        assertTrue(pmr1.compareTo(pmr2) == -1);
+        assertTrue(pmr2.compareTo(pmr1) == 1);
 
 
-        } // testCompareTo()
-
+    } // testCompareTo()
 
     @Test
     public void testOverlappsWith() {
@@ -145,12 +145,12 @@ public class PeptideMassRangeTest {
 
         MassOverChargeRangeImpl pmr1 = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
         MassOverChargeRangeImpl pmr2 = new MassOverChargeRangeImpl(peptideMass, chargeStates, accuracy);
-        MassOverChargeRangeImpl pmr3 = new MassOverChargeRangeImpl(peptideMass + (accuracy/2), chargeStates, accuracy);
+        MassOverChargeRangeImpl pmr3 = new MassOverChargeRangeImpl(peptideMass + (accuracy / 2), chargeStates, accuracy);
         HashSet<Integer> chargeStates = new HashSet<Integer>();
         chargeStates.add(1);
         MassOverChargeRangeImpl pmr4 = new MassOverChargeRangeImpl(3999.9607, chargeStates, 1);
         MassOverChargeRangeImpl pmr5 = new MassOverChargeRangeImpl(3999.9676, chargeStates, 1);
-        
+
         assertTrue(pmr1.overlappsWith(pmr2, minOverlap));
         assertTrue(pmr1.overlappsWith(pmr3, minOverlap));
         assertTrue(pmr3.overlappsWith(pmr1, minOverlap));
@@ -160,7 +160,6 @@ public class PeptideMassRangeTest {
         assertFalse(pmr1.overlappsWith(pmr4, minOverlap));
 
     } // testOverlappsWith()
-
 
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(PeptideMassRangeTest.class);

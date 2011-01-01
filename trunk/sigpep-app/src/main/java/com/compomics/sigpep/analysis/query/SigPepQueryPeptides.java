@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
+ * @TODO: JavaDoc missing.
+ * @TODO: All code in this class is commented out...
+ *
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 02-Nov-2007<br>
@@ -85,5 +88,4 @@ public class SigPepQueryPeptides  {
 //            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 //        }
 //    }
-
 }

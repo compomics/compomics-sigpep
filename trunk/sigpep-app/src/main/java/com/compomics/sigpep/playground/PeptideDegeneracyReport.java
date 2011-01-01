@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Jul-2008<br/>
@@ -19,6 +21,12 @@ import java.util.Set;
  */
 public class PeptideDegeneracyReport {
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param taxonId
+     * @param proteaseShortNames
+     */
     public static void reportOriginOfDegeneracy(int taxonId, String... proteaseShortNames) {
 
         ApplicationContext appContext = new ClassPathXmlApplicationContext("config/applicationContext.xml");
@@ -51,27 +59,18 @@ public class PeptideDegeneracyReport {
                 //if inter-gene degeneracy
                 if (geneCount == sequenceCount) {
                     interGeneOnly++;
-                }
-
-                //if intra-gene degeneracy
+                } //if intra-gene degeneracy
                 else if (geneCount < sequenceCount) {
 
-                    if(geneCount == 1){
+                    if (geneCount == 1) {
                         intraGeneOnly++;
                     } else {
                         intraGeneAndInterGene++;
                     }
-
                 } else if (geneCount > sequenceCount) {
-
                     interGeneWithIdenticalSequence++;
-
                 }
-
-
-
             }
-
         }
 
         DelimitedTableWriter dtw = new DelimitedTableWriter(System.out, "\t", false);
@@ -79,19 +78,19 @@ public class PeptideDegeneracyReport {
         dtw.writeHeader("peptide_count", "degeneratePeptideCount", "intra-gene-only", "inter-gene-only", "inter-and-intra-gene", "inter-gene-with-ident-sequence");
         dtw.writeRow(peptideCount, degeneratePeptideCount, intraGeneOnly, interGeneOnly, intraGeneAndInterGene, interGeneWithIdenticalSequence);
         dtw.writeRow(peptideCount,
-                ((double)degeneratePeptideCount/(double)peptideCount)*100,
-                ((double)intraGeneOnly/(double)degeneratePeptideCount)*100,
-                ((double)interGeneOnly/(double)degeneratePeptideCount)*100,
-                ((double)intraGeneAndInterGene/(double)degeneratePeptideCount)*100,
-                ((double)interGeneWithIdenticalSequence/(double)degeneratePeptideCount)*100);
-
-
+                ((double) degeneratePeptideCount / (double) peptideCount) * 100,
+                ((double) intraGeneOnly / (double) degeneratePeptideCount) * 100,
+                ((double) interGeneOnly / (double) degeneratePeptideCount) * 100,
+                ((double) intraGeneAndInterGene / (double) degeneratePeptideCount) * 100,
+                ((double) interGeneWithIdenticalSequence / (double) degeneratePeptideCount) * 100);
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
-
-        PeptideDegeneracyReport.reportOriginOfDegeneracy(9606, "argc","lysc","v8e");    
-
+        PeptideDegeneracyReport.reportOriginOfDegeneracy(9606, "argc", "lysc", "v8e");
     }
-
 }

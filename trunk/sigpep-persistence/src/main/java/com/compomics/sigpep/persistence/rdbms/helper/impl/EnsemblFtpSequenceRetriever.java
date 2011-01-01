@@ -70,7 +70,6 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
         }
 
         return retVal;
-
     }
 
     /**
@@ -87,7 +86,6 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
         return new URL(ensemblFtpUrl
                 .replace("#release", databaseVersion)
                 .replace("#organism", organismScientificName.toLowerCase().replace(" ", "_")));
-
     }
 
     /**
@@ -112,11 +110,9 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
                 retVal = line.split("\\s")[tokenCount - 1];
 
             }
-
         }
 
         return retVal;
-
     }
 
     /**
@@ -132,16 +128,14 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
         BufferedReader br = new BufferedReader(new InputStreamReader(fromInputStream));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(toOutputStream));
         String line;
+        
         while ((line = br.readLine()) != null) {
 
             bw.write(line);
             bw.newLine();
             bw.flush();
-
         }
 
         return true;
-
     }
-
 }

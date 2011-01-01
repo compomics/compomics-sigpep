@@ -31,5 +31,4 @@ public interface SignatureTransitionFinder {
      *         empty if no signature transition exists for a given peptide
      */
     List<SignatureTransition> findSignatureTransitions(Collection<Peptide> peptides);   
-
 }

@@ -2,10 +2,8 @@ package com.compomics.sigpep.persistence.rdbms.helper;
 
 import org.apache.log4j.Logger;
 import com.compomics.dbtools.DatabaseException;
-import com.compomics.ensh.exception.EnshException;
 import com.compomics.sigpep.persistence.config.Configuration;
 import com.compomics.sigpep.persistence.rdbms.SigPepDatabase;
-import com.compomics.sigpep.persistence.rdbms.helper.impl.EnsemblDBToolkitDigestProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +20,7 @@ import java.util.Map;
  * Date: 25-Sep-2007<br>
  * Time: 16:32:30<br>
  */
-public class SigPepSetup {//extends Thread {
+public class SigPepSetup {
 
     /**
      * provides access to the persistence layer configuration
@@ -59,7 +57,9 @@ public class SigPepSetup {//extends Thread {
      */
     private int ensemblVersion;
 
-
+    /**
+     * the sig pep database
+     */
     private SigPepDatabase sigPepDatabase;
 
 
@@ -78,17 +78,21 @@ public class SigPepSetup {//extends Thread {
     private static Logger logger = Logger.getLogger(SigPepSetup.class);
 
 
+    /**
+     * Default constructor.
+     */
     public SigPepSetup() {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @param username
      * @param password
      * @param workingDirectory
      * @param ncbiTaxonId
      * @param ensemblVersion
      * @throws com.compomics.dbtools.DatabaseException
-     *
      */
     public SigPepSetup(String username,
                        char[] password,
@@ -99,9 +103,13 @@ public class SigPepSetup {//extends Thread {
         this.workingDirectory = workingDirectory;
         this.ncbiTaxonId = ncbiTaxonId;
         this.ensemblVersion = ensemblVersion;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @return
+     */
     public static SigPepSetup getInstance() {
         return ourInstance;
     }
@@ -135,8 +143,6 @@ public class SigPepSetup {//extends Thread {
         boolean sequencesRetrieved;
         boolean sequencesDigested;
         boolean digestsProcessed;
-
-
 
         //create working directory
         logger.info("-----------------------------------------------------");
@@ -319,80 +325,161 @@ public class SigPepSetup {//extends Thread {
         } catch (DatabaseException e) {
             logger.error(e);
         }
-
-
     }
 
+    /**
+     * Returns true if the sequences are to be downloaded.
+     *
+     * @return true if the sequences are to be downloaded
+     */
     public boolean downloadSequences() {
         return downloadSequences;
     }
 
+    /**
+     * Set if the sequences are to be downloaded.
+     *
+     * @param downloadSequences
+     */
     public void setDownloadSequences(boolean downloadSequences) {
         this.downloadSequences = downloadSequences;
     }
 
+    /**
+     * Returns true of the digest is on.
+     *
+     * @return true of the digest is on
+     */
     public boolean doDigest() {
         return doDigest;
     }
 
+    /**
+     * Set digest on or off.
+     * 
+     * @param doDigest
+     */
     public void setDoDigest(boolean doDigest) {
         this.doDigest = doDigest;
     }
 
+    /**
+     * Returns if the digest is to be processed.
+     *
+     * @return f the digest is to be processed
+     */
     public boolean processDigest() {
         return processDigest;
     }
 
+    /**
+     * Set if he digest is to be processed.
+     *
+     * @param processDigest
+     */
     public void setProcessDigest(boolean processDigest) {
         this.processDigest = processDigest;
     }
 
+    /**
+     * Returns if the schema is to be created.
+     *
+     * @return if the schema is to be created.
+     */
     public boolean createSchema() {
         return createSchema;
     }
 
+    /**
+     * Set if the schema is to be created.
+     *
+     * @param createSchema
+     */
     public void setCreateSchema(boolean createSchema) {
         this.createSchema = createSchema;
     }
 
+    /**
+     * Returns if the digest is to persist.
+     *
+     * @return if the digest is to persist
+     */
     public boolean persistDigest() {
         return persistDigest;
     }
 
+    /**
+     * Set if the digest is to persist.
+     *
+     * @param persistDigest
+     */
     public void setPersistDigest(boolean persistDigest) {
         this.persistDigest = persistDigest;
     }
 
-
+    /**
+     * Returns if the tables are to be cleaned up.
+     *
+     * @return if the tables are to be cleaned up
+     */
     public boolean cleanUpTables() {
         return cleanUpTables;
     }
 
+    /**
+     * Set if the tables are to be cleaned up.
+     * 
+     * @param cleanUpTables
+     */
     public void setCleanUpTables(boolean cleanUpTables) {
         this.cleanUpTables = cleanUpTables;
     }
 
+    /**
+     * Returns if indices are to be created.
+     *
+     * @return if indices are to be created
+     */
     public boolean createIndices() {
         return createIndices;
     }
 
+    /**
+     * Set if indices are to be created.
+     * 
+     * @param createIndices
+     */
     public void setCreateIndices(boolean createIndices) {
         this.createIndices = createIndices;
     }
 
+    /**
+     * Returns if slice events are to be imported.
+     *
+     * @return if slice events are to be imported
+     */
     public boolean importSpliceEvents() {
         return importSpliceEvents;
     }
 
+    /**
+     * Set if slice events are to be imported.
+     *
+     * @param importSpliceEvents
+     */
     public void setImportSpliceEvents(boolean importSpliceEvents) {
         this.importSpliceEvents = importSpliceEvents;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         String workingDirectory = "/Users/kennyhelsens/tmp/sigpep_test";
         //int taxonId = Integer.parseInt(args[1]);
-
 
         SigPepSetup.getInstance().setupDatabase("root",
                 "",
@@ -428,16 +515,17 @@ public class SigPepSetup {//extends Thread {
 //                sps.setCreateIndices(false);
 //                sps.setImportSpliceEvents(true);
 //
-//
-//
 //            } catch (DatabaseException e) {
 //                logger.error("Excpetion while setting up SigPep schema for species " + Organisms.getInstance().getSpeciesName(taxId) + ".", e);
 //            }
-//
 //        }
-
     }
 
+    /**
+     * Set the database initialiser.
+     *
+     * @param databaseInitialiser
+     */
     public void setDatabaseInitialiser(DatabaseInitialiser databaseInitialiser) {
         this.databaseInitialiser = databaseInitialiser;
     }
@@ -497,7 +585,6 @@ public class SigPepSetup {//extends Thread {
         }
 
         return retVal;
-
     }
 
     /**
@@ -523,7 +610,6 @@ public class SigPepSetup {//extends Thread {
         }
 
         return retVal;
-
     }
 
     /**
@@ -549,7 +635,6 @@ public class SigPepSetup {//extends Thread {
         }
 
         return retVal;
-
     }
 
     /**
@@ -563,9 +648,7 @@ public class SigPepSetup {//extends Thread {
      * @return the file name
      */
     protected String buildSequenceFilename(String organismScientificName, int organismTaxonId, String databaseName, String databaseVersion) {
-
         return organismScientificName.replace(" ", "_") + "_" + organismTaxonId + "_" + databaseName + "_" + databaseVersion + "_protein.fa";
-
     }
 
     /**
@@ -580,24 +663,34 @@ public class SigPepSetup {//extends Thread {
      * @return the file name
      */
     protected String buildDigestFilename(String organismScientificName, int organismTaxonId, String databaseName, String databaseVersion, String protease) {
-
         return organismScientificName.replace(" ", "_") + "_" + organismTaxonId + "_" + databaseName.toLowerCase() + "_" + databaseVersion + "_" + protease.toLowerCase() + "_peptide.fa";
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param organismScientificName
+     * @param organismTaxonId
+     * @param databaseName
+     * @param databaseVersion
+     * @return
+     */
     protected String buildOrganismSubDirectoryName(String organismScientificName, int organismTaxonId, String databaseName, String databaseVersion) {
-
         return organismScientificName.toLowerCase().replace(" ", "_") + "_" + organismTaxonId + "_" + databaseName.toLowerCase() + "_" + databaseVersion;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param workingDirectory
+     * @return
+     */
     protected boolean createWorkingDirectory(String workingDirectory) {
 
         File workingDirectoryFile = new File(workingDirectory);
         if (!workingDirectoryFile.exists()) {
             if (workingDirectoryFile.mkdir()) {
                 logger.info("directory '" + workingDirectoryFile + "' created");
-
             } else {
                 logger.info("unable to create directory '" + workingDirectoryFile + "'");
 
@@ -605,15 +698,21 @@ public class SigPepSetup {//extends Thread {
             }
         } else {
             logger.info("directory '" + workingDirectoryFile + "' exists already. Using existing directory.");
-
         }
 
         return true;
-
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param workingDirectory
+     * @param organismScientificName
+     * @param organismTaxonId
+     * @param sequenceDatabaseName
+     * @param sequenceDatabaseVersion
+     * @return
+     */
     protected boolean createDirectoryStructure(String workingDirectory, String organismScientificName, int organismTaxonId, String sequenceDatabaseName, String sequenceDatabaseVersion) {
 
         //create sub-directory for organism and database combination
@@ -676,10 +775,18 @@ public class SigPepSetup {//extends Thread {
         }
 
         return true;
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param workingDirectory
+     * @param organismScientificName
+     * @param organismNcbiTaxonId
+     * @param sequenceDatabaseName
+     * @param sequenceDatabaseVersion
+     * @return
+     */
     protected boolean retrieveSequences(String workingDirectory, String organismScientificName, int organismNcbiTaxonId, String sequenceDatabaseName, String sequenceDatabaseVersion) {
 
         SequenceRetriever sequenceRetriever = createSequenceRetriever(sequenceDatabaseName);
@@ -696,7 +803,6 @@ public class SigPepSetup {//extends Thread {
             URL destinationURL = destinationFile.toURI().toURL();
             sequenceRetriever.fetch(organismScientificName, organismNcbiTaxonId, sequenceDatabaseVersion, destinationURL);
 
-
         } catch (Exception e) {
             logger.error("exception occured while retrieving sequences.", e);
             logger.info("unable to retrieve sequences");
@@ -704,9 +810,22 @@ public class SigPepSetup {//extends Thread {
         }
 
         return true;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param workingDirectory
+     * @param organismScientificName
+     * @param organismNcbiTaxonId
+     * @param sequenceDatabaseName
+     * @param sequenceDatabaseVersion
+     * @param lowMass
+     * @param highMass
+     * @param missedCleavages
+     * @param protease
+     * @return
+     */
     protected boolean digestSequences(String workingDirectory,
                                       String organismScientificName,
                                       int organismNcbiTaxonId,
@@ -718,7 +837,6 @@ public class SigPepSetup {//extends Thread {
                                       String... protease) {
 
         ProteolyticDigest digest = createProteolyticDigest();
-
 
         try {
 
@@ -743,8 +861,6 @@ public class SigPepSetup {//extends Thread {
 
                 logger.info("digesting sequence database '" + sequenceFileURL.toString() + "' with " + p);
                 digest.digestSequenceDatabase(sequenceFileURL, digestFileURL);
-
-
             }
 
         } catch (Exception e) {
@@ -752,10 +868,20 @@ public class SigPepSetup {//extends Thread {
             return false;
         }
 
-
         return true;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @param workingDirectory
+     * @param organismScientificName
+     * @param organismNcbiTaxonId
+     * @param sequenceDatabaseName
+     * @param sequenceDatabaseVersion
+     * @param protease
+     * @return
+     */
     boolean processDigests(String workingDirectory,
                            String organismScientificName,
                            int organismNcbiTaxonId,
@@ -784,7 +910,6 @@ public class SigPepSetup {//extends Thread {
                 URL digestFileURL = digestFile.toURI().toURL();
 
                 protease2Url.put(p, digestFileURL);
-
             }
 
             DigestProcessor processor = createDigestProcessor();
@@ -799,9 +924,5 @@ public class SigPepSetup {//extends Thread {
             logger.error("exception occured while procession digests.", e);
             return false;
         }
-
-
-
     }
-
 }

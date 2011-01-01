@@ -2,8 +2,6 @@ package com.compomics.sigpep.model.impl;
 
 import com.compomics.sigpep.model.*;
 
-import java.util.Set;
-
 /**
  * Implementation of Protein.
  *
@@ -15,46 +13,71 @@ import java.util.Set;
 public class ProteinImpl implements Protein, Persistable {
 
     private int id;
-
     private Organism organism;
     private Object sessionFactory;
-
-
     /**
      * the gene that encodes the protein
      */
     private Gene gene;
-
     /**
      * the primary database cross-reference of the protein
      */
     private DbXref primaryDbXref;
-
     /**
      * the protein sequence
      */
     private ProteinSequence proteinSequence;
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param sessionFactory
+     */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Organism getOrganism() {
         return organism;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @param organism
+     */
     public void setOrganism(Organism organism) {
         this.organism = organism;
     }
@@ -109,12 +132,18 @@ public class ProteinImpl implements Protein, Persistable {
      * @return true if equal, false otherwise
      */
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Protein)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Protein)) {
+            return false;
+        }
 
         Protein protein = (Protein) o;
 
-        if (!primaryDbXref.equals(protein.getPrimaryDbXref())) return false;
+        if (!primaryDbXref.equals(protein.getPrimaryDbXref())) {
+            return false;
+        }
 
         return true;
     }
@@ -130,8 +159,8 @@ public class ProteinImpl implements Protein, Persistable {
      * {@inherit}
      */
     public String toString() {
-        return "ProteinImpl{" +
-                "primaryDbXref=" + primaryDbXref +
-                '}';
+        return "ProteinImpl{"
+                + "primaryDbXref=" + primaryDbXref
+                + '}';
     }
 }

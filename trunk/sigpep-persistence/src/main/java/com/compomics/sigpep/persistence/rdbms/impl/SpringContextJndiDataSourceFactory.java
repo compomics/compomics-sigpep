@@ -1,11 +1,8 @@
 package com.compomics.sigpep.persistence.rdbms.impl;
 
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
-
 import javax.sql.DataSource;
-
 import com.compomics.sigpep.persistence.rdbms.DataSourceFactory;
-
 
 /**
  * Provides JNDI data sources. Uses the Spring JNDI data source lookup
@@ -45,5 +42,4 @@ public class SpringContextJndiDataSourceFactory extends DataSourceFactory {
     public DataSource createCatalogDataSource() {
         return jndiDataSourceLookup.getDataSource("jdbc/catalog");
     }
-
 }

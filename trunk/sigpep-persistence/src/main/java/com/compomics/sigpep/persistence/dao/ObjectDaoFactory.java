@@ -3,6 +3,8 @@ package com.compomics.sigpep.persistence.dao;
 import com.compomics.sigpep.persistence.config.Configuration;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 03-Jun-2008<br/>
@@ -14,6 +16,11 @@ public abstract class ObjectDaoFactory {
     private static String objectDaoClass = config.getString("sigpep.db.object.dao.factory.class");
     private static ObjectDaoFactory ourInstance;
 
+    /**
+     * Creates an ObjectDaoFactory instance.
+     *
+     * @return the ObjectDaoFactory instance
+     */
     public static ObjectDaoFactory getInstance() {
 
         if (ourInstance == null) {
@@ -31,10 +38,13 @@ public abstract class ObjectDaoFactory {
         }
 
         return ourInstance;
-
     }
 
+    /**
+     * Create an ObjectDao from a given taxonomy id.
+     *
+     * @param taxonId the taxonomy id.
+     * @return the ObjectDao
+     */
     public abstract ObjectDao createObjectDao(int taxonId);
-
-
 }

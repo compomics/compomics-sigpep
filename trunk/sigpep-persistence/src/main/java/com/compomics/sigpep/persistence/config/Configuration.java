@@ -23,12 +23,22 @@ public class Configuration extends PropertiesConfiguration {
         }
     }
 
+    /**
+     * Returns the Configuration instance.
+     *
+     * @return
+     */
     public static Configuration getInstance() {
         return ourInstance;
     }
 
+    /**
+     * Reads the configuration file and creates a new Configuration instance.
+     *
+     * @param propertiesFile the propeties files to use
+     * @throws ConfigurationException
+     */
     private Configuration(String propertiesFile) throws ConfigurationException {
         super(propertiesFile);
     }
-
 }

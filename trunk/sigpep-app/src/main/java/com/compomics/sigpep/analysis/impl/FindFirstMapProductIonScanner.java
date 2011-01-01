@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ExecutionException;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -20,18 +22,25 @@ import java.util.concurrent.ExecutionException;
  */
 public class FindFirstMapProductIonScanner extends AbstractMapProductIonScanner {
 
-
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param targetProductIonTypes
+     * @param backgroundProductIonTypes
+     * @param productIonChargeStates
+     * @param massAccuracy
+     * @param minimumCombinationSize
+     * @param maximumCombinationSize
+     */
     public FindFirstMapProductIonScanner(HashSet<ProductIonType> targetProductIonTypes,
-                                         HashSet<ProductIonType> backgroundProductIonTypes,
-                                         HashSet<Integer> productIonChargeStates,
-                                         Double massAccuracy,
-                                         Integer minimumCombinationSize,
-                                         Integer maximumCombinationSize) {
+            HashSet<ProductIonType> backgroundProductIonTypes,
+            HashSet<Integer> productIonChargeStates,
+            Double massAccuracy,
+            Integer minimumCombinationSize,
+            Integer maximumCombinationSize) {
 
         super(targetProductIonTypes, backgroundProductIonTypes, productIonChargeStates, massAccuracy, minimumCombinationSize, maximumCombinationSize);
-
     }
-
 
     /**
      * Returns the first signature product ion combination found.
@@ -51,7 +60,6 @@ public class FindFirstMapProductIonScanner extends AbstractMapProductIonScanner 
 
         ExecutorService executorService = ExecutorServiceLocator.getInstance().getExecutorService();
 
-
         combinationFound:
         for (int k = minCombinationSize; k <= maxCombinationSize; k++) {
 
@@ -62,7 +70,6 @@ public class FindFirstMapProductIonScanner extends AbstractMapProductIonScanner 
 
                 ExclusionScoreCalculator<Map<Set<ProductIon>, Double>> calculator = exclusionScoreCalculatorFactory.getCalculator(combination, exclusionMatrix);
                 Future<Map<Set<ProductIon>, Double>> f = executorService.submit(calculator);
-
 
                 try {
 
@@ -78,14 +85,9 @@ public class FindFirstMapProductIonScanner extends AbstractMapProductIonScanner 
                 } catch (ExecutionException e) {
                     throw new RuntimeException(e);
                 }
-
             }
-
         }
 
         return retVal;
-
     }
-
-
 }

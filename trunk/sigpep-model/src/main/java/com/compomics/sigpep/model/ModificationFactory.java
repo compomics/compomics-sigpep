@@ -11,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Feb-2008<br/>
@@ -66,7 +68,6 @@ public abstract class ModificationFactory {
         } catch (Exception e) {
             throw new RuntimeException("Exception while reading post translational modification properties in file + " + PROPERTIES_FILE + ".", e);
         }
-
     }
 
     /**
@@ -89,7 +90,6 @@ public abstract class ModificationFactory {
         if (ptmCache.containsKey(ptmKey)) {
             return ptmCache.get(ptmKey);
         }
-
 
         String residue = configuration.getString("ptm." + key + ".residue");
 
@@ -128,9 +128,14 @@ public abstract class ModificationFactory {
         ptmCache.put(ptmKey, ptm);
 
         return ptm;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param keys
+     * @return
+     */
     public static Set<Modification> createPostTranslationalModifications(String... keys) {
 
         Set<String> keySet = new HashSet<String>();
@@ -148,6 +153,7 @@ public abstract class ModificationFactory {
     public static Set<Modification> createPostTranslationalModifications(Set<String> keys) {
 
         Set<Modification> retVal = new LinkedHashSet<Modification>();
+
         for (String name : keys) {
             try {
                 Modification ptm = createPostTranslationalModification(name);
@@ -156,8 +162,8 @@ public abstract class ModificationFactory {
                 //don't do anything
             }
         }
-        return retVal;
 
+        return retVal;
     }
 
     /**
@@ -168,6 +174,7 @@ public abstract class ModificationFactory {
     public static Set<Modification> createPostTranslationalModifications() {
 
         Set<Modification> retVal = new LinkedHashSet<Modification>();
+
         for (String key : modificationKeys) {
             try {
                 Modification ptm = createPostTranslationalModification(key);
@@ -176,8 +183,8 @@ public abstract class ModificationFactory {
                 //don't do anything
             }
         }
-        return retVal;
 
+        return retVal;
     }
 
     /**
@@ -191,6 +198,7 @@ public abstract class ModificationFactory {
 
         Pattern p = Pattern.compile("([A-Za-z]{1}\\(-?\\d{1}\\))");
         Matcher m = p.matcher(formula);
+        
         while (m.find()) {
 
             String group = m.group();
@@ -201,7 +209,7 @@ public abstract class ModificationFactory {
             retVal += elementMass * count;
 
         }
+
         return retVal;
     }
-
 }

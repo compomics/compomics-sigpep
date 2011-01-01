@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 22-Jan-2008<br/>
@@ -38,9 +40,7 @@ public class ResultSetWriter {
      * @throws IOException thrown if an exception occurs while writing the result set
      */
     public void write(PrintStream printStream, String columnDelimiter, boolean printLineNumber) throws IOException {
-
         this.write(new PrintWriter(printStream), columnDelimiter, printLineNumber);
-
     }
 
     /**
@@ -93,7 +93,6 @@ public class ResultSetWriter {
             //print rows
             while (resultSet.next()) {
 
-
                 for (int column = 1; column <= columnCount; column++) {
 
                     String columnValue = resultSet.getString(column);
@@ -102,14 +101,9 @@ public class ResultSetWriter {
                 }
 
                 tableWriter.writeRow(columnValues);
-
             }
-
-
         } catch (SQLException e) {
             throw new IOException("Error while writing result set.", e);
         }
-
     }
-
 }

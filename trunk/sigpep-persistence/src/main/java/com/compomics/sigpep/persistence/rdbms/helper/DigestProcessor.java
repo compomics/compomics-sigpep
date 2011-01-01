@@ -34,5 +34,4 @@ public interface DigestProcessor {
     void setOutputDirectoryUrl(URL ouputDirectoryUrl);
 
     boolean processFiles();
-
 }

@@ -4,7 +4,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.log4j.Logger;
 
-
 /**
  * Singelton to access named SQL queries.
  *
@@ -18,6 +17,11 @@ public class NamedQueryAccess extends XMLConfiguration {
     private static NamedQueryAccess ourInstance;
     private static Logger logger = Logger.getLogger(NamedQueryAccess.class);
 
+    /**
+     * Creates the NamedQueryAccess instance.
+     *
+     * @return the NamedQueryAccess instance
+     */
     public static NamedQueryAccess getInstance() {
         if(ourInstance==null){
             try {
@@ -29,8 +33,13 @@ public class NamedQueryAccess extends XMLConfiguration {
         return ourInstance;
     }
 
+    /**
+     * Creates a NamedQueryAccess instance from the properies file.
+     *
+     * @param propertiesFile the propeties files to use
+     * @throws ConfigurationException
+     */
     private NamedQueryAccess(String propertiesFile) throws ConfigurationException {
         super(propertiesFile);
     }
-
 }

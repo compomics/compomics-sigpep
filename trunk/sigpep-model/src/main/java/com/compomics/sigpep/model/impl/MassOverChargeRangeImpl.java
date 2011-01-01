@@ -93,9 +93,7 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
         this.chargeStates = chargeStates;
         this.accuracy = accuracy;
         this.calculateBounds();
-
     }
-
 
     /**
      * {@inherit}
@@ -169,14 +167,13 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
                 retVal.add(retValArray);
 
             }
-
         }
 
         return retVal;
-
     }
 
     /**
+     * @TODO: JavaDoc missing
      *
      * @param chargeStatesThat
      * @return
@@ -199,15 +196,18 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
                 retValArray[0] = new MassOverChargeRangeImpl(thatLowerBoundMass, chargeStatesThat, accuracy);
                 retValArray[1] = new MassOverChargeRangeImpl(thatUpperBoundMass, chargeStatesThat, accuracy);
                 retVal.add(retValArray);
-
             }
-
         }
 
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param chargeStateThat
+     * @return
+     */
     public List<MassOverChargeRange[]> getFlankingPeptideMassOverChargeRanges(int chargeStateThat) {
         HashSet<Integer> chargeStateSet = new HashSet<Integer>();
         chargeStateSet.add(chargeStateThat);
@@ -241,12 +241,10 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
 
                 if (overlapTemp > overlap)
                     overlap = overlapTemp;
-
             }
         }
 
         return overlap > minOverlap;
-
     }
 
     /**
@@ -328,14 +326,25 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
 //        this.calculateBounds();
 //    }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Set<Integer> getChargeStates() {
         return chargeStates;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param chargeStates
+     */
     public void setChargeStates(Set<Integer> chargeStates) {
         this.chargeStates = chargeStates;
     }
 
+    @Override
     public String toString() {
         StringBuffer retVal = new StringBuffer();
 
@@ -389,6 +398,8 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
 //        result = 31 * result + maximumCharge;
 //        return result;
 //    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -402,6 +413,7 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
         return true;
     }
 
+    @Override
     public int hashCode() {
         int result;
         long temp;
@@ -422,8 +434,6 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
      *         1 if it is greater
      */
     public int compareTo(MassOverChargeRange that) {
-
         return Double.compare(this.getNeutralPeptideMass(), that.getNeutralPeptideMass());
-
     }
 }

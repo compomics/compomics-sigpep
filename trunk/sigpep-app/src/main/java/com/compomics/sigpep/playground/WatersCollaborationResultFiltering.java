@@ -14,6 +14,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 22-Aug-2008<br/>
@@ -21,13 +23,17 @@ import java.util.regex.Pattern;
  */
 public class WatersCollaborationResultFiltering {
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 
         String idMapInput = "/home/mmueller/data/sigpep/collab_waters/heart_and_lysosomal_sp_acc_to_ensembl_gene_id.txt";
         String observedFragmentsInput = "/home/mmueller/data/sigpep/collab_waters/ApoHuman.tsv";
         String transitionsInput = "/home/mmueller/data/sigpep/collab_waters/transitions/results/all_results_unmapped.tsv";
         String transitionsFilteredOutput = "/home/mmueller/data/sigpep/collab_waters/transitions/results/all_results_mod_filtered_frag_filtered.tsv";
-
 
         Map<String, String> spAccToEnsemblId = new HashMap<String, String>();
         Map<String, String> ensemblIdToSpAcc = new HashMap<String, String>();
@@ -57,7 +63,6 @@ public class WatersCollaborationResultFiltering {
 
             System.out.println("spAccToEnsemblId.size() = " + spAccToEnsemblId.size());
 
-
             Map<String, Map<String, Set<String>>> acc2Pept2Ion = new HashMap<String, Map<String, Set<String>>>();
 
             Set<String> accs = new HashSet<String>();
@@ -75,9 +80,7 @@ public class WatersCollaborationResultFiltering {
                     String fragmentLength = row[19];
                     String fragmentLoss = row[20];
 
-
                     accs.add(spAcc);
-
 
                     if (ionType.equals("y") && fragmentLoss.equals("NULL")) {
 
@@ -99,7 +102,6 @@ public class WatersCollaborationResultFiltering {
                         acc2Pept2Ion.get(spAcc).get(peptide).add(fragment);
                     }
                 }
-
             }
 
             System.out.println("acc2Pept2Ion.size() = " + acc2Pept2Ion.size());
@@ -230,15 +232,11 @@ public class WatersCollaborationResultFiltering {
                                             mzFragment,
                                             score);
                                     os.flush();
-
                                 }
                             }
                         }
-
                     }
-
                 }
-
             }
 
             os.close();
@@ -246,8 +244,5 @@ public class WatersCollaborationResultFiltering {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
-
     }
-
 }

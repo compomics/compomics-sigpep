@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 17-Jan-2008<br/>
@@ -77,12 +79,10 @@ public class HibernateUtil {
                     hibernateConfig.setProperty("hibernate.connection.username", config.getString("sigpep.db.username"));
                     hibernateConfig.setProperty("hibernate.connection.password", config.getString("sigpep.db.password"));
                     hibernateConfig.setProperty("hibernate.connection.driver_class", config.getString("sigpep.db.driverClassName"));
-
                 }
 
                 //set Hibernate dialect
                 hibernateConfig.setProperty("hibernate.dialect", config.getString("sigpep.db.hibernate.dialect"));
-
                 hibernateConfig.configure();
 
                 retVal = hibernateConfig.buildSessionFactory();
@@ -93,7 +93,6 @@ public class HibernateUtil {
                 logger.error("Initial SessionFactory creation failed." + ex);
                 throw new ExceptionInInitializerError(ex);
             }
-
         }
 
         return retVal;
@@ -141,7 +140,6 @@ public class HibernateUtil {
                     hibernateConfig.setProperty("hibernate.connection.username", config.getString("sigpep.db.username"));
                     hibernateConfig.setProperty("hibernate.connection.password", config.getString("sigpep.db.password"));
                     hibernateConfig.setProperty("hibernate.connection.driver_class", config.getString("sigpep.db.driverClassName"));
-
                 }
 
                 //set Hibernate dialect
@@ -156,11 +154,8 @@ public class HibernateUtil {
                 logger.error("Initial SessionFactory creation failed." + ex);
                 throw new ExceptionInInitializerError(ex);
             }
-
         }
 
         return retVal;
     }
-
-
 }

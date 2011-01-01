@@ -1,6 +1,5 @@
 package com.compomics.sigpep.util;
 
-
 import Jama.Matrix;
 
 import java.io.*;
@@ -18,7 +17,6 @@ import java.util.TreeMap;
  */
 public class SigPepUtil {
 
-
     public static double round(double value, int decimals) {
 
         // see the Javadoc about why we use a String in the constructor
@@ -26,7 +24,6 @@ public class SigPepUtil {
         BigDecimal bd = new BigDecimal(Double.toString(value));
         bd = bd.setScale(decimals, BigDecimal.ROUND_HALF_UP);
         return bd.doubleValue();
-
     }
 
     /**
@@ -37,8 +34,9 @@ public class SigPepUtil {
      */
     public static int sumArray(int array[]) {
         int sum = 0;
-        for (int i : array)
+        for (int i : array) {
             sum += i;
+        }
         return sum;
     }
 
@@ -50,31 +48,43 @@ public class SigPepUtil {
      */
     public static double sumArray(double array[]) {
         double sum = 0;
-        for (double i : array)
+        for (double i : array) {
             sum += i;
+        }
         return sum;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @param array
+     * @param ps
+     */
     public static void printArray(int[][] array, PrintStream ps) {
 
-
-            for (int i = 0; i < array.length; i++) {
-                for (int j = 0; j < array[i].length; j++) {
-                    ps.print(array[i][j]);
-                    if (j != array[i].length - 1)
-                        ps.print("\t");
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                ps.print(array[i][j]);
+                if (j != array[i].length - 1) {
+                    ps.print("\t");
                 }
-                ps.println();
             }
-
+            ps.println();
+        }
     }
 
-    public static long factorial( int n )
-    {
-        if( n <= 1 )     // base case
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param n
+     * @return
+     */
+    public static long factorial(int n) {
+        if (n <= 1) { // base case
             return 1;
-        else
-            return n * factorial( n - 1 );
+        } else {
+            return n * factorial(n - 1);
+        }
     }
 
     /**
@@ -86,8 +96,8 @@ public class SigPepUtil {
      * @param k the combination size
      * @return the number of k-combinations
      */
-    public static long combinationsWithoutRepitition(int n, int k){
-        return binomialCoefficient(n,k);
+    public static long combinationsWithoutRepitition(int n, int k) {
+        return binomialCoefficient(n, k);
     }
 
     /**
@@ -100,8 +110,8 @@ public class SigPepUtil {
      * @param k the combination size
      * @return the number of k-combinations
      */
-    public static long combinationsWithRepitition(int n, int k){
-        return multisetCoefficient(n,k);
+    public static long combinationsWithRepitition(int n, int k) {
+        return multisetCoefficient(n, k);
     }
 
     /**
@@ -112,9 +122,11 @@ public class SigPepUtil {
      * @param k the combination size
      * @return the number of k-combinations
      */
-    public static long binomialCoefficient(int n, int k){
-        if (k < 0 || k > n) return 0;
-        return factorial(n)/(factorial(k)*factorial(n-k));
+    public static long binomialCoefficient(int n, int k) {
+        if (k < 0 || k > n) {
+            return 0;
+        }
+        return factorial(n) / (factorial(k) * factorial(n - k));
     }
 
     /**
@@ -126,55 +138,56 @@ public class SigPepUtil {
      * @param k the combination size
      * @return the number of k-combinations
      */
-    public static long multisetCoefficient(int n, int k){
-        return binomialCoefficient(n+k-1,k);
+    public static long multisetCoefficient(int n, int k) {
+        return binomialCoefficient(n + k - 1, k);
     }
 
-    public static Map<Integer, Integer> bin(Map<Double, Integer> data, int binSize, int minBinValue, int maxBinValue){
+    /**
+     * @TODO: JavaDoc missing
+     * 
+     * @param data
+     * @param binSize
+     * @param minBinValue
+     * @param maxBinValue
+     * @return
+     */
+    public static Map<Integer, Integer> bin(Map<Double, Integer> data, int binSize, int minBinValue, int maxBinValue) {
 
         Map<Integer, Integer> retVal = new TreeMap<Integer, Integer>();
 
-        for(int i = minBinValue; i <= maxBinValue; i++){
-
+        for (int i = minBinValue; i <= maxBinValue; i++) {
             retVal.put(i, 0);
-
         }
 
-
-        for(Double value : data.keySet()){
+        for (Double value : data.keySet()) {
 
             int frequency = data.get(value);
             int bin = value.intValue();
 
-            if(bin >= minBinValue && bin <= maxBinValue){
+            if (bin >= minBinValue && bin <= maxBinValue) {
 
-                if(retVal.containsKey(bin)){
+                if (retVal.containsKey(bin)) {
                     int currentFrequency = retVal.get(bin);
                     int newFrequency = currentFrequency + frequency;
                     retVal.put(bin, newFrequency);
                 } else {
 
                     //find next smaller bin
-                    for(int b = 1; b <= binSize; b++){
+                    for (int b = 1; b <= binSize; b++) {
 
-                        if(retVal.containsKey(bin)){
+                        if (retVal.containsKey(bin)) {
                             int currentFrequency = retVal.get(bin);
                             int newFrequency = currentFrequency + frequency;
                             retVal.put(bin, newFrequency);
                             break;
                         }
-
                     }
-
                 }
             }
-
         }
 
         return retVal;
-
     }
-
 
     /**
      * Merges to boolean matrices of zeros and ones using the OR condition,
@@ -187,30 +200,32 @@ public class SigPepUtil {
      * @param b input matrix b
      * @return the union matrix c
      */
-    public static Matrix union(Matrix a, Matrix b){
+    public static Matrix union(Matrix a, Matrix b) {
 
-        if(a.getColumnDimension() != b.getColumnDimension())
-            throw new IllegalArgumentException("Input matrices have to have the same dimensions. Column dimension a = " + a.getColumnDimension() + " != column dimension b = " + b.getColumnDimension());
+        if (a.getColumnDimension() != b.getColumnDimension()) {
+            throw new IllegalArgumentException("Input matrices have to have the same dimensions. Column dimension a = "
+                    + a.getColumnDimension() + " != column dimension b = " + b.getColumnDimension());
+        }
 
-        if(a.getRowDimension() != b.getRowDimension())
-                    throw new IllegalArgumentException("Input matrices have to have the same dimensions. Row dimension a = " + a.getRowDimension() + " != row dimension b = " + b.getRowDimension());
-
+        if (a.getRowDimension() != b.getRowDimension()) {
+            throw new IllegalArgumentException("Input matrices have to have the same dimensions. Row dimension a = "
+                    + a.getRowDimension() + " != row dimension b = " + b.getRowDimension());
+        }
 
         Matrix c = new Matrix(a.getRowDimension(), a.getColumnDimension());
 
-        for(int m = 0; m < c.getRowDimension(); m++){
-            for(int n = 0; n < c.getColumnDimension(); n++){
+        for (int m = 0; m < c.getRowDimension(); m++) {
+            for (int n = 0; n < c.getColumnDimension(); n++) {
 
-                if(a.get(m,n) == 1 || b.get(m,n) == 1)
-                    c.set(m,n, 1);
-                else
-                    c.set(m,n,0);
-
+                if (a.get(m, n) == 1 || b.get(m, n) == 1) {
+                    c.set(m, n, 1);
+                } else {
+                    c.set(m, n, 0);
+                }
             }
         }
 
         return c;
-
     }
 
     /**
@@ -224,44 +239,49 @@ public class SigPepUtil {
      * @param b input matrix b
      * @return the intersection matrix c
      */
-    public static Matrix intersection(Matrix a, Matrix b){
+    public static Matrix intersection(Matrix a, Matrix b) {
 
-        if(a.getColumnDimension() != b.getColumnDimension())
-            throw new IllegalArgumentException("Input matrices have to have the same dimensions. Column dimension a = " + a.getColumnDimension() + " != column dimension b = " + b.getColumnDimension());
+        if (a.getColumnDimension() != b.getColumnDimension()) {
+            throw new IllegalArgumentException("Input matrices have to have the same dimensions. Column dimension a = "
+                    + a.getColumnDimension() + " != column dimension b = " + b.getColumnDimension());
+        }
 
-        if(a.getRowDimension() != b.getRowDimension())
-                    throw new IllegalArgumentException("Input matrices have to have the same dimensions. Row dimension a = " + a.getRowDimension() + " != row dimension b = " + b.getRowDimension());
-
+        if (a.getRowDimension() != b.getRowDimension()) {
+            throw new IllegalArgumentException("Input matrices have to have the same dimensions. Row dimension a = "
+                    + a.getRowDimension() + " != row dimension b = " + b.getRowDimension());
+        }
 
         Matrix c = new Matrix(a.getRowDimension(), a.getColumnDimension());
 
-        for(int m = 0; m < c.getRowDimension(); m++){
-            for(int n = 0; n < c.getColumnDimension(); n++){
+        for (int m = 0; m < c.getRowDimension(); m++) {
+            for (int n = 0; n < c.getColumnDimension(); n++) {
 
-                if(a.get(m,n) == 1 && b.get(m,n) == 1)
-                    c.set(m,n, 1);
-                else
-                    c.set(m,n,0);
-
+                if (a.get(m, n) == 1 && b.get(m, n) == 1) {
+                    c.set(m, n, 1);
+                } else {
+                    c.set(m, n, 0);
+                }
             }
         }
 
         return c;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         try {
-
             BufferedReader br = new BufferedReader(new FileReader("/home/mmueller/data/sigpep/mass_overlap_human_zmin2_zmax2_acc1_overmin0.tab"));
 
             Map<Double, Integer> mass2SigPepFrequency = new TreeMap<Double, Integer>();
             Map<Double, Integer> mass2PepFrequency = new TreeMap<Double, Integer>();
 
-
             String line;
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
 
                 String[] columns = line.split("\t");
 
@@ -271,7 +291,6 @@ public class SigPepUtil {
 
                 mass2SigPepFrequency.put(mass, sigPepFreq);
                 mass2PepFrequency.put(mass, pepFreq);
-
             }
 
             br.close();
@@ -279,27 +298,20 @@ public class SigPepUtil {
             Map<Integer, Integer> mass2SigPepFrequencyBinned = bin(mass2SigPepFrequency, 1, 600, 4000);
             Map<Integer, Integer> mass2PepFrequencyBinned = bin(mass2PepFrequency, 1, 600, 4000);
 
-
             PrintWriter pw = new PrintWriter("/home/mmueller/data/sigpep/mass_overlap_human_zmin2_zmax2_acc1_overmin0_binned.tab");
 
-            for(Integer massBin : mass2SigPepFrequencyBinned.keySet()) {
+            for (Integer massBin : mass2SigPepFrequencyBinned.keySet()) {
 
                 Integer sigPepFreq = mass2SigPepFrequencyBinned.get(massBin);
                 Integer pepFreq = mass2PepFrequencyBinned.get(massBin);
 
                 pw.println(massBin + "\t" + sigPepFreq + "\t" + pepFreq);
-
             }
-
 
             pw.close();
 
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
-
     }
-
-    
 }
-

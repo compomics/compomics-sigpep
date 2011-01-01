@@ -12,7 +12,6 @@ import com.compomics.sigpep.model.*;
  */
 public class SpliceEventImpl implements SpliceEvent {
 
-
     /**
      * the upstream exon
      */
@@ -78,6 +77,7 @@ public class SpliceEventImpl implements SpliceEvent {
         return true;
     }
 
+    @Override
     public int hashCode() {
         int result;
         result = upstreamExon.hashCode();
@@ -85,7 +85,7 @@ public class SpliceEventImpl implements SpliceEvent {
         return result;
     }
 
-
+    @Override
     public String toString() {
         return "SpliceEventImpl{" +
                 "upstreamExon=" + upstreamExon +

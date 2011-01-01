@@ -79,7 +79,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     public EnsemblDBToolkitDigestProcessor(){        
     }
 
-
     /**
      * Constructs a digest processor to process DBToolkit in silico digests
      * of an Ensembl FASTA sequence library.
@@ -93,7 +92,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         this.digestFileUrl = digestFileUrl;
         this.outputDirectoryUrl = ouputDirectoryUrl;
     }
-
 
     /**
      * Creates PrintWriters for all output files and stores them in a HashMap.
@@ -113,7 +111,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         outputFiles.put(fileNameProtein2geneTable, new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameProtein2geneTable));
         outputFiles.put(fileNameProtein2organismTable, new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameProtein2organismTable));
         outputFiles.put(fileNameProteinSequenceTable, new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameProteinSequenceTable));
-
     }
 
     /**
@@ -123,7 +120,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
         for (PrintWriter pw : outputFiles.values())
             pw.flush();
-
     }
 
     /**
@@ -133,7 +129,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
         for (PrintWriter pw : outputFiles.values())
             pw.close();
-
     }
 
     /**
@@ -185,9 +180,13 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         removeRedundancy();//removeRedundancy
 
         return true;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @throws IOException
+     */
     private void createGeneTable() throws IOException {
 
         BufferedReader sequences = new BufferedReader(new InputStreamReader(sequenceFileUrl.openStream()));
@@ -207,13 +206,9 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
                         String acc = token.replace("gene:", "");
                         accessions.add(acc);
-
                     }
-
                 }
-
             }
-
         }
 
         PrintWriter table = new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameGeneTable);
@@ -223,13 +218,17 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
             table.println(id++ + "\t" + acc);
             table.flush();
-
         }
 
         table.close();
 
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @throws IOException
+     */
     private void createProteinTable() throws IOException {
 
         BufferedReader sequences = new BufferedReader(new InputStreamReader(sequenceFileUrl.openStream()));
@@ -240,7 +239,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
             //if FASTA header
 
-
             //ENSP00000386319 pep:known chromosome:NCBI36:MT:8528:9208:1 gene:ENSG00000198744 transcript:ENST00000409008
             if (line.startsWith(">")) {
 
@@ -250,12 +248,10 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                 if(status.equals("known")){
                     known = 1;
                 }
+
                 String location = line.split(" ")[2].replace(":", "\t");
-
                 entries.add(acc + "\t" + location + "\t" + known);
-
             }
-
         }
 
         PrintWriter table = new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameProteinTable);
@@ -269,10 +265,13 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         }
 
         table.close();
-
     }
 
-
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @throws IOException
+     */
     private void createProteinSequenceTable() throws IOException {
 
         DBLoader loader = DBLoaderLoader.loadDB(new File(sequenceFileUrl.getPath()));
@@ -280,23 +279,18 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
         String sequenceString;
         while((sequenceString = loader.nextProtein().getSequence().getSequence()) != null){
-
             sequences.add(sequenceString);
-
         }
             
         PrintWriter table = new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameProteinTable);
 
         int id = 1;
         for (String sequence : sequences) {
-
             table.println(id++ + "\t" + sequence);
             table.flush();
-
         }
 
         table.close();
-
     }
 
     /**
@@ -362,9 +356,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
                 //store protein to organism relationship
                 proteinId2OrganismId.put(proteinId, organismId);
-
-
-            }//end of while
+            }
 
             //close loader
             loader.close();
@@ -375,8 +367,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
             //set return value
             sequencesProcessed = true;
-
-        }//end of if
+        }
 
         //write results to files
         this.writeOrganismTables();
@@ -385,9 +376,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         this.writeSequenceTables();
 
         return sequencesProcessed;
-
-    }//end of method
-
+    }
 
     /**
      * Processes peptides resulting from in silico digesting the FASTA sequence library
@@ -400,7 +389,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         logger.info("Extracting peptide information:");
         //count input files to process
         int fileCount = 0;
-
 
         for (String protease : digestFileUrl.keySet()) {
 
@@ -417,11 +405,9 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
                 logger.info("processing file '" + fileName + "' (" + processedFileCount + " of " + fileCount + ")...");
 
-
                 int proteaseId = getProteaseId(protease);
 
                 try {
-
                     //iterate over sequences
                     DBLoader loader = DBLoaderLoader.loadDB(new File(fileName));
                     Protein peptide;
@@ -448,32 +434,24 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                             int peptideId = getPeptideId(sequence);
 
                             if (proteinId > 0 && sequenceId > 0 && peptideId > 0) {
-
                                 outputFiles.get(fileNamePeptide2proteaseTable).println(peptideId + "\t" + proteaseId);
                                 outputFiles.get(fileNamePeptideTable).println(peptideId + "\t" + sequenceId + "\t" + start + "\t" + end);
-
                             } else {
-
                                 throw new IOException("Exception while processing peptide.\n" +
                                         "protein_id = " + proteinId + ",\n" +
                                         "sequence_id = " + sequenceId + ",\n" +
                                         "peptide_id = " + peptideId + "\n" +
                                         header + "\n" +
                                         sequence + "\n");
-
                             }
-
                         } else {
-
                             throw new IOException("Exception while parsing peptide information from FASTA entry:\n" +
                                     header + "\n" +
                                     sequence + "\n");
-
                         }
 
                         counter++;
-
-                    }//end of while
+                    }
 
                     loader.close();
 
@@ -484,14 +462,11 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                 processedFileCount++;
 
                 logger.info("done (" + counter + " peptides processed; " + peptides.size() + " unique peptides in memory).");
-
-            } //end of if
-
+            }
         }
 
         writeProteaseTables();
-
-    } //end of method
+    }
 
     /**
      * Extracts the name of the protease from an in silico digest file name
@@ -500,11 +475,9 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
      * @return the protease name
      */
     private String extractProteaseName(String fileName) {
-
         int tokenCount = fileName.split("\\.").length;
         return fileName.split("\\.")[tokenCount - 3];
-
-    } //end of method
+    }
 
     /**
      * Extracts the gene accession from an Ensembl/TAIR FASTA header
@@ -571,9 +544,14 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         if (fastaHeader.contains("pep:known"))
             retVal = 1;
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param fastaHeader
+     * @return
+     */
     private int[] extractPosition(String fastaHeader) {
 
         int[] retVal = new int[2];
@@ -595,7 +573,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                 retVal[1] = Integer.parseInt(m.group(2));
 
             }
-
         } catch (Exception e) {
             logger.error("Exception while extracting peptide coordinates from FASTA header (" + fastaHeader + ").", e);
         }
@@ -617,8 +594,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             organisms.put(organism, organismId++);
 
         return organisms.get(organism);
-
-    } //end of method
+    }
 
     /**
      * Returns database ID for the protease.
@@ -634,8 +610,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             proteases.put(protease, proteaseId++);
 
         return proteases.get(protease);
-
-    } //end of method
+    }
 
     /**
      * Returns database ID for gene.
@@ -652,8 +627,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             genes.put(gene, geneId++);
 
         return genes.get(gene);
-
-    } //end of method
+    } 
 
     /**
      * Returns database ID for protein.
@@ -669,8 +643,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             proteins.put(protein, proteinId++);
 
         return proteins.get(protein);
-
-    } //end of method
+    }
 
     /**
      * Returns database ID for peptide.
@@ -686,8 +659,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             peptides.put(peptide, peptideId++);
 
         return peptides.get(peptide);
-
-    } //end of method
+    }
 
     /**
      * Returns database ID for sequence.
@@ -703,8 +675,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             sequences.put(sequence, sequenceId++);
 
         return sequences.get(sequence);
-
-    } //end of method
+    }
 
     /**
      * Writes a tab separated file for import into
@@ -722,8 +693,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         }
 
         output.flush();
-
-    } //end of method
+    }
 
     /**
      * Writes tab separated files for import into
@@ -748,8 +718,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             flushOutputFiles();
 
         }
-
-    } //end of method
+    }
 
     /**
      * Writes tab separated files for import into
@@ -760,43 +729,33 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
         //protein table
         for (String accession : proteins.keySet()) {
-
             int id = proteins.get(accession);
             int known = proteinId2Known.get(id);
             outputFiles.get(fileNameProteinTable).println(id + "\t" + accession + "\t" + known);
             flushOutputFiles();
-
         }
 
         //protein2gene table
         for (Integer proteinId : proteinId2GeneId.keySet()) {
-
             int geneId = proteinId2GeneId.get(proteinId);
             outputFiles.get(fileNameProtein2geneTable).println(proteinId + "\t" + geneId);
             flushOutputFiles();
-
         }
 
         //protein2organism table
         for (Integer proteinId : proteinId2GeneId.keySet()) {
-
             int organismId = proteinId2OrganismId.get(proteinId);
             outputFiles.get(fileNameProtein2organismTable).println(proteinId + "\t" + organismId);
             flushOutputFiles();
-
         }
 
         //protein2sequence table
         for (Integer proteinId : proteinId2SequenceId.keySet()) {
-
             int sequenceId = proteinId2SequenceId.get(proteinId);
             outputFiles.get(fileNameProtein2sequenceTable).println(proteinId + "\t" + sequenceId);
             flushOutputFiles();
-
         }
-
-
-    } //end of method
+    }
 
     /**
      * Writes tab separated file for import into
@@ -812,8 +771,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             output.println(id + "\t" + sequence);
             output.flush();
         }
-
-    } //end of method
+    }
 
     /**
      * Writes tab separated file for import into
@@ -829,9 +787,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             output.println(id + "\t" + protease);
             output.flush();
         }
-
-
-    } //end of method
+    }
 
     /**
      * Removes duplicated rows from the files generated by methods processSequences()
@@ -872,12 +828,10 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
                     //execute sort command
                     if ((errorValue = this.executeCommand(commandMv.toString())) != 0) {
-
                         //exit if error has occurd
                         logger.error("Error while executing command " + commandMv + ".");
                         System.exit(errorValue);
                     }
-
 
                 } catch (IOException e) {
                     logger.error(e);
@@ -889,11 +843,9 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
                 logger.info("done");
 
-            } //end of if
-
+            }
         }
-
-    } //end of method
+    }
 
     /**
      * Executes a shell command.
@@ -929,10 +881,11 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
         //return exit value
         return retVal;
-    } //end of method
+    }
 
     /////////
     //getters
+    /////////
 
     /**
      * Returns the NCBI taxon ID of this instance of EnsemblDBToolkitDigestProcessor
@@ -942,7 +895,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     public int getNcbiTaxonId() {
         return ncbiTaxonId;
     } //end of method
-
 
     public URL getSequenceFileUrl() {
         return sequenceFileUrl;
@@ -1002,6 +954,5 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 //            logger.error(e);
 //        }
 
-    }//end of main
-
+    }
 }

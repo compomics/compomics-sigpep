@@ -23,6 +23,8 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 11-Mar-2008<br/>
@@ -53,11 +55,9 @@ public class CollabMapping {
         Set<String> peptides = new HashSet<String>();
 
         for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
-
             String[] row = rows.next();
             String peptide = row[0];
             peptides.add(peptide);
-
         }
 
         logger.info("fetching peptide cardinality from database");
@@ -71,22 +71,28 @@ public class CollabMapping {
         logger.info("writing results to file " + outputFile);
         for (String peptide : peptides) {
 
-
             int cardinality = -1;
+
             if (peptide2Cardinality.containsKey(peptide)) {
                 cardinality = peptide2Cardinality.get(peptide);
             }
 
             dtw.writeRow(peptide, cardinality);
-
         }
-
-
     }
 
-    public static void joinQtrapQstarSrmIdentifications(String qstarQtrapIdentInputFile,
-                                                        String srmIdentFile,
-                                                        String outputFile) throws IOException {
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param qstarQtrapIdentInputFile
+     * @param srmIdentFile
+     * @param outputFile
+     * @throws IOException
+     */
+    public static void joinQtrapQstarSrmIdentifications(
+            String qstarQtrapIdentInputFile,
+            String srmIdentFile,
+            String outputFile) throws IOException {
 
         DelimitedTableReader dtrQ = new DelimitedTableReader(new FileInputStream(qstarQtrapIdentInputFile), "\t");
         DelimitedTableReader dtrSrm = new DelimitedTableReader(new FileInputStream(srmIdentFile), "\t");
@@ -108,9 +114,8 @@ public class CollabMapping {
             if (!srmIdentPeptide.containsKey(ensemblId)) {
                 srmIdentPeptide.put(ensemblId, new HashSet<String>());
             }
+
             srmIdentPeptide.get(ensemblId).add(peptide);
-
-
         }
 
         //read qtrap/qstar identifications and peptides
@@ -126,10 +131,10 @@ public class CollabMapping {
             if (!qIdentPeptide.containsKey(ensemblId)) {
                 qIdentPeptide.put(ensemblId, new HashSet<String>());
             }
+
             qIdentPeptide.get(ensemblId).add(peptide);
 
             peptideCard.put(peptide, cardinality);
-
         }
 
         //write join table to file
@@ -145,30 +150,18 @@ public class CollabMapping {
                 for (String qPeptide : qPeptides) {
 
                     if (srmPeptides.contains(qPeptide)) {
-
                         dtw.writeRow(ensemblId, qPeptide, qPeptide, peptideCard.get(qPeptide));
-
                         srmPeptides.remove(qPeptide);
-
                     } else {
-
                         dtw.writeRow(ensemblId, qPeptide, "null", peptideCard.get(qPeptide));
-
                     }
-
-
                 }
 
                 for (String srmPeptide : srmPeptides) {
-
                     dtw.writeRow(ensemblId, "null", srmPeptide, 1);
-
                 }
-
             }
         }
-
-
     }
 
     /**
@@ -180,16 +173,16 @@ public class CollabMapping {
      * @param outputFile   the outputfile
      * @throws IOException if an exception occurs during file access
      */
-    public static void leftJoinSrmIdentificationsAndPredictions(String srmIdentFile,
-                                                                String srmPredFile,
-                                                                String outputFile)
+    public static void leftJoinSrmIdentificationsAndPredictions(
+            String srmIdentFile,
+            String srmPredFile,
+            String outputFile)
             throws IOException, DatabaseException {
 
         ApplicationContext appContext = new ClassPathXmlApplicationContext("config/applicationContext.xml");
         SigPepSessionFactory sessionFactory = (SigPepSessionFactory) appContext.getBean("sigPepSessionFactory");
         Organism organism = sessionFactory.getOrganism(9606);
         SigPepSession session = sessionFactory.createSigPepSession(organism);
-
 
         DelimitedTableReader dtrSrmIdent = new DelimitedTableReader(new FileInputStream(srmIdentFile), "\t");
         DelimitedTableReader dtrSrmPred = new DelimitedTableReader(new FileInputStream(srmPredFile), "\t");
@@ -211,9 +204,8 @@ public class CollabMapping {
             if (!srmIdentPeptide.containsKey(ensemblId)) {
                 srmIdentPeptide.put(ensemblId, new HashSet<String>());
             }
+
             srmIdentPeptide.get(ensemblId).add(peptide);
-
-
         }
 
         //read SRM predictions and peptides
@@ -229,8 +221,8 @@ public class CollabMapping {
             if (!srmPredPeptide.containsKey(ensemblId)) {
                 srmPredPeptide.put(ensemblId, new HashSet<String>());
             }
-            srmPredPeptide.get(ensemblId).add(peptide);
 
+            srmPredPeptide.get(ensemblId).add(peptide);
         }
 
         logger.info("fetching peptide cardinality from database");
@@ -244,11 +236,9 @@ public class CollabMapping {
         //format: protein id | peptide sequence SRM identification | peptide sequence SRM prediction | peptide cardinality
 
         for (String ensemblId : srmIdentPeptide.keySet()) {
-
             for (String peptide : srmIdentPeptide.get(ensemblId)) {
                 System.out.println(ensemblId + " " + peptide);
             }
-
         }
 
         for (String ensemblIdIdent : srmIdentPeptide.keySet()) {
@@ -256,7 +246,6 @@ public class CollabMapping {
             String ensemblIdPred = "null";
 
             Set<String> srmIdentPeptides = srmIdentPeptide.get(ensemblIdIdent);
-
             Set<String> srmPredPeptides = new HashSet<String>();
 
             if (srmPredPeptide.containsKey(ensemblIdIdent)) {
@@ -264,25 +253,27 @@ public class CollabMapping {
                 srmPredPeptides = srmPredPeptide.get(ensemblIdIdent);
             }
 
-
             for (String peptideIdent : srmIdentPeptides) {
 
                 String peptidePred = "null";
                 Integer peptideCardinality = peptide2Cardinality.get(peptideIdent);
+
                 if (srmPredPeptides.contains(peptideIdent)) {
                     peptidePred = peptideIdent;
                 }
 
                 dtw.writeRow(ensemblIdIdent, ensemblIdPred, peptideIdent, peptidePred, peptideCardinality);
-
-
             }
-
-
         }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param inputFile
+     * @param outputFile
+     * @throws IOException
+     */
     public static void convertTransitions(String inputFile, String outputFile) throws IOException {
 
         InputStream is = new FileInputStream(inputFile);
@@ -294,6 +285,7 @@ public class CollabMapping {
         dtw.writeHeader("Use", "Q1 Mass", "Q3 Mass", "Sequence", "Start Position", "End Position", "Fragment Type", "Mr", "Charge", "CE");
         Iterator<String[]> rows = dtr.read();
         rows.next();
+
         while (rows.hasNext()) {
 
             String[] row = rows.next();
@@ -309,27 +301,30 @@ public class CollabMapping {
             int[] endCoordinate = new int[types.length];
             String[] fragmentType = new String[types.length];
             int t = 0;
-            for (String type : types) {
 
+            for (String type : types) {
                 fragmentType[t] = type.split("_")[0];
                 int fragmentLength = new Integer(type.split("_")[1]);
                 startCoordinate[t] = sequence.length() - fragmentLength + 1;
                 endCoordinate[t] = sequence.length();
                 t++;
-
             }
 
             for (int i = 0; i < startCoordinate.length; i++) {
                 dtw.writeRow("Use", q1Mass, q3Masses[i], sequence, startCoordinate[i], endCoordinate[i], fragmentType[i], mr, charge, "");
             }
-
         }
 
         is.close();
         os.close();
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * 
+     * @param filename
+     * @throws FileNotFoundException
+     */
     public static void exportProteinFastaFile(String filename) throws FileNotFoundException {
 
         SessionFactory sf = HibernateUtil.getSessionFactory(9606);
@@ -344,12 +339,11 @@ public class CollabMapping {
             ProteinSequence sequence = sequences.next();
             String sequenceString = sequence.getSequenceString();
             StringBuilder accessions = new StringBuilder(">");
+
             for (Protein protein : sequence.getProteins()) {
-
-                accessions.append(protein.getPrimaryDbXref().getAccession())
-                        .append(";");
-
+                accessions.append(protein.getPrimaryDbXref().getAccession()).append(";");
             }
+
             accessions.deleteCharAt(accessions.length() - 1);
 
             pw.println(accessions);
@@ -362,6 +356,10 @@ public class CollabMapping {
         System.out.println(counter + " sequences exported.");
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     * @throws FileNotFoundException
+     */
     public static void checkPeptideMapping() throws FileNotFoundException {
 
         try {
@@ -373,7 +371,6 @@ public class CollabMapping {
             DelimitedTableReader mappingDtr = new DelimitedTableReader(new FileInputStream(mappingFile), "\t");
             DelimitedTableReader identDtr = new DelimitedTableReader(new FileInputStream(identFile), "\t");
             DelimitedTableReader sequenceDtr = new DelimitedTableReader(new FileInputStream(sequenceFile), "\t");
-
 
             Map<String, String> ipi2Ensembl = new HashMap<String, String>();
             Set<String> ensemblIds = new HashSet<String>();
@@ -392,7 +389,6 @@ public class CollabMapping {
                 }
 
                 ipi2Pep.get(row[0]).add(row[1]);
-
             }
 
             Map<String, String> ensembl2Seq = new HashMap<String, String>();
@@ -416,27 +412,24 @@ public class CollabMapping {
                     if (!sequence.contains(peptide)) {
                         System.out.println(identification + "\t" + ensemblId + "\t" + peptide + "\t" + peptides.size());
                     }
-
                 }
-
-
             }
-
-
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace(); 
         }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @throws FileNotFoundException
+     */
     public static void signatureTransitionPredictionSanityCheck() throws FileNotFoundException {
 
         try {
 
-
             String transitionFile = "/home/mmueller/data/sigpep/collab/qstar_qtrap_signature_transitions.csv";
             String sequenceFile = "/home/mmueller/data/sigpep/collab/ident_qstar_qtrap_ensembl_45_protein_seq.csv";
-
 
             DelimitedTableReader transitionDtr = new DelimitedTableReader(new FileInputStream(transitionFile), "\t");
             DelimitedTableReader sequenceDtr = new DelimitedTableReader(new FileInputStream(sequenceFile), "\t");
@@ -469,18 +462,21 @@ public class CollabMapping {
                     if (!sequence.contains(peptide)) {
                         System.out.println(ensemblId + "\t" + ensemblId + "\t" + peptide + "\t" + peptides.size());
                     }
-
                 }
-
             }
-
-
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace(); 
         }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param proteinAccessions
+     * @param proteaseNames
+     * @param outputDirectory
+     * @param transitionOutputFile
+     */
     public static void findSignatureTransitions(Set<String> proteinAccessions, Set<String> proteaseNames, String outputDirectory, String transitionOutputFile) {
 
         ApplicationContext appContext = new ClassPathXmlApplicationContext("config/applicationContext.xml");
@@ -511,7 +507,6 @@ public class CollabMapping {
         targetPtmNames.add("cyscarbamidmeth");
         Set<Modification> targetPtms = ModificationFactory.createPostTranslationalModifications(targetPtmNames);
 
-
         try {
 
             logger.info("creating peptide generator...");
@@ -538,14 +533,14 @@ public class CollabMapping {
             DelimitedTableWriter dtwTransition = new DelimitedTableWriter(pwTransitions, "\t", true);
 
             SignatureTransitionFinder stf = session.createSignatureTransitionFinder(backgroundPeptides,
-                                targetProductIonTypes,
-                                backgroundProductIonTypes,
-                                precursorIonChargeStates,
-                                productIonChargeStates,
-                                massAccuracy,
-                                1,
-                                10,
-                                SignatureTransitionFinderType.FIRST);
+                    targetProductIonTypes,
+                    backgroundProductIonTypes,
+                    precursorIonChargeStates,
+                    productIonChargeStates,
+                    massAccuracy,
+                    1,
+                    10,
+                    SignatureTransitionFinderType.FIRST);
 
             for (String proteinAccession : proteinAccession2SignaturePeptides.keySet()) {
                 Set<Peptide> signaturePeptides = proteinAccession2SignaturePeptides.get(proteinAccession);
@@ -557,11 +552,9 @@ public class CollabMapping {
                         Set<Peptide> peps = new HashSet<Peptide>();
                         peps.add(signaturePeptide);
 
-                        List<SignatureTransition> transitions = stf.findSignatureTransitions(
-                                peps);
+                        List<SignatureTransition> transitions = stf.findSignatureTransitions(peps);
 
                         SignatureTransition signatureTransition = (SignatureTransition) transitions.iterator().next();
-
 
                         if (signatureTransition.getProductIons().size() > 0) {
 
@@ -570,19 +563,10 @@ public class CollabMapping {
                             StringBuilder productIonMassOverCharge = new StringBuilder();
 
                             for (ProductIon pi : signatureTransition.getProductIons()) {
-
-                                productIonNames.append(pi.getType().toString())
-                                        .append("_")
-                                        .append(pi.getSequenceLength())
-                                        .append(";");
-
-                                productIonMasses.append(SigPepUtil.round(pi.getNeutralMassPeptide(), 4))
-                                        .append(";");
-
-                                productIonMassOverCharge.append(SigPepUtil.round(pi.getMassOverCharge(1), 4))
-                                        .append(";");
+                                productIonNames.append(pi.getType().toString()).append("_").append(pi.getSequenceLength()).append(";");
+                                productIonMasses.append(SigPepUtil.round(pi.getNeutralMassPeptide(), 4)).append(";");
+                                productIonMassOverCharge.append(SigPepUtil.round(pi.getMassOverCharge(1), 4)).append(";");
                             }
-
 
                             StringBuilder modifications = new StringBuilder();
                             Peptide peptide = signatureTransition.getPeptide();
@@ -638,7 +622,6 @@ public class CollabMapping {
 
                             dtwBackground.writeRow(0, "S", productIonMz);
 
-
                             int peptideCount = 0;
                             for (Peptide bgPeptide : signatureTransition.getBackgroundPeptides()) {
 
@@ -671,10 +654,9 @@ public class CollabMapping {
                                 }
 
                                 dtwBackground.writeRow(peptideCount, "B", productIonMz);
-
                             }
-                            pwBackground.close();
 
+                            pwBackground.close();
                         }
                     }
                 }
@@ -682,15 +664,16 @@ public class CollabMapping {
 
             pwTransitions.close();
             logger.info("done");
-
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             logger.error(e);
         }
-
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         try {
@@ -716,7 +699,7 @@ public class CollabMapping {
 //
 //            CollabMapping.exportProteinFastaFile("/home/mmueller/data/sigpep/collab/ensembl_45.fasta");
 
-            CollabMapping.convertTransitions("/home/mmueller/data/sigpep/collab/signature_transition/prediction/plus_3/" + transitionOutput,
+            CollabMapping.convertTransitions("/home/mmueller/data/sigpep/collab/signature_transition/prediction/plus_3/" + transitionOutput,    // @TODO: remove hardcoded values!
                     "/home/mmueller/data/sigpep/collab/signature_transition/prediction/plus_3/ident_qstar_qtrap_signature_transitions_plus_3_transformed.tab");
 
             //CollabMapping.getPeptideCardinality("/home/mmueller/data/sigpep/collab/ident_qstar_qtrap_peptides.csv", "/home/mmueller/data/sigpep/collab/ident_qstar_qtrap_peptide_cardinality.csv");
@@ -733,9 +716,6 @@ public class CollabMapping {
 
         } catch (IOException e) {
             logger.error(e);
-
         }
-
     }
-
 }

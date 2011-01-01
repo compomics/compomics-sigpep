@@ -8,13 +8,14 @@ import com.compomics.sigpep.model.*;
 import java.util.List;
 
 /**
+ * @TODO: JavaDoc missing
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>
  * Time: 15:46:41<br/>
  */
 public class PrecursorIonImplTest {
-
 
     private Peptide aPeptide;
     private Peptide anotherPeptide;
@@ -171,8 +172,5 @@ public class PrecursorIonImplTest {
 
         aPrecursorIon.setNeutralMassCTerminalGroup(originalValue);
 
-
-
     }
-
 }

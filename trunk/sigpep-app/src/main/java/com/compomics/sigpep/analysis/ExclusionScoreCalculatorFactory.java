@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.Map;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -18,6 +20,11 @@ public abstract class ExclusionScoreCalculatorFactory {
     private static ExclusionScoreCalculatorFactory ourInstance;
     protected static ExclusionScoreCalculator exclusionScoreCalculator;
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public static ExclusionScoreCalculatorFactory getInstance() {
 
         Configuration config = Configuration.getInstance();
@@ -34,14 +41,18 @@ public abstract class ExclusionScoreCalculatorFactory {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
         }
 
         return ourInstance;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param productIonCombination
+     * @param exclusionMatrix
+     * @return
+     */
     public abstract ExclusionScoreCalculator<Map<Set<ProductIon>, Double>> getCalculator(Set<ProductIon> productIonCombination,
                                                                                          Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix);
-
 }

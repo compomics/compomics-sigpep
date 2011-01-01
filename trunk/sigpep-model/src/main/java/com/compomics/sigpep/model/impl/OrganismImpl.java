@@ -4,6 +4,8 @@ import com.compomics.sigpep.model.Organism;
 import com.compomics.sigpep.model.Persistable;
 
 /**
+ * @TODO: JavaDoc missing
+ * 
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 16-Jan-2008<br/>
@@ -24,18 +26,38 @@ public class OrganismImpl implements Organism, Persistable {
      */
     private String scientificName;
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @return
+     */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
+    /**
+     * @TODO: JavaDoc missing
+     *
+     * @param sessionFactory
+     */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -102,5 +124,4 @@ public class OrganismImpl implements Organism, Persistable {
                 ", scientificName='" + scientificName + '\'' +
                 '}';
     }
-
 }

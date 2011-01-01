@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
+ * @TODO: JavaDoc missing.
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Aug-2008<br/>
@@ -30,6 +32,11 @@ public class BayesianChargeProbabilityCalculator {
     private Map<Integer, DensityDistribution> peptideMassProbabilityDensityDistributionByCharge;
 
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param observedPeptideMassChargeStateCombinations
+     */
     public BayesianChargeProbabilityCalculator(List<Map<Double, Integer>> observedPeptideMassChargeStateCombinations) {
 
         this.observedPeptideMassChargeStateCombinations = observedPeptideMassChargeStateCombinations;
@@ -39,10 +46,11 @@ public class BayesianChargeProbabilityCalculator {
         this.peptideMassProbabilityDensityDistributionByCharge = getPeptideMassProbabilityDensityDistributionByCharge();
 
         this.allowedChargeStates = peptideChargeProbabilityMassDistribution.keySet();
-
     }
 
     /**
+     * @TODO: JavaDoc missing.
+     *
      * @return
      */
     private Map<Integer, Double> getPeptideChargeProbablityMassDistribution() {
@@ -68,12 +76,11 @@ public class BayesianChargeProbabilityCalculator {
 
             double density = (double) chargeCount.get(charge) / (double) n;
             retVal.put(charge, density);
-
         }
 
         return retVal;
-
     }
+
 //    private DensityDistribution getPeptideChargeProbablityMassDistribution() {
 //
 //        try {
@@ -118,20 +125,19 @@ public class BayesianChargeProbabilityCalculator {
 //    }
 
     /**
+     * @TODO: JavaDoc missing.
+     *
      * @return
      */
     private DensityDistribution getPeptideMassProbabilityDensityDistribution() {
 
-
         try {
-
             //create integer array of charges
             List<Double> massList = new ArrayList<Double>();
             for (Map<Double, Integer> combination : observedPeptideMassChargeStateCombinations) {
                 for (Double mass : combination.keySet()) {
                     massList.add(mass);
                 }
-
             }
 
             double[] masses = collectionToArrayOfPrimitives(massList);
@@ -160,9 +166,13 @@ public class BayesianChargeProbabilityCalculator {
         } catch (REXPMismatchException e) {
             throw new RuntimeException("Exception while converting R types to Java types.", e);
         }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     private Map<Integer, DensityDistribution> getPeptideMassProbabilityDensityDistributionByCharge() {
 
         Map<Integer, DensityDistribution> retVal = new TreeMap<Integer, DensityDistribution>();
@@ -180,9 +190,7 @@ public class BayesianChargeProbabilityCalculator {
                 }
 
                 groupedMasses.get(charge).add(mass);
-
             }
-
         }
 
         //get density distribution for each charge
@@ -217,12 +225,17 @@ public class BayesianChargeProbabilityCalculator {
             } catch (REXPMismatchException e) {
                 throw new RuntimeException("Exception while converting R types to Java types.", e);
             }
-
         }
 
         return retVal;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param doubles
+     * @return
+     */
     private double[] collectionToArrayOfPrimitives(Collection<Double> doubles) {
 
         double[] retVal = new double[doubles.size()];
@@ -234,14 +247,30 @@ public class BayesianChargeProbabilityCalculator {
         return retVal;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public List<Map<Double, Integer>> getObservedPeptideMassChargeStateCombinations() {
         return observedPeptideMassChargeStateCombinations;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param observedPeptideMassChargeStateCombinations
+     */
     public void setObservedPeptideMassChargeStateCombinations(List<Map<Double, Integer>> observedPeptideMassChargeStateCombinations) {
         this.observedPeptideMassChargeStateCombinations = observedPeptideMassChargeStateCombinations;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param mass
+     * @return
+     */
     public Map<Integer, Double> getChargeProbablitiesGivenMass(double mass){
 
         Map<Integer, Double> retVal = new TreeMap<Integer, Double>();
@@ -252,6 +281,13 @@ public class BayesianChargeProbabilityCalculator {
 
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param z
+     * @param mass
+     * @return
+     */
     public double getProbabilityOfChargeGivenMass(int z, double mass) {
 
         double retVal = 0;
@@ -269,16 +305,20 @@ public class BayesianChargeProbabilityCalculator {
         conditionalProbablityPeptideMassGivenCharge = approximateProbability(mass, peptideMassProbabilityDensityDistributionByCharge.get(z));
 
         if (priorProbabilityPeptideMass > 0) {
-
             retVal = (conditionalProbablityPeptideMassGivenCharge * priorProbabilityPeptideCharge) /
                     priorProbabilityPeptideMass;
-
         }
 
         return retVal;
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param value
+     * @param densityDistribution
+     * @return
+     */
     private double approximateProbability(double value, DensityDistribution densityDistribution) {
 
         try {
@@ -310,13 +350,22 @@ public class BayesianChargeProbabilityCalculator {
         } catch (REXPMismatchException e) {
             throw new RuntimeException("Exception while converting R types to Java types.", e);
         }
-
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @return
+     */
     public Set<Integer> getAllowedChargeStates() {
         return allowedChargeStates;
     }
 
+    /**
+     * @TODO: JavaDoc missing.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         try {
@@ -371,11 +420,11 @@ public class BayesianChargeProbabilityCalculator {
         } catch (FileNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-
     }
 
-
-
+    /**
+     * @TODO: JavaDoc missing.
+     */
     private class DensityDistribution {
 
         private double[] x;
@@ -401,6 +450,5 @@ public class BayesianChargeProbabilityCalculator {
         public void setY(double[] y) {
             this.y = y;
         }
-
     }
 }

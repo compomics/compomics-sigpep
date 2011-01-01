@@ -1,6 +1,8 @@
 package com.compomics.sigpep.persistence.rdbms.helper;
 
 /**
+ * @TODO: JavaDoc missing
+ *
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 30-Apr-2009<br/>
@@ -11,7 +13,7 @@ public interface DatabaseInitialiser {
     /**
      * Initialises the SigPep database by setting up the catalog schema.
      *
-     * * @return true if the database has been initialised successfully, false if not.
+     * @return true if the database has been initialised successfully, false if not.
      */
     boolean initialise();
 
@@ -35,5 +37,4 @@ public interface DatabaseInitialiser {
      * @param adminPassword password of user with administration privileges
      */
     void setAdminPassword(String adminPassword);
-
 }
