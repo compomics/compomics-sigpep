@@ -1,9 +1,9 @@
 package com.compomics.sigpep.persistence.rdbms.helper;
 
-import org.apache.log4j.Logger;
 import com.compomics.dbtools.DatabaseException;
 import com.compomics.sigpep.persistence.config.Configuration;
 import com.compomics.sigpep.persistence.rdbms.SigPepDatabase;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,25 +37,7 @@ public class SigPepSetup {
      */
     private DatabaseInitialiser databaseInitialiser = createDatabaseInititaliser();
 
-    /**
-     * helper to retrieve protein sequences from database
-     */
-    private SequenceRetriever sequenceRetriever;
 
-    /**
-     * the working directory for the setup process
-     */
-    private String workingDirectory;
-
-    /**
-     * the NCBI taxon ID of the species to set up a SigPep schema for
-     */
-    private int ncbiTaxonId;
-
-    /**
-     * the Ensembl version to use as basis
-     */
-    private int ensemblVersion;
 
     /**
      * the sig pep database
@@ -84,26 +66,6 @@ public class SigPepSetup {
     public SigPepSetup() {
     }
 
-    /**
-     * @TODO: JavaDoc missing
-     *
-     * @param username
-     * @param password
-     * @param workingDirectory
-     * @param ncbiTaxonId
-     * @param ensemblVersion
-     * @throws com.compomics.dbtools.DatabaseException
-     */
-    public SigPepSetup(String username,
-                       char[] password,
-                       String workingDirectory,
-                       int ncbiTaxonId,
-                       int ensemblVersion) throws DatabaseException {
-
-        this.workingDirectory = workingDirectory;
-        this.ncbiTaxonId = ncbiTaxonId;
-        this.ensemblVersion = ensemblVersion;
-    }
 
     /**
      * @TODO: JavaDoc missing
@@ -144,6 +106,7 @@ public class SigPepSetup {
         boolean sequencesDigested;
         boolean digestsProcessed;
 
+
         //create working directory
         logger.info("-----------------------------------------------------");
         logger.info("creating working directory...");
@@ -178,7 +141,7 @@ public class SigPepSetup {
         logger.info("-----------------------------------------------------");
         logger.info("retrieving protein sequences...");
 
-        //sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
+//        sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
         sequencesRetrieved = true;
 
 
@@ -197,7 +160,7 @@ public class SigPepSetup {
         logger.info("-----------------------------------------------------");
         logger.info("digesting protein sequences...");
 
-        //sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
+//        sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
         sequencesDigested = true;
 
         if (!sequencesDigested) {
@@ -211,11 +174,10 @@ public class SigPepSetup {
 
         //process digests
 
-        //retrieving protein sequences
         logger.info("-----------------------------------------------------");
         logger.info("processing sequences...");
 
-        //digestsProcessed = processDigests(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
+        digestsProcessed = processDigests(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, protease);
         digestsProcessed = true;
 
         if (!digestsProcessed) {
@@ -259,6 +221,7 @@ public class SigPepSetup {
         System.out.println(speciesSuffix);
         String subFolderOrganism = buildOrganismSubDirectoryName(organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
         String speciesSubdirectory = workingDirectory + "/" + subFolderOrganism;
+        String inputDirectory = speciesSubdirectory + "/" + config.getString("sigpep.db.setup.folder.database");
 
         try {
 
@@ -266,21 +229,6 @@ public class SigPepSetup {
                              
 
             sigPepDatabase = new SigPepDatabase(adminUsername, adminPassword.toCharArray(), organismNcbiTaxonId);
-//            if (downloadSequences) {
-//                logger.info("downloading sequences...");
-//                logger.info("done");
-//            }
-//
-//            if (doDigest) {
-//                logger.info("digesting sequences...");
-//            }
-//
-//            if (processDigest) {
-//                logger.info("processing digests...");
-//                EnsemblDBToolkitDigestProcessor pd = new EnsemblDBToolkitDigestProcessor(speciesSubdirectory);
-//                pd.processFiles();
-//                logger.info("done");
-//            }
 
             if (createSchema) {
                 logger.info("creating SigPep schema...");
@@ -290,8 +238,7 @@ public class SigPepSetup {
 
             if (persistDigest) {
                 logger.info("persisting digests...");
-                System.out.println(speciesSubdirectory);
-                sigPepDatabase.persistDigest(speciesSubdirectory);
+                sigPepDatabase.persistDigest(inputDirectory);
                 logger.info("done");
             }
 
@@ -303,21 +250,22 @@ public class SigPepSetup {
 
             if (cleanUpTables) {
                 logger.info("removin sequences not of biotype 'protein_coding'...");
-                Map<String, Integer> updateCount = sigPepDatabase.cleanupTables(ensemblVersion);
+
+                Map<String, Integer> updateCount = sigPepDatabase.cleanupTables(sequenceDatabaseVersion);
                 for (String table : updateCount.keySet()) {
                     int rowCount = updateCount.get(table);
                     logger.info(rowCount + " rows of table " + table + " affected.");
                 }
                 logger.info("done...");
             }
-
+//
 //            if (importSpliceEvents) {
 //
 //                logger.info("importing splice events from Ensembl...");
 //                sigPepDatabase.importSpliceEvents(ensemblVersion);
 //                logger.info("done");
 //            }
-
+//
         } catch (IOException e) {
             logger.error(e);
         } catch (SQLException e) {
@@ -478,20 +426,34 @@ public class SigPepSetup {
      */
     public static void main(String[] args) {
 
-        String workingDirectory = "/Users/kennyhelsens/tmp/sigpep_test";
-        //int taxonId = Integer.parseInt(args[1]);
+        String workingDirectory = "/Users/kennyhelsens/tmp";
+
+        int lOrganismNcbiTaxonId = 9823;
+        String lOrganismScientificName = "Sus scrofa";
+//
+//        int lOrganismNcbiTaxonId = 9606;
+//        String lOrganismScientificName = "Homo sapiens";
+//
+
+        String lSequenceDatabaseVersion = "60";
+        String lSequenceDatabaseName = "Ensembl";
+        String lProtease = "Trypsin";
+        int lMissedCleavages = 0;
+        int lHighMass = 4000;
+        int lLowMass = 600;
+
 
         SigPepSetup.getInstance().setupDatabase("root",
                 "",
                 workingDirectory,
-                "Sus scrofa",
-                9823,
-                "Ensembl",
-                "59",
-                600,
-                4000,
-                0,
-                "Trypsin");
+                lOrganismScientificName,
+                lOrganismNcbiTaxonId,
+                lSequenceDatabaseName,
+                lSequenceDatabaseVersion,
+                lLowMass,
+                lHighMass,
+                lMissedCleavages,
+                lProtease);
 
 //        int[] taxonIds = new int[]{7227, 7955, 6239};
 //

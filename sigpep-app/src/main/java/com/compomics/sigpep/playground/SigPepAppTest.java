@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 03-Jun-2008<br/>
@@ -24,12 +24,11 @@ public class SigPepAppTest {
 
     private static Logger logger = Logger.getLogger(SigPepAppTest.class);
     //private static String outputFolder = "/Users/hba041/muller_temp/";
-    private static String outputFolder = "/Users/kennyhelsens/Proteomics/Projects/1011/1011_sigpep/data/";
+    private static String outputFolder = "/Users/kennyhelsens/tmp";
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -47,13 +46,28 @@ public class SigPepAppTest {
         int minimumCombinationSize = 1;
         int maximumCombinationSize = 10;
         SignatureTransitionFinderType type = SignatureTransitionFinderType.MINIMAL;
+//
+//        int taxonId = 9606;
+//        String proteaseShortName = "tryp";
+//        String proteinAccession = "ACTB";
+//
 
-        int taxonId = 4932;
+        //Q6QAQ1	ACTB_PIG
+        //Actin, cytoplasmic 1
+        //ACTB
+        //Sus scrofa (Pig)
+        // 375
+        int taxonId = 9823;
         String proteaseShortName = "tryp";
-        String proteinAccession = "YAL027W";
+        String proteinAccession = "ACTB";
+
+//        int taxonId = 9823;
+//        String proteaseShortName = "tryp";
+//        String proteinAccession = "YAL027W";
 //        String observedChargesInput = "/home/mmueller/data/sigpep/collab_waters/michael_charge_details.tab";
 
         //get application
+
         logger.info("locating application");
         SigPepApplication app = ApplicationLocator.getInstance().getApplication();
 
@@ -88,7 +102,7 @@ public class SigPepAppTest {
 //        for (PeptideFeature feature : signaturePeptideFeatures) {
 //            logger.info(feature.getFeatureObject().getSequenceString());
 //        }
- 
+
         //create peptide generator for protease
         logger.info("creating peptide generator");
         PeptideGenerator generator = session.createPeptideGenerator(protease);

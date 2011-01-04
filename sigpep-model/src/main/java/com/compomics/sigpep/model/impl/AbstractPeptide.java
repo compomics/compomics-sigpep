@@ -2,10 +2,9 @@ package com.compomics.sigpep.model.impl;
 
 import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.util.Combinations;
+import org.apache.log4j.Logger;
 
 import java.util.*;
-
-import org.apache.log4j.Logger;
 
 /**
  * @TODO: JavaDoc missing
