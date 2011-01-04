@@ -401,7 +401,9 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             String fileName = digestFileUrl.get(protease).getPath();
 
             //filter for files containing peptides
-            if (fileName.endsWith("fa.gz") && !fileName.endsWith("all.fa.gz")) {
+            // TODO remove mmueler old code
+//            if (fileName.endsWith("fa.gz") && !fileName.endsWith("all.fa.gz")) {
+            if (fileName.endsWith("fa.gz") || fileName.endsWith("fa") || fileName.endsWith("fas") || fileName.endsWith("fasta")) {
 
                 logger.info("processing file '" + fileName + "' (" + processedFileCount + " of " + fileCount + ")...");
 

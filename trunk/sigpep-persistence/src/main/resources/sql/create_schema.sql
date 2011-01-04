@@ -2,10 +2,6 @@ DROP SCHEMA IF EXISTS :schemaName;
 CREATE SCHEMA :schemaName;
 USE :schemaName;
 
---DROP SCHEMA IF EXISTS presentation_schema;
---CREATE SCHEMA presentation_schema;
---USE presentation_schema;
-
 CREATE TABLE organism(
 	organism_id   INT UNSIGNED,
 	organism_name VARCHAR(255),
@@ -54,10 +50,15 @@ CREATE TABLE protease (
 	PRIMARY KEY (protease_id)
 )ENGINE=InnoDB;
 
+
 CREATE TABLE peptide (
   `peptide_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `sequence_id` int unsigned,
+  `start_pos` INT UNSIGNED NOT NULL,
+  `end_pos` INT UNSIGNED NOT NULL,
   `mass` double unsigned DEFAULT NULL,
   `is_signature_peptide` tinyint(1) DEFAULT NULL,
+
   PRIMARY KEY (`peptide_id`)
 ) ENGINE=InnoDB;
 
@@ -74,38 +75,16 @@ CREATE TABLE  `peptide2splice_event` (
   PRIMARY KEY (`splice_event_id`,`peptide_id`)
 ) ENGINE=InnoDB;
 
---CREATE TABLE  splice_event_feature (
---  `splice_event_feature_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
---  `splice_event_id` int(10) unsigned NOT NULL,
---  `sequence_id` int(10) unsigned NOT NULL DEFAULT '0',
---  `pos_start` int(10) unsigned NOT NULL DEFAULT '0',
---  `pos_end` int(10) unsigned NOT NULL DEFAULT '0',
---  PRIMARY KEY (`splice_event_feature_id`)
---) ENGINE=InnoDB;
-
-CREATE TABLE peptide_feature (
-	peptide_feature_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	peptide_id         INT UNSIGNED,
-	sequence_id        INT UNSIGNED,
-	pos_start          INT UNSIGNED,
-	pos_end            INT UNSIGNED,
-	PRIMARY KEY (peptide_feature_id)
-	--PRIMARY KEY (peptide_id, sequence_id, pos_start, pos_end)
-)ENGINE=InnoDB;
-
-CREATE TABLE splice_event_feature(
-    splice_event_feature_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    splice_event_id INT UNSIGNED NOT NULL,
-    sequence_id INT UNSIGNED NOT NULL,
-    pos_start INT UNSIGNED NOT NULL,
-    pos_end INT UNSIGNED NOT NULL,
-    PRIMARY KEY (splice_event_feature_id)
-)ENGINE=InnoDB;
-
 CREATE TABLE gene2protein(
     protein_id  INT UNSIGNED,
 	gene_id     INT UNSIGNED,
 	PRIMARY KEY (protein_id,gene_id)
+)ENGINE=InnoDB;
+
+CREATE TABLE gene2organism(
+    gene_id  INT UNSIGNED,
+	organism_id     INT UNSIGNED,
+	PRIMARY KEY (gene_id,organism_id)
 )ENGINE=InnoDB;
 
 CREATE TABLE protein2sequence(
@@ -114,16 +93,16 @@ CREATE TABLE protein2sequence(
     PRIMARY KEY (protein_id,sequence_id)
 )ENGINE=InnoDB;
 
-CREATE TABLE protease2peptide_feature (
-    protease_id INT UNSIGNED,
-	peptide_feature_id  INT UNSIGNED,
-	PRIMARY KEY (peptide_feature_id, protease_id)
+CREATE TABLE protein2gene(
+    protein_id  INT UNSIGNED,
+    gene_id INT UNSIGNED,
+    PRIMARY KEY (protein_id,gene_id)
 )ENGINE=InnoDB;
 
-CREATE TABLE peptide_feature2splice_event_feature(
-    peptide_feature_id INT UNSIGNED NOT NULL,
-    splice_event_feature_id INT UNSIGNED NOT NULL,
-    PRIMARY KEY (splice_event_feature_id, peptide_feature_id)
+CREATE TABLE protein2organism(
+    protein_id  INT UNSIGNED,
+    organism_id INT UNSIGNED,
+    PRIMARY KEY (protein_id,organism_id)
 )ENGINE=InnoDB;
 
 CREATE TABLE peptide2protease (
@@ -149,41 +128,13 @@ CREATE TABLE  sequence2signature_protease (
   PRIMARY KEY (`sequence_id`,`protease_id`)
 )ENGINE=InnoDB;
 
---UPDATE protease SET cleavage_site="KR" WHERE name = 'tryp'
---UPDATE protease SET cleavage_site="FL" WHERE name = 'pepa'
---UPDATE protease SET cleavage_site="R" WHERE name = 'argc'
---UPDATE protease SET cleavage_site="K" WHERE name = 'lysc'
---UPDATE protease SET cleavage_site="DNEQ" WHERE name = 'v8de'
---UPDATE protease SET cleavage_site="EQ" WHERE name = 'v8d'
---UPDATE protease SET cleavage_site="M" WHERE name = 'cnbr'
 
---INSERT INTO protease2peptide_feature(protease_id,peptide_feature_id)
---SELECT DISTINCT prot.protease_id, pf.peptide_feature_id
---  FROM peptide_feature pf,
---       protein_sequence seq,
---       peptide2protease prot2pep,
---       protease prot
--- WHERE pf.sequence_id=seq.sequence_id
---   AND pf.peptide_id=prot2pep.peptide_id
---   AND prot.protease_id=prot2pep.protease_id
---   AND prot.name IN ('tryp')
---   AND pf.peptide_feature_id NOT IN (
---SELECT DISTINCT pf.peptide_feature_id
---  FROM peptide_feature pf,
---       protein_sequence seq,
---       peptide2protease prot2pep,
---       protease prot
--- WHERE pf.sequence_id=seq.sequence_id
---   AND pf.peptide_id=prot2pep.peptide_id
---   AND prot.protease_id=prot2pep.protease_id
---   AND prot.name IN ('tryp')
---  AND (CHAR_LENGTH(seq.aa_sequence) != pf.pos_end AND SUBSTR(seq.aa_sequence, pf.pos_end, 1) NOT REGEXP CONCAT('[', prot.cleavage_site, ']'))
---)
+-- Fill the protease table.
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (1,"v8e","EQ","V8E");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (2,"tryp","KR","Trypsin");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (3,"cnbr","M","CNBr");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (4,"argc","R","Arg-C");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (5,"pepa","FL","Pepsin A");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (6,"lysc","K","Lys-C");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (7,"v8de","DNEQ","V8DE");
 
---INSERT INTO peptide_feature2splice_event_feature (peptide_feature_id,splice_event_feature_id)
---SELECT pf.peptide_feature_id, sf.splice_event_feature_id
---FROM peptide_feature pf,
---     splice_event_feature sf
---WHERE pf.sequence_id=sf.sequence_id
---  AND pf.pos_start <= sf.pos_start
---  AND pf.pos_end >= sf.pos_end

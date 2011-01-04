@@ -17,6 +17,7 @@
     </class>
 
     <query name="organism">from com.compomics.sigpep.model.Organism</query>
+    <!--<query name="organismByTaxonId">from com.compomics.sigpep.model.Organism where taxonId = :taxonId</query>-->
     <query name="organismByTaxonId">from com.compomics.sigpep.model.Organism where taxonId = :taxonId</query>
 
 </hibernate-mapping>
