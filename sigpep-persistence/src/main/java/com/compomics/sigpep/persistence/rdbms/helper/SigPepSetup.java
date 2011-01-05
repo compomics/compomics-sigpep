@@ -182,15 +182,15 @@ public class SigPepSetup {
 
             if (createSchema) {
                 logger.info("creating SigPep schema...");
-//                sigPepDatabase.createSchema();
+                sigPepDatabase.createSchema();
                 logger.info("done");
             }
         } catch (DatabaseException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
@@ -198,7 +198,7 @@ public class SigPepSetup {
         logger.info("-----------------------------------------------------");
         logger.info("retrieving protein sequences...");
 
-//        sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
+        sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
         sequencesRetrieved = true;
 
 
@@ -217,7 +217,7 @@ public class SigPepSetup {
         logger.info("-----------------------------------------------------");
         logger.info("digesting protein sequences...");
 
-//        sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
+        sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
         sequencesDigested = true;
 
         if (!sequencesDigested) {
