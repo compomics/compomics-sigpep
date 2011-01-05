@@ -34,4 +34,6 @@ public interface DigestProcessor {
     void setOutputDirectoryUrl(URL ouputDirectoryUrl);
 
     boolean processFiles();
+
+    void setProteases(Map<String, Integer> aProteases);
 }

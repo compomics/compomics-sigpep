@@ -45,6 +45,8 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
     private static final String SQL_SELECT_LAST_PROTEIN_ID = namedQueries.getString("query.lastProteinId");
     private static final String SQL_SELECT_LAST_GENE_ID = namedQueries.getString("query.lastGeneId");
     private static final String SQL_SELECT_PROTEASE_IDS_AND_SHORTNAMES = namedQueries.getString("query.proteaseIds");
+    private static final String SQL_SELECT_PROTEASE_NAMES_AND_IDS = namedQueries.getString("query.proteaseNameToIds");
+
     private static final String SQL_SELECT_GENE_IDS_AND_ACCESSIONS = namedQueries.getString("query.geneIds");
     private static final String SQL_SELECT_PROTEIN_IDS_AND_ACCESSIONS = namedQueries.getString("query.proteinIds");
 
@@ -427,6 +429,32 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
                             String name = resultSet.getString("name");
 
                             retVal.put(id, name);
+                        }
+
+                        return retVal;
+                    }
+                }
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Map<String, Integer> getProteaseNameToProteaseIDMap() {
+         return (Map<String, Integer>) this.getJdbcTemplate().query(
+                SQL_SELECT_PROTEASE_NAMES_AND_IDS,
+                new ResultSetExtractor() {
+
+                    public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+
+                        Map<String, Integer> retVal = new HashMap<String, Integer>();
+                        while (resultSet.next()) {
+                            int id = resultSet.getInt("protease_id");
+                            String name = resultSet.getString("name");
+                            String fullname = resultSet.getString("full_name");
+
+                            retVal.put(name, id);
+                            retVal.put(fullname, id);
                         }
 
                         return retVal;

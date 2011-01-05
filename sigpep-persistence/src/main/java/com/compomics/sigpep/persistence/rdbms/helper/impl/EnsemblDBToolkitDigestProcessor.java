@@ -3,9 +3,9 @@ package com.compomics.sigpep.persistence.rdbms.helper.impl;
 import be.proteomics.dbtoolkit.io.DBLoaderLoader;
 import be.proteomics.dbtoolkit.io.interfaces.DBLoader;
 import be.proteomics.util.protein.Protein;
-import org.apache.log4j.Logger;
 import com.compomics.sigpep.persistence.rdbms.SigPepDatabase;
 import com.compomics.sigpep.persistence.rdbms.helper.DigestProcessor;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.URL;
@@ -44,7 +44,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     private int sequenceId = 1;
 
     private Map<String, Integer> organisms = new TreeMap<String, Integer>();
-    private Map<String, Integer> proteases = new TreeMap<String, Integer>();
+    private Map<String, Integer> proteases = new HashMap<String, Integer>();
     private Map<String, Integer> peptides = new HashMap<String, Integer>();
     private Map<String, Integer> proteins = new TreeMap<String, Integer>();
     private Map<String, Integer> sequences = new TreeMap<String, Integer>();
@@ -76,7 +76,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
      * Constructs a digest processor to process DBToolkit in silico digests
      * of an Ensembl FASTA sequence library.
      */
-    public EnsemblDBToolkitDigestProcessor(){        
+    public EnsemblDBToolkitDigestProcessor() {
     }
 
     /**
@@ -165,6 +165,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         }
         //process digest files
         try {
+
             processPeptides();
         } catch (IOException e) {
             throw new RuntimeException("Unable to process sequence file.", e);
@@ -183,9 +184,18 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
+     * Set the protease names and ids if available.
+     * @param aProteases
+     */
+    public void setProteases(Map<String, Integer> aProteases) {
+        proteases = aProteases;
+
+    }
+
+
+    /**
      * @throws IOException
+     * @TODO: JavaDoc missing
      */
     private void createGeneTable() throws IOException {
 
@@ -225,9 +235,8 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @throws IOException
+     * @TODO: JavaDoc missing
      */
     private void createProteinTable() throws IOException {
 
@@ -245,7 +254,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                 String acc = line.split(" ")[0].replace(">", "");
                 String status = line.split(" ")[1].replace("pep:", "");
                 int known = 0;
-                if(status.equals("known")){
+                if (status.equals("known")) {
                     known = 1;
                 }
 
@@ -268,9 +277,8 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @throws IOException
+     * @TODO: JavaDoc missing
      */
     private void createProteinSequenceTable() throws IOException {
 
@@ -278,10 +286,10 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         Set<String> sequences = new HashSet<String>();
 
         String sequenceString;
-        while((sequenceString = loader.nextProtein().getSequence().getSequence()) != null){
+        while ((sequenceString = loader.nextProtein().getSequence().getSequence()) != null) {
             sequences.add(sequenceString);
         }
-            
+
         PrintWriter table = new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameProteinTable);
 
         int id = 1;
@@ -549,10 +557,9 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param fastaHeader
      * @return
+     * @TODO: JavaDoc missing
      */
     private int[] extractPosition(String fastaHeader) {
 
@@ -629,7 +636,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             genes.put(gene, geneId++);
 
         return genes.get(gene);
-    } 
+    }
 
     /**
      * Returns database ID for protein.
