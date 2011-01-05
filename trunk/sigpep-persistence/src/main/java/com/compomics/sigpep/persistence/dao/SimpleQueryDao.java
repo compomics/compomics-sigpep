@@ -167,6 +167,13 @@ public interface SimpleQueryDao {
     Map<Integer, String> getProteaseIdToProteaseShortNameMap();
 
     /**
+     * Returns a map of protease names and shortnames to protease IDs.
+     *
+     * @return a map of protease names and shortnames to protease IDs
+     */
+    Map<String, Integer> getProteaseNameToProteaseIDMap();
+
+    /**
      * Returns a map of gene IDs and gene accessions.
      *
      * @return a map with gene IDs as key and gene accessions as value

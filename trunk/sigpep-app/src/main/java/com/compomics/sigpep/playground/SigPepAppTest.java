@@ -24,7 +24,7 @@ public class SigPepAppTest {
 
     private static Logger logger = Logger.getLogger(SigPepAppTest.class);
     //private static String outputFolder = "/Users/hba041/muller_temp/";
-    private static String outputFolder = "/Users/kennyhelsens/tmp";
+    private static String outputFolder = "/Users/kennyhelsens/tmp/sigpep/";
 
     /**
      * @param args
@@ -54,12 +54,13 @@ public class SigPepAppTest {
 
         //Q6QAQ1	ACTB_PIG
         //Actin, cytoplasmic 1
+        // ENSSSCP00000008105
         //ACTB
         //Sus scrofa (Pig)
         // 375
         int taxonId = 9823;
         String proteaseShortName = "tryp";
-        String proteinAccession = "ACTB";
+        String proteinAccession = "ENSSSCP00000008105";
 
 //        int taxonId = 9823;
 //        String proteaseShortName = "tryp";
@@ -80,6 +81,7 @@ public class SigPepAppTest {
 
         //create session for organism
         SigPepSession session = sessionFactory.createSigPepSession(organism);
+
 
         //get query service
         SigPepQueryService service = session.createSigPepQueryService();

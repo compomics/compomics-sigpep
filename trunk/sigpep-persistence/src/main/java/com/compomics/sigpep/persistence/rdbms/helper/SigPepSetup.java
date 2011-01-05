@@ -8,6 +8,9 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +39,6 @@ public class SigPepSetup {
      * helper to initialise database
      */
     private DatabaseInitialiser databaseInitialiser = createDatabaseInititaliser();
-
 
 
     /**
@@ -68,9 +70,8 @@ public class SigPepSetup {
 
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @return
+     * @TODO: JavaDoc missing
      */
     public static SigPepSetup getInstance() {
         return ourInstance;
@@ -107,6 +108,13 @@ public class SigPepSetup {
         boolean digestsProcessed;
 
 
+        String speciesSuffix = SigPepDatabase.getSpeciesSuffix(organismNcbiTaxonId);
+        System.out.println(speciesSuffix);
+        String subFolderOrganism = buildOrganismSubDirectoryName(organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
+        String speciesSubdirectory = workingDirectory + "/" + subFolderOrganism;
+        String inputDirectory = speciesSubdirectory + "/" + config.getString("sigpep.db.setup.folder.database");
+
+
         //create working directory
         logger.info("-----------------------------------------------------");
         logger.info("creating working directory...");
@@ -136,6 +144,55 @@ public class SigPepSetup {
             logger.info("done");
             logger.info("-----------------------------------------------------");
         }
+
+
+        //initialise database if not yet initialised
+        logger.info("-----------------------------------------------------");
+        logger.info("initialising database...");
+
+        databaseInitialiser.setAdminUsername(adminUsername);
+        databaseInitialiser.setAdminPassword(adminPassword);
+
+        if (!databaseInitialiser.isInitialised()) {
+            logger.info("creating catalogue schema " + config.getString("sigpep.db.schema.catalog") + " at " + config.getString("sigpep.db.url"));
+            databaseIsInitialised = databaseInitialiser.initialise();
+            if (!databaseIsInitialised) {
+                logger.info("unable to initialise database");
+            }
+        } else {
+            logger.info("database at " + config.getString("sigpep.db.url") + " initialised already");
+            databaseIsInitialised = true;
+        }
+
+        if (!databaseIsInitialised) {
+            logger.info("exit");
+            logger.info("-----------------------------------------------------");
+            return;
+        } else {
+            logger.info("done");
+            logger.info("-----------------------------------------------------");
+        }
+
+        // Setup the database schema.
+        try {
+            logger.info("setting up SigPep for " + speciesSuffix.replace("_", " "));
+
+
+            sigPepDatabase = new SigPepDatabase(adminUsername, adminPassword.toCharArray(), organismNcbiTaxonId);
+
+            if (createSchema) {
+                logger.info("creating SigPep schema...");
+//                sigPepDatabase.createSchema();
+                logger.info("done");
+            }
+        } catch (DatabaseException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+        }
+
 
         //retrieving protein sequences
         logger.info("-----------------------------------------------------");
@@ -189,53 +246,9 @@ public class SigPepSetup {
             logger.info("-----------------------------------------------------");
         }
 
-        //initialise database if not yet initialised
-        logger.info("-----------------------------------------------------");
-        logger.info("initialising database...");
-
-        databaseInitialiser.setAdminUsername(adminUsername);
-        databaseInitialiser.setAdminPassword(adminPassword);
-
-        if (!databaseInitialiser.isInitialised()) {
-            logger.info("creating catalogue schema " + config.getString("sigpep.db.schema.catalog") + " at " + config.getString("sigpep.db.url"));
-            databaseIsInitialised = databaseInitialiser.initialise();
-            if (!databaseIsInitialised) {
-                logger.info("unable to initialise database");
-            }
-        } else {
-            logger.info("database at " + config.getString("sigpep.db.url") + " initialised already");
-            databaseIsInitialised = true;
-        }
-
-        if (!databaseIsInitialised) {
-            logger.info("exit");
-            logger.info("-----------------------------------------------------");
-            return;
-        } else {
-            logger.info("done");
-            logger.info("-----------------------------------------------------");
-        }
-
-
-        String speciesSuffix = SigPepDatabase.getSpeciesSuffix(organismNcbiTaxonId);
-        System.out.println(speciesSuffix);
-        String subFolderOrganism = buildOrganismSubDirectoryName(organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
-        String speciesSubdirectory = workingDirectory + "/" + subFolderOrganism;
-        String inputDirectory = speciesSubdirectory + "/" + config.getString("sigpep.db.setup.folder.database");
 
         try {
-
-            logger.info("setting up SigPep for " + speciesSuffix.replace("_", " "));
-                             
-
-            sigPepDatabase = new SigPepDatabase(adminUsername, adminPassword.toCharArray(), organismNcbiTaxonId);
-
-            if (createSchema) {
-                logger.info("creating SigPep schema...");
-                sigPepDatabase.createSchema();
-                logger.info("done");
-            }
-
+            // Persist the digest into the database.
             if (persistDigest) {
                 logger.info("persisting digests...");
                 sigPepDatabase.persistDigest(inputDirectory);
@@ -304,7 +317,7 @@ public class SigPepSetup {
 
     /**
      * Set digest on or off.
-     * 
+     *
      * @param doDigest
      */
     public void setDoDigest(boolean doDigest) {
@@ -376,7 +389,7 @@ public class SigPepSetup {
 
     /**
      * Set if the tables are to be cleaned up.
-     * 
+     *
      * @param cleanUpTables
      */
     public void setCleanUpTables(boolean cleanUpTables) {
@@ -394,7 +407,7 @@ public class SigPepSetup {
 
     /**
      * Set if indices are to be created.
-     * 
+     *
      * @param createIndices
      */
     public void setCreateIndices(boolean createIndices) {
@@ -420,9 +433,8 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param args
+     * @TODO: JavaDoc missing
      */
     public static void main(String[] args) {
 
@@ -629,23 +641,21 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param organismScientificName
      * @param organismTaxonId
      * @param databaseName
      * @param databaseVersion
      * @return
+     * @TODO: JavaDoc missing
      */
     protected String buildOrganismSubDirectoryName(String organismScientificName, int organismTaxonId, String databaseName, String databaseVersion) {
         return organismScientificName.toLowerCase().replace(" ", "_") + "_" + organismTaxonId + "_" + databaseName.toLowerCase() + "_" + databaseVersion;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean createWorkingDirectory(String workingDirectory) {
 
@@ -666,14 +676,13 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @param organismScientificName
      * @param organismTaxonId
      * @param sequenceDatabaseName
      * @param sequenceDatabaseVersion
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean createDirectoryStructure(String workingDirectory, String organismScientificName, int organismTaxonId, String sequenceDatabaseName, String sequenceDatabaseVersion) {
 
@@ -740,14 +749,13 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @param organismScientificName
      * @param organismNcbiTaxonId
      * @param sequenceDatabaseName
      * @param sequenceDatabaseVersion
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean retrieveSequences(String workingDirectory, String organismScientificName, int organismNcbiTaxonId, String sequenceDatabaseName, String sequenceDatabaseVersion) {
 
@@ -775,8 +783,6 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @param organismScientificName
      * @param organismNcbiTaxonId
@@ -787,6 +793,7 @@ public class SigPepSetup {
      * @param missedCleavages
      * @param protease
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean digestSequences(String workingDirectory,
                                       String organismScientificName,
@@ -834,8 +841,6 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param workingDirectory
      * @param organismScientificName
      * @param organismNcbiTaxonId
@@ -843,6 +848,7 @@ public class SigPepSetup {
      * @param sequenceDatabaseVersion
      * @param protease
      * @return
+     * @TODO: JavaDoc missing
      */
     boolean processDigests(String workingDirectory,
                            String organismScientificName,
@@ -874,12 +880,29 @@ public class SigPepSetup {
                 protease2Url.put(p, digestFileURL);
             }
 
+
+            Connection sigPepDatabaseConnection = sigPepDatabase.getConnection();
+            PreparedStatement lStatement = sigPepDatabaseConnection.prepareStatement("SELECT protease_id, name, full_name FROM protease");
+            ResultSet resultSet = lStatement.executeQuery();
+
+            Map<String, Integer> proteases = new HashMap<String, Integer>();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("protease_id");
+                String name = resultSet.getString("name");
+                String fullname = resultSet.getString("full_name");
+                proteases.put(name, id);
+                proteases.put(fullname, id);
+            }
+
+
+
             DigestProcessor processor = createDigestProcessor();
 
             processor.setSequenceFileUrl(sequenceFileURL);
             processor.setDigestFileUrl(protease2Url);
             processor.setOutputDirectoryUrl(outputDirectoryURL);
-                        
+            processor.setProteases(proteases);
+
             return processor.processFiles();
 
         } catch (Exception e) {

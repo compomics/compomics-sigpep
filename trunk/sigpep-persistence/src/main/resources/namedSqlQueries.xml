@@ -389,6 +389,10 @@
             SELECT protease_id\, name FROM protease
         </proteaseIds>
 
+        <proteaseNameToIds>
+            SELECT protease_id\, name, full_name FROM protease
+        </proteaseNameToIds>
+
         <geneIds>
             SELECT gene_id\, gene_accession FROM gene
         </geneIds>
