@@ -42,9 +42,10 @@ public class SigPepAppTest {
         Set<Integer> productIonChargeStates = new HashSet<Integer>();
         productIonChargeStates.add(1);
 
-        double massAccuracy = 1.5;
+//        double massAccuracy = 1.5;
+        double massAccuracy = 0.2;
         int minimumCombinationSize = 1;
-        int maximumCombinationSize = 10;
+        int maximumCombinationSize = 5;
         SignatureTransitionFinderType type = SignatureTransitionFinderType.MINIMAL;
 //
 //        int taxonId = 9606;
@@ -122,19 +123,23 @@ public class SigPepAppTest {
         //create signature transition finder
         logger.info("creating signature transition finder");
 
-        SignatureTransitionFinder finder = session.createSignatureTransitionFinder(backgroundPeptides,
-                SignatureTransitionFinderType.FIRST);
+//        SignatureTransitionFinder finder = session.createSignatureTransitionFinder(backgroundPeptides,
+//                SignatureTransitionFinderType.FIRST);
 
-//        SignatureTransitionFinder finder = session.createSignatureTransitionFinder(
-//                backgroundPeptides,
-//                targetProductIonTypes,
-//                backgroundProductIonTypes,
-//                observedChargeStates,
-//                productIonChargeStates,
-//                massAccuracy,
-//                minimumCombinationSize,
-//                maximumCombinationSize,
-//                type);
+        HashSet lChargeStates = new HashSet();
+        lChargeStates.add(2);
+        lChargeStates.add(3);
+
+        SignatureTransitionFinder finder = session.createSignatureTransitionFinder(
+                backgroundPeptides,
+                targetProductIonTypes,
+                backgroundProductIonTypes,
+                lChargeStates,
+                productIonChargeStates,
+                massAccuracy,
+                minimumCombinationSize,
+                maximumCombinationSize,
+                type);
 
         logger.info("finding signature transitions");
         List<SignatureTransition> st = finder.findSignatureTransitions(signaturePeptides);
