@@ -178,13 +178,14 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         closeOutputFiles();
 
         //remove redundant rows from files
-        removeRedundancy();//removeRedundancy
+        removeRedundancy();
 
         return true;
     }
 
     /**
      * Set the protease names and ids if available.
+     * 
      * @param aProteases
      */
     public void setProteases(Map<String, Integer> aProteases) {
@@ -192,10 +193,10 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
     }
 
-
     /**
-     * @throws IOException
      * @TODO: JavaDoc missing
+     *
+     * @throws IOException
      */
     private void createGeneTable() throws IOException {
 
@@ -231,12 +232,12 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         }
 
         table.close();
-
     }
 
     /**
-     * @throws IOException
      * @TODO: JavaDoc missing
+     *
+     * @throws IOException
      */
     private void createProteinTable() throws IOException {
 
@@ -277,8 +278,9 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     }
 
     /**
-     * @throws IOException
      * @TODO: JavaDoc missing
+     * 
+     * @throws IOException
      */
     private void createProteinSequenceTable() throws IOException {
 
@@ -557,9 +559,10 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @param fastaHeader
      * @return
-     * @TODO: JavaDoc missing
      */
     private int[] extractPosition(String fastaHeader) {
 
@@ -695,10 +698,8 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         PrintWriter output = outputFiles.get(fileNameOrganismTable);
 
         for (String organism : organisms.keySet()) {
-
             int id = organisms.get(organism);
             output.println(id + "\t" + organism + "\t" + this.getNcbiTaxonId());
-
         }
 
         output.flush();
@@ -710,22 +711,18 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
      */
     private void writeGeneTables() {
 
-        //gene table
+        // gene table
         for (String accession : genes.keySet()) {
-
             int id = genes.get(accession);
             outputFiles.get(fileNameGeneTable).println(id + "\t" + accession);
             flushOutputFiles();
-
         }
 
-        //gene2orgnanism
+        // gene2organism
         for (Integer geneId : geneId2OrganismId.keySet()) {
-
             int organismId = geneId2OrganismId.get(geneId);
             outputFiles.get(fileNameGene2organismTable).println(geneId + "\t" + organismId);
             flushOutputFiles();
-
         }
     }
 
@@ -813,14 +810,16 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
                 //create absolute path for input and temporary file
                 String inputFile = outputDirectoryUrl.getPath() + "/" + file;
-                //String tempFileSort = inputFile + ".sort";
-                String tempFile = inputFile + ".unique";
+                String outFile = inputFile + ".unique";
+
+                // @TODO: the following commands are Linux specific and ought to be changed
+                //        note: does not currently work on Windows...
 
                 //create command lines
                 StringBuffer commandSort = new StringBuffer();
-                commandSort.append("sort --unique ").append(inputFile).append(" --output=").append(tempFile);
+                commandSort.append("sort --unique ").append(inputFile).append(" --output=").append(outFile);
                 StringBuffer commandMv = new StringBuffer();
-                commandMv.append("mv ").append(tempFile).append(" ").append(inputFile);
+                commandMv.append("mv ").append(outFile).append(" ").append(inputFile);
 
                 try {
 
@@ -835,7 +834,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                         System.exit(errorValue);
                     }
 
-                    //execute sort command
+                    //execute move command
                     if ((errorValue = this.executeCommand(commandMv.toString())) != 0) {
                         //exit if error has occurd
                         logger.error("Error while executing command " + commandMv + ".");
@@ -851,7 +850,6 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                 }
 
                 logger.info("done");
-
             }
         }
     }
@@ -903,7 +901,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
      */
     public int getNcbiTaxonId() {
         return ncbiTaxonId;
-    } //end of method
+    }
 
     public URL getSequenceFileUrl() {
         return sequenceFileUrl;
@@ -962,6 +960,5 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 //        } catch (IOException e) {
 //            logger.error(e);
 //        }
-
     }
 }

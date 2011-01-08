@@ -27,8 +27,9 @@ public class SigPepAppTest {
     private static String outputFolder = "/Users/kennyhelsens/tmp/sigpep/";
 
     /**
-     * @param args
      * @TODO: JavaDoc missing.
+     *
+     * @param args
      */
     public static void main(String[] args) {
 
@@ -63,7 +64,7 @@ public class SigPepAppTest {
         String proteaseShortName = "tryp";
         String proteinAccession = "ENSSSCP00000008105";
 
-//        int taxonId = 9823;
+//        int taxonId = 4932;
 //        String proteaseShortName = "tryp";
 //        String proteinAccession = "YAL027W";
 //        String observedChargesInput = "/home/mmueller/data/sigpep/collab_waters/michael_charge_details.tab";

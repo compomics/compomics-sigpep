@@ -31,7 +31,6 @@ import java.util.*;
  */
 public class SigPepDatabase extends MySqlDatabase {
     private static Configuration configuration = Configuration.getInstance();
-    private static String sigPepSchemaPrefix = configuration.getString("sigpep.db.schema.prefix");
     private static Logger logger = Logger.getLogger(SigPepDatabase.class);
     private int ncbiTaxonId;
     private static Organisms organisms = Organisms.getInstance();
@@ -60,7 +59,7 @@ public class SigPepDatabase extends MySqlDatabase {
      */
     public static String getSchemaName(int ncbiTaxonId) {
         if (organisms.contains(ncbiTaxonId) && ncbiTaxonId != 0) {
-            return sigPepSchemaPrefix + "_" + getSpeciesSuffix(ncbiTaxonId);
+            return configuration.getString("sigpep.db.schema.prefix") + "_" + getSpeciesSuffix(ncbiTaxonId);
         } else if (ncbiTaxonId == 0) {
             return Configuration.getInstance().getString("sigpep.db.default.schema");
         } else {
@@ -328,9 +327,10 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @return
      * @throws SQLException
-     * @TODO: JavaDoc missing
      */
     private Map<String, Integer> fetchProteinAccession2SequenceIdMap() throws SQLException {
         try {
@@ -355,11 +355,12 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @param ensemblVersion
      * @param ensemblIds
      * @return
      * @throws EnshException
-     * @TODO: JavaDoc missing
      */
     public Map<String, Set<String>> fetchEnsemblSpliceEvents(int ensemblVersion, Set<String> ensemblIds) throws EnshException {
         Map<String, Set<String>> retVal = new HashMap<String, Set<String>>();
@@ -386,7 +387,9 @@ public class SigPepDatabase extends MySqlDatabase {
 
             Session session = sessionFactory.openSession();
 
-            Criteria criteria = session.createCriteria("Translation").setFetchMode("stableId", FetchMode.JOIN).setFetchMode("transcript", FetchMode.JOIN).setFetchMode("transcript.exons", FetchMode.JOIN).createAlias("stableId", "stId").add(Restrictions.in("stId.stableId", ensemblIdSubList));
+            Criteria criteria = session.createCriteria("Translation").setFetchMode(
+                    "stableId", FetchMode.JOIN).setFetchMode("transcript", FetchMode.JOIN).setFetchMode(
+                    "transcript.exons", FetchMode.JOIN).createAlias("stableId", "stId").add(Restrictions.in("stId.stableId", ensemblIdSubList));
 
             for (Translation translation : (Iterable<Translation>) criteria.list()) {
                 String ensemblId = translation.getStableId().getStableId();
@@ -438,10 +441,11 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @param exonAccessions
      * @return
      * @throws SQLException
-     * @TODO: JavaDoc missing
      */
     private Map<String, Integer> insertExons(Set<String> exonAccessions) throws SQLException {
         Connection con = null;
@@ -500,11 +504,12 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @param exonAccession2Id
      * @param spliceEvents
      * @return
      * @throws SQLException
-     * @TODO: JavaDoc missing
      */
     private Map<String, Integer> insertSpliceEvents(Map<String, Integer> exonAccession2Id, Set<String> spliceEvents) throws SQLException {
         Connection con = null;
@@ -568,11 +573,12 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @param proteinAccession2SequenceId
      * @param spliceEvent2Id
      * @param spliceEvent2SequenceLocation
      * @throws SQLException
-     * @TODO: JavaDoc missing
      */
     private void insertSpliceEventLocations(Map<String, Integer> proteinAccession2SequenceId,
                                             Map<String, Integer> spliceEvent2Id,
@@ -643,9 +649,10 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @return
      * @throws SQLException
-     * @TODO: JavaDoc missing
      */
     private int populateTablePeptide2SpliceEvent() throws SQLException {
         String sql =
@@ -726,13 +733,13 @@ public class SigPepDatabase extends MySqlDatabase {
 
         //fetch IDs of Ensembl translations of biotype 'protein_coding'
         Set<String> ensemblProteinCodingTranslations = fetchEnsemblProteinCodingTranslationIds(ensemblVersion);
-        if (ensemblProteinCodingTranslations.size() == 0) {
+        if (ensemblProteinCodingTranslations.isEmpty()) {
             return retVal;
         }
 
         //fetch protein_ids of SigPep proteins not in the above set of Ensembl transations
         Set<Integer> proteinIds = fetchNonProteinCodingProteinIds(ensemblProteinCodingTranslations);
-        if (proteinIds.size() == 0) {
+        if (proteinIds.isEmpty()) {
             return retVal;
         }
 
@@ -949,8 +956,9 @@ public class SigPepDatabase extends MySqlDatabase {
 
 
     /**
-     * @param args
      * @TODO: JavaDoc missing
+     *
+     * @param args
      */
     public static void main(String[] args) {
         try {

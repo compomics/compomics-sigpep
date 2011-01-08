@@ -166,7 +166,6 @@ public class SigPepSetup {
         try {
             logger.info("setting up SigPep for " + speciesSuffix.replace("_", " "));
 
-
             sigPepDatabase = new SigPepDatabase(adminUsername, adminPassword.toCharArray(), organismNcbiTaxonId);
 
             if (createSchema) {
