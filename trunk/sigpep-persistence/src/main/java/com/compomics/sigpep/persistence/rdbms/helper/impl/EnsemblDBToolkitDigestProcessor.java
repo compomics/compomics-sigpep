@@ -810,41 +810,59 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
 
                 //create absolute path for input and temporary file
                 String inputFile = outputDirectoryUrl.getPath() + "/" + file;
-                String outFile = inputFile + ".unique";
-
-                // @TODO: the following commands are Linux specific and ought to be changed
-                //        note: does not currently work on Windows...
-
-                //create command lines
-                StringBuffer commandSort = new StringBuffer();
-                commandSort.append("sort --unique ").append(inputFile).append(" --output=").append(outFile);
-                StringBuffer commandMv = new StringBuffer();
-                commandMv.append("mv ").append(outFile).append(" ").append(inputFile);
-
+                
                 try {
 
+                    // below is a platform independent, pure java version of the 'remove redundancy' process
                     logger.info("removing redundancy from file '" + inputFile + "'...");
 
-                    //execute sort command
-                    int errorValue = 0;
-                    if ((errorValue = this.executeCommand(commandSort.toString())) != 0) {
+                    // add the elements to a TreeSet, keeping only the unique ones
+                    TreeSet<String> uniqueLines = new TreeSet<String>();
 
-                        //exit if error has occurd
-                        logger.error("Error while executing command " + commandSort + ".");
-                        System.exit(errorValue);
+                    FileReader f = new FileReader(inputFile);
+                    BufferedReader b = new BufferedReader(f);
+
+                    String line = b.readLine();
+
+                    int rowCounter = 0;
+
+                    while (line != null) {
+                        uniqueLines.add(line);
+                        line = b.readLine();
+                        rowCounter++;
                     }
 
-                    //execute move command
-                    if ((errorValue = this.executeCommand(commandMv.toString())) != 0) {
-                        //exit if error has occurd
-                        logger.error("Error while executing command " + commandMv + ".");
-                        System.exit(errorValue);
+                    logger.info("number of unique rows found '" + uniqueLines.size() + " / " + rowCounter + "'...");
+
+                    b.close();
+                    f.close();
+
+                    logger.info("deleting redundant file '" + inputFile + "'...");
+
+                    // delete the old redundant file
+                    new File(inputFile).delete();
+
+                    logger.info("create new non-redundant file '" + inputFile + "'...");
+
+                    // create the new non-redundant file
+                    FileWriter w = new FileWriter(inputFile);
+                    BufferedWriter bw = new BufferedWriter(w);
+
+                    Iterator<String> iterator = uniqueLines.iterator();
+
+                    rowCounter = 0;
+
+                    // add the unique elements to the new file
+                    while(iterator.hasNext()) {
+                        bw.write(iterator.next() + "\n");
+                        rowCounter++;
                     }
 
+                    logger.info("number of unique rows added '" + rowCounter + "'...");
+
+                    bw.close();
+                    w.close();
                 } catch (IOException e) {
-                    logger.error(e);
-                    System.exit(1);
-                } catch (InterruptedException e) {
                     logger.error(e);
                     System.exit(1);
                 }
