@@ -244,7 +244,7 @@ public class SigPepSetup {
             }
 
             if (cleanUpTables) {
-                logger.info("removin sequences not of biotype 'protein_coding'...");
+                logger.info("removing sequences not of biotype 'protein_coding'...");
 
                 Map<String, Integer> updateCount = sigPepDatabase.cleanupTables(sequenceDatabaseVersion);
                 for (String table : updateCount.keySet()) {
@@ -622,12 +622,13 @@ public class SigPepSetup {
     }
 
     /**
+     * @TODO: JavaDoc missing
+     *
      * @param organismScientificName
      * @param organismTaxonId
      * @param databaseName
      * @param databaseVersion
      * @return
-     * @TODO: JavaDoc missing
      */
     protected String buildOrganismSubDirectoryName(String organismScientificName, int organismTaxonId, String databaseName, String databaseVersion) {
         return organismScientificName.toLowerCase().replace(" ", "_") + "_" + organismTaxonId + "_" + databaseName.toLowerCase() + "_" + databaseVersion;
