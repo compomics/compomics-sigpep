@@ -52,13 +52,13 @@
         <dependency>
             <groupId>com.compomics.ensh</groupId>
             <artifactId>ensh-api</artifactId>
-            <version>0.1</version>
+            <version>0.2</version>
         </dependency>
 
         <dependency>
             <groupId>com.compomics.ensh</groupId>
             <artifactId>ensh-core</artifactId>
-            <version>0.1</version>
+            <version>0.2</version>
         </dependency>
                  
 
@@ -190,7 +190,7 @@
                 <directory>${basedir}/src/main/resources</directory>
                 <excludes>
                     <exclude>**/config/*</exclude>
-                    <exclude>**/sql/*</exclude>
+                    <!--<exclude>**/sql/*</exclude>-->
                 </excludes>
                 <includes>
                     <include>**/com/compomics/sigpep/model/*</include>
