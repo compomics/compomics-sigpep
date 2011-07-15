@@ -49,10 +49,10 @@ public class SigPepAppTest {
         int maximumCombinationSize = 5;
         SignatureTransitionFinderType type = SignatureTransitionFinderType.MINIMAL;
 //
-//        int taxonId = 9606;
-//        String proteaseShortName = "tryp";
-//        String proteinAccession = "ACTB";
-//
+        int taxonId = 9606;
+        String proteaseShortName = "tryp";
+        String proteinAccession = "ENSP00000323304";
+
 
         //Q6QAQ1	ACTB_PIG
         //Actin, cytoplasmic 1
@@ -60,9 +60,9 @@ public class SigPepAppTest {
         //ACTB
         //Sus scrofa (Pig)
         // 375
-        int taxonId = 9823;
-        String proteaseShortName = "tryp";
-        String proteinAccession = "ENSSSCP00000008105";
+//        int taxonId = 9823;
+//        String proteaseShortName = "tryp";
+//        String proteinAccession = "ENSSSCP00000008105";
 
 //        int taxonId = 4932;
 //        String proteaseShortName = "tryp";
@@ -147,7 +147,7 @@ public class SigPepAppTest {
 
 
         for (SignatureTransition t : st) {
-
+            logger.info("printing peptide " + t.getPeptide().getSequenceString());
             try {
                 OutputStream os = new FileOutputStream(outputFolder + t.getPeptide().getSequenceString() + ".tsv");
 
