@@ -1,24 +1,19 @@
 package com.compomics.sigpep.persistence.rdbms;
 
 import com.compomics.dbtools.*;
-import com.compomics.ensh.Ensh;
-import com.compomics.ensh.core.TranslationEntity;
 import com.compomics.ensh.exception.EnshException;
 import com.compomics.sigpep.model.constants.Organisms;
 import com.compomics.sigpep.persistence.config.Configuration;
 import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.*;
+
+//import com.compomics.ensh.core.TranslationEntity;
 
 /**
  * Provides access to the SigPep database schema for a specified species.
@@ -365,63 +360,63 @@ public class SigPepDatabase extends MySqlDatabase {
         Map<String, Set<String>> retVal = new HashMap<String, Set<String>>();
         Set<String> processedIds = new HashSet<String>();
 
-        SessionFactory sessionFactory = Ensh.getSessionFactory(this.getNcbiTaxonId(), ensemblVersion);
-
-        ArrayList ensemblIdList = Collections.list(Collections.enumeration(ensemblIds));
-
-        int intervalSize = 100;
-
-        int counter = 0;
-        for (int from = 0; from < ensemblIdList.size(); from += intervalSize) {
-            int to = from + intervalSize;
-            if (to >= ensemblIdList.size()) {
-                to = ensemblIdList.size() - 1;
-            }
-
-            if (from % 1000 == 0) {
-                logger.info(counter + " translations of " + ensemblIds.size() + " processed...");
-            }
-
-            List ensemblIdSubList = ensemblIdList.subList(from, to);
-
-            Session session = sessionFactory.openSession();
-
-            Criteria criteria = session.createCriteria("Translation").setFetchMode(
-                    "stableId", FetchMode.JOIN).setFetchMode("transcript", FetchMode.JOIN).setFetchMode(
-                    "transcript.exons", FetchMode.JOIN).createAlias("stableId", "stId").add(Restrictions.in("stId.stableId", ensemblIdSubList));
-
-            for (TranslationEntity translation : (Iterable<TranslationEntity>) criteria.list()) {
-                String ensemblId = "" + translation.getTranslationId();
-
-                if (processedIds.contains(ensemblId)) {
-                    continue;
-                }
-
-//                Map<Integer, List<ExonEntity>> exonBoundaries = translation.get ();
+//        SessionFactory sessionFactory = Ensh.getSessionFactory(this.getNcbiTaxonId(), ensemblVersion);
 //
-//                for (Integer spliceSite : exonBoundaries.keySet()) {
-//                    ArrayList<Exon> exons = (ArrayList) exonBoundaries.get(spliceSite);
-//                    String exonAccession1 = exons.get(0).getStableId().getStableId();
-//                    String exonAccession2 = exons.get(1).getStableId().getStableId();
+//        ArrayList ensemblIdList = Collections.list(Collections.enumeration(ensemblIds));
 //
-//                    String spliceEvent = exonAccession1 + ":" + exonAccession2;
+//        int intervalSize = 100;
 //
-//                    if (!retVal.containsKey(spliceEvent)) {
-//                        retVal.put(spliceEvent, new HashSet<String>());
-//                    }
+//        int counter = 0;
+//        for (int from = 0; from < ensemblIdList.size(); from += intervalSize) {
+//            int to = from + intervalSize;
+//            if (to >= ensemblIdList.size()) {
+//                to = ensemblIdList.size() - 1;
+//            }
 //
-//                    retVal.get(spliceEvent).add(ensemblId + ":" + spliceSite);
+//            if (from % 1000 == 0) {
+//                logger.info(counter + " translations of " + ensemblIds.size() + " processed...");
+//            }
+//
+//            List ensemblIdSubList = ensemblIdList.subList(from, to);
+//
+//            Session session = sessionFactory.openSession();
+//
+//            Criteria criteria = session.createCriteria("Translation").setFetchMode(
+//                    "stableId", FetchMode.JOIN).setFetchMode("transcript", FetchMode.JOIN).setFetchMode(
+//                    "transcript.exons", FetchMode.JOIN).createAlias("stableId", "stId").add(Restrictions.in("stId.stableId", ensemblIdSubList));
+//
+//            for (TranslationEntity translation : (Iterable<TranslationEntity>) criteria.list()) {
+//                String ensemblId = "" + translation.getTranslationId();
+//
+//                if (processedIds.contains(ensemblId)) {
+//                    continue;
 //                }
-
-                processedIds.add(ensemblId);
-            }
-
-            session.flush();
-            session.clear();
-            session.close();
-        }
-
-        logger.info(counter + " translations of " + ensemblIds.size() + " processed...");
+//
+////                Map<Integer, List<ExonEntity>> exonBoundaries = translation.get ();
+////
+////                for (Integer spliceSite : exonBoundaries.keySet()) {
+////                    ArrayList<Exon> exons = (ArrayList) exonBoundaries.get(spliceSite);
+////                    String exonAccession1 = exons.get(0).getStableId().getStableId();
+////                    String exonAccession2 = exons.get(1).getStableId().getStableId();
+////
+////                    String spliceEvent = exonAccession1 + ":" + exonAccession2;
+////
+////                    if (!retVal.containsKey(spliceEvent)) {
+////                        retVal.put(spliceEvent, new HashSet<String>());
+////                    }
+////
+////                    retVal.get(spliceEvent).add(ensemblId + ":" + spliceSite);
+////                }
+//
+//                processedIds.add(ensemblId);
+//            }
+//
+//            session.flush();
+//            session.clear();
+//            session.close();
+//        }
+//
+//        logger.info(counter + " translations of " + ensemblIds.size() + " processed...");
 
         return retVal;
     }
