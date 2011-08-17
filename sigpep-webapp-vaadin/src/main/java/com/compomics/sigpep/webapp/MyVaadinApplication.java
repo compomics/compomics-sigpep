@@ -15,6 +15,7 @@
  */
 package com.compomics.sigpep.webapp;
 
+import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.form.MainForm;
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
@@ -23,6 +24,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 import org.vaadin.artur.icepush.ICEPush;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * The Application's "main" class
  */
@@ -30,9 +36,11 @@ import org.vaadin.artur.icepush.ICEPush;
 public class MyVaadinApplication extends Application {
 
     private ICEPush pusher = new ICEPush();
+    private static Application iApplication;
 
     @Override
     public void init() {
+        iApplication = this;
         Window mainWindow = new Window("Icepushaddon Application");
         setMainWindow(mainWindow);
 
@@ -63,18 +71,33 @@ public class MyVaadinApplication extends Application {
         public void run() {
             // Simulate background work
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
 
             // Update UI
             synchronized (MyVaadinApplication.this) {
                 getMainWindow().addComponent(new Label("All done"));
+
+                File lResultFolder = new File("/Users/kennyhelsens/tmp/sigpep/");
+                ArrayList lResultFiles = new ArrayList();
+                Collections.addAll(lResultFiles, lResultFolder.listFiles(new FileFilter() {
+                    public boolean accept(File aFile) {
+                        return aFile.getName().endsWith(".tsv");
+                    }
+                }));
+
+                getMainWindow().addComponent(new ResultsTable(lResultFiles));
+
             }
 
             // Push the changes
             pusher.push();
         }
 
+    }
+
+    public static Application getApplication() {
+        return iApplication;
     }
 }

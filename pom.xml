@@ -15,6 +15,7 @@
         <module>sigpep-model</module>
         <module>sigpep-app</module>
         <module>sigpep-util</module>
+        <module>sigpep-webapp-vaadin</module>
         <!--<module>sigpep-web</module>-->
     </modules>
 
