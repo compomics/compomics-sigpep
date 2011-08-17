@@ -11,7 +11,7 @@ import com.compomics.sigpep.persistence.util.HibernateUtil;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 17-Jan-2008<br/>
@@ -25,16 +25,24 @@ public class HibernateTest {
     private static Logger logger = Logger.getLogger(HibernateTest.class);
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
-        int ncbiTaxonId = 4932;
+//        int ncbiTaxonId = 4932;
+//        String geneAccession = "YAL002W";
+//        String proteinAccession = "YAL002W";
+
+
+        int ncbiTaxonId = 9606;
         String geneAccession = "YAL002W";
-        String proteinAccession = "YAL002W";
-        String protease = "tryp";
+//        String proteinAccession = "YAL002W";
+
+        String proteinAccession= "ENSP00000323304";
+
+
+        String protease = "trypsin";
 
         System.out.println("Organism test");
         System.out.println(Organisms.getInstance().getSpeciesName(ncbiTaxonId));
@@ -47,12 +55,12 @@ public class HibernateTest {
         //fetch protease
         Query q = s.createQuery("from Protease where name = :name");
         q.setParameter("name", protease);
-        Protease pt = (Protease)q.uniqueResult();
+        Protease pt = (Protease) q.uniqueResult();
 
         //fetch protein
         q = s.createQuery("from Gene where primaryDbXref.accession = :accession");
         q.setParameter("accession", proteinAccession);
-        Gene g = (Gene)q.uniqueResult();
+        Gene g = (Gene) q.uniqueResult();
 
         t.commit();
         s.close();
@@ -62,7 +70,7 @@ public class HibernateTest {
         s2.update("Gene", g);
 
         //get protein sequence
-        for(Protein p : g.getProteins()){
+        for (Protein p : g.getProteins()) {
             System.out.println(p);
         }
 

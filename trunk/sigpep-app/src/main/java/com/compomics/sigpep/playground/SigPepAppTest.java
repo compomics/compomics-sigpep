@@ -47,12 +47,11 @@ public class SigPepAppTest {
         double massAccuracy = 0.2;
         int minimumCombinationSize = 1;
         int maximumCombinationSize = 5;
-        SignatureTransitionFinderType type = SignatureTransitionFinderType.MINIMAL;
-//
+        SignatureTransitionFinderType type = SignatureTransitionFinderType.FIRST;
+
         int taxonId = 9606;
         String proteaseShortName = "tryp";
-        String proteinAccession = "ENSP00000323304";
-
+        String proteinAccession = "ENSP00000444838";
 
         //Q6QAQ1	ACTB_PIG
         //Actin, cytoplasmic 1
@@ -62,7 +61,7 @@ public class SigPepAppTest {
         // 375
 //        int taxonId = 9823;
 //        String proteaseShortName = "tryp";
-//        String proteinAccession = "ENSSSCP00000008105";
+//        String proteinAccession = "ENSSSCP00000000998";
 
 //        int taxonId = 4932;
 //        String proteaseShortName = "tryp";
