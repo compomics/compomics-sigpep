@@ -3,18 +3,15 @@ package com.compomics.sigpep.webapp.listener;
 import com.compomics.acromics.rcaller.RFilter;
 import com.compomics.acromics.rcaller.RRunner;
 import com.compomics.acromics.rcaller.RSource;
-import com.compomics.sigpep.webapp.MyVaadinApplication;
-import com.google.common.io.Files;
-import com.vaadin.terminal.StreamResource;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.Window;
+import com.compomics.sigpep.webapp.component.ComponentFactory;
+import com.compomics.sigpep.webapp.interfaces.Pushable;
+import com.vaadin.Application;
+import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 import sun.misc.ConditionLock;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -23,70 +20,101 @@ import java.util.concurrent.Future;
  */
 public class RCallerClickListener implements Button.ClickListener {
     private static Logger logger = Logger.getLogger(RCallerClickListener.class);
-    private RSource iRSource;
-    private RFilter iRFilter;
 
-    public RCallerClickListener(RSource aRSource, RFilter aRFilter) {
+    // The RSource that will be ran on a ClickEvent
+    private RSource iRSource;
+
+    // The RFilter variables
+    private RFilter iRFilter;
+    private final Pushable iPushable;
+    /**
+     * The parent Application in which this listener is running.
+     */
+    private final Application iApplication;
+
+    /**
+     * Create a ClickListener that will execute a RSource/RFilter combination on a ClickEvent.
+     *
+     * @param aRSource
+     * @param aRFilter
+     * @param aPushable
+     * @param aApplication
+     */
+    public RCallerClickListener(RSource aRSource, RFilter aRFilter, Pushable aPushable, Application aApplication) {
         super();
+
         iRSource = aRSource;
         iRFilter = aRFilter;
+        iPushable = aPushable;
+        iApplication = aApplication;
 
         iRSource.filter(aRFilter);
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     public void buttonClick(Button.ClickEvent aClickEvent) {
 
         // make a RRunner from this RSource.
-        try {
-            Runnable lRRunner = new RRunner(iRSource);
+
+
+        Runnable lRRunner = new RRunner(iRSource);
 //            lRRunner.
-            Future lFuture = Executors.newSingleThreadExecutor().submit(lRRunner);
+        final Future lFuture = Executors.newSingleThreadExecutor().submit(lRRunner);
 
-            ConditionLock lConditionLock = new ConditionLock();
+        final Window lDialog = new Window();
+        lDialog.setModal(true);
+        lDialog.setCaption("Processing the background/signature peptides");
+        lDialog.setWidth("75%");
+        lDialog.setHeight("75%");
 
-            // Keep busy until the Thread has finished.
-            synchronized (lConditionLock) {
-                while (lFuture.isDone() != true) {
-                    lConditionLock.wait(1000);
-                    System.out.println(".");
-                }
-                System.out.println("process finished!");
-                String lOutputFilename = iRFilter.get("file.output");
-                if (lOutputFilename != null) {
-                    File lOutputFile = new File(lOutputFilename);
-                    if (lOutputFile.exists()) {
+        final ProgressIndicator lProgressIndicator = new ProgressIndicator();
+        lProgressIndicator.setIndeterminate(true);
+        lProgressIndicator.setPollingInterval(1000);
 
-                        try {
-                            final InputStream is = Files.newInputStreamSupplier(lOutputFile).getInput();
+        lDialog.addComponent(lProgressIndicator);
 
-                            StreamResource.StreamSource lStreamSource = new StreamResource.StreamSource() {
-                                public InputStream getStream() {
-                                    return is;
+        iApplication.getMainWindow().addWindow(lDialog);
+
+        // Keep busy until the Thread has finished.
+        Executors.newSingleThreadExecutor().submit(
+                new Runnable() {
+                    public void run() {
+                        ConditionLock lConditionLock = new ConditionLock();
+
+                        synchronized (lConditionLock) {
+                            while (lFuture.isDone() != true) {
+                                try {
+                                    lConditionLock.wait(1000);
+                                } catch (InterruptedException e) {
+                                    logger.error(e.getMessage(), e);
                                 }
-                            };
-                            StreamResource lStreamResource = new StreamResource(lStreamSource, lOutputFile.getName(), MyVaadinApplication.getApplication());
-                            Window lDialog = new Window();
-                            lDialog.setModal(true);
+                                System.out.println(".");
+                            }
+                            String lOutputFilename = iRFilter.get("file.output");
 
+                            if (lOutputFilename != null) {
 
-                            Embedded e = new Embedded("R result", lStreamResource);
-                            lDialog.addComponent(e);
+                                lDialog.setCaption("finished processing " + iRFilter.get("file.input"));
+                                File lOutputFile = new File(lOutputFilename);
 
-                            MyVaadinApplication.getApplication().getMainWindow().addWindow(lDialog);
+                                if (lOutputFile.exists()) {
+                                    try {
+                                        String lImageCaption = "R result";
+                                        Embedded e = ComponentFactory.createImage(lOutputFile, lImageCaption);
 
+                                        lProgressIndicator.setVisible(false);
+                                        lDialog.removeComponent(lProgressIndicator);
+                                        lDialog.addComponent(e);
 
-
-                        } catch (IOException e) {
+                                    } catch (IOException e) {
+                                    }
+                                }
+                            }
                         }
-
-
                     }
-                }
-            }
-
-        } catch (InterruptedException e) {
-            logger.error(e.getMessage(), e);
-        }
+                });
     }
 }
