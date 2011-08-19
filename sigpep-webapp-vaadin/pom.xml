@@ -12,7 +12,7 @@
     <name>sigpep-webapp-vaadin</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-88</project.build.sourceEncoding>
         <vaadin.version>6.6.4</vaadin.version>
         <gwt.version>2.3.0</gwt.version>
         <gwt.plugin.version>2.2.0</gwt.plugin.version>
