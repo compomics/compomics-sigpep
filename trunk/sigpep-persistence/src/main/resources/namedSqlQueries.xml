@@ -5,6 +5,12 @@
         <!--returns the number of protease entries in the database-->
         <proteaseCount>SELECT COUNT(protease_id) AS count FROM protease</proteaseCount>
 
+        <!--returns the protease entries names that have a protease2petide relation in the database-->
+        <usedProteaseNames>
+            SELECT name FROM protease WHERE protease_id IN
+            (SELECT DISTINCT protease_id FROM peptide2protease)
+        </usedProteaseNames>
+
         <!--returns the number of protein entries in the database-->
         <proteinCount>SELECT COUNT(protein_id) AS count FROM protein</proteinCount>
 

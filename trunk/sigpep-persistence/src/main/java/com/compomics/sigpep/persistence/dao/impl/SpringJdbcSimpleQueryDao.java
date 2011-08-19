@@ -1,8 +1,11 @@
 package com.compomics.sigpep.persistence.dao.impl;
 
+import com.compomics.sigpep.model.Protease;
+import com.compomics.sigpep.model.impl.ProteaseImpl;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import com.compomics.dbtools.SqlUtil;
 import com.compomics.sigpep.persistence.dao.NamedQueryAccess;
@@ -18,7 +21,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 29-May-2008<br/>
@@ -31,6 +34,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
     private static final String SQL_SELECT_GENE_COUNT = namedQueries.getString("query.geneCount");
     private static final String SQL_SELECT_SEQUENCE_COUNT = namedQueries.getString("query.sequenceCount");
     private static final String SQL_SELECT_PROTEASE_COUNT = namedQueries.getString("query.proteaseCount");
+    private static final String SQL_SELECT_USED_PROTEASENAMES = namedQueries.getString("query.usedProteaseNames");
     private static final String SQL_SELECT_PEPTIDE_SEQUENCES_BY_PROTEASE_SHORT_NAMES = namedQueries.getString("peptideSequencesByProteaseShortNames");
     private static final String SQL_SELECT_SIGNATURE_PEPTIDE_SEQUENCES_BY_PROTEASE_SHORT_NAMES = namedQueries.getString("peptideSequencesByProteaseShortNames");
     private static final String SQL_SELECT_SEQUENCE_IDS_AND_STRINGS = namedQueries.getString("query.sequenceIdsAndStrings");
@@ -115,6 +119,17 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
         return this.getJdbcTemplate().queryForInt(SQL_SELECT_PROTEASE_COUNT);
     }
 
+    /**
+     * Returns the protease entries that have a protease2petide relation in the database
+     *
+     * @return protease name set
+     */
+    public Set<String> getUsedProteaseNames() {
+        Set<String> retVal = new HashSet<String>();
+        retVal.addAll(this.getJdbcTemplate().queryForList(SQL_SELECT_USED_PROTEASENAMES, String.class));
+        return retVal;
+    }
+
     public Map<Integer, String> getSequenceIdsAndStrings() {
 
         return (Map<Integer, String>) this.getJdbcTemplate().query(
@@ -149,10 +164,10 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
     }
 
     public Set<Integer> getSignaturePeptideIdsByProteaseShortNamesGeneLevel(Set<String> proteaseShortNames) {
-            String sql = SqlUtil.setParameterSet(SQL_SELECT_SIGNATURE_PEPTIDE_IDS_BY_PROTEASE_SHORTNAME_GENE_LEVEL, "proteaseNames", proteaseShortNames);
-            Set<Integer> retVal = new HashSet<Integer>();
-            retVal.addAll(this.getJdbcTemplate().queryForList(sql, Integer.class));
-            return retVal;
+        String sql = SqlUtil.setParameterSet(SQL_SELECT_SIGNATURE_PEPTIDE_IDS_BY_PROTEASE_SHORTNAME_GENE_LEVEL, "proteaseNames", proteaseShortNames);
+        Set<Integer> retVal = new HashSet<Integer>();
+        retVal.addAll(this.getJdbcTemplate().queryForList(sql, Integer.class));
+        return retVal;
     }
 
     public Set<String> getSignaturePeptideSequencesByProteaseShortNames(Set<String> proteaseShortNames) {
@@ -163,7 +178,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
     }
 
     public Map<Integer, String> getSpeciesTaxonIdsAndNames() {
-        return null; 
+        return null;
     }
 
     /**
@@ -441,7 +456,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * {@inheritDoc}
      */
     public Map<String, Integer> getProteaseNameToProteaseIDMap() {
-         return (Map<String, Integer>) this.getJdbcTemplate().query(
+        return (Map<String, Integer>) this.getJdbcTemplate().query(
                 SQL_SELECT_PROTEASE_NAMES_AND_IDS,
                 new ResultSetExtractor() {
 
@@ -531,7 +546,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return a set of gene accessions
      */
     public Set<String> getAccessionsAlternativelySplicedGenesTranscriptLevel() {
-        Set<String> retVal = new HashSet<String>();        
+        Set<String> retVal = new HashSet<String>();
         retVal.addAll(this.getJdbcTemplate().queryForList(SQL_SELECT_ACCESSIONS_ALTERNATIVELY_SPLICED_GENES_TRANSCRIPT_LEVEL, String.class));
         return retVal;
     }
@@ -554,23 +569,23 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return a map of peptide lengths and absolute frequencies
      */
     public Map<Integer, Integer> getPeptideLengthFrequencyByProteaseShortName(Set<String> proteaseShortNames) {
-        
-        String sql = SqlUtil.setParameterSet(SQL_SELECT_PEPTIDE_LENGTH_FREQUENCY_BY_PROTEASE_SHORTNAME,"proteaseShortNames", proteaseShortNames);
-        return (Map<Integer, Integer>)this.getJdbcTemplate().query(sql, new ResultSetExtractor() {
 
-                    public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+        String sql = SqlUtil.setParameterSet(SQL_SELECT_PEPTIDE_LENGTH_FREQUENCY_BY_PROTEASE_SHORTNAME, "proteaseShortNames", proteaseShortNames);
+        return (Map<Integer, Integer>) this.getJdbcTemplate().query(sql, new ResultSetExtractor() {
 
-                        Map<Integer, Integer> retVal = new TreeMap<Integer, Integer>();
+            public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
 
-                        while (resultSet.next()) {
-                            int length = resultSet.getInt(1);
-                            int frequency = resultSet.getInt(2);
-                            retVal.put(length, frequency);
-                        }
+                Map<Integer, Integer> retVal = new TreeMap<Integer, Integer>();
 
-                        return retVal;
-                    }
-                });
+                while (resultSet.next()) {
+                    int length = resultSet.getInt(1);
+                    int frequency = resultSet.getInt(2);
+                    retVal.put(length, frequency);
+                }
+
+                return retVal;
+            }
+        });
     }
 
     /**
@@ -630,7 +645,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
 //
 //
 //        } catch (SQLException e) {
-//            logger.error("Exception while fetching signautre proteins for proteases " + proteaseSet.toString() + " from SigPep database.", e);
+//            logger.error("Exception while fetching signautre proteins for proteases " + proteaseSet.toString() + " form SigPep database.", e);
 //        } finally {
 //
 //            //clean up
@@ -676,7 +691,6 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
 //    }
 
 
-   
 //    public Map<String, Set<String>> fetchProteinAccessionsByPeptideSequence(Set<String> peptideSequences, Set<String> proteaseNames){
 //
 //        Map<String, Set<String>> retVal = new HashMap<String, Set<String>>();
@@ -704,9 +718,8 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
 //    }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param args
+     * @TODO: JavaDoc missing
      */
     public static void main(String[] args) {
 

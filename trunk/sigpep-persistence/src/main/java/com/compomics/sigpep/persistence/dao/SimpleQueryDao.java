@@ -1,5 +1,7 @@
 package com.compomics.sigpep.persistence.dao;
 
+import com.compomics.sigpep.model.Protease;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
@@ -41,6 +43,13 @@ public interface SimpleQueryDao {
      * @return protease count
      */
     int getProteaseCount();
+
+    /**
+     * Returns the protease entries names that have a protease2petide relation in the database
+     *
+     * @return protease name set
+     */
+    Set<String> getUsedProteaseNames();
 
     /**
      * Returns the sequence ids and strings.
