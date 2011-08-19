@@ -17,11 +17,13 @@ package com.compomics.sigpep.webapp;
 
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.form.MainForm;
+import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+import org.apache.log4j.Logger;
 import org.vaadin.artur.icepush.ICEPush;
 
 import java.io.File;
@@ -33,7 +35,8 @@ import java.util.Collections;
  * The Application's "main" class
  */
 @SuppressWarnings("serial")
-public class MyVaadinApplication extends Application {
+public class MyVaadinApplication extends Application implements Pushable {
+    private static Logger logger = Logger.getLogger(MyVaadinApplication.class);
 
     private ICEPush pusher = new ICEPush();
     private static Application iApplication;
@@ -65,6 +68,14 @@ public class MyVaadinApplication extends Application {
 
     }
 
+    /**
+     * Persist a push event.
+     */
+    public void push() {
+        logger.debug("pushing ");
+        pusher.push();
+    }
+
     public class BackgroundThread extends Thread {
 
         @Override
@@ -87,8 +98,7 @@ public class MyVaadinApplication extends Application {
                     }
                 }));
 
-                getMainWindow().addComponent(new ResultsTable(lResultFiles));
-
+                getMainWindow().addComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
             }
 
             // Push the changes
