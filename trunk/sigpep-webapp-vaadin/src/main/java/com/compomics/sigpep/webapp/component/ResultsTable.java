@@ -2,7 +2,9 @@ package com.compomics.sigpep.webapp.component;
 
 import com.compomics.acromics.rcaller.RFilter;
 import com.compomics.acromics.rcaller.RSource;
+import com.compomics.pepnovo.beans.PeptideInputBean;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
+import com.compomics.sigpep.webapp.listener.IntensityPredictionClickListener;
 import com.compomics.sigpep.webapp.listener.RCallerClickListener;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * This class represents a series of .tsv transition files as a Table.
@@ -29,9 +32,11 @@ public class ResultsTable extends VerticalLayout {
      */
     Table iTable = new Table();
 
-    public String COLUMN_LABEL_FILENAME = "filename";
-    public String COLUMN_LABEL_GRAPH = "graph";
-    public String COLUMN_LABEL_FILE = "download";
+    public static final String COLUMN_LABEL_FILENAME = "filename";
+    public static final String COLUMN_LABEL_GRAPH = "graph";
+    public static final String COLUMN_LABEL_FILE = "download";
+
+    public static final String COLUMN_LABEL_PREDICT = "pepnovo";
 
     /**
      * Temporary folder to generate the images.
@@ -42,7 +47,6 @@ public class ResultsTable extends VerticalLayout {
      * Object to push async events.
      */
     private final Pushable iPushable;
-
     /**
      * The application in which the Table is running.
      */
@@ -91,14 +95,41 @@ public class ResultsTable extends VerticalLayout {
             // 1 - Filename.
             iTable.getContainerProperty(id, COLUMN_LABEL_FILENAME).setValue(generateFileName(lFile));
 
-            // 2- Download link to tsv file.
+            // 2 - Download link to tsv file.
             Link l = ComponentFactory.createFileDownloadLink(lFile);
             iTable.getContainerProperty(id, COLUMN_LABEL_FILE).setValue(l);
 
-            // 3- Make an R button
+            // 3 - Make an R button
             Button lButton = generateBackgroundSignatureButton(lFile);
             iTable.getContainerProperty(id, COLUMN_LABEL_GRAPH).setValue(lButton);
+
+            // 4 - Make a prediction button
+            Button lPredictionButton = generatePredictionButton(generateFileName(lFile));
+            iTable.getContainerProperty(id, COLUMN_LABEL_PREDICT).setValue(lPredictionButton);
         }
+    }
+
+    private Button generatePredictionButton(String aPeptideSequence) {
+
+        // Create a new button, display as a link.
+        Button lButton = new Button();
+        lButton.setStyleName(BaseTheme.BUTTON_LINK);
+        lButton.setIcon(new ClassResource("/images/graph_int_pred.png", iApplication));
+
+        //
+        PeptideInputBean lPeptideInputBean = new PeptideInputBean();
+        lPeptideInputBean.setCharge(2);
+        lPeptideInputBean.setPeptideSequence(aPeptideSequence);
+
+
+        HashSet<PeptideInputBean> lPeptideInputBeans = new HashSet<PeptideInputBean>();
+        lPeptideInputBeans.add(lPeptideInputBean);
+
+        IntensityPredictionClickListener lIntensityPredictionClickListener = new IntensityPredictionClickListener(lPeptideInputBeans, iPushable, iApplication);
+        lButton.addListener(lIntensityPredictionClickListener);
+        return lButton;
+
+
     }
 
     /**
@@ -151,6 +182,7 @@ public class ResultsTable extends VerticalLayout {
         iTable.addContainerProperty(COLUMN_LABEL_FILENAME, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_FILE, Link.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_GRAPH, Button.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_PREDICT, Button.class, null);
 
     }
 
