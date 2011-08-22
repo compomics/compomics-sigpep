@@ -132,6 +132,12 @@
     </pluginRepositories>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.compomics.sigpep</groupId>
+            <artifactId>sigpep-app</artifactId>
+            <version>0.5</version>
+        </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin</artifactId>

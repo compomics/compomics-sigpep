@@ -55,6 +55,7 @@ public class ResultsTable extends VerticalLayout {
      */
     public ResultsTable(ArrayList<File> aFiles, Pushable aPushable, Application aApplication) {
         super();
+        setCaption("Results table");
         iPushable = aPushable;
         iApplication = aApplication;
         try {

@@ -15,8 +15,12 @@
  */
 package com.compomics.sigpep.webapp;
 
+import com.compomics.sigpep.ApplicationLocator;
+import com.compomics.sigpep.SigPepSession;
+import com.compomics.sigpep.SigPepSessionFactory;
+import com.compomics.sigpep.webapp.bean.SigPepFormBean;
 import com.compomics.sigpep.webapp.component.ResultsTable;
-import com.compomics.sigpep.webapp.form.MainForm;
+import com.compomics.sigpep.webapp.form.SigPepForm;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
@@ -40,31 +44,23 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     private ICEPush pusher = new ICEPush();
     private static Application iApplication;
+    private static SigPepSessionFactory iSigPepSessionFactory;
+    private SigPepSession iSigPepSession;
+    private SigPepFormBean iSigPepFormBean;
 
     @Override
     public void init() {
         iApplication = this;
+        iSigPepSessionFactory = ApplicationLocator.getInstance().getApplication().getSigPepSessionFactory();
+        iSigPepFormBean = new SigPepFormBean();
+
         Window mainWindow = new Window("Icepushaddon Application");
         setMainWindow(mainWindow);
 
-        mainWindow.addComponent(new MainForm());
+        mainWindow.addComponent(new SigPepForm("SigPep Form", this));
 
         // Add the push component
         mainWindow.addComponent(pusher);
-
-        // Add a button for starting background work
-        getMainWindow().addComponent(
-                new Button("Do stuff in the background", new Button.ClickListener() {
-                    //@Override
-                    public void buttonClick(ClickEvent event) {
-                        getMainWindow()
-                                .addComponent(
-                                        new Label(
-                                                "Waiting for background process to complete..."));
-                        new BackgroundThread().start();
-
-                    }
-                }));
 
     }
 
@@ -110,4 +106,25 @@ public class MyVaadinApplication extends Application implements Pushable {
     public static Application getApplication() {
         return iApplication;
     }
+
+    public static SigPepSessionFactory getSigPepSessionFactory() {
+        return iSigPepSessionFactory;
+    }
+
+    public SigPepSession getSigPepSession() {
+        return iSigPepSession;
+    }
+
+    public void setSigPepSession(SigPepSession aSigPepSession) {
+        iSigPepSession = aSigPepSession;
+    }
+
+    public SigPepFormBean getSigPepFormBean() {
+        return iSigPepFormBean;
+    }
+
+    public void setSigPepFormBean(SigPepFormBean aSigPepFormBean) {
+        iSigPepFormBean = aSigPepFormBean;
+    }
+
 }
