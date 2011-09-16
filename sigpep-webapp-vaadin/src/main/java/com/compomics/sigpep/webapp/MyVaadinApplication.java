@@ -24,7 +24,6 @@ import com.compomics.sigpep.webapp.form.SigPepForm;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 import org.apache.log4j.Logger;
@@ -58,6 +57,14 @@ public class MyVaadinApplication extends Application implements Pushable {
         setMainWindow(mainWindow);
 
         mainWindow.addComponent(new SigPepForm("SigPep Form", this));
+
+        Button lButton = new Button("load data from ~/tmp/sigpep");
+        lButton.addListener(new Button.ClickListener() {
+            public void buttonClick(Button.ClickEvent event) {
+                new BackgroundThread().run();
+            }
+        });
+        mainWindow.addComponent(lButton);
 
         // Add the push component
         mainWindow.addComponent(pusher);
