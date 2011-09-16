@@ -10,8 +10,9 @@ import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.SigPepFormBean;
 import com.compomics.sigpep.webapp.component.ComponentFactory;
+import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.factory.SigPepFormFieldFactory;
-import com.compomics.sigpep.webapp.runner.SigPepRunner;
+import com.google.common.io.Files;
 import com.vaadin.Application;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
@@ -19,14 +20,8 @@ import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 import sun.misc.ConditionLock;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,8 +38,15 @@ public class SigPepForm extends Form {
     private static Logger logger = Logger.getLogger(SigPepForm.class);
 
     private MyVaadinApplication iMyVaadinApplication;
+
     private SigPepFormFieldFactory iSigPepFormFieldFactory;
+    private SigPepFormBean iSigPepFormBean;
+
     private Vector<String> iOrder;
+
+    private Button iSubmitButton;
+    private Button iResetButton;
+    private HorizontalLayout iProgressIndicatorLayout;
 
     public SigPepForm(String aCaption, MyVaadinApplication aMyVaadinApplication) {
         this.setCaption(aCaption);
@@ -53,19 +55,39 @@ public class SigPepForm extends Form {
         iSigPepFormFieldFactory = new SigPepFormFieldFactory(iMyVaadinApplication);
         this.setFormFieldFactory(iSigPepFormFieldFactory);
 
-        BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(iMyVaadinApplication.getSigPepFormBean());
+        iSigPepFormBean = iMyVaadinApplication.getSigPepFormBean();
+        BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(iSigPepFormBean);
         this.setItemDataSource(lBeanItem);
 
-        Button iSubmitButton = new Button("Submit", new Button.ClickListener() {
+        iSubmitButton = new Button("Submit", new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent aClickEvent) {
                 try {
                     commit();
                     resetValidation();
 
                     ExecutorService lExecutorService = Executors.newSingleThreadExecutor();
-                    Runnable lSigPepRunner = new SigPepRunner(iMyVaadinApplication);
-                    lExecutorService.execute(lSigPepRunner);
+                    Runnable lSigPepFormRunner = new SigPepFormRunner();
+                    lExecutorService.execute(lSigPepFormRunner);
                     lExecutorService.shutdown();
+
+                    //add label and progress indicator
+                    iProgressIndicatorLayout = new HorizontalLayout();
+                    iProgressIndicatorLayout.setSpacing(Boolean.TRUE);
+
+                    Label lLabel = new Label("Processing...");
+                    ProgressIndicator lProgressIndicator = new ProgressIndicator();
+                    lProgressIndicator.setIndeterminate(true);
+                    lProgressIndicator.setPollingInterval(5000);
+
+                    iProgressIndicatorLayout.addComponent(lProgressIndicator);
+                    iProgressIndicatorLayout.addComponent(lLabel);
+
+                    SigPepForm.this.getFooter().addComponent(iProgressIndicatorLayout);
+                    SigPepForm.this.getFooter().requestRepaint();
+
+                    //disable form buttons during run
+                    iSubmitButton.setEnabled(Boolean.TRUE);
+                    iResetButton.setEnabled(Boolean.TRUE);
 
                 } catch (Validator.InvalidValueException e) {
                     // Failed to commit. The validation errors are
@@ -73,8 +95,8 @@ public class SigPepForm extends Form {
                 }
             }
         });
-        this.getFooter().addComponent(iSubmitButton);
-        Button iDiscardButton = new Button("Reset", new Button.ClickListener() {
+
+        iResetButton = new Button("Reset", new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent aClickEvent) {
                 iMyVaadinApplication.setSigPepFormBean(new SigPepFormBean());
                 BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(iMyVaadinApplication.getSigPepFormBean());
@@ -82,7 +104,12 @@ public class SigPepForm extends Form {
                 resetValidation();
             }
         });
-        this.getFooter().addComponent(iDiscardButton);
+
+        HorizontalLayout lFormButtonLayout = new HorizontalLayout();
+        lFormButtonLayout.setSpacing(Boolean.TRUE);
+        lFormButtonLayout.addComponent(iSubmitButton);
+        lFormButtonLayout.addComponent(iResetButton);
+        this.getFooter().addComponent(lFormButtonLayout);
 
         iOrder = new Vector();
         iOrder.add("species");
@@ -104,8 +131,97 @@ public class SigPepForm extends Form {
         this.setOrder();
     }
 
-    private void setOrder(){
+    private void setOrder() {
         this.setVisibleItemProperties(iOrder);
+    }
+
+    private class SigPepFormRunner implements Runnable {
+
+        public void run() {
+
+            SigPepSession lSigPepSession = iMyVaadinApplication.getSigPepSession();
+
+            File outputFolder = Files.createTempDir();
+            logger.info(outputFolder);
+
+            SigPepQueryService lSigPepQueryService = iMyVaadinApplication.getSigPepSession().createSigPepQueryService();
+
+            Protease aProtease = lSigPepQueryService.getProteaseByShortName(iSigPepFormBean.getProteaseName());
+
+            //create peptide generator for protease
+            logger.info("creating peptide generator");
+            PeptideGenerator lGenerator = lSigPepSession.createPeptideGenerator(aProtease);
+
+            //get peptides generated by protease
+            logger.info("generating lBackgroundPeptides");
+            Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
+
+            logger.info("generating signature peptides");
+            Set<Peptide> lSignaturepeptides = lGenerator.getPeptidesByProteinAccessionAndProteinSequenceLevelDegeneracy(iSigPepFormBean.getProteinAccession(), 1);
+            for (Peptide peptide : lSignaturepeptides) {
+                logger.info(peptide.getSequenceString());
+            }
+
+            //create signature transition finder
+            logger.info("creating signature transition finder");
+
+            HashSet lChargeStates = new HashSet();
+            lChargeStates.add(2);
+            lChargeStates.add(3);
+
+            Set<ProductIonType> lTargetProductIonTypes = new HashSet<ProductIonType>();
+            lTargetProductIonTypes.add(ProductIonType.Y);
+
+            Set<ProductIonType> lBackgroundProductIonTypes = new HashSet<ProductIonType>();
+            lBackgroundProductIonTypes.add(ProductIonType.Y);
+            lBackgroundProductIonTypes.add(ProductIonType.B);
+
+            Set<Integer> lProductIonChargeStates = new HashSet<Integer>();
+            lProductIonChargeStates.add(1);
+
+            SignatureTransitionFinder finder = lSigPepSession.createSignatureTransitionFinder(
+                    lBackgroundPeptides,
+                    lTargetProductIonTypes,
+                    lBackgroundProductIonTypes,
+                    lChargeStates,
+                    lProductIonChargeStates,
+                    iSigPepFormBean.getMassAccuracy(),
+                    iSigPepFormBean.getMinimumCombinationSize(),
+                    iSigPepFormBean.getMaximumCombinationSize(),
+                    iSigPepFormBean.getSignatureTransitionFinderType());
+
+            logger.info("finding signature transitions");
+            List<SignatureTransition> st = finder.findSignatureTransitions(lSignaturepeptides);
+
+            for (SignatureTransition t : st) {
+                logger.info("printing peptide " + t.getPeptide().getSequenceString());
+                try {
+                    OutputStream os = new FileOutputStream(outputFolder.getAbsolutePath() + File.separator + t.getPeptide().getSequenceString() + ".tsv");
+
+                    SignatureTransitionMassMatrix m = new SignatureTransitionMassMatrix(t);
+                    m.write(os);
+                    os.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ArrayList lResultFiles = new ArrayList();
+            Collections.addAll(lResultFiles, outputFolder.listFiles(new FileFilter() {
+                public boolean accept(File aFile) {
+                    return aFile.getName().endsWith(".tsv");
+                }
+            }));
+
+            synchronized (iMyVaadinApplication) {
+                SigPepForm.this.getFooter().removeComponent(iProgressIndicatorLayout);
+                iMyVaadinApplication.getMainWindow().addComponent(new ResultsTable(lResultFiles, iMyVaadinApplication, iMyVaadinApplication));
+            }
+
+            iMyVaadinApplication.push();
+
+        }
     }
 
 }
