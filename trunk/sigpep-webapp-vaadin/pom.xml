@@ -47,8 +47,8 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>resources</goal>
-                            <goal>compile</goal>
+                            <!--<goal>resources</goal>-->
+                            <!--<goal>compile</goal>-->
                         </goals>
                     </execution>
                 </executions>
@@ -68,12 +68,13 @@
                         <artifactId>icepush-gwt</artifactId>
                         <version>2.0.0-A3</version>
                     </dependency>
+
                 </dependencies>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.1</version>
                 <executions>
                     <execution>
                         <configuration>
@@ -83,7 +84,33 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
+
+
+            <!-- A simple Jetty test server at http://localhost:8080/untitled can be launched with the Maven goal jetty:run
+        and stopped with jetty:stop -->
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.24</version>
+                <configuration>
+                    <stopPort>9966</stopPort>
+                    <stopKey>untitled</stopKey>
+                    <!-- Redeploy every x seconds if changes are detected, 0 for no automatic redeployment -->
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                    <!-- make sure Jetty also finds the widgetset -->
+                    <webAppConfig>
+                        <contextPath>/untitled</contextPath>
+                        <baseResource implementation="org.mortbay.resource.ResourceCollection">
+                            <!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
+                            <!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
+                            <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}
+                            </resourcesAsCSV>
+                        </baseResource>
+                    </webAppConfig>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -134,9 +161,22 @@
     <dependencies>
 
         <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-app</artifactId>
             <version>0.5</version>
+            <!--<scope>provided</scope>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xerces</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -154,19 +194,13 @@
             <version>${gwt.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
-            <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.icepush</groupId>
             <artifactId>icepush-gwt</artifactId>
@@ -177,6 +211,11 @@
             <artifactId>icepush-basic</artifactId>
             <version>2.0.0-A3</version>
         </dependency>
+        <!--<dependency>-->
+        <!--<groupId>xerces</groupId>-->
+        <!--<artifactId>xerces</artifactId>-->
+        <!--<version>1.2.3</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -188,16 +227,9 @@
             <version>0.2</version>
         </dependency>
         <dependency>
-            <groupId>com.compomics.sigpep</groupId>
-            <artifactId>sigpep-app</artifactId>
-            <version>0.5</version>
-        </dependency>
-        <dependency>
             <groupId>com.compomics</groupId>
             <artifactId>pepnovo-jwrapper</artifactId>
             <version>0.1</version>
         </dependency>
-
     </dependencies>
-
 </project>
