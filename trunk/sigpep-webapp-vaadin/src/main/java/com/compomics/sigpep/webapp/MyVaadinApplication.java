@@ -44,14 +44,12 @@ public class MyVaadinApplication extends Application implements Pushable {
     private ICEPush pusher = new ICEPush();
     private static Application iApplication;
     private static SigPepSessionFactory iSigPepSessionFactory;
-    private SigPepSession iSigPepSession;
-    private SigPepFormBean iSigPepFormBean;
+    private static SigPepSession iSigPepSession;
 
     @Override
     public void init() {
         iApplication = this;
         iSigPepSessionFactory = ApplicationLocator.getInstance().getApplication().getSigPepSessionFactory();
-        iSigPepFormBean = new SigPepFormBean();
 
         Window mainWindow = new Window("Icepushaddon Application");
         setMainWindow(mainWindow);
@@ -118,20 +116,12 @@ public class MyVaadinApplication extends Application implements Pushable {
         return iSigPepSessionFactory;
     }
 
-    public SigPepSession getSigPepSession() {
+    public static SigPepSession getSigPepSession() {
         return iSigPepSession;
     }
 
-    public void setSigPepSession(SigPepSession aSigPepSession) {
+    public static void setSigPepSession(SigPepSession aSigPepSession) {
         iSigPepSession = aSigPepSession;
-    }
-
-    public SigPepFormBean getSigPepFormBean() {
-        return iSigPepFormBean;
-    }
-
-    public void setSigPepFormBean(SigPepFormBean aSigPepFormBean) {
-        iSigPepFormBean = aSigPepFormBean;
     }
 
 }
