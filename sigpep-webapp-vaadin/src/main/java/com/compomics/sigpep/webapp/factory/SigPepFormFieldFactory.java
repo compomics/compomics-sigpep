@@ -31,10 +31,11 @@ public class SigPepFormFieldFactory implements FormFieldFactory {
     private Select iProteaseSelect = new Select("Protease");
     private TextField iProteinAccessionTextField = new TextField("Protein accession");
     private boolean iVisible = Boolean.FALSE;
-    private MyVaadinApplication iMyVaadinApplication;
 
-    public SigPepFormFieldFactory(MyVaadinApplication aMyVaadinApplication) {
-        iMyVaadinApplication = aMyVaadinApplication;
+    private SigPepForm iSigPepForm;
+
+    public SigPepFormFieldFactory(SigPepForm aSigPepForm) {
+        iSigPepForm = aSigPepForm;
 
         iSpeciesSelect.addListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent aValueChangeEvent) {
@@ -49,7 +50,7 @@ public class SigPepFormFieldFactory implements FormFieldFactory {
                         setFormComponentsVisible(iVisible);
                     }
                     log.info("Creating sigpep session.");
-                    iMyVaadinApplication.setSigPepSession(MyVaadinApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
+                    MyVaadinApplication.setSigPepSession(MyVaadinApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
                     fillProteaseSelect();
                 }
             }
@@ -112,7 +113,7 @@ public class SigPepFormFieldFactory implements FormFieldFactory {
         if (iProteaseSelect.size() != 0) {
             iProteaseSelect.removeAllItems();
         }
-        for (String lProteaseName : iMyVaadinApplication.getSigPepSession().getSimpleQueryDao().getUsedProteaseNames()) {
+        for (String lProteaseName : MyVaadinApplication.getSigPepSession().getSimpleQueryDao().getUsedProteaseNames()) {
             iProteaseSelect.addItem(lProteaseName);
         }
     }

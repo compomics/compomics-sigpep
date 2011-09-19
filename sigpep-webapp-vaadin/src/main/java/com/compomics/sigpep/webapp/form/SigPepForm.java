@@ -3,29 +3,23 @@ package com.compomics.sigpep.webapp.form;
 import com.compomics.sigpep.PeptideGenerator;
 import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
-import com.compomics.sigpep.SigPepSessionFactory;
 import com.compomics.sigpep.analysis.SignatureTransitionFinder;
 import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.SigPepFormBean;
-import com.compomics.sigpep.webapp.component.ComponentFactory;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.factory.SigPepFormFieldFactory;
 import com.google.common.io.Files;
-import com.vaadin.Application;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
-import sun.misc.ConditionLock;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,23 +33,22 @@ public class SigPepForm extends Form {
 
     private MyVaadinApplication iMyVaadinApplication;
 
-    private SigPepFormFieldFactory iSigPepFormFieldFactory;
     private SigPepFormBean iSigPepFormBean;
 
     private Vector<String> iOrder;
 
+    private HorizontalLayout iFormButtonLayout;
+    private HorizontalLayout iProgressIndicatorLayout;
     private Button iSubmitButton;
     private Button iResetButton;
-    private HorizontalLayout iProgressIndicatorLayout;
 
     public SigPepForm(String aCaption, MyVaadinApplication aMyVaadinApplication) {
         this.setCaption(aCaption);
         iMyVaadinApplication = aMyVaadinApplication;
 
-        iSigPepFormFieldFactory = new SigPepFormFieldFactory(iMyVaadinApplication);
-        this.setFormFieldFactory(iSigPepFormFieldFactory);
+        this.setFormFieldFactory(new SigPepFormFieldFactory(this));
 
-        iSigPepFormBean = iMyVaadinApplication.getSigPepFormBean();
+        iSigPepFormBean = new SigPepFormBean();
         BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(iSigPepFormBean);
         this.setItemDataSource(lBeanItem);
 
@@ -65,10 +58,8 @@ public class SigPepForm extends Form {
                     commit();
                     resetValidation();
 
-                    ExecutorService lExecutorService = Executors.newSingleThreadExecutor();
-                    Runnable lSigPepFormRunner = new SigPepFormRunner();
-                    lExecutorService.execute(lSigPepFormRunner);
-                    lExecutorService.shutdown();
+                    SigPepFormThread lSigPepFormThread = new SigPepFormThread();
+                    lSigPepFormThread.start();
 
                     //add label and progress indicator
                     iProgressIndicatorLayout = new HorizontalLayout();
@@ -82,12 +73,12 @@ public class SigPepForm extends Form {
                     iProgressIndicatorLayout.addComponent(lProgressIndicator);
                     iProgressIndicatorLayout.addComponent(lLabel);
 
-                    SigPepForm.this.getFooter().addComponent(iProgressIndicatorLayout);
-                    SigPepForm.this.getFooter().requestRepaint();
+                    iFormButtonLayout.addComponent(iProgressIndicatorLayout);
+                    iFormButtonLayout.requestRepaint();
 
                     //disable form buttons during run
-                    iSubmitButton.setEnabled(Boolean.TRUE);
-                    iResetButton.setEnabled(Boolean.TRUE);
+                    iSubmitButton.setEnabled(Boolean.FALSE);
+                    iResetButton.setEnabled(Boolean.FALSE);
 
                 } catch (Validator.InvalidValueException e) {
                     // Failed to commit. The validation errors are
@@ -98,18 +89,17 @@ public class SigPepForm extends Form {
 
         iResetButton = new Button("Reset", new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent aClickEvent) {
-                iMyVaadinApplication.setSigPepFormBean(new SigPepFormBean());
-                BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(iMyVaadinApplication.getSigPepFormBean());
+                BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(new SigPepFormBean());
                 SigPepForm.this.setItemDataSource(lBeanItem);
                 resetValidation();
             }
         });
 
-        HorizontalLayout lFormButtonLayout = new HorizontalLayout();
-        lFormButtonLayout.setSpacing(Boolean.TRUE);
-        lFormButtonLayout.addComponent(iSubmitButton);
-        lFormButtonLayout.addComponent(iResetButton);
-        this.getFooter().addComponent(lFormButtonLayout);
+        iFormButtonLayout = new HorizontalLayout();
+        iFormButtonLayout.setSpacing(Boolean.TRUE);
+        iFormButtonLayout.addComponent(iSubmitButton);
+        iFormButtonLayout.addComponent(iResetButton);
+        this.getFooter().addComponent(iFormButtonLayout);
 
         iOrder = new Vector();
         iOrder.add("species");
@@ -135,16 +125,16 @@ public class SigPepForm extends Form {
         this.setVisibleItemProperties(iOrder);
     }
 
-    private class SigPepFormRunner implements Runnable {
+    private class SigPepFormThread extends Thread {
 
         public void run() {
 
-            SigPepSession lSigPepSession = iMyVaadinApplication.getSigPepSession();
+            SigPepSession lSigPepSession = MyVaadinApplication.getSigPepSession();
 
             File outputFolder = Files.createTempDir();
             logger.info(outputFolder);
 
-            SigPepQueryService lSigPepQueryService = iMyVaadinApplication.getSigPepSession().createSigPepQueryService();
+            SigPepQueryService lSigPepQueryService = MyVaadinApplication.getSigPepSession().createSigPepQueryService();
 
             Protease aProtease = lSigPepQueryService.getProteaseByShortName(iSigPepFormBean.getProteaseName());
 
@@ -215,7 +205,11 @@ public class SigPepForm extends Form {
             }));
 
             synchronized (iMyVaadinApplication) {
-                SigPepForm.this.getFooter().removeComponent(iProgressIndicatorLayout);
+                //enable form buttons after run
+                iSubmitButton.setEnabled(Boolean.TRUE);
+                iResetButton.setEnabled(Boolean.TRUE);
+
+                iFormButtonLayout.removeComponent(iProgressIndicatorLayout);
                 iMyVaadinApplication.getMainWindow().addComponent(new ResultsTable(lResultFiles, iMyVaadinApplication, iMyVaadinApplication));
             }
 
