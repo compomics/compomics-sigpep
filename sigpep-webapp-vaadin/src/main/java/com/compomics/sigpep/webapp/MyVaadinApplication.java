@@ -19,10 +19,9 @@ import com.compomics.jtraml.beans.TransitionBean;
 import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
-import com.compomics.sigpep.webapp.bean.SigPepFormBean;
+import com.compomics.sigpep.webapp.component.FormTabSheet;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
-import com.compomics.sigpep.webapp.form.SigPepForm;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.terminal.Sizeable;
@@ -55,6 +54,7 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     private Panel iCenterLayout;
     private Panel iBottomLayout;
+    private FormTabSheet iFormTabSheet;
 
 
     @Override
@@ -73,7 +73,8 @@ public class MyVaadinApplication extends Application implements Pushable {
         iBottomLayout = new Panel();
         iBottomLayout.setSizeFull();
 
-        iCenterLayout.addComponent(new SigPepForm("SigPep Form", this));
+        iFormTabSheet = new FormTabSheet(this);
+        iCenterLayout.addComponent(iFormTabSheet);
 
         Button lButton = new Button("load data from ~/tmp/sigpep");
         lButton.addListener(new Button.ClickListener() {
@@ -170,6 +171,14 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     public ArrayList<TransitionBean> getSelectedTransitionList() {
         return iSelectedTransitionList;
+    }
+
+    public FormTabSheet getFormTabSheet() {
+        return iFormTabSheet;
+    }
+
+    public void setFormTabSheet(FormTabSheet aFormTabSheet) {
+        iFormTabSheet = aFormTabSheet;
     }
 
 }
