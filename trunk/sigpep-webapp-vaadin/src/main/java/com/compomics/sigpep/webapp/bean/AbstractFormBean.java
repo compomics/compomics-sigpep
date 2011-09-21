@@ -2,16 +2,15 @@ package com.compomics.sigpep.webapp.bean;
 
 import com.compomics.sigpep.analysis.SignatureTransitionFinderType;
 import com.compomics.sigpep.model.Organism;
-import com.vaadin.ui.Button;
 
 /**
  * Created by IntelliJ IDEA.
  * User: niels
- * Date: 17/08/11
- * Time: 13:36
+ * Date: 19/09/11
+ * Time: 16:10
  * To change this template use File | Settings | File Templates.
  */
-public class SigPepFormBean {
+public abstract class AbstractFormBean {
 
     private Organism iSpecies;
     private double iMassAccuracy = 0.2;
@@ -19,7 +18,6 @@ public class SigPepFormBean {
     private int iMaximumCombinationSize = 5;
     private SignatureTransitionFinderType iSignatureTransitionFinderType;
     private String iProteaseName;
-    private String iProteinAccession = "ENSP00000444838";
 
     public double getMassAccuracy() {
         return iMassAccuracy;
@@ -67,14 +65,6 @@ public class SigPepFormBean {
 
     public void setProteaseName(String aProteaseName) {
         iProteaseName = aProteaseName;
-    }
-
-    public String getProteinAccession() {
-        return iProteinAccession;
-    }
-
-    public void setProteinAccession(String aProteinAccession) {
-        iProteinAccession = aProteinAccession;
     }
 
 }

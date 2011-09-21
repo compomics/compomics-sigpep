@@ -3,8 +3,7 @@ package com.compomics.sigpep.webapp.component;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.google.common.io.Files;
 import com.vaadin.terminal.StreamResource;
-import com.vaadin.ui.Embedded;
-import com.vaadin.ui.Link;
+import com.vaadin.ui.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +39,7 @@ public class ComponentFactory {
 
     /**
      * Created an Vaadin Embedded image object from a specified File.
+     *
      * @param aOutputFile
      * @param aImageCaption
      * @return
@@ -54,5 +54,27 @@ public class ComponentFactory {
         };
         StreamResource lStreamResource = new StreamResource(lStreamSource, aOutputFile.getName(), MyVaadinApplication.getApplication());
         return new Embedded(aImageCaption, lStreamResource);
+    }
+
+    /**
+     * Create a progress indicator with caption HorizontalLayout
+     *
+     * @param aCaption
+     * @return
+     */
+    public static HorizontalLayout createProgressIndicator(String aCaption) {
+        HorizontalLayout lProgressIndicatorLayout = new HorizontalLayout();
+
+        lProgressIndicatorLayout.setSpacing(Boolean.TRUE);
+
+        Label lLabel = new Label(aCaption);
+        ProgressIndicator lProgressIndicator = new ProgressIndicator();
+        lProgressIndicator.setIndeterminate(true);
+        lProgressIndicator.setPollingInterval(5000);
+
+        lProgressIndicatorLayout.addComponent(lProgressIndicator);
+        lProgressIndicatorLayout.addComponent(lLabel);
+
+        return lProgressIndicatorLayout;
     }
 }

@@ -7,9 +7,11 @@ import com.compomics.sigpep.analysis.SignatureTransitionFinder;
 import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
-import com.compomics.sigpep.webapp.bean.SigPepFormBean;
+import com.compomics.sigpep.webapp.bean.PeptideFormBean;
+import com.compomics.sigpep.webapp.bean.ProteinFormBean;
+import com.compomics.sigpep.webapp.component.ComponentFactory;
 import com.compomics.sigpep.webapp.component.ResultsTable;
-import com.compomics.sigpep.webapp.factory.SigPepFormFieldFactory;
+import com.compomics.sigpep.webapp.factory.ProteinFormFieldFactory;
 import com.google.common.io.Files;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
@@ -18,8 +20,6 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,12 +28,12 @@ import java.util.concurrent.Executors;
  * Time: 13:34
  * To change this template use File | Settings | File Templates.
  */
-public class SigPepForm extends Form {
-    private static Logger logger = Logger.getLogger(SigPepForm.class);
+public class ProteinForm extends Form {
+    private static Logger logger = Logger.getLogger(ProteinForm.class);
 
     private MyVaadinApplication iMyVaadinApplication;
 
-    private SigPepFormBean iSigPepFormBean;
+    private ProteinFormBean iProteinFormBean;
 
     private Vector<String> iOrder;
 
@@ -42,14 +42,14 @@ public class SigPepForm extends Form {
     private Button iSubmitButton;
     private Button iResetButton;
 
-    public SigPepForm(String aCaption, MyVaadinApplication aMyVaadinApplication) {
+    public ProteinForm(String aCaption, MyVaadinApplication aMyVaadinApplication) {
         this.setCaption(aCaption);
         iMyVaadinApplication = aMyVaadinApplication;
 
-        this.setFormFieldFactory(new SigPepFormFieldFactory(this));
+        this.setFormFieldFactory(new ProteinFormFieldFactory());
 
-        iSigPepFormBean = new SigPepFormBean();
-        BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(iSigPepFormBean);
+        iProteinFormBean = new ProteinFormBean();
+        BeanItem<ProteinFormBean> lBeanItem = new BeanItem<ProteinFormBean>(iProteinFormBean);
         this.setItemDataSource(lBeanItem);
 
         iSubmitButton = new Button("Submit", new Button.ClickListener() {
@@ -58,20 +58,11 @@ public class SigPepForm extends Form {
                     commit();
                     resetValidation();
 
-                    SigPepFormThread lSigPepFormThread = new SigPepFormThread();
+                    ProteinFormThread lSigPepFormThread = new ProteinFormThread();
                     lSigPepFormThread.start();
 
                     //add label and progress indicator
-                    iProgressIndicatorLayout = new HorizontalLayout();
-                    iProgressIndicatorLayout.setSpacing(Boolean.TRUE);
-
-                    Label lLabel = new Label("Processing...");
-                    ProgressIndicator lProgressIndicator = new ProgressIndicator();
-                    lProgressIndicator.setIndeterminate(true);
-                    lProgressIndicator.setPollingInterval(5000);
-
-                    iProgressIndicatorLayout.addComponent(lProgressIndicator);
-                    iProgressIndicatorLayout.addComponent(lLabel);
+                    iProgressIndicatorLayout = ComponentFactory.createProgressIndicator("Processing...");
 
                     iFormButtonLayout.addComponent(iProgressIndicatorLayout);
                     iFormButtonLayout.requestRepaint();
@@ -89,9 +80,7 @@ public class SigPepForm extends Form {
 
         iResetButton = new Button("Reset", new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent aClickEvent) {
-                BeanItem<SigPepFormBean> lBeanItem = new BeanItem<SigPepFormBean>(new SigPepFormBean());
-                SigPepForm.this.setItemDataSource(lBeanItem);
-                resetValidation();
+                resetForm();
             }
         });
 
@@ -121,11 +110,19 @@ public class SigPepForm extends Form {
         this.setOrder();
     }
 
+    private void resetForm() {
+        iProteinFormBean = new ProteinFormBean();
+        BeanItem<ProteinFormBean> lBeanItem = new BeanItem<ProteinFormBean>(iProteinFormBean);
+        ProteinForm.this.setItemDataSource(lBeanItem);
+        resetValidation();
+    }
+
+
     private void setOrder() {
         this.setVisibleItemProperties(iOrder);
     }
 
-    private class SigPepFormThread extends Thread {
+    private class ProteinFormThread extends Thread {
 
         public void run() {
 
@@ -136,7 +133,7 @@ public class SigPepForm extends Form {
 
             SigPepQueryService lSigPepQueryService = MyVaadinApplication.getSigPepSession().createSigPepQueryService();
 
-            Protease aProtease = lSigPepQueryService.getProteaseByShortName(iSigPepFormBean.getProteaseName());
+            Protease aProtease = lSigPepQueryService.getProteaseByShortName(iProteinFormBean.getProteaseName());
 
             //create peptide generator for protease
             logger.info("creating peptide generator");
@@ -147,7 +144,7 @@ public class SigPepForm extends Form {
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
 
             logger.info("generating signature peptides");
-            Set<Peptide> lSignaturepeptides = lGenerator.getPeptidesByProteinAccessionAndProteinSequenceLevelDegeneracy(iSigPepFormBean.getProteinAccession(), 1);
+            Set<Peptide> lSignaturepeptides = lGenerator.getPeptidesByProteinAccessionAndProteinSequenceLevelDegeneracy(iProteinFormBean.getProteinAccession(), 1);
             for (Peptide peptide : lSignaturepeptides) {
                 logger.info(peptide.getSequenceString());
             }
@@ -175,10 +172,10 @@ public class SigPepForm extends Form {
                     lBackgroundProductIonTypes,
                     lChargeStates,
                     lProductIonChargeStates,
-                    iSigPepFormBean.getMassAccuracy(),
-                    iSigPepFormBean.getMinimumCombinationSize(),
-                    iSigPepFormBean.getMaximumCombinationSize(),
-                    iSigPepFormBean.getSignatureTransitionFinderType());
+                    iProteinFormBean.getMassAccuracy(),
+                    iProteinFormBean.getMinimumCombinationSize(),
+                    iProteinFormBean.getMaximumCombinationSize(),
+                    iProteinFormBean.getSignatureTransitionFinderType());
 
             logger.info("finding signature transitions");
             List<SignatureTransition> st = finder.findSignatureTransitions(lSignaturepeptides);
