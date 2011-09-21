@@ -6,10 +6,12 @@ import com.compomics.sigpep.persistence.rdbms.SigPepDatabase;
 import org.apache.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,9 +61,8 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public static SigPepSetup getInstance() {
         return ourInstance;
@@ -79,16 +80,16 @@ public class SigPepSetup {
      * @param sequenceDatabaseVersion
      */
     public void setupDatabase(String adminUsername,
-            String adminPassword,
-            String workingDirectory,
-            String organismScientificName,
-            int organismNcbiTaxonId,
-            String sequenceDatabaseName,
-            String sequenceDatabaseVersion,
-            double lowMass,
-            double highMass,
-            int missedCleavages,
-            String... protease) {
+                              String adminPassword,
+                              String workingDirectory,
+                              String organismScientificName,
+                              int organismNcbiTaxonId,
+                              String sequenceDatabaseName,
+                              String sequenceDatabaseVersion,
+                              double lowMass,
+                              double highMass,
+                              int missedCleavages,
+                              String... protease) {
 
         boolean workingDirectoryIsCreated;
         boolean directoryStructureIsCreated;
@@ -165,81 +166,81 @@ public class SigPepSetup {
             logger.info("setting up SigPep for " + speciesSuffix.replace("_", " "));
 
             sigPepDatabase = new SigPepDatabase(adminUsername, adminPassword.toCharArray(), organismNcbiTaxonId);
-//
-//            if (createSchema) {
-//                logger.info("creating SigPep schema...");
-//                sigPepDatabase.createSchema();
-//                logger.info("done");
-//            }
+
+            if (createSchema) {
+                logger.info("creating SigPep schema...");
+                sigPepDatabase.createSchema();
+                logger.info("done");
+            }
         } catch (DatabaseException e) {
             e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-//
-//        // retrieving protein sequences
-//        logger.info("-----------------------------------------------------");
-//        logger.info("retrieving protein sequences...");
-//
-//        sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
-//        sequencesRetrieved = true;
-//
-//        if (!sequencesRetrieved) {
-//            logger.info("exit");
-//            logger.info("-----------------------------------------------------");
-//            return;
-//        } else {
-//            logger.info("done");
-//            logger.info("-----------------------------------------------------");
-//        }
-//
-//        // digest protein sequences
-//        logger.info("-----------------------------------------------------");
-//        logger.info("digesting protein sequences...");
-//
-//        sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
-//        sequencesDigested = true;
-//
-//        if (!sequencesDigested) {
-//            logger.info("exit");
-//            logger.info("-----------------------------------------------------");
-//            return;
-//        } else {
-//            logger.info("done");
-//            logger.info("-----------------------------------------------------");
-//        }
-//
-//        // process digests
-//        logger.info("-----------------------------------------------------");
-//        logger.info("processing sequences...");
-//
-//        digestsProcessed = processDigests(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, protease);
-//        digestsProcessed = true;
-//
-//        if (!digestsProcessed) {
-//            logger.info("exit");
-//            logger.info("-----------------------------------------------------");
-//            return;
-//        } else {
-//            logger.info("done");
-//            logger.info("-----------------------------------------------------");
-//        }
-//
+
+        // retrieving protein sequences
+        logger.info("-----------------------------------------------------");
+        logger.info("retrieving protein sequences...");
+
+        sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
+        sequencesRetrieved = true;
+
+        if (!sequencesRetrieved) {
+            logger.info("exit");
+            logger.info("-----------------------------------------------------");
+            return;
+        } else {
+            logger.info("done");
+            logger.info("-----------------------------------------------------");
+        }
+
+        // digest protein sequences
+        logger.info("-----------------------------------------------------");
+        logger.info("digesting protein sequences...");
+
+        sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
+        sequencesDigested = true;
+
+        if (!sequencesDigested) {
+            logger.info("exit");
+            logger.info("-----------------------------------------------------");
+            return;
+        } else {
+            logger.info("done");
+            logger.info("-----------------------------------------------------");
+        }
+
+        // process digests
+        logger.info("-----------------------------------------------------");
+        logger.info("processing sequences...");
+
+        digestsProcessed = processDigests(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, protease);
+        digestsProcessed = true;
+
+        if (!digestsProcessed) {
+            logger.info("exit");
+            logger.info("-----------------------------------------------------");
+            return;
+        } else {
+            logger.info("done");
+            logger.info("-----------------------------------------------------");
+        }
+
         try {
-//            // Persist the digest into the database.
-//            if (persistDigest) {
-//                logger.info("persisting digests...");
-//                sigPepDatabase.persistDigest(inputDirectory);
-//                logger.info("done");
-//            }
-//
-//            if (createIndices) {
-//                logger.info("creating indices...");
-//                sigPepDatabase.createIndices();
-//                logger.info("done");
-//            }
+            // Persist the digest into the database.
+            if (persistDigest) {
+                logger.info("persisting digests...");
+                sigPepDatabase.persistDigest(inputDirectory);
+                logger.info("done");
+            }
+
+            if (createIndices) {
+                logger.info("creating indices...");
+                sigPepDatabase.createIndices();
+                logger.info("done");
+            }
 
             if (cleanUpTables) {
                 logger.info("removing sequences not of biotype 'protein_coding'...");
@@ -261,10 +262,10 @@ public class SigPepSetup {
 //                logger.info("done");
 //            }
 
-//        } catch (IOException e) {
-//            logger.error(e);
-//        } catch (SQLException e) {
-//            logger.error(e);
+        } catch (IOException e) {
+            logger.error(e);
+        } catch (SQLException e) {
+            logger.error(e);
         } catch (DatabaseException e) {
             logger.error(e);
         }
@@ -415,9 +416,8 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param args
+     * @TODO: JavaDoc missing
      */
     public static void main(String[] args) {
 
@@ -429,7 +429,7 @@ public class SigPepSetup {
 
         int lOrganismNcbiTaxonId = 9606;
         String lOrganismScientificName = "Homo sapiens";
-
+//
         String lSequenceDatabaseVersion = "63";
         String lSequenceDatabaseName = "Ensembl";
         String lProtease = "Trypsin";
@@ -620,23 +620,21 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param organismScientificName
      * @param organismTaxonId
      * @param databaseName
      * @param databaseVersion
      * @return
+     * @TODO: JavaDoc missing
      */
     protected String buildOrganismSubDirectoryName(String organismScientificName, int organismTaxonId, String databaseName, String databaseVersion) {
         return organismScientificName.toLowerCase().replace(" ", "_") + "_" + organismTaxonId + "_" + databaseName.toLowerCase() + "_" + databaseVersion;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean createWorkingDirectory(String workingDirectory) {
 
@@ -657,14 +655,13 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @param organismScientificName
      * @param organismTaxonId
      * @param sequenceDatabaseName
      * @param sequenceDatabaseVersion
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean createDirectoryStructure(String workingDirectory, String organismScientificName, int organismTaxonId, String sequenceDatabaseName, String sequenceDatabaseVersion) {
 
@@ -731,14 +728,13 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @param organismScientificName
      * @param organismNcbiTaxonId
      * @param sequenceDatabaseName
      * @param sequenceDatabaseVersion
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean retrieveSequences(String workingDirectory, String organismScientificName, int organismNcbiTaxonId, String sequenceDatabaseName, String sequenceDatabaseVersion) {
 
@@ -766,8 +762,6 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @param organismScientificName
      * @param organismNcbiTaxonId
@@ -778,6 +772,7 @@ public class SigPepSetup {
      * @param missedCleavages
      * @param protease
      * @return
+     * @TODO: JavaDoc missing
      */
     protected boolean digestSequences(
             String workingDirectory,
@@ -826,8 +821,6 @@ public class SigPepSetup {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param workingDirectory
      * @param organismScientificName
      * @param organismNcbiTaxonId
@@ -835,6 +828,7 @@ public class SigPepSetup {
      * @param sequenceDatabaseVersion
      * @param protease
      * @return
+     * @TODO: JavaDoc missing
      */
     boolean processDigests(
             String workingDirectory,

@@ -207,8 +207,8 @@ public class SigPepDatabase extends MySqlDatabase {
             logger.info("populating table 'signature_peptide'...");
             populateTableSignaturePeptide();
 
-            logger.info("populating table 'sequence2signature_protease'...");
-            populateTableSequence2SignatureProtease();
+            logger.info("(DISABLED) populating table 'sequence2signature_protease'...");
+//            populateTableSequence2SignatureProtease();
         } catch (SQLException e) {
             logger.error("Exception while persisting digest to database.", e);
         }
@@ -251,12 +251,14 @@ public class SigPepDatabase extends MySqlDatabase {
      * @throws SQLException if a database access error occurs
      */
     private void populateTableSignaturePeptide() throws SQLException {
+        logger.info("populating signature peptide table");
         Connection con = this.getConnection();
         Statement s = con.createStatement();
         s.execute("INSERT INTO signature_peptide SELECT peptide_id FROM peptide GROUP BY peptide_id HAVING count(distinct sequence_id) = 1");
         s.close();
 
         con.close();
+        logger.info("done...");;
     }
 
     /**
@@ -266,6 +268,7 @@ public class SigPepDatabase extends MySqlDatabase {
      * @throws SQLException if a database access error occurs
      */
     private void populateTableSequence2SignatureProtease() throws SQLException {
+        logger.info("populating sequence to signature protease table");
         Connection con = this.getConnection();
         Statement s = con.createStatement();
         s.execute("INSERT INTO sequence2signature_protease(sequence_id,protease_id,signature_peptide_count)\n"
@@ -281,6 +284,7 @@ public class SigPepDatabase extends MySqlDatabase {
                 + "         pep2prot.protease_id");
         s.close();
         con.close();
+        logger.info("done...");
     }
 
     /**
