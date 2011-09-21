@@ -32,7 +32,9 @@ public class ComponentFactory {
         };
         StreamResource lStreamResource = new StreamResource(lStreamSource, lFile.getName(), MyVaadinApplication.getApplication());
 
-        return new Link("Download", lStreamResource);
+        Link lDownload = new Link("Download", lStreamResource);
+        lDownload.setStyleName("v-download-link");
+        return lDownload;
     }
 
 

@@ -1,0 +1,88 @@
+@import "../reindeer/styles.css";
+
+.v-app {
+    background: white;
+}
+
+.v-horizontallayout {
+    vertical-align: baseline;
+    margin: 10px
+}
+
+.v-split-line {
+    width: 10px;
+    height: 200px;
+    background: #dcdcdc;
+    margin: 10px;
+}
+
+.v-textarea {
+    font-style: italic;
+    color: black;
+    font-size: large;
+    border-color: #dcdcdc;
+}
+
+.v-selection {
+    font-weight:bold;
+    color: #b22222;
+    -moz-border-radius: 1em;
+    background: -webkit-gradient(linear, top, bottom, from(#ffffff), to(#dedede));
+}
+
+.v-download-link {
+    text-align: center;
+    vertical-align: middle;
+    text-shadow: 1px;
+    color: #00008b;
+    margin: 10px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.v-table {
+    overflow: hidden;
+    text-align: center;
+}
+
+.split-panel-positioning-example .measured-from-left {
+    background-repeat: repeat-y;
+    text-align: center;
+    vertical-align: middle;
+    -moz-opacity: .50;
+    filter: alpha(opacity = 50);
+    opacity: .50;
+}
+
+.split-panel-positioning-example .measured-from-right {
+    background-position: right;
+    background-repeat: repeat-y;
+    text-align: center;
+    vertical-align: middle;
+    -moz-opacity: .50;
+    filter: alpha(opacity = 50);
+    opacity: .50;
+}
+
+.split-panel-positioning-example .measured-from-top {
+    background-repeat: repeat-x;
+    text-align: center;
+    vertical-align: middle;
+    -moz-opacity: .50;
+    filter: alpha(opacity = 50);
+    opacity: .50;
+}
+
+.split-panel-positioning-example .measured-from-bottom {
+    background-position: bottom;
+    background-repeat: repeat-x;
+    text-align: center;
+    vertical-align: middle;
+    -moz-opacity: .50;
+    filter: alpha(opacity = 50);
+    opacity: .50;
+}
+
+.split-panel-positioning-example .v-select-optiongroup .v-select-option {
+    display: inline;
+}
