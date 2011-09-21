@@ -57,9 +57,9 @@ CREATE TABLE peptide (
   `start_pos` INT UNSIGNED NOT NULL,
   `end_pos` INT UNSIGNED NOT NULL,
   `mass` double unsigned DEFAULT NULL,
-  `is_signature_peptide` tinyint(1) DEFAULT NULL,
+  `is_signature_peptide` tinyint(1) DEFAULT NULL
 
-  PRIMARY KEY (`peptide_id`)
+--   ,PRIMARY KEY (`peptide_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE splice_event(
