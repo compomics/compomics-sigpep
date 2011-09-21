@@ -8,6 +8,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.data.validator.IntegerValidator;
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 
@@ -76,6 +77,7 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
         //protein accession field
         iProteinAccessionTextField = new TextField("Protein accession");
         iProteinAccessionTextField.setRequired(Boolean.TRUE);
+        iProteinAccessionTextField.addValidator(new RegexpValidator("ENSP[0-9]{11}", "Incorrect protein accession format"));
 
         iSpeciesSelect.addListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent aValueChangeEvent) {
