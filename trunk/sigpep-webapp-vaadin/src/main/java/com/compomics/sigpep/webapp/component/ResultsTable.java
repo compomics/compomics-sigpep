@@ -3,13 +3,15 @@ package com.compomics.sigpep.webapp.component;
 import com.compomics.acromics.rcaller.RFilter;
 import com.compomics.acromics.rcaller.RSource;
 import com.compomics.pepnovo.beans.PeptideInputBean;
+import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.compomics.sigpep.webapp.listener.IntensityPredictionClickListener;
 import com.compomics.sigpep.webapp.listener.RCallerClickListener;
+import com.compomics.sigpep.webapp.listener.SelectTransitionListener;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
-import com.vaadin.Application;
 import com.vaadin.terminal.ClassResource;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 import org.apache.log4j.Logger;
@@ -32,6 +34,7 @@ public class ResultsTable extends VerticalLayout {
      */
     Table iTable = new Table();
 
+    public static final String COLUMN_LABEL_SELECT = "+";
     public static final String COLUMN_LABEL_FILENAME = "filename";
     public static final String COLUMN_LABEL_GRAPH = "graph";
     public static final String COLUMN_LABEL_FILE = "download";
@@ -50,14 +53,14 @@ public class ResultsTable extends VerticalLayout {
     /**
      * The application in which the Table is running.
      */
-    private final Application iApplication;
+    private final MyVaadinApplication iApplication;
 
     /**
      * Create a ResultsTable from a set of files.
      *
      * @param aFiles
      */
-    public ResultsTable(ArrayList<File> aFiles, Pushable aPushable, Application aApplication) {
+    public ResultsTable(ArrayList<File> aFiles, Pushable aPushable, MyVaadinApplication aApplication) {
         super();
         setCaption("Results table");
         iPushable = aPushable;
@@ -78,7 +81,6 @@ public class ResultsTable extends VerticalLayout {
             logger.error(e.getMessage(), e);
         }
     }
-
 
 
     /**
@@ -106,7 +108,25 @@ public class ResultsTable extends VerticalLayout {
             // 4 - Make a prediction button
             Button lPredictionButton = generatePredictionButton(generateFileName(lFile));
             iTable.getContainerProperty(id, COLUMN_LABEL_PREDICT).setValue(lPredictionButton);
+
+            // 5 - Make the select peptide button
+            Button lSelectTransitionButton = generateSelectButton(lFile);
+            iTable.getContainerProperty(id, COLUMN_LABEL_SELECT).setValue(lSelectTransitionButton);
+            iTable.setColumnWidth(COLUMN_LABEL_SELECT, 30);
+
         }
+    }
+
+    private Button generateSelectButton(File aFile) throws IOException {
+// Create a new button, display as a link.
+        Button lButton = new Button("");
+        lButton.setStyleName(BaseTheme.BUTTON_LINK);
+        lButton.setIcon(new ThemeResource("add.gif"));
+
+        SelectTransitionListener lSelectTransitionListener = new SelectTransitionListener(aFile, iApplication);
+        lButton.addListener(lSelectTransitionListener);
+        return lButton;
+
     }
 
     private Button generatePredictionButton(String aPeptideSequence) {
@@ -162,7 +182,6 @@ public class ResultsTable extends VerticalLayout {
     }
 
 
-
     /**
      * This method creates an apropriate filename to display in the table.
      *
@@ -179,6 +198,7 @@ public class ResultsTable extends VerticalLayout {
      */
     private void createTableColumns() {
         // Define the Table
+        iTable.addContainerProperty(COLUMN_LABEL_SELECT, Button.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_FILENAME, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_FILE, Link.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_GRAPH, Button.class, null);
@@ -190,7 +210,7 @@ public class ResultsTable extends VerticalLayout {
      * Table formatting
      */
     private void doFormatting() {
-        iTable.setWidth("80%");
-        iTable.setPageLength(10);
+        iTable.setWidth("75%");
+        iTable.setPageLength(3);
     }
 }

@@ -15,17 +15,18 @@
  */
 package com.compomics.sigpep.webapp;
 
+import com.compomics.jtraml.beans.TransitionBean;
 import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
 import com.compomics.sigpep.webapp.bean.SigPepFormBean;
 import com.compomics.sigpep.webapp.component.ResultsTable;
+import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
 import com.compomics.sigpep.webapp.form.SigPepForm;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
+import com.vaadin.terminal.Sizeable;
+import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 import org.vaadin.artur.icepush.ICEPush;
 
@@ -41,20 +42,38 @@ import java.util.Collections;
 public class MyVaadinApplication extends Application implements Pushable {
     private static Logger logger = Logger.getLogger(MyVaadinApplication.class);
 
+    /**
+     * This ArrayList will hold the Transitions that are selected by the user on a per-session level.
+     */
+    private ArrayList<TransitionBean> iSelectedTransitionList = new ArrayList<TransitionBean>();
+
     private ICEPush pusher = new ICEPush();
     private static Application iApplication;
     private static SigPepSessionFactory iSigPepSessionFactory;
     private static SigPepSession iSigPepSession;
+    public TransitionSelectionComponent iSelectionComponent;
+
+    private Panel iCenterLayout;
+    private Panel iBottomLayout;
+
 
     @Override
     public void init() {
         iApplication = this;
         iSigPepSessionFactory = ApplicationLocator.getInstance().getApplication().getSigPepSessionFactory();
 
-        Window mainWindow = new Window("Icepushaddon Application");
+        setTheme("sigpep");
+
+        Window mainWindow = new Window("Sigpep Application");
         setMainWindow(mainWindow);
 
-        mainWindow.addComponent(new SigPepForm("SigPep Form", this));
+        iCenterLayout = new Panel();
+        iCenterLayout.setSizeFull();
+
+        iBottomLayout = new Panel();
+        iBottomLayout.setSizeFull();
+
+        iCenterLayout.addComponent(new SigPepForm("SigPep Form", this));
 
         Button lButton = new Button("load data from ~/tmp/sigpep");
         lButton.addListener(new Button.ClickListener() {
@@ -62,10 +81,29 @@ public class MyVaadinApplication extends Application implements Pushable {
                 new BackgroundThread().run();
             }
         });
-        mainWindow.addComponent(lButton);
+        iCenterLayout.addComponent(lButton);
 
-        // Add the push component
+        // Add the selector component
+        iSelectionComponent = new TransitionSelectionComponent(MyVaadinApplication.this);
+        iBottomLayout.addComponent(iSelectionComponent);
+
+
+        VerticalSplitPanel vsplit = new VerticalSplitPanel();
+        vsplit.setSplitPosition(500, Sizeable.UNITS_PIXELS);
+        vsplit.setLocked(false);
+        vsplit.setHeight("700px");
+        vsplit.setWidth("100%");
+//        vsplit.addStyleName(Reindeer.SPLITPANEL_SMALL);
+
+        mainWindow.addComponent(vsplit);
+
+
+        vsplit.addComponent(iCenterLayout);
+        vsplit.addComponent(iBottomLayout);
+
+
         mainWindow.addComponent(pusher);
+
 
     }
 
@@ -99,7 +137,8 @@ public class MyVaadinApplication extends Application implements Pushable {
                     }
                 }));
 
-                getMainWindow().addComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
+                iCenterLayout.addComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
+
             }
 
             // Push the changes
@@ -122,6 +161,15 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     public static void setSigPepSession(SigPepSession aSigPepSession) {
         iSigPepSession = aSigPepSession;
+    }
+
+    public void addTransitionBean(TransitionBean aTransitionBean) {
+        iSelectedTransitionList.add(aTransitionBean);
+        iSelectionComponent.requestRepaintAll();
+    }
+
+    public ArrayList<TransitionBean> getSelectedTransitionList() {
+        return iSelectedTransitionList;
     }
 
 }
