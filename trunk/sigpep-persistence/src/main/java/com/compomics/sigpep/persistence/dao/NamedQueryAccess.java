@@ -25,7 +25,7 @@ public class NamedQueryAccess extends XMLConfiguration {
     public static NamedQueryAccess getInstance() {
         if(ourInstance==null){
             try {
-                ourInstance=new NamedQueryAccess("namedSqlQueries.xml");
+                ourInstance = new NamedQueryAccess("namedSqlQueries.xml");
             } catch (ConfigurationException e) {
                 logger.error(e);
             }

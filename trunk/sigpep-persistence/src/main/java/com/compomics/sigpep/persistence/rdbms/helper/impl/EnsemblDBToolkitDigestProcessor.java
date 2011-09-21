@@ -809,7 +809,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             if (file.endsWith(".tsv")) {
 
                 //create absolute path for input and temporary file
-                String inputFile = outputDirectoryUrl.getPath() + "/" + file;
+                String inputFile = outputDirectoryUrl.getPath() + file;
                 String outFile = inputFile + ".unique";
 
                 // @TODO: the following commands are Linux specific and ought to be changed
