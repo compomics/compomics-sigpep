@@ -12,6 +12,8 @@ import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,8 +32,9 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
     private TextField iMaximumCombinationSizeTextField;
     private Select iSignatureTransitionFinderTypeSelect;
     private Select iProteaseSelect;
-    private boolean iVisible = Boolean.FALSE;
     private TextField iProteinAccessionTextField;
+
+    private boolean iVisible = Boolean.FALSE;
 
     public ProteinFormFieldFactory() {
         //species field

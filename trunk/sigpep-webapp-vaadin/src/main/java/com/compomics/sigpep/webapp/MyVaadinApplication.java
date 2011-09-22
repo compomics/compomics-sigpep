@@ -17,6 +17,7 @@ package com.compomics.sigpep.webapp;
 
 import com.compomics.jtraml.beans.TransitionBean;
 import com.compomics.sigpep.ApplicationLocator;
+import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
 import com.compomics.sigpep.webapp.component.FormTabSheet;
@@ -50,6 +51,7 @@ public class MyVaadinApplication extends Application implements Pushable {
     private static Application iApplication;
     private static SigPepSessionFactory iSigPepSessionFactory;
     private static SigPepSession iSigPepSession;
+    private static SigPepQueryService iSigPepQueryService;
     public TransitionSelectionComponent iSelectionComponent;
 
     private Panel iCenterLayout;
@@ -178,6 +180,14 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     public static void setSigPepSession(SigPepSession aSigPepSession) {
         iSigPepSession = aSigPepSession;
+    }
+
+    public static SigPepQueryService getSigPepQueryService() {
+        return iSigPepQueryService;
+    }
+
+    public static void setSigPepQueryService(SigPepQueryService aSigPepQueryService) {
+        iSigPepQueryService = aSigPepQueryService;
     }
 
     public void addTransitionBean(TransitionBean aTransitionBean) {

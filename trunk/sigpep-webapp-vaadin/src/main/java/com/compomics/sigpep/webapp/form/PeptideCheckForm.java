@@ -122,9 +122,11 @@ public class PeptideCheckForm extends Form {
 
             SigPepSession lSigPepSession = MyVaadinApplication.getSigPepSession();
 
-            SigPepQueryService lSigPepQueryService = MyVaadinApplication.getSigPepSession().createSigPepQueryService();
+            if (MyVaadinApplication.getSigPepQueryService() == null) {
+                MyVaadinApplication.setSigPepQueryService(MyVaadinApplication.getSigPepSession().createSigPepQueryService());
+            }
 
-            Protease aProtease = lSigPepQueryService.getProteaseByShortName(iPeptideFormBean.getProteaseName());
+            Protease aProtease = MyVaadinApplication.getSigPepQueryService().getProteaseByShortName(iPeptideFormBean.getProteaseName());
 
             //create peptide generator for protease
             logger.info("creating peptide generator");

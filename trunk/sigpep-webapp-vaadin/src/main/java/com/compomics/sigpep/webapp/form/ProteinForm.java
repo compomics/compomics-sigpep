@@ -101,6 +101,7 @@ public class ProteinForm extends Form {
         iOrder.add("maximumCombinationSize");
         iOrder.add("signatureTransitionFinderType");
         iOrder.add("proteaseName");
+        iOrder.add("chargeStates");
         iOrder.add("proteinAccession");
         this.setOrder();
 
@@ -137,9 +138,11 @@ public class ProteinForm extends Form {
             File outputFolder = Files.createTempDir();
             logger.info(outputFolder);
 
-            SigPepQueryService lSigPepQueryService = MyVaadinApplication.getSigPepSession().createSigPepQueryService();
+            if(MyVaadinApplication.getSigPepQueryService() == null){
+                MyVaadinApplication.setSigPepQueryService(MyVaadinApplication.getSigPepSession().createSigPepQueryService());
+            }
 
-            Protease aProtease = lSigPepQueryService.getProteaseByShortName(iProteinFormBean.getProteaseName());
+            Protease aProtease = MyVaadinApplication.getSigPepQueryService().getProteaseByShortName(iProteinFormBean.getProteaseName());
 
             //create peptide generator for protease
             logger.info("creating peptide generator");
@@ -158,9 +161,9 @@ public class ProteinForm extends Form {
             //create signature transition finder
             logger.info("creating signature transition finder");
 
-            HashSet lChargeStates = new HashSet();
-            lChargeStates.add(2);
-            lChargeStates.add(3);
+            HashSet lPrecursorChargeStates = new HashSet();
+            lPrecursorChargeStates.add(2);
+            lPrecursorChargeStates.add(3);
 
             Set<ProductIonType> lTargetProductIonTypes = new HashSet<ProductIonType>();
             lTargetProductIonTypes.add(ProductIonType.Y);
@@ -176,7 +179,7 @@ public class ProteinForm extends Form {
                     lBackgroundPeptides,
                     lTargetProductIonTypes,
                     lBackgroundProductIonTypes,
-                    lChargeStates,
+                    lPrecursorChargeStates,
                     lProductIonChargeStates,
                     iProteinFormBean.getMassAccuracy(),
                     iProteinFormBean.getMinimumCombinationSize(),

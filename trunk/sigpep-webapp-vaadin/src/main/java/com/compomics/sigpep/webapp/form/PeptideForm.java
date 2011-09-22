@@ -132,9 +132,11 @@ public class PeptideForm extends Form {
             File outputFolder = Files.createTempDir();
             logger.info(outputFolder);
 
-            SigPepQueryService lSigPepQueryService = MyVaadinApplication.getSigPepSession().createSigPepQueryService();
+            if (MyVaadinApplication.getSigPepQueryService() == null) {
+                MyVaadinApplication.setSigPepQueryService(MyVaadinApplication.getSigPepSession().createSigPepQueryService());
+            }
 
-            Protease aProtease = lSigPepQueryService.getProteaseByShortName(iPeptideFormBean.getProteaseName());
+            Protease aProtease = MyVaadinApplication.getSigPepQueryService().getProteaseByShortName(iPeptideFormBean.getProteaseName());
 
             //create peptide generator for protease
             logger.info("creating peptide generator");
@@ -144,14 +146,9 @@ public class PeptideForm extends Form {
             logger.info("generating lBackgroundPeptides");
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
 
-            /*logger.info("generating signature peptides");
-            Set<Peptide> lSignaturepeptides = lGenerator.getPeptidesByProteinAccessionAndProteinSequenceLevelDegeneracy(iPeptideFormBean.getProteinAccession(), 1);
-            for (Peptide peptide : lSignaturepeptides) {
-                logger.info(peptide.getSequenceString());
-            }*/
+            //add the peptide to the signature peptides set
             Set<Peptide> lSignaturepeptides = new HashSet<Peptide>();
             lSignaturepeptides.add(iPeptide);
-
 
             //create signature transition finder
             logger.info("creating signature transition finder");
