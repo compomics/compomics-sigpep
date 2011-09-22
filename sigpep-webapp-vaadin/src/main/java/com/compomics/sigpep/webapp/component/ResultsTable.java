@@ -112,7 +112,6 @@ public class ResultsTable extends VerticalLayout {
             // 5 - Make the select peptide button
             Button lSelectTransitionButton = generateSelectButton(lFile);
             iTable.getContainerProperty(id, COLUMN_LABEL_SELECT).setValue(lSelectTransitionButton);
-            iTable.setColumnWidth(COLUMN_LABEL_SELECT, 30);
 
         }
     }
@@ -204,13 +203,19 @@ public class ResultsTable extends VerticalLayout {
         iTable.addContainerProperty(COLUMN_LABEL_GRAPH, Button.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PREDICT, Button.class, null);
 
+        iTable.setColumnWidth(COLUMN_LABEL_FILE, 100);
+        iTable.setColumnWidth(COLUMN_LABEL_FILE, 200);
+        iTable.setColumnWidth(COLUMN_LABEL_FILE, 200);
+        iTable.setColumnWidth(COLUMN_LABEL_SELECT, 30);
+
+
     }
 
     /**
      * Table formatting
      */
     private void doFormatting() {
-        iTable.setWidth("75%");
+        iTable.setWidth("100%");
         iTable.setPageLength(3);
     }
 }

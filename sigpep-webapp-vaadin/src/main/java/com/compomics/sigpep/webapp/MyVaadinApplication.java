@@ -19,7 +19,10 @@ import com.compomics.jtraml.beans.TransitionBean;
 import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
+<<<<<<< .mine
+=======
 import com.compomics.sigpep.webapp.component.FormTabSheet;
+>>>>>>> .r49
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
@@ -92,7 +95,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         VerticalSplitPanel vsplit = new VerticalSplitPanel();
         vsplit.setSplitPosition(500, Sizeable.UNITS_PIXELS);
         vsplit.setLocked(false);
-        vsplit.setHeight("700px");
+        vsplit.setHeight("600px");
         vsplit.setWidth("100%");
 //        vsplit.addStyleName(Reindeer.SPLITPANEL_SMALL);
 
