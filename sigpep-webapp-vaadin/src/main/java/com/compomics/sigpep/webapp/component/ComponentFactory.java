@@ -65,8 +65,6 @@ public class ComponentFactory {
     public static HorizontalLayout createProgressIndicator(String aCaption) {
         HorizontalLayout lProgressIndicatorLayout = new HorizontalLayout();
 
-        lProgressIndicatorLayout.setSpacing(Boolean.TRUE);
-
         Label lLabel = new Label(aCaption);
         ProgressIndicator lProgressIndicator = new ProgressIndicator();
         lProgressIndicator.setIndeterminate(true);

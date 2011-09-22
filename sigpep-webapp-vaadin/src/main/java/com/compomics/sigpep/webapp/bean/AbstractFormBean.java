@@ -3,6 +3,8 @@ package com.compomics.sigpep.webapp.bean;
 import com.compomics.sigpep.analysis.SignatureTransitionFinderType;
 import com.compomics.sigpep.model.Organism;
 
+import java.util.Set;
+
 /**
  * Created by IntelliJ IDEA.
  * User: niels
