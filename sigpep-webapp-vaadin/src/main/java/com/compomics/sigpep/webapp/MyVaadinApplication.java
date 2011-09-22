@@ -20,15 +20,16 @@ import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
-import com.compomics.sigpep.webapp.component.FormTabSheet;
-import com.compomics.sigpep.webapp.component.ResultsTable;
-import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
+import com.compomics.sigpep.webapp.component.*;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
+import org.aspectj.apache.bcel.generic.NEW;
 import org.vaadin.artur.icepush.ICEPush;
+import org.vaadin.notifique.Notifique;
+import org.vaadin.overlay.CustomOverlay;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -48,10 +49,11 @@ public class MyVaadinApplication extends Application implements Pushable {
     private ArrayList<TransitionBean> iSelectedTransitionList = new ArrayList<TransitionBean>();
 
     private ICEPush pusher = new ICEPush();
-    private static Application iApplication;
-    private static SigPepSessionFactory iSigPepSessionFactory;
-    private static SigPepSession iSigPepSession;
-    private static SigPepQueryService iSigPepQueryService;
+    private Application iApplication;
+    private Notifique iNotifique;
+    private SigPepSessionFactory iSigPepSessionFactory;
+    private SigPepSession iSigPepSession;
+    private SigPepQueryService iSigPepQueryService;
     public TransitionSelectionComponent iSelectionComponent;
 
     private Panel iCenterLayout;
@@ -70,6 +72,17 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         Window mainWindow = new Window("Sigpep Application");
         setMainWindow(mainWindow);
+
+        //add notification component
+        iNotifique = new Notifique(Boolean.FALSE);
+//        iNotifique.set
+        CustomOverlay lCustomOverlay = new CustomOverlay(iNotifique, getMainWindow());
+        getMainWindow().addComponent(lCustomOverlay);
+        /*iNotifique.add(
+                null,
+                "Welcome! This is a demo application for the <a href=\"http://vaadin.com/addon/notifique\">Notifique</a> add-on for Vaadin.",
+                true, Notifique.Styles.BROWSER_FF3, true);*/
+        //iNotifique.add(null, new CustomProgressIndicator("test"), Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
         iCenterLayout = new Panel();
         iCenterLayout.setSizeFull();
@@ -166,27 +179,27 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     }
 
-    public static Application getApplication() {
+    public Application getApplication() {
         return iApplication;
     }
 
-    public static SigPepSessionFactory getSigPepSessionFactory() {
+    public SigPepSessionFactory getSigPepSessionFactory() {
         return iSigPepSessionFactory;
     }
 
-    public static SigPepSession getSigPepSession() {
+    public SigPepSession getSigPepSession() {
         return iSigPepSession;
     }
 
-    public static void setSigPepSession(SigPepSession aSigPepSession) {
+    public void setSigPepSession(SigPepSession aSigPepSession) {
         iSigPepSession = aSigPepSession;
     }
 
-    public static SigPepQueryService getSigPepQueryService() {
+    public SigPepQueryService getSigPepQueryService() {
         return iSigPepQueryService;
     }
 
-    public static void setSigPepQueryService(SigPepQueryService aSigPepQueryService) {
+    public void setSigPepQueryService(SigPepQueryService aSigPepQueryService) {
         iSigPepQueryService = aSigPepQueryService;
     }
 
@@ -205,6 +218,14 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     public void setFormTabSheet(FormTabSheet aFormTabSheet) {
         iFormTabSheet = aFormTabSheet;
+    }
+
+    public Notifique getNotifique() {
+        return iNotifique;
+    }
+
+    public void setNotifique(Notifique aINotifique) {
+        iNotifique = aINotifique;
     }
 
 }

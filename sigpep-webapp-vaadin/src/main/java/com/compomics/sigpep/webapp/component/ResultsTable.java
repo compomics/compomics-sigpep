@@ -98,7 +98,7 @@ public class ResultsTable extends VerticalLayout {
             iTable.getContainerProperty(id, COLUMN_LABEL_FILENAME).setValue(generateFileName(lFile));
 
             // 2 - Download link to tsv file.
-            Link l = ComponentFactory.createFileDownloadLink(lFile);
+            Link l = ComponentFactory.createFileDownloadLink(lFile, iApplication);
             iTable.getContainerProperty(id, COLUMN_LABEL_FILE).setValue(l);
 
             // 3 - Make an R button
