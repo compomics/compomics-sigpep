@@ -47,8 +47,8 @@
                 <executions>
                     <execution>
                         <goals>
-                            <!--<goal>resources</goal>-->
-                            <!--<goal>compile</goal>-->
+                            <goal>resources</goal>
+                            <goal>compile</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -216,18 +216,26 @@
             <version>0.2.1</version>
         </dependency>
         <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>notifique</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>overlays</artifactId>
+            <version>0.9.8</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
             <version>${gwt.version}</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
         </dependency>
-
         <dependency>
             <groupId>org.icepush</groupId>
             <artifactId>icepush-gwt</artifactId>

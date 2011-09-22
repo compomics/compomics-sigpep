@@ -158,7 +158,7 @@ public class TransitionSelectionComponent extends HorizontalLayout {
     private void updateDownloadTramlLink() throws IOException {
         this.removeComponent(iDownloadTraML);
 
-        iDownloadTraML = ComponentFactory.createFileDownloadLink(iTraMLDownload);
+        iDownloadTraML = ComponentFactory.createFileDownloadLink(iTraMLDownload, iApplication);
         iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
         iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
 

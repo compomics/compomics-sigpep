@@ -1,13 +1,12 @@
 package com.compomics.sigpep.webapp.form;
 
 import com.compomics.sigpep.PeptideGenerator;
-import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
-import com.compomics.sigpep.webapp.component.ComponentFactory;
+import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.factory.PeptideCheckFormFieldFactory;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
@@ -16,6 +15,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
 import org.apache.log4j.Logger;
+import org.vaadin.notifique.Notifique;
 
 import java.util.Set;
 import java.util.Vector;
@@ -30,22 +30,22 @@ import java.util.Vector;
 public class PeptideCheckForm extends Form {
     private static Logger logger = Logger.getLogger(PeptideCheckForm.class);
 
-    private MyVaadinApplication iMyVaadinApplication;
+    private MyVaadinApplication iApplication;
 
     private PeptideFormBean iPeptideFormBean;
 
     private Vector<String> iOrder;
 
     private HorizontalLayout iFormButtonLayout;
-    private HorizontalLayout iProgressIndicatorLayout;
+    private CustomProgressIndicator iCustomProgressIndicator;
     private Button iSubmitButton;
     private Button iResetButton;
 
-    public PeptideCheckForm(String aCaption, MyVaadinApplication aMyVaadinApplication) {
+    public PeptideCheckForm(String aCaption, MyVaadinApplication aApplication) {
         this.setCaption(aCaption);
-        iMyVaadinApplication = aMyVaadinApplication;
+        iApplication = aApplication;
 
-        this.setFormFieldFactory(new PeptideCheckFormFieldFactory());
+        this.setFormFieldFactory(new PeptideCheckFormFieldFactory(iApplication));
 
         iPeptideFormBean = new PeptideFormBean();
         BeanItem<PeptideFormBean> lBeanItem = new BeanItem<PeptideFormBean>(iPeptideFormBean);
@@ -57,18 +57,17 @@ public class PeptideCheckForm extends Form {
                     commit();
                     resetValidation();
 
-                    PeptideCheckFormThread lPeptideCheckFormThread = new PeptideCheckFormThread();
-                    lPeptideCheckFormThread.start();
+                    //add custom progress indicator
+                    iCustomProgressIndicator = new CustomProgressIndicator("processing...", 6);
+                    iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
-                    //add label and progress indicator
-                    iProgressIndicatorLayout = ComponentFactory.createProgressIndicator("Processing...");
-
-                    iFormButtonLayout.addComponent(iProgressIndicatorLayout);
-                    iFormButtonLayout.requestRepaint();
 
                     //disable form buttons during run
                     iSubmitButton.setEnabled(Boolean.FALSE);
                     iResetButton.setEnabled(Boolean.FALSE);
+
+                    PeptideCheckFormThread lPeptideCheckFormThread = new PeptideCheckFormThread();
+                    lPeptideCheckFormThread.start();
 
                 } catch (Validator.InvalidValueException e) {
                     // Failed to commit. The validation errors are
@@ -120,23 +119,26 @@ public class PeptideCheckForm extends Form {
 
         public void run() {
 
-            SigPepSession lSigPepSession = MyVaadinApplication.getSigPepSession();
+            SigPepSession lSigPepSession = iApplication.getSigPepSession();
 
-            if (MyVaadinApplication.getSigPepQueryService() == null) {
-                MyVaadinApplication.setSigPepQueryService(MyVaadinApplication.getSigPepSession().createSigPepQueryService());
+            if (iApplication.getSigPepQueryService() == null) {
+                iApplication.setSigPepQueryService(iApplication.getSigPepSession().createSigPepQueryService());
             }
 
-            Protease aProtease = MyVaadinApplication.getSigPepQueryService().getProteaseByShortName(iPeptideFormBean.getProteaseName());
+            Protease aProtease = iApplication.getSigPepQueryService().getProteaseByShortName(iPeptideFormBean.getProteaseName());
 
             //create peptide generator for protease
+            iCustomProgressIndicator.proceed("creating peptide generator");
             logger.info("creating peptide generator");
             PeptideGenerator lGenerator = lSigPepSession.createPeptideGenerator(aProtease);
 
             //get peptides
+            iCustomProgressIndicator.proceed("generating background peptides");
             logger.info("generating lBackgroundPeptides");
             boolean lIsFound = false;
             Peptide lFoundPeptide = null;
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
+            iCustomProgressIndicator.proceed("looking for peptide " + iPeptideFormBean.getPeptideSequence());
             logger.info("looking for peptide " + iPeptideFormBean.getPeptideSequence());
             for (Peptide lPeptide : lBackgroundPeptides) {
                 if (lPeptide.getSequenceString().equals(iPeptideFormBean.getPeptideSequence())) {
@@ -148,23 +150,21 @@ public class PeptideCheckForm extends Form {
             }
 
             if (!lIsFound) {
-                iMyVaadinApplication.getMainWindow().showNotification("Peptide not found", "The peptide sequence " + iPeptideFormBean.getPeptideSequence() + "</br>was not found for organism " + iPeptideFormBean.getSpecies().getScientificName() +
+                iApplication.getMainWindow().showNotification("Peptide not found", "The peptide sequence " + iPeptideFormBean.getPeptideSequence() + "</br>was not found for organism " + iPeptideFormBean.getSpecies().getScientificName() +
                         " and protease " + aProtease.getFullName() + ".", Window.Notification.TYPE_ERROR_MESSAGE);
                 resetForm();
             } else {
-                iMyVaadinApplication.getFormTabSheet().proceedPeptideForm(iPeptideFormBean, lFoundPeptide);
+                iApplication.getFormTabSheet().proceedPeptideForm(iPeptideFormBean, lFoundPeptide);
             }
 
-            synchronized (iMyVaadinApplication) {
+            synchronized (iApplication) {
                 //enable form buttons after run
                 iSubmitButton.setEnabled(Boolean.TRUE);
                 iResetButton.setEnabled(Boolean.TRUE);
 
-                iFormButtonLayout.removeComponent(iProgressIndicatorLayout);
-
+                iApplication.getNotifique().clear();
             }
-
-            iMyVaadinApplication.push();
+            iApplication.push();
         }
     }
 

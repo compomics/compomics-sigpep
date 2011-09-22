@@ -103,7 +103,7 @@ public class RCallerClickListener implements Button.ClickListener {
                                 if (lOutputFile.exists()) {
                                     try {
                                         String lImageCaption = "R result";
-                                        Embedded e = ComponentFactory.createImage(lOutputFile, lImageCaption);
+                                        Embedded e = ComponentFactory.createImage(lOutputFile, lImageCaption, iApplication);
 
                                         lProgressIndicator.setVisible(false);
                                         lDialog.removeComponent(lProgressIndicator);

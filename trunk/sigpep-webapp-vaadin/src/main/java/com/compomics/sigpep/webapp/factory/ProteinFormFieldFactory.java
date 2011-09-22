@@ -26,6 +26,8 @@ import java.util.Set;
 public class ProteinFormFieldFactory implements FormFieldFactory {
     private static Logger log = Logger.getLogger(ProteinFormFieldFactory.class);
 
+    private MyVaadinApplication iApplication;
+
     private Select iSpeciesSelect;
     private TextField iMassTextField;
     private TextField iMinimumCombinationSizeTextField;
@@ -36,7 +38,9 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
 
     private boolean iVisible = Boolean.FALSE;
 
-    public ProteinFormFieldFactory() {
+    public ProteinFormFieldFactory(MyVaadinApplication aApplication) {
+        iApplication = aApplication;
+
         //species field
         iSpeciesSelect = new Select("Species");
         iSpeciesSelect.setRequired(Boolean.TRUE);
@@ -94,9 +98,9 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                         iVisible = Boolean.TRUE;
                         setFormComponentsVisible(iVisible);
                     }
-                    log.info("Creating sigpep session.");
-                    if (MyVaadinApplication.getSigPepSession() == null) {
-                        MyVaadinApplication.setSigPepSession(MyVaadinApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
+                    if (iApplication.getSigPepSession() == null || !iApplication.getSigPepSession().getOrganism().getScientificName().equals(lOrganism.getScientificName())) {
+                        log.info("Creating sigpep session for organism " + lOrganism.getScientificName());
+                        iApplication.setSigPepSession(iApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
                     }
                     fillProteaseSelect();
                 }
@@ -142,13 +146,13 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
         if (iProteaseSelect.size() != 0) {
             iProteaseSelect.removeAllItems();
         }
-        for (String lProteaseName : MyVaadinApplication.getSigPepSession().getSimpleQueryDao().getUsedProteaseNames()) {
+        for (String lProteaseName : iApplication.getSigPepSession().getSimpleQueryDao().getUsedProteaseNames()) {
             iProteaseSelect.addItem(lProteaseName);
         }
     }
 
     protected Set<Organism> getOrganisms() {
-        return MyVaadinApplication.getSigPepSessionFactory().getOrganisms();
+        return iApplication.getSigPepSessionFactory().getOrganisms();
     }
 
 }

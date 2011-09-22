@@ -5,4 +5,10 @@
 <module>
     <inherits name="com.vaadin.terminal.gwt.DefaultWidgetSet" />
     <inherits name="org.vaadin.artur.icepush.IcepushaddonWidgetset" />
+
+    <inherits name="org.vaadin.jouni.animator.AnimatorWidgetset" />
+
+    <inherits name="org.vaadin.notifique.widgetset.NotifiqueWidgetset" />
+
+    <inherits name="org.vaadin.overlay.OverlaysWidgetset" />
 </module>
