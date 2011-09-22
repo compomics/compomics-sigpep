@@ -27,7 +27,10 @@
     font-weight:bold;
     color: #b22222;
     -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
     background: -webkit-gradient(linear, top, bottom, from(#ffffff), to(#dedede));
+    background: -webkit-gradient(linear, top, bottom, from(#ffffff), to(#dedede));
+    vertical-align: middle;
 }
 
 .v-download-link {
@@ -85,4 +88,9 @@
 
 .split-panel-positioning-example .v-select-optiongroup .v-select-option {
     display: inline;
+}
+
+.v-selection-count{
+    font-size: 300%;
+    font-weight: bold;
 }

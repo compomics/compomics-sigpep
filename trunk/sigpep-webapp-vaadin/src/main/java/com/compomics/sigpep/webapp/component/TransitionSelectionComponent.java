@@ -6,7 +6,10 @@ import com.compomics.jtraml.interfaces.TSVFileImportModel;
 import com.compomics.jtraml.model.ThermoToTraml;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.google.common.io.Files;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.BaseTheme;
+import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
 import org.hupo.psi.ms.traml.ObjectFactory;
 import org.hupo.psi.ms.traml.TraMLType;
@@ -31,9 +34,9 @@ public class TransitionSelectionComponent extends HorizontalLayout {
 
     Label iStatus;
     Button iCreateTraML;
+    Button iPreviewSelection;
     Link iDownloadTraML;
     File iTraMLDownload;
-    VerticalLayout iButtonLayout = new VerticalLayout();
 
 
     public TransitionSelectionComponent(MyVaadinApplication aApplication) {
@@ -50,50 +53,48 @@ public class TransitionSelectionComponent extends HorizontalLayout {
     private void initComponents() throws IOException {
         this.setStyleName("v-selection");
 
-        iButtonLayout.setSpacing(true);
-        iButtonLayout.setMargin(true);
-
-        setWidth("200px");
+        this.setSpacing(true);
 
         iStatus = new Label("no transitions selected yet");
-        iButtonLayout.addComponent(iStatus);
+        iStatus.setStyleName("v-selection-count");
+        this.addComponent(iStatus, 0);
 
-        iCreateTraML = new Button("create TraML");
+        iPreviewSelection = new Button();
+        iPreviewSelection.setEnabled(false);
+        iPreviewSelection.setStyleName(BaseTheme.BUTTON_LINK);
+        iPreviewSelection.setIcon(new ThemeResource("preview.png"));
+        iPreviewSelection.addListener(new PreviewSelectionListener());
+        this.addComponent(iPreviewSelection, 1);
+
+
+        iCreateTraML = new Button("");
         iCreateTraML.setEnabled(false);
         iCreateTraML.addListener(new SaveToTraMLClickListener());
-        iButtonLayout.addComponent(iCreateTraML);
+        iCreateTraML.setIcon(new ThemeResource("make_traml.png"));
+        iCreateTraML.setStyleName(BaseTheme.BUTTON_LINK);
+        this.addComponent(iCreateTraML, 2);
 
-        this.addComponent(iButtonLayout);
 
-        setDownloadLink(false);
+        iDownloadTraML = new Link();
+        iDownloadTraML.setEnabled(false);
+        iDownloadTraML.setVisible(false);
+        iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
+        iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
+        this.addComponent(iDownloadTraML, 3);
+
     }
-
-    private void setDownloadLink(boolean aVisible) throws IOException {
-        Link lOldLink = iDownloadTraML;
-        if (lOldLink == null) {
-            iDownloadTraML = new Link();
-            iDownloadTraML.setEnabled(aVisible);
-            iDownloadTraML.setVisible(aVisible);
-
-            iButtonLayout.addComponent(iDownloadTraML);
-        } else {
-            iDownloadTraML = ComponentFactory.createFileDownloadLink(iTraMLDownload);
-            iDownloadTraML.setEnabled(aVisible);
-            iDownloadTraML.setVisible(aVisible);
-            iButtonLayout.removeComponent(lOldLink);
-            iButtonLayout.addComponent(iDownloadTraML);
-        }
-    }
-
 
     @Override
     public void requestRepaintAll() {
         int lSize = iApplication.getSelectedTransitionList().size();
         if (lSize > 0) {
             iCreateTraML.setEnabled(true);
+            iPreviewSelection.setEnabled(true);
             iStatus.setValue(lSize + " transitions selected");
         } else {
             iCreateTraML.setEnabled(false);
+            iPreviewSelection.setEnabled(false);
+            iDownloadTraML.setEnabled(false);
             iStatus.setValue("no transitions selected");
         }
         super.requestRepaintAll();
@@ -140,8 +141,7 @@ public class TransitionSelectionComponent extends HorizontalLayout {
                 br.close();
 
                 iTraMLDownload = lTargetFile;
-
-                setDownloadLink(true);
+                updateDownloadTramlLink();
 
                 requestRepaintAll();
 
@@ -152,6 +152,58 @@ public class TransitionSelectionComponent extends HorizontalLayout {
             } catch (JAXBException e) {
                 logger.error(e.getMessage(), e);
             }
+        }
+    }
+
+    private void updateDownloadTramlLink() throws IOException {
+        this.removeComponent(iDownloadTraML);
+
+        iDownloadTraML = ComponentFactory.createFileDownloadLink(iTraMLDownload);
+        iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
+        iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
+
+        this.addComponent(iDownloadTraML, 3);
+    }
+
+
+    private class PreviewSelectionListener implements Button.ClickListener {
+        /**
+         * Called when a {@link com.vaadin.ui.Button} has been clicked. A reference to the
+         * button is given by {@link com.vaadin.ui.Button.ClickEvent#getButton()}.
+         *
+         * @param event An event containing information about the click.
+         */
+        public void buttonClick(Button.ClickEvent event) {
+            final Window lDialog = new Window();
+            lDialog.setModal(true);
+            lDialog.setCaption("Preview transition selection");
+            lDialog.setWidth("75%");
+            lDialog.setHeight("75%");
+
+            iApplication.getMainWindow().addWindow(lDialog);
+
+
+            Table lTable = new Table();
+            lTable.setWidth("100%");
+            lTable.addContainerProperty("id", Label.class, null);
+            lTable.addContainerProperty("q1", Label.class, null);
+            lTable.addContainerProperty("q3", Label.class, null);
+
+            lTable.setColumnHeader("id", "transition ID");
+            lTable.setColumnHeader("q1", "Q1 m/z");
+            lTable.setColumnHeader("q3", "Q3 m/z");
+
+            for (TransitionBean item : iApplication.getSelectedTransitionList()) {
+                // Add a new item to the table.
+                Object id = lTable.addItem();
+
+                lTable.getContainerProperty(id, "id").setValue(item.getID());
+                lTable.getContainerProperty(id, "q1").setValue(item.getQ1Mass());
+                lTable.getContainerProperty(id, "q3").setValue(item.getQ3Mass());
+
+            }
+
+            lDialog.addComponent(lTable);
         }
     }
 }
