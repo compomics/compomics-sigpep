@@ -11,14 +11,12 @@ import com.compomics.sigpep.model.SignatureTransition;
 import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
-import com.compomics.sigpep.webapp.bean.ProteinFormBean;
 import com.compomics.sigpep.webapp.component.ComponentFactory;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.factory.PeptideFormFieldFactory;
 import com.google.common.io.Files;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.NestedMethodProperty;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
@@ -38,7 +36,7 @@ import java.util.*;
 public class PeptideForm extends Form {
     private static Logger logger = Logger.getLogger(PeptideForm.class);
 
-    private MyVaadinApplication iMyVaadinApplication;
+    private MyVaadinApplication iApplication;
 
     private PeptideFormBean iPeptideFormBean;
     private Peptide iPeptide;
@@ -50,9 +48,9 @@ public class PeptideForm extends Form {
     private Button iSubmitButton;
     private Button iCancelButton;
 
-    public PeptideForm(String aCaption, PeptideFormBean aPeptideFormBean, Peptide aPeptide, MyVaadinApplication aMyVaadinApplication) {
+    public PeptideForm(String aCaption, PeptideFormBean aPeptideFormBean, Peptide aPeptide, MyVaadinApplication aApplication) {
         this.setCaption(aCaption);
-        iMyVaadinApplication = aMyVaadinApplication;
+        iApplication = aApplication;
 
         this.setFormFieldFactory(new PeptideFormFieldFactory());
 
@@ -88,9 +86,9 @@ public class PeptideForm extends Form {
             }
         });
 
-        iCancelButton = new Button("Cancel", new Button.ClickListener() {
+        iCancelButton = new Button("Reset", new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent aClickEvent) {
-                iMyVaadinApplication.getFormTabSheet().cancelPeptideForm();
+                iApplication.getFormTabSheet().cancelPeptideForm();
             }
         });
 
@@ -117,6 +115,7 @@ public class PeptideForm extends Form {
     private void resetValidation() {
         this.setComponentError(null);
         this.setValidationVisible(false);
+        iApplication.clearResultTableComponent();
         this.setOrder();
     }
 
@@ -206,16 +205,16 @@ public class PeptideForm extends Form {
                 }
             }));
 
-            synchronized (iMyVaadinApplication) {
+            synchronized (iApplication) {
                 //enable form buttons after run
                 iSubmitButton.setEnabled(Boolean.TRUE);
                 iCancelButton.setEnabled(Boolean.TRUE);
 
                 iFormButtonLayout.removeComponent(iProgressIndicatorLayout);
-                iMyVaadinApplication.getMainWindow().addComponent(new ResultsTable(lResultFiles, iMyVaadinApplication, iMyVaadinApplication));
+                iApplication.setResultTableComponent(new ResultsTable(lResultFiles, iApplication, iApplication));
             }
 
-            iMyVaadinApplication.push();
+            iApplication.push();
         }
     }
 
