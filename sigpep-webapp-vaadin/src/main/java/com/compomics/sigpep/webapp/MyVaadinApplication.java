@@ -19,10 +19,7 @@ import com.compomics.jtraml.beans.TransitionBean;
 import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
-<<<<<<< .mine
-=======
 import com.compomics.sigpep.webapp.component.FormTabSheet;
->>>>>>> .r49
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
@@ -56,6 +53,8 @@ public class MyVaadinApplication extends Application implements Pushable {
     public TransitionSelectionComponent iSelectionComponent;
 
     private Panel iCenterLayout;
+    private VerticalLayout iCenterLayoutResults;
+
     private Panel iBottomLayout;
     private FormTabSheet iFormTabSheet;
 
@@ -79,7 +78,10 @@ public class MyVaadinApplication extends Application implements Pushable {
         iFormTabSheet = new FormTabSheet(this);
         iCenterLayout.addComponent(iFormTabSheet);
 
-        Button lButton = new Button("load data from ~/tmp/sigpep");
+        iCenterLayoutResults = new VerticalLayout();
+        iCenterLayout.addComponent(iCenterLayoutResults);
+
+        Button lButton = new Button("load test data");
         lButton.addListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 new BackgroundThread().run();
@@ -93,10 +95,12 @@ public class MyVaadinApplication extends Application implements Pushable {
 
 
         VerticalSplitPanel vsplit = new VerticalSplitPanel();
+//        vsplit.setSplitPosition(80, Sizeable.);
         vsplit.setSplitPosition(500, Sizeable.UNITS_PIXELS);
         vsplit.setLocked(false);
+//        vsplit.setHeight("100%");
         vsplit.setHeight("600px");
-        vsplit.setWidth("100%");
+//        vsplit.setWidth("100%");
 //        vsplit.addStyleName(Reindeer.SPLITPANEL_SMALL);
 
         mainWindow.addComponent(vsplit);
@@ -117,6 +121,15 @@ public class MyVaadinApplication extends Application implements Pushable {
     public void push() {
         logger.debug("pushing ");
         pusher.push();
+    }
+
+    public void setResultTableComponent(ResultsTable aResultsTable) {
+        clearResultTableComponent();
+        iCenterLayoutResults.addComponent(aResultsTable);
+    }
+
+    public void clearResultTableComponent() {
+        iCenterLayoutResults.removeAllComponents();
     }
 
     public class BackgroundThread extends Thread {

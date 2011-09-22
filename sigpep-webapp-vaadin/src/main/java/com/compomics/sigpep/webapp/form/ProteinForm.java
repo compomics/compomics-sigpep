@@ -4,10 +4,12 @@ import com.compomics.sigpep.PeptideGenerator;
 import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.analysis.SignatureTransitionFinder;
-import com.compomics.sigpep.model.*;
+import com.compomics.sigpep.model.Peptide;
+import com.compomics.sigpep.model.ProductIonType;
+import com.compomics.sigpep.model.Protease;
+import com.compomics.sigpep.model.SignatureTransition;
 import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
-import com.compomics.sigpep.webapp.bean.PeptideFormBean;
 import com.compomics.sigpep.webapp.bean.ProteinFormBean;
 import com.compomics.sigpep.webapp.component.ComponentFactory;
 import com.compomics.sigpep.webapp.component.ResultsTable;
@@ -15,7 +17,9 @@ import com.compomics.sigpep.webapp.factory.ProteinFormFieldFactory;
 import com.google.common.io.Files;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Form;
+import com.vaadin.ui.HorizontalLayout;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -31,7 +35,7 @@ import java.util.*;
 public class ProteinForm extends Form {
     private static Logger logger = Logger.getLogger(ProteinForm.class);
 
-    private MyVaadinApplication iMyVaadinApplication;
+    private MyVaadinApplication iApplication;
 
     private ProteinFormBean iProteinFormBean;
 
@@ -42,9 +46,9 @@ public class ProteinForm extends Form {
     private Button iSubmitButton;
     private Button iResetButton;
 
-    public ProteinForm(String aCaption, MyVaadinApplication aMyVaadinApplication) {
+    public ProteinForm(String aCaption, MyVaadinApplication aApplication) {
         this.setCaption(aCaption);
-        iMyVaadinApplication = aMyVaadinApplication;
+        iApplication = aApplication;
 
         this.setFormFieldFactory(new ProteinFormFieldFactory());
 
@@ -114,6 +118,8 @@ public class ProteinForm extends Form {
         iProteinFormBean = new ProteinFormBean();
         BeanItem<ProteinFormBean> lBeanItem = new BeanItem<ProteinFormBean>(iProteinFormBean);
         ProteinForm.this.setItemDataSource(lBeanItem);
+        iApplication.clearResultTableComponent();
+
         resetValidation();
     }
 
@@ -195,22 +201,23 @@ public class ProteinForm extends Form {
             }
 
             ArrayList lResultFiles = new ArrayList();
+            logger.info("generated " + lResultFiles.size() + " peptide result files");
             Collections.addAll(lResultFiles, outputFolder.listFiles(new FileFilter() {
                 public boolean accept(File aFile) {
                     return aFile.getName().endsWith(".tsv");
                 }
             }));
 
-            synchronized (iMyVaadinApplication) {
+            synchronized (iApplication) {
                 //enable form buttons after run
                 iSubmitButton.setEnabled(Boolean.TRUE);
                 iResetButton.setEnabled(Boolean.TRUE);
 
                 iFormButtonLayout.removeComponent(iProgressIndicatorLayout);
-                iMyVaadinApplication.getMainWindow().addComponent(new ResultsTable(lResultFiles, iMyVaadinApplication, iMyVaadinApplication));
+                iApplication.setResultTableComponent(new ResultsTable(lResultFiles, iApplication, iApplication));
             }
 
-            iMyVaadinApplication.push();
+            iApplication.push();
 
         }
     }
