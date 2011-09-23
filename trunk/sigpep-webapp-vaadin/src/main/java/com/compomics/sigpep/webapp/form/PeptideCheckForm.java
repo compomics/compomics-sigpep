@@ -109,6 +109,7 @@ public class PeptideCheckForm extends Form {
         BeanItem<PeptideFormBean> lBeanItem = new BeanItem<PeptideFormBean>(iPeptideFormBean);
         PeptideCheckForm.this.setItemDataSource(lBeanItem);
         resetValidation();
+        iApplication.clearResultTableComponent();
     }
 
     private void setOrder() {
@@ -125,12 +126,15 @@ public class PeptideCheckForm extends Form {
                 iApplication.setSigPepQueryService(iApplication.getSigPepSession().createSigPepQueryService());
             }
 
-            Protease aProtease = iApplication.getSigPepQueryService().getProteaseByShortName(iPeptideFormBean.getProteaseName());
+            Protease aProtease = iApplication.getSigPepQueryService().getProteaseByFullName(iPeptideFormBean.getProteaseName());
 
             //create peptide generator for protease
-            iCustomProgressIndicator.proceed("creating peptide generator");
-            logger.info("creating peptide generator");
+            iCustomProgressIndicator.proceed("creating peptide generator for protease " + aProtease.getFullName());
+            logger.info("creating peptide generator for protease " + aProtease.getFullName());
             PeptideGenerator lGenerator = lSigPepSession.createPeptideGenerator(aProtease);
+
+            //add generator to bean
+            iPeptideFormBean.setPeptideGenerator(lGenerator);
 
             //get peptides
             iCustomProgressIndicator.proceed("generating background peptides");
@@ -138,22 +142,29 @@ public class PeptideCheckForm extends Form {
             boolean lIsFound = false;
             Peptide lFoundPeptide = null;
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
+
+            //add background peptides to bean
+            iPeptideFormBean.setlBackgroundPeptides(lBackgroundPeptides);
             iCustomProgressIndicator.proceed("looking for peptide " + iPeptideFormBean.getPeptideSequence());
             logger.info("looking for peptide " + iPeptideFormBean.getPeptideSequence());
             for (Peptide lPeptide : lBackgroundPeptides) {
                 if (lPeptide.getSequenceString().equals(iPeptideFormBean.getPeptideSequence())) {
                     logger.info("peptide found: " + lPeptide.getSequenceString());
                     lFoundPeptide = lPeptide;
+                    //lFoundPeptide.
                     lIsFound = true;
                     break;
                 }
             }
 
+            //show error message if peptide is not found
             if (!lIsFound) {
                 iApplication.getMainWindow().showNotification("Peptide not found", "The peptide sequence " + iPeptideFormBean.getPeptideSequence() + "</br>was not found for organism " + iPeptideFormBean.getSpecies().getScientificName() +
                         " and protease " + aProtease.getFullName() + ".", Window.Notification.TYPE_ERROR_MESSAGE);
                 resetForm();
             } else {
+                //check if found peptide is a signature peptide
+                logger.info("looking for peptide ");
                 iApplication.getFormTabSheet().proceedPeptideForm(iPeptideFormBean, lFoundPeptide);
             }
 

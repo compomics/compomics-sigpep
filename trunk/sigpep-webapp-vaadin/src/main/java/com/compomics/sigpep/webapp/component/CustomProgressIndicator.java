@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
  * To change this template use File | Settings | File Templates.
  */
 public class CustomProgressIndicator extends VerticalLayout {
-    private static Logger logger = Logger.getLogger(CustomProgressIndicator.class);
 
     private int iMaxStepNumber;
     private int iStepNumber;
@@ -46,8 +45,6 @@ public class CustomProgressIndicator extends VerticalLayout {
 
     public void proceed(String aMessage){
         if(iStepNumber != iMaxStepNumber){
-            logger.info(aMessage);
-            logger.info((float ) iStepNumber / iMaxStepNumber);
             iLabel.setCaption(aMessage);
             iProgressIndicator.setValue((float ) iStepNumber / iMaxStepNumber);
             iStepNumber ++;
