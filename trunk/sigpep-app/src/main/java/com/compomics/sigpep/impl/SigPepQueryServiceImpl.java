@@ -100,6 +100,17 @@ public class SigPepQueryServiceImpl implements SigPepQueryService {
     }
 
     /**
+     * Returns the protease specified by short name.
+     *
+     * @param fullName the protease short name
+     * @return the protease
+     */
+    public Protease getProteaseByFullName(String fullName) {
+        return objectDao.getProteaseByFullName(fullName);
+    }
+
+
+    /**
      * Returns a set of one or more proteases specified by its/their shortname(s).
      *
      * @param shortName the protease short name(s)

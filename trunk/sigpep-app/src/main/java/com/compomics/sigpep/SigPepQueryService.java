@@ -60,6 +60,14 @@ public interface SigPepQueryService {
     Protease getProteaseByShortName(String shortName);
 
     /**
+     * Returns the protease specified by full name.
+     *
+     * @param fullName the protease full name
+     * @return the protease
+     */
+    Protease getProteaseByFullName(String fullName);
+
+    /**
      * Returns a set of one or more proteases specified by its/their shortname(s).
      *
      * @param shortName the protease short name(s)
