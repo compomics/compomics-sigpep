@@ -28,6 +28,8 @@ public interface ObjectDao {
 
     public Protease getProteaseByShortName(String shortName);
 
+    public Protease getProteaseByFullName(String fullName);
+
     public Set<Protease> getProteaseSetByShortName(Set<String> shortName);
 
     //////////////

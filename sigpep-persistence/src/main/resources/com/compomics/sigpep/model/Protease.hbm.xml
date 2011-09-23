@@ -32,5 +32,8 @@
     <!-- selects all proteases with the specified short name(s)-->
     <query name="proteaseByShortName">from com.compomics.sigpep.model.Protease where shortName IN (:shortName)</query>
 
+    <!-- selects all proteases with the specified full name(s)-->
+    <query name="proteaseByFullName">from com.compomics.sigpep.model.Protease where fullName IN (:fullName)</query>
+
 
 </hibernate-mapping>

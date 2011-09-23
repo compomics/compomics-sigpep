@@ -1,5 +1,6 @@
 package com.compomics.sigpep.persistence.dao.impl;
 
+import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.model.impl.ProteaseImpl;
 import org.springframework.dao.DataAccessException;
@@ -615,6 +616,11 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
         return retVal;
     }
 
+    public Peptide getPeptideByPeptideSequence(String peptideSequence) {
+
+        return null;
+    }
+
     //    public Map<String, Set<String>> getIdentifiableProteome(Set<String> peptideSequences, Set<String> proteaseNames) {
 //
 //        Map<String, Set<String>> retVal = new HashMap<String, Set<String>>();
@@ -716,6 +722,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
 //        return retVal;
 //
 //    }
+
 
     /**
      * @param args
