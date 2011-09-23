@@ -1,5 +1,10 @@
 package com.compomics.sigpep.webapp.bean;
 
+import com.compomics.sigpep.PeptideGenerator;
+import com.compomics.sigpep.model.Peptide;
+
+import java.util.Set;
+
 /**
  * Created by IntelliJ IDEA.
  * User: niels
@@ -11,12 +16,32 @@ public class PeptideFormBean extends AbstractFormBean {
 
     private String iPeptideSequence = "LGKLYWLVTQNVDALHTK";
 
+    private PeptideGenerator iPeptideGenerator;
+
+    private Set<Peptide> lBackgroundPeptides;
+
     public String getPeptideSequence() {
         return iPeptideSequence;
     }
 
     public void setPeptideSequence(String aPeptideSequence) {
         iPeptideSequence = aPeptideSequence;
+    }
+
+    public PeptideGenerator getPeptideGenerator() {
+        return iPeptideGenerator;
+    }
+
+    public void setPeptideGenerator(PeptideGenerator aPeptideGenerator) {
+        iPeptideGenerator = aPeptideGenerator;
+    }
+
+    public Set<Peptide> getlBackgroundPeptides() {
+        return lBackgroundPeptides;
+    }
+
+    public void setlBackgroundPeptides(Set<Peptide> aLBackgroundPeptides) {
+        lBackgroundPeptides = aLBackgroundPeptides;
     }
 
 }
