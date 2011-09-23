@@ -27,7 +27,7 @@ import java.util.ArrayList;
 /**
  * This class is a
  */
-public class TransitionSelectionComponent extends HorizontalLayout {
+public class TransitionSelectionComponent extends VerticalLayout {
     private static Logger logger = Logger.getLogger(TransitionSelectionComponent.class);
 
     private final MyVaadinApplication iApplication;
@@ -52,7 +52,6 @@ public class TransitionSelectionComponent extends HorizontalLayout {
 
     private void initComponents() throws IOException {
         this.setStyleName("v-selection");
-
         this.setSpacing(true);
 
         iStatus = new Label("no transitions selected yet");
@@ -81,6 +80,11 @@ public class TransitionSelectionComponent extends HorizontalLayout {
         iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
         iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
         this.addComponent(iDownloadTraML, 3);
+
+        this.setComponentAlignment(iStatus, Alignment.MIDDLE_LEFT);
+        this.setComponentAlignment(iPreviewSelection, Alignment.MIDDLE_LEFT);
+        this.setComponentAlignment(iCreateTraML, Alignment.MIDDLE_LEFT);
+        this.setComponentAlignment(iDownloadTraML, Alignment.MIDDLE_LEFT);
 
     }
 

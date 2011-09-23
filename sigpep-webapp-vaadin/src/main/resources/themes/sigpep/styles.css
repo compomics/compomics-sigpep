@@ -4,6 +4,18 @@
     background: white;
 }
 
+.v-header {
+    height: 50px;
+    width: 100%;
+    background-image: url("header.png");
+    background-repeat: repeat-x;
+    vertical-align: 50%;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    color: #b22222;
+}
+
 .v-horizontallayout {
     vertical-align: baseline;
     margin: 10px
@@ -23,14 +35,13 @@
     border-color: #dcdcdc;
 }
 
+.v-no-border{
+    border-style:none;
+}
+
 .v-selection {
-    font-weight:bold;
+    font-weight: bold;
     color: #b22222;
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    background: -webkit-gradient(linear, top, bottom, from(#ffffff), to(#dedede));
-    background: -webkit-gradient(linear, top, bottom, from(#ffffff), to(#dedede));
-    vertical-align: middle;
 }
 
 .v-download-link {
@@ -90,7 +101,7 @@
     display: inline;
 }
 
-.v-selection-count{
-    font-size: 300%;
+.v-selection-count {
+    font-size: x-large;
     font-weight: bold;
 }

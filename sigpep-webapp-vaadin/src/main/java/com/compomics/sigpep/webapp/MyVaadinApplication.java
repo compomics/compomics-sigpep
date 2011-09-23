@@ -25,8 +25,8 @@ import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
-import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
 import org.vaadin.artur.icepush.ICEPush;
 import org.vaadin.notifique.Notifique;
@@ -64,10 +64,11 @@ public class MyVaadinApplication extends Application implements Pushable {
     private SigPepQueryService iSigPepQueryService;
     public TransitionSelectionComponent iSelectionComponent;
 
-    private Panel iCenterLayout;
+    private Panel iCenterLeft;
+    private HorizontalLayout iHeaderLayout;
     private VerticalLayout iCenterLayoutResults;
 
-    private Panel iBottomLayout;
+    private Panel iCenterRight;
     private FormTabSheet iFormTabSheet;
 
     /**
@@ -94,23 +95,23 @@ public class MyVaadinApplication extends Application implements Pushable {
 //        iNotifique.set
         CustomOverlay lCustomOverlay = new CustomOverlay(iNotifique, getMainWindow());
         getMainWindow().addComponent(lCustomOverlay);
-        /*iNotifique.add(
-                null,
-                "Welcome! This is a demo application for the <a href=\"http://vaadin.com/addon/notifique\">Notifique</a> add-on for Vaadin.",
-                true, Notifique.Styles.BROWSER_FF3, true);*/
-        //iNotifique.add(null, new CustomProgressIndicator("test"), Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
-        iCenterLayout = new Panel();
-        iCenterLayout.setSizeFull();
+        iCenterLeft = new Panel();
+        iCenterLeft.addStyleName(Reindeer.PANEL_LIGHT);
+        iCenterLeft.setHeight("600px");
+        iCenterLeft.setWidth("100%");
 
-        iBottomLayout = new Panel();
-        iBottomLayout.setSizeFull();
+        iCenterRight = new Panel();
+        iCenterRight.addStyleName(Reindeer.PANEL_LIGHT);
+        iCenterRight.setHeight("600px");
+        iCenterRight.setWidth("75%");
+
 
         iFormTabSheet = new FormTabSheet(this);
-        iCenterLayout.addComponent(iFormTabSheet);
+        iCenterLeft.addComponent(iFormTabSheet);
 
         iCenterLayoutResults = new VerticalLayout();
-        iCenterLayout.addComponent(iCenterLayoutResults);
+        iCenterLeft.addComponent(iCenterLayoutResults);
 
         Button lButton = new Button("load test data");
         lButton.addListener(new Button.ClickListener() {
@@ -118,28 +119,48 @@ public class MyVaadinApplication extends Application implements Pushable {
                 new BackgroundThread().run();
             }
         });
-        iCenterLayout.addComponent(lButton);
+        iCenterLeft.addComponent(lButton);
 
         // Add the selector component
         iSelectionComponent = new TransitionSelectionComponent(MyVaadinApplication.this);
-        iBottomLayout.addComponent(iSelectionComponent);
+        iCenterRight.addComponent(iSelectionComponent);
 
-        VerticalSplitPanel vsplit = new VerticalSplitPanel();
-//        vsplit.setSplitPosition(80, Sizeable.);
-        vsplit.setSplitPosition(500, Sizeable.UNITS_PIXELS);
-        vsplit.setLocked(false);
-//        vsplit.setHeight("100%");
-        vsplit.setHeight("600px");
-//        vsplit.setWidth("100%");
-//        vsplit.addStyleName(Reindeer.SPLITPANEL_SMALL);
 
-        mainWindow.addComponent(vsplit);
+        iHeaderLayout = new HorizontalLayout();
+        iHeaderLayout.setSizeFull();
+        iHeaderLayout.setHeight("50px");
 
-        vsplit.addComponent(iCenterLayout);
-        vsplit.addComponent(iBottomLayout);
+        Label lLabel = new Label("Signature peptide calculator");
+        lLabel.addStyleName("v-selection");
+        iHeaderLayout.addComponent(lLabel);
+        iHeaderLayout.addStyleName("v-header");
 
+
+        VerticalLayout lVerticalLayout = new VerticalLayout();
+
+
+        GridLayout lGridLayout = new GridLayout(2,1);
+        lGridLayout.setSpacing(true);
+        lGridLayout.setSizeFull();
+//        lGridLayout.setWidth(100, Sizeable.UNITS_PERCENTAGE);
+//        lGridLayout.setWidth(500, Sizeable.UNITS_PIXELS);
+
+        lGridLayout.addComponent(iCenterLeft, 0, 0);
+        lGridLayout.setComponentAlignment(iCenterLeft, Alignment.TOP_LEFT);
+
+        lGridLayout.addComponent(iCenterRight, 1, 0);
+        lGridLayout.setComponentAlignment(iCenterRight, Alignment.TOP_CENTER);
+
+
+        lVerticalLayout.addComponent(iHeaderLayout);
+        lVerticalLayout.addComponent(lGridLayout);
+
+        lVerticalLayout.setComponentAlignment(iHeaderLayout, Alignment.MIDDLE_CENTER);
+        lVerticalLayout.setComponentAlignment(lGridLayout, Alignment.MIDDLE_CENTER);
+
+
+        mainWindow.addComponent(lVerticalLayout);
         mainWindow.addComponent(pusher);
-
 
     }
 
@@ -180,7 +201,7 @@ public class MyVaadinApplication extends Application implements Pushable {
                         return aFile.getName().endsWith(".tsv");
                     }
                 }));
-                iCenterLayout.addComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
+                iCenterLeft.addComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
             }
             // Push the changes
             pusher.push();
