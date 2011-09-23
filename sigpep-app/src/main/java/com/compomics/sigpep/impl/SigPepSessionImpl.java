@@ -297,6 +297,7 @@ public class SigPepSessionImpl implements SigPepSession {
             try {
                 // Get the value (probably by calling an EJB)
                 featureCoordinates = simpleQueryDao.getPeptideFeatureCoordinatesByProteaseShortNames(proteaseShortNames);
+//                featureCoordinates = simpleQueryDao.getPeptideFeatureCoordinatesByProteaseShortNames(proteaseShortNames);
 
                 // Store in the cache
                 this.getCache().putInCache(featureCoordinatesKey, featureCoordinates);

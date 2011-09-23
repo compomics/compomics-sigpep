@@ -1,7 +1,6 @@
 package com.compomics.sigpep.webapp.form;
 
 import com.compomics.sigpep.PeptideGenerator;
-import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.analysis.SignatureTransitionFinder;
 import com.compomics.sigpep.model.Peptide;
@@ -11,7 +10,6 @@ import com.compomics.sigpep.model.SignatureTransition;
 import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
-import com.compomics.sigpep.webapp.component.ComponentFactory;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.factory.PeptideFormFieldFactory;
@@ -69,7 +67,7 @@ public class PeptideForm extends Form {
                     resetValidation();
 
                     //add custom progress indicator
-                    iCustomProgressIndicator = new CustomProgressIndicator("processing...", 6);
+                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep protein job is waiting in the processing queue...", 6);
                     iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
                     //disable form buttons during run
@@ -77,7 +75,8 @@ public class PeptideForm extends Form {
                     iCancelButton.setEnabled(Boolean.FALSE);
 
                     PeptideFormThread lSigPepFormThread = new PeptideFormThread();
-                    lSigPepFormThread.start();
+                    MyVaadinApplication.getExecutorService().submit(lSigPepFormThread);
+
 
                 } catch (Validator.InvalidValueException e) {
                     // Failed to commit. The validation errors are

@@ -4,10 +4,12 @@ import com.compomics.pepnovo.FragmentPredictionTask;
 import com.compomics.pepnovo.beans.IntensityPredictionBean;
 import com.compomics.pepnovo.beans.PeptideInputBean;
 import com.compomics.pepnovo.beans.PeptideOutputBean;
+import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
-import com.vaadin.Application;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
+import org.vaadin.notifique.Notifique;
 import sun.misc.ConditionLock;
 
 import java.util.Set;
@@ -22,10 +24,13 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
 
     private final Set<PeptideInputBean> iInputBeans;
     private final Pushable iPushable;
+
     /**
      * The parent Application in which this listener is running.
      */
-    private final Application iApplication;
+    private final MyVaadinApplication iApplication;
+    public Notifique iNotifique;
+    public CustomProgressIndicator iProgressIndicator;
 
     /**
      * Create a ClickListener that will execute a RSource/RFilter combination on a ClickEvent.
@@ -33,7 +38,7 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
      * @param aPushable
      * @param aApplication
      */
-    public IntensityPredictionClickListener(Set<PeptideInputBean> aInputBeans, Pushable aPushable, Application aApplication) {
+    public IntensityPredictionClickListener(Set<PeptideInputBean> aInputBeans, Pushable aPushable, MyVaadinApplication aApplication) {
         super();
         iInputBeans = aInputBeans;
 
@@ -48,37 +53,26 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
      */
     public void buttonClick(Button.ClickEvent aClickEvent) {
 
-        // make a RRunner from this RSource.
+
+        iNotifique = iApplication.getNotifique();
+        iProgressIndicator = new CustomProgressIndicator("r script is waiting in the processing queue ...", 1);
+        iNotifique.add(null, iProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
         final Object[] lPeptideOutputBeans = new Object[1];
 
-//            lRRunner.
         Runnable lRunner = new Runnable() {
             public void run() {
                 lPeptideOutputBeans[0] = FragmentPredictionTask.predictFragmentIons(iInputBeans);
             }
         };
-        final Future lFuture = Executors.newSingleThreadExecutor().submit(lRunner);
-
-        final Window lDialog = new Window();
-        lDialog.setModal(true);
-        lDialog.setCaption("Running pepnovo to predict peptide fragmentation");
-        lDialog.setWidth("75%");
-        lDialog.setHeight("75%");
-
-        final ProgressIndicator lProgressIndicator = new ProgressIndicator();
-        lProgressIndicator.setIndeterminate(true);
-        lProgressIndicator.setPollingInterval(1000);
-
-        lDialog.addComponent(lProgressIndicator);
-
-        iApplication.getMainWindow().addWindow(lDialog);
+        final Future lFuture = MyVaadinApplication.getExecutorService().submit(lRunner);
 
         // Keep busy until the Thread has finished.
         Executors.newSingleThreadExecutor().submit(
                 new Runnable() {
                     public void run() {
                         ConditionLock lConditionLock = new ConditionLock();
+                        iProgressIndicator.proceed("predicting fragmention intensities by PepNovo ...");
 
                         synchronized (lConditionLock) {
                             while (lFuture.isDone() != true) {
@@ -89,19 +83,25 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
                                 }
                                 System.out.println(".");
                             }
+
+                            final Window lDialog = new Window();
+                            lDialog.setCaption("fragmention intensities predicted by PepNovo");
+                            lDialog.setModal(true);
+                            lDialog.setWidth("75%");
+                            lDialog.setHeight("75%");
+
                             // cast back to the collection.
                             PeptideOutputBean lOutputBean = ((Set<PeptideOutputBean>) lPeptideOutputBeans[0]).iterator().next();
 
-                            lProgressIndicator.setVisible(false);
-                            lDialog.removeComponent(lProgressIndicator);
 
                             Table lTable = new Table(lOutputBean.getPeptideSequence() + " - " + lOutputBean.getCharge());
                             lTable.addContainerProperty("rank", Label.class, null);
                             lTable.addContainerProperty("score", Label.class, null);
                             lTable.addContainerProperty("iontype", Label.class, null);
                             lTable.addContainerProperty("ionnumber", Label.class, null);
+                            lTable.setWidth("100%");
 
-                            for (IntensityPredictionBean item: lOutputBean.getPredictionBeanSet()) {
+                            for (IntensityPredictionBean item : lOutputBean.getPredictionBeanSet()) {
                                 // Add a new item to the table.
                                 Object id = lTable.addItem();
 
@@ -112,8 +112,10 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
 
                             }
 
-                            lDialog.addComponent(lTable);
+                            iNotifique.clear();
 
+                            lDialog.addComponent(lTable);
+                            iApplication.getMainWindow().addWindow(lDialog);
                         }
                     }
                 });

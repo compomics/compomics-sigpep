@@ -20,13 +20,14 @@ import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
-import com.compomics.sigpep.webapp.component.*;
+import com.compomics.sigpep.webapp.component.FormTabSheet;
+import com.compomics.sigpep.webapp.component.ResultsTable;
+import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
-import org.aspectj.apache.bcel.generic.NEW;
 import org.vaadin.artur.icepush.ICEPush;
 import org.vaadin.notifique.Notifique;
 import org.vaadin.overlay.CustomOverlay;
@@ -35,6 +36,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The Application's "main" class
@@ -42,6 +45,11 @@ import java.util.Collections;
 @SuppressWarnings("serial")
 public class MyVaadinApplication extends Application implements Pushable {
     private static Logger logger = Logger.getLogger(MyVaadinApplication.class);
+
+    /**
+     * This service limits the number of sigpep jobs that are run simultaneously.
+     */
+    private static ExecutorService iExecutor = Executors.newFixedThreadPool(1);
 
     /**
      * This ArrayList will hold the Transitions that are selected by the user on a per-session level.
@@ -61,6 +69,14 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     private Panel iBottomLayout;
     private FormTabSheet iFormTabSheet;
+
+    /**
+     * Get the static instance for executing Threads in the sigpep application.
+     * @return
+     */
+    public static ExecutorService getExecutorService() {
+        return iExecutor;
+    }
 
 
     @Override
@@ -108,7 +124,6 @@ public class MyVaadinApplication extends Application implements Pushable {
         iSelectionComponent = new TransitionSelectionComponent(MyVaadinApplication.this);
         iBottomLayout.addComponent(iSelectionComponent);
 
-
         VerticalSplitPanel vsplit = new VerticalSplitPanel();
 //        vsplit.setSplitPosition(80, Sizeable.);
         vsplit.setSplitPosition(500, Sizeable.UNITS_PIXELS);
@@ -120,10 +135,8 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         mainWindow.addComponent(vsplit);
 
-
         vsplit.addComponent(iCenterLayout);
         vsplit.addComponent(iBottomLayout);
-
 
         mainWindow.addComponent(pusher);
 
@@ -156,7 +169,6 @@ public class MyVaadinApplication extends Application implements Pushable {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
-
             // Update UI
             synchronized (MyVaadinApplication.this) {
                 getMainWindow().addComponent(new Label("All done"));
@@ -168,11 +180,8 @@ public class MyVaadinApplication extends Application implements Pushable {
                         return aFile.getName().endsWith(".tsv");
                     }
                 }));
-
                 iCenterLayout.addComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
-
             }
-
             // Push the changes
             pusher.push();
         }

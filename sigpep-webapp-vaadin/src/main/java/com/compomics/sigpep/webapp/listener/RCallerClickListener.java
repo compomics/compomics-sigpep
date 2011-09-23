@@ -3,11 +3,15 @@ package com.compomics.sigpep.webapp.listener;
 import com.compomics.acromics.rcaller.RFilter;
 import com.compomics.acromics.rcaller.RRunner;
 import com.compomics.acromics.rcaller.RSource;
+import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.component.ComponentFactory;
+import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
-import com.vaadin.Application;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Window;
 import org.apache.log4j.Logger;
+import org.vaadin.notifique.Notifique;
 import sun.misc.ConditionLock;
 
 import java.io.File;
@@ -30,7 +34,9 @@ public class RCallerClickListener implements Button.ClickListener {
     /**
      * The parent Application in which this listener is running.
      */
-    private final Application iApplication;
+    private final MyVaadinApplication iApplication;
+    public Notifique iNotifique;
+    public CustomProgressIndicator iProgressIndicator;
 
     /**
      * Create a ClickListener that will execute a RSource/RFilter combination on a ClickEvent.
@@ -40,7 +46,7 @@ public class RCallerClickListener implements Button.ClickListener {
      * @param aPushable
      * @param aApplication
      */
-    public RCallerClickListener(RSource aRSource, RFilter aRFilter, Pushable aPushable, Application aApplication) {
+    public RCallerClickListener(RSource aRSource, RFilter aRFilter, Pushable aPushable, MyVaadinApplication aApplication) {
         super();
 
         iRSource = aRSource;
@@ -58,63 +64,57 @@ public class RCallerClickListener implements Button.ClickListener {
     public void buttonClick(Button.ClickEvent aClickEvent) {
 
         // make a RRunner from this RSource.
-
-
         Runnable lRRunner = new RRunner(iRSource);
-//            lRRunner.
-        final Future lFuture = Executors.newSingleThreadExecutor().submit(lRRunner);
 
-        final Window lDialog = new Window();
-        lDialog.setModal(true);
-        lDialog.setCaption("Processing the background/signature peptides");
-        lDialog.setWidth("75%");
-        lDialog.setHeight("75%");
+        iNotifique = iApplication.getNotifique();
+        iProgressIndicator = new CustomProgressIndicator("r script is waiting in the processing queue ...", 1);
+        iNotifique.add(null, iProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
-        final ProgressIndicator lProgressIndicator = new ProgressIndicator();
-        lProgressIndicator.setIndeterminate(true);
-        lProgressIndicator.setPollingInterval(1000);
-
-        lDialog.addComponent(lProgressIndicator);
-
-        iApplication.getMainWindow().addWindow(lDialog);
+        final Future lFuture = MyVaadinApplication.getExecutorService().submit(lRRunner);
 
         // Keep busy until the Thread has finished.
-        Executors.newSingleThreadExecutor().submit(
-                new Runnable() {
-                    public void run() {
-                        ConditionLock lConditionLock = new ConditionLock();
+        Executors.newSingleThreadExecutor().submit(new Runnable() {
+            public void run() {
+                ConditionLock lConditionLock = new ConditionLock();
+                iProgressIndicator.proceed("visualising signature peptide background ...");
 
-                        synchronized (lConditionLock) {
-                            while (lFuture.isDone() != true) {
-                                try {
-                                    lConditionLock.wait(1000);
-                                } catch (InterruptedException e) {
-                                    logger.error(e.getMessage(), e);
-                                }
-                                System.out.println(".");
-                            }
-                            String lOutputFilename = iRFilter.get("file.output");
+                synchronized (lConditionLock) {
+                    while (lFuture.isDone() != true) {
+                        try {
+                            lConditionLock.wait(1000);
+                        } catch (InterruptedException e) {
+                            logger.error(e.getMessage(), e);
+                        }
+                        System.out.println(".");
+                    }
+                    String lOutputFilename = iRFilter.get("file.output");
 
-                            if (lOutputFilename != null) {
+                    if (lOutputFilename != null) {
 
-                                lDialog.setCaption("finished processing " + iRFilter.get("file.input"));
-                                File lOutputFile = new File(lOutputFilename);
+                        final Window lDialog = new Window();
+                        lDialog.setCaption("signature peptide background");
+                        lDialog.setModal(true);
+                        lDialog.setWidth("75%");
+                        lDialog.setHeight("75%");
 
-                                if (lOutputFile.exists()) {
-                                    try {
-                                        String lImageCaption = "R result";
-                                        Embedded e = ComponentFactory.createImage(lOutputFile, lImageCaption, iApplication);
+                        File lOutputFile = new File(lOutputFilename);
 
-                                        lProgressIndicator.setVisible(false);
-                                        lDialog.removeComponent(lProgressIndicator);
-                                        lDialog.addComponent(e);
+                        if (lOutputFile.exists()) {
+                            try {
+//                                        String lImageCaption = "signature peptide background";
+                                Embedded e = ComponentFactory.createImage(lOutputFile, "", iApplication);
 
-                                    } catch (IOException e) {
-                                    }
-                                }
+                                iNotifique.clear();
+
+                                lDialog.addComponent(e);
+                                iApplication.getMainWindow().addWindow(lDialog);
+
+                            } catch (IOException e) {
                             }
                         }
                     }
-                });
+                }
+            }
+        });
     }
 }
