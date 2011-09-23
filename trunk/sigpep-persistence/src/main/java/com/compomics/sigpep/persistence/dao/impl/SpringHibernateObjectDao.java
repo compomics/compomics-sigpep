@@ -129,6 +129,28 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
     }
 
     /**
+     * Get the protease by full name.
+     *
+     * @param fullName the protease short name
+     * @return the protease
+     */
+    public Protease getProteaseByFullName(String fullName) {
+
+        Session session = this.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.getNamedQuery("proteaseByFullName")
+                .setParameter("fullName", fullName);
+        Object result = query.uniqueResult();
+        session.getTransaction().commit();
+
+        if (result != null) {
+            return (Protease) setResultSessionFactory(result);
+        } else {
+            throw new DataRetrievalFailureException("No protease with full name " + fullName + ".");
+        }
+    }
+
+    /**
      * Get the protease set by short name.
      *
      * @param shortName the protease short name

@@ -1,5 +1,6 @@
 package com.compomics.sigpep.persistence.dao;
 
+import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.model.Protease;
 
 import java.util.Map;
@@ -247,4 +248,11 @@ public interface SimpleQueryDao {
      * @return the protein accession numbers
      */
     Set<String> getProteinAccessions();
+
+    /**
+     * Returns the peptide with the specified peptide sequence
+     * @param peptideSequence
+     * @return
+     */
+    Peptide getPeptideByPeptideSequence(String peptideSequence);
 }

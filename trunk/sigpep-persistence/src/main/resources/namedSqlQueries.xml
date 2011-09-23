@@ -7,7 +7,7 @@
 
         <!--returns the protease entries names that have a protease2petide relation in the database-->
         <usedProteaseNames>
-            SELECT name FROM protease WHERE protease_id IN
+            SELECT full_name FROM protease WHERE protease_id IN
             (SELECT DISTINCT protease_id FROM peptide2protease)
         </usedProteaseNames>
 
