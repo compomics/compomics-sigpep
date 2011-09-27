@@ -20,6 +20,7 @@ import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
+import com.compomics.sigpep.webapp.component.FormHelp;
 import com.compomics.sigpep.webapp.component.FormTabSheet;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
@@ -77,9 +78,9 @@ public class MyVaadinApplication extends Application implements Pushable {
     private SigPepQueryService iSigPepQueryService;
 
     /**
-     * Form properties
+     * Form help instance field
      */
-    Properties iFormHelpProperties;
+    FormHelp iFormHelp;
 
     /**
      * Vaadin components
@@ -106,15 +107,6 @@ public class MyVaadinApplication extends Application implements Pushable {
         iApplication = this;
         iSigPepSessionFactory = ApplicationLocator.getInstance().getApplication().getSigPepSessionFactory();
 
-        //load form properties
-        InputStream lInputStream = MyVaadinApplication.class.getClassLoader().getResourceAsStream("sigPepWebApp.properties");
-        iFormHelpProperties = new Properties();
-        try {
-            iFormHelpProperties.load(lInputStream);
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-
         //add theme
         setTheme("sigpep");
 
@@ -126,6 +118,11 @@ public class MyVaadinApplication extends Application implements Pushable {
         iNotifique = new Notifique(Boolean.FALSE);
         CustomOverlay lCustomOverlay = new CustomOverlay(iNotifique, getMainWindow());
         getMainWindow().addComponent(lCustomOverlay);
+
+        //add form help
+        iFormHelp = new FormHelp();
+        iFormHelp.setFollowFocus(Boolean.TRUE);
+        this.getMainWindow().getContent().addComponent(iFormHelp);
 
         //add panels
         iCenterLeft = new Panel();
@@ -290,12 +287,11 @@ public class MyVaadinApplication extends Application implements Pushable {
         iNotifique = aINotifique;
     }
 
-    public Properties getFormHelpProperties() {
-        return iFormHelpProperties;
+    public FormHelp getFormHelp() {
+        return iFormHelp;
     }
 
-    public void setFormHelpProperties(Properties aFormHelpProperties) {
-        iFormHelpProperties = aFormHelpProperties;
+    public void setFormHelp(FormHelp aFormHelp) {
+        iFormHelp = aFormHelp;
     }
-
 }

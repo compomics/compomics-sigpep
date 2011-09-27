@@ -168,7 +168,7 @@ public class PeptideCheckForm extends Form {
                 logger.info("Verifying if found peptide is a signature peptide");
                 //if (!lGenerator.isSignaturePeptide(lFoundPeptide.getSequenceString())) {
                 ConfirmDialog lConfirmDialog = ConfirmDialog.show(iApplication.getMainWindow(), "Warning",
-                        "The peptide sequence " + iFoundPeptide.getSequenceString() + " is no signature peptide. \n\n Continue?", "Yes", "No",
+                        "The peptide " + iFoundPeptide.getSequenceString() + " is no signature peptide for organism " + iPeptideFormBean.getSpecies().getScientificName() + " and protease " + iPeptideFormBean.getProteaseName() + ". \n\n Continue?", "Yes", "No",
                         new ConfirmDialog.Listener() {
 
                             public void onClose(ConfirmDialog dialog) {
@@ -188,13 +188,7 @@ public class PeptideCheckForm extends Form {
                                 iApplication.push();
                             }
                         });
-                //lConfirmDialog.setHeight("40em");
-                //lConfirmDialog.setWidth("40em");
-                //HorizontalLayout buttons = (HorizontalLayout) lConfirmDialog.getOkButton().getParent();
-                //buttons.setSpacing(Boolean.FALSE);
-                //buttons.setMargin(Boolean.FALSE);
                 //}
-
             }
         }
     }
