@@ -34,7 +34,7 @@ public class CustomProgressIndicator extends VerticalLayout {
         iProgressIndicator.setSizeFull();
 
         this.setSpacing(Boolean.FALSE);
-        this.setMargin(Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE);
+        //this.setMargin(Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE);
         this.addComponent(iLabel);
         this.addComponent(iProgressIndicator);
     }

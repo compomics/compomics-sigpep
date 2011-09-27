@@ -15,6 +15,7 @@ import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
 import org.apache.log4j.Logger;
+import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.notifique.Notifique;
 
 import java.util.Set;
@@ -33,6 +34,7 @@ public class PeptideCheckForm extends Form {
     private MyVaadinApplication iApplication;
 
     private PeptideFormBean iPeptideFormBean;
+    private Peptide iFoundPeptide;
 
     private Vector<String> iOrder;
 
@@ -140,7 +142,6 @@ public class PeptideCheckForm extends Form {
             iCustomProgressIndicator.proceed("generating background peptides");
             logger.info("generating lBackgroundPeptides");
             boolean lIsFound = false;
-            Peptide lFoundPeptide = null;
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
 
             //add background peptides to bean
@@ -150,8 +151,7 @@ public class PeptideCheckForm extends Form {
             for (Peptide lPeptide : lBackgroundPeptides) {
                 if (lPeptide.getSequenceString().equals(iPeptideFormBean.getPeptideSequence())) {
                     logger.info("peptide found: " + lPeptide.getSequenceString());
-                    lFoundPeptide = lPeptide;
-                    //lFoundPeptide.
+                    iFoundPeptide = lPeptide;
                     lIsFound = true;
                     break;
                 }
@@ -164,18 +164,38 @@ public class PeptideCheckForm extends Form {
                 resetForm();
             } else {
                 //check if found peptide is a signature peptide
-                logger.info("looking for peptide ");
-                iApplication.getFormTabSheet().proceedPeptideForm(iPeptideFormBean, lFoundPeptide);
-            }
+                iCustomProgressIndicator.proceed("Verifying if found peptide is a signature peptide");
+                logger.info("Verifying if found peptide is a signature peptide");
+                //if (!lGenerator.isSignaturePeptide(lFoundPeptide.getSequenceString())) {
+                ConfirmDialog lConfirmDialog = ConfirmDialog.show(iApplication.getMainWindow(), "Warning",
+                        "The peptide sequence " + iFoundPeptide.getSequenceString() + " is no signature peptide. \n\n Continue?", "Yes", "No",
+                        new ConfirmDialog.Listener() {
 
-            synchronized (iApplication) {
-                //enable form buttons after run
-                iSubmitButton.setEnabled(Boolean.TRUE);
-                iResetButton.setEnabled(Boolean.TRUE);
+                            public void onClose(ConfirmDialog dialog) {
+                                if (dialog.isConfirmed()) {
+                                    // Confirmed to continue
+                                    iApplication.getFormTabSheet().proceedPeptideForm(iPeptideFormBean, iFoundPeptide);
+                                } else {
+                                    resetForm();
+                                }
+                                synchronized (iApplication) {
+                                    //enable form buttons after run
+                                    iSubmitButton.setEnabled(Boolean.TRUE);
+                                    iResetButton.setEnabled(Boolean.TRUE);
 
-                iApplication.getNotifique().clear();
+                                    iApplication.getNotifique().clear();
+                                }
+                                iApplication.push();
+                            }
+                        });
+                //lConfirmDialog.setHeight("40em");
+                //lConfirmDialog.setWidth("40em");
+                //HorizontalLayout buttons = (HorizontalLayout) lConfirmDialog.getOkButton().getParent();
+                //buttons.setSpacing(Boolean.FALSE);
+                //buttons.setMargin(Boolean.FALSE);
+                //}
+
             }
-            iApplication.push();
         }
     }
 

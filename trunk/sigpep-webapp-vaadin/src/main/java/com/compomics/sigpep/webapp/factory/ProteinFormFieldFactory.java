@@ -9,6 +9,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.data.validator.IntegerValidator;
 import com.vaadin.data.validator.RegexpValidator;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 

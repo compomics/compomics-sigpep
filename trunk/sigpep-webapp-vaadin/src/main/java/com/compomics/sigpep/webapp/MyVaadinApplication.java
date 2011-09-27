@@ -34,6 +34,8 @@ import org.vaadin.overlay.CustomOverlay;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
@@ -84,6 +86,17 @@ public class MyVaadinApplication extends Application implements Pushable {
     public void init() {
         iApplication = this;
         iSigPepSessionFactory = ApplicationLocator.getInstance().getApplication().getSigPepSessionFactory();
+
+        InputStream lInputStream = MyVaadinApplication.class.getClassLoader().getResourceAsStream("sigPepWebApp.properties");
+        Properties lProperties = new Properties();
+        try {
+            lProperties.load(lInputStream);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+
+        logger.info("----------" + lProperties.getProperty("test_property"));
 
         setTheme("sigpep");
 
