@@ -8,6 +8,7 @@ import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.ProteinFormBean;
+import com.compomics.sigpep.webapp.component.FormHelp;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
@@ -32,6 +33,8 @@ import java.util.Set;
 public class PeptideFormFieldFactory implements FormFieldFactory {
     private static Logger log = Logger.getLogger(PeptideFormFieldFactory.class);
 
+    private FormHelp iFormHelp;
+
     private TextField iSpeciesTextField;
     private TextField iMassTextField;
     private TextField iMinimumCombinationSizeTextField;
@@ -41,7 +44,9 @@ public class PeptideFormFieldFactory implements FormFieldFactory {
     private TextField iPeptideSequenceTextField;
     private boolean iVisible = Boolean.FALSE;
 
-    public PeptideFormFieldFactory() {
+    public PeptideFormFieldFactory(MyVaadinApplication aApplication) {
+        iFormHelp = aApplication.getFormHelp();
+
         //species field
         iSpeciesTextField = new TextField("Species");
         iSpeciesTextField.setEnabled(Boolean.FALSE);
@@ -50,16 +55,19 @@ public class PeptideFormFieldFactory implements FormFieldFactory {
         iMassTextField = new TextField("Mass accuracy");
         iMassTextField.setRequired(Boolean.TRUE);
         iMassTextField.addValidator(new DoubleValidator("Value must be a double"));
+        iFormHelp.addHelpForComponent(iMassTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.mass_accuracy"));
 
         //min combination size field
         iMinimumCombinationSizeTextField = new TextField("Minimum combination size");
         iMinimumCombinationSizeTextField.setRequired(Boolean.TRUE);
         iMinimumCombinationSizeTextField.addValidator(new IntegerValidator("Value must be an integer"));
+        iFormHelp.addHelpForComponent(iMinimumCombinationSizeTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.minimum_combination_size"));
 
         //max combination size field
         iMaximumCombinationSizeTextField = new TextField("Maximum combination size");
         iMaximumCombinationSizeTextField.setRequired(Boolean.TRUE);
         iMaximumCombinationSizeTextField.addValidator(new IntegerValidator("Value must be an integer"));
+        iFormHelp.addHelpForComponent(iMaximumCombinationSizeTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.maximum_combination_size"));
 
         //signature transition field
         iSignatureTransitionFinderTypeSelect = new Select("Signature transition finder");
@@ -68,12 +76,13 @@ public class PeptideFormFieldFactory implements FormFieldFactory {
         for (SignatureTransitionFinderType sig : SignatureTransitionFinderType.values()) {
             iSignatureTransitionFinderTypeSelect.addItem(sig);
         }
+        iFormHelp.addHelpForComponent(iSignatureTransitionFinderTypeSelect, iFormHelp.getFormHelpProperties().getProperty("form_help.signature_transition_finder"));
 
         //protease field
         iProteaseTextField = new TextField("Protease");
         iProteaseTextField.setEnabled(Boolean.FALSE);
 
-        //protein accession field
+        //peptide sequence field
         iPeptideSequenceTextField = new TextField("Peptide sequence");
         iPeptideSequenceTextField.setEnabled(Boolean.FALSE);
 

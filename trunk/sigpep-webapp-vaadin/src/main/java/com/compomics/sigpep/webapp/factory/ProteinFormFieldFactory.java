@@ -3,6 +3,7 @@ package com.compomics.sigpep.webapp.factory;
 import com.compomics.sigpep.analysis.SignatureTransitionFinderType;
 import com.compomics.sigpep.model.Organism;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.component.FormHelp;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
@@ -28,6 +29,7 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
     private static Logger log = Logger.getLogger(ProteinFormFieldFactory.class);
 
     private MyVaadinApplication iApplication;
+    private FormHelp iFormHelp;
 
     private Select iSpeciesSelect;
     private TextField iMassTextField;
@@ -41,6 +43,7 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
 
     public ProteinFormFieldFactory(MyVaadinApplication aApplication) {
         iApplication = aApplication;
+        iFormHelp = iApplication.getFormHelp();
 
         //species field
         iSpeciesSelect = new Select("Species");
@@ -52,21 +55,25 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
         BeanItemContainer<Organism> lOrganismBeanItemContainer = new BeanItemContainer<Organism>(Organism.class);
         lOrganismBeanItemContainer.addAll(getOrganisms());
         iSpeciesSelect.setContainerDataSource(lOrganismBeanItemContainer);
+        iFormHelp.addHelpForComponent(iSpeciesSelect, iFormHelp.getFormHelpProperties().getProperty("form_help.species"));
 
         //mass field
         iMassTextField = new TextField("Mass accuracy");
         iMassTextField.setRequired(Boolean.TRUE);
         iMassTextField.addValidator(new DoubleValidator("Value must be a double"));
+        iFormHelp.addHelpForComponent(iMassTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.mass_accuracy"));
 
         //min combination size field
         iMinimumCombinationSizeTextField = new TextField("Minimum combination size");
         iMinimumCombinationSizeTextField.setRequired(Boolean.TRUE);
         iMinimumCombinationSizeTextField.addValidator(new IntegerValidator("Value must be an integer"));
+        iFormHelp.addHelpForComponent(iMinimumCombinationSizeTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.minimum_combination_size"));
 
         //max combination size field
         iMaximumCombinationSizeTextField = new TextField("Maximum combination size");
         iMaximumCombinationSizeTextField.setRequired(Boolean.TRUE);
         iMaximumCombinationSizeTextField.addValidator(new IntegerValidator("Value must be an integer"));
+        iFormHelp.addHelpForComponent(iMaximumCombinationSizeTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.maximum_combination_size"));
 
         //signature transition field
         iSignatureTransitionFinderTypeSelect = new Select("Signature transition finder");
@@ -75,17 +82,20 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
         for (SignatureTransitionFinderType sig : SignatureTransitionFinderType.values()) {
             iSignatureTransitionFinderTypeSelect.addItem(sig);
         }
+        iFormHelp.addHelpForComponent(iSignatureTransitionFinderTypeSelect, iFormHelp.getFormHelpProperties().getProperty("form_help.signature_transition_finder"));
 
         //protease field
         iProteaseSelect = new Select("Protease");
         iProteaseSelect.setRequired(Boolean.TRUE);
         iProteaseSelect.setNullSelectionAllowed(Boolean.FALSE);
         iSpeciesSelect.setImmediate(Boolean.TRUE);
+        iFormHelp.addHelpForComponent(iProteaseSelect, iFormHelp.getFormHelpProperties().getProperty("form_help.protease"));
 
         //protein accession field
         iProteinAccessionTextField = new TextField("Protein accession");
         iProteinAccessionTextField.setRequired(Boolean.TRUE);
         iProteinAccessionTextField.addValidator(new RegexpValidator("ENSP[0-9]{11}", "Incorrect protein accession format"));
+        iFormHelp.addHelpForComponent(iProteinAccessionTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.protein_accession"));
 
         iSpeciesSelect.addListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent aValueChangeEvent) {

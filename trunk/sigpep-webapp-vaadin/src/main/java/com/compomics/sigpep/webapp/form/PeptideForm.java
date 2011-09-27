@@ -52,7 +52,7 @@ public class PeptideForm extends Form {
         this.setCaption(aCaption);
         iApplication = aApplication;
 
-        this.setFormFieldFactory(new PeptideFormFieldFactory());
+        this.setFormFieldFactory(new PeptideFormFieldFactory(iApplication));
 
         iPeptideFormBean = aPeptideFormBean;
         iPeptide = aPeptide;
