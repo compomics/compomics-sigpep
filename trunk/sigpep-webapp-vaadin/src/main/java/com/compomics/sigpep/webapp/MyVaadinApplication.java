@@ -59,18 +59,36 @@ public class MyVaadinApplication extends Application implements Pushable {
      */
     private ArrayList<TransitionBean> iSelectedTransitionList = new ArrayList<TransitionBean>();
 
+    /**
+     * Icepush instance field for asynchronous calls
+     */
     private ICEPush pusher = new ICEPush();
-    private Application iApplication;
+
+    /**
+     * Notifique notification bar
+     */
     private Notifique iNotifique;
+
+    /**
+     * Sigpep instance fields
+     */
     private SigPepSessionFactory iSigPepSessionFactory;
     private SigPepSession iSigPepSession;
     private SigPepQueryService iSigPepQueryService;
-    public TransitionSelectionComponent iSelectionComponent;
 
+    /**
+     * Form properties
+     */
+    Properties iFormHelpProperties;
+
+    /**
+     * Vaadin components
+     */
+    private Application iApplication;
+    public TransitionSelectionComponent iSelectionComponent;
     private Panel iCenterLeft;
     private HorizontalLayout iHeaderLayout;
     private VerticalLayout iCenterLayoutResults;
-
     private Panel iCenterRight;
     private FormTabSheet iFormTabSheet;
 
@@ -88,28 +106,28 @@ public class MyVaadinApplication extends Application implements Pushable {
         iApplication = this;
         iSigPepSessionFactory = ApplicationLocator.getInstance().getApplication().getSigPepSessionFactory();
 
+        //load form properties
         InputStream lInputStream = MyVaadinApplication.class.getClassLoader().getResourceAsStream("sigPepWebApp.properties");
-        Properties lProperties = new Properties();
+        iFormHelpProperties = new Properties();
         try {
-            lProperties.load(lInputStream);
+            iFormHelpProperties.load(lInputStream);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error(e.getMessage());
         }
 
-
-        logger.info("----------" + lProperties.getProperty("test_property"));
-
+        //add theme
         setTheme("sigpep");
 
+        //add main window
         Window mainWindow = new Window("Sigpep Application");
         setMainWindow(mainWindow);
 
         //add notification component
         iNotifique = new Notifique(Boolean.FALSE);
-//        iNotifique.set
         CustomOverlay lCustomOverlay = new CustomOverlay(iNotifique, getMainWindow());
         getMainWindow().addComponent(lCustomOverlay);
 
+        //add panels
         iCenterLeft = new Panel();
         iCenterLeft.addStyleName(Reindeer.PANEL_LIGHT);
         iCenterLeft.setHeight("600px");
@@ -120,7 +138,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         iCenterRight.setHeight("600px");
         iCenterRight.setWidth("75%");
 
-
+        //add form tabs
         iFormTabSheet = new FormTabSheet(this);
         iCenterLeft.addComponent(iFormTabSheet);
 
@@ -270,6 +288,14 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     public void setNotifique(Notifique aINotifique) {
         iNotifique = aINotifique;
+    }
+
+    public Properties getFormHelpProperties() {
+        return iFormHelpProperties;
+    }
+
+    public void setFormHelpProperties(Properties aFormHelpProperties) {
+        iFormHelpProperties = aFormHelpProperties;
     }
 
 }
