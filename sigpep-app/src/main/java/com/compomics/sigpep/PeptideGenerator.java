@@ -215,4 +215,11 @@ public interface PeptideGenerator {
      * @return a map of gene accessions and sets of peptide sequence objects
      */
     Map<String, Set<Peptide>> getPeptidesByGeneAccessionAndGeneLevelDegeneracy(Set<String> geneAccessions, int degeneracy);
+
+    /**
+     * Checks if a given peptide sequence is a signature peptide
+     * @param peptideSequence
+     * @return an isSignaturePeptide boolean
+     */
+    boolean isSignaturePeptide(String peptideSequence);
 }

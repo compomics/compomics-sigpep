@@ -728,4 +728,15 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
 
         return peptide2SequenceId;
     }
+
+    /**
+     * Checks if a given peptide sequence is a signature peptide
+     * @param peptideSequence
+     * @return an isSignaturePeptide boolean
+     */
+    public boolean isSignaturePeptide(String peptideSequence){
+        Map<String, Set<Integer>> peptideSequenceToSequenceIdMap = this.getPeptideSequenceToSequenceIdMap();
+        Set<Integer> sequenceIds = peptideSequenceToSequenceIdMap.get(peptideSequence);
+        return sequenceIds.size() == 1;
+    }
 }
