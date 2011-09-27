@@ -134,11 +134,14 @@ accuracy.color <- "lightgrey"
 #rdbu7 color scheme
 ion.color <- vector("list", length(6))
 ion.color["x"] <- "#f1b6da"
-ion.color["y"] <- "#de77ae"
+ion.color["y"] <- "#d91e2c"
 ion.color["z"] <- "#fde0ef"
 ion.color["a"] <- "#b8e186"
-ion.color["b"] <- "#7fbc41"
+ion.color["b"] <- "#076ca1"
 ion.color["c"] <- "#e6f5d0"
+
+# ion.color["b"] <- "#7fbc41"
+# ion.color["y"] <- "#de77ae"
 
 #define plot layout
 rows <- 2
