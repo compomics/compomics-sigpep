@@ -918,6 +918,71 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
+     * Deletes all database records related to the proteins whose ID is passed as an argument.
+     * <p/>
+     * Will delete entries from tables <code>protein</code>, <code>protein2gene</code>,
+     * <code>protein2organism</code>, <code>protein2sequence</code>,
+     * <code>protein_sequence</code>, <code>peptide</code> and
+     * <code>sequence2signature_protease</code>.
+     *
+     * @param proteinIds IDs of the proteins whose records will be deleted from the database
+     * @return a map with the table name as key and the number of entries deleted from the table as value
+     * @throws DatabaseException if an exception occurs during access to SigPep
+     */
+    private Map<String, Integer> deleteRelatedDatbaseEntries2(Set<Integer> proteinIds) throws DatabaseException {
+        Map<String, Integer> retVal = new TreeMap<String, Integer>();
+
+        try {
+            //DELETE statements
+            String deleteFromProtein = "DELETE FROM protein WHERE protein_id IN (:proteinIds)";
+            String deleteFromProtein2Gene = "DELETE FROM protein2gene WHERE protein_id NOT IN (SELECT protein_id FROM protein)";
+            String deleteFromProtein2Organism = "DELETE FROM protein2organism WHERE protein_id NOT IN (SELECT protein_id FROM protein)";
+            String deleteFromProtein2Sequence = "DELETE FROM protein2sequence WHERE protein_id NOT IN (SELECT protein_id FROM protein)";
+            String deleteFromSequence = "DELETE FROM protein_sequence WHERE sequence_id NOT IN (SELECT sequence_id FROM protein2sequence)";
+            String deleteFromPeptide = "DELETE FROM peptide WHERE sequence_id NOT IN (SELECT sequence_id FROM protein_sequence)";
+            String deleteFromSequence2SignatureProtease = "DELETE FROM sequence2signature_protease WHERE sequence_id NOT IN (SELECT sequence_id FROM protein_sequence)";
+            String deleteFromSignaturePeptide = "DELETE FROM signature_peptide WHERE peptide_id NOT IN (SELECT peptide_id FROM peptide)";
+
+            //set parameter values of DELETE FROM protein... statement
+            deleteFromProtein = SqlUtil.setParameterSet(deleteFromProtein, "proteinIds", proteinIds);
+
+            //get database connection and create statement
+            Connection con = this.getConnection();
+            Statement s = con.createStatement();
+
+            //execute DELETE statements
+            int updateCount;
+            updateCount = s.executeUpdate(deleteFromProtein);
+            retVal.put("protein", updateCount);
+
+            updateCount = s.executeUpdate(deleteFromProtein2Gene);
+            retVal.put("protein2gene", updateCount);
+
+            updateCount = s.executeUpdate(deleteFromProtein2Organism);
+            retVal.put("protein2organism", updateCount);
+
+            updateCount = s.executeUpdate(deleteFromProtein2Sequence);
+            retVal.put("protein2seqeuence", updateCount);
+
+            updateCount = s.executeUpdate(deleteFromSequence);
+            retVal.put("sequence", updateCount);
+
+            updateCount = s.executeUpdate(deleteFromPeptide);
+            retVal.put("peptide", updateCount);
+
+            updateCount = s.executeUpdate(deleteFromSequence2SignatureProtease);
+            retVal.put("sequence2signature_protease", updateCount);
+
+            updateCount = s.executeUpdate(deleteFromSignaturePeptide);
+            retVal.put("signature_peptide", updateCount);
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+
+        return retVal;
+    }
+
+    /**
      * Tries to estblish a connection to the SigPep database in specified intervals.
      *
      * @param interval the time in milliseconds between connection attempts

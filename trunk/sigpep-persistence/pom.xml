@@ -93,6 +93,12 @@
             <version>2.5.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
         <!--
         Spring load-time AspectJ weaver used when application runs
         on Tomcat server. Jar file needs to be placed in Tomcat's
