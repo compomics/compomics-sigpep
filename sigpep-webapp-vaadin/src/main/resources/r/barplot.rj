@@ -138,11 +138,14 @@ accuracy.color <- "lightgrey"
 #rdbu7 color scheme
 ion.color <- vector("list", length(6))
 ion.color["x"] <- "#f1b6da"
-ion.color["y"] <- "#de77ae"
+ion.color["y"] <- "#d91e2c"
 ion.color["z"] <- "#fde0ef"
 ion.color["a"] <- "#b8e186"
-ion.color["b"] <- "#7fbc41"
+ion.color["b"] <- "#076ca1"
 ion.color["c"] <- "#e6f5d0"
+
+# ion.color["b"] <- "#7fbc41"
+# ion.color["y"] <- "#de77ae"
 
 #define plot layout
 rows <- 2
@@ -156,6 +159,7 @@ for(c in 1:columns){
 #intialise plot
 layout(matrix(layout, rows, columns, byrow=TRUE), heights=c(0.5,0.5), widths=c(1))
 plot(0,0, xlim=c(min.mz,max.mz), ylim=c(0,bg.count+100), xlab="m/z", ylab="background peptide index", pch="")
+
 
 #plot(0,0, xlim=c(625,635), ylim=c(0,bg.count), xlab="m/z", ylab="peptide", pch="")
 
@@ -187,7 +191,7 @@ for(ion.type in rownames(target.spectrum)){
 
 
 #plot mass accuracy
-#rect(barcode-0.5,1,barcode+0.5,bg.count, col=accuracy.color, border=accuracy.color)
+# rect(barcode-0.5,1,barcode+0.5,bg.count, col=accuracy.color, border=accuracy.color)
 
 square <- 22
 ion.types <- names(bg.by.ion.type.ordered) 
@@ -220,7 +224,9 @@ for(b in 1:length(barcode)){
 
     #get background in range
     for(ion.type in names(bg.by.ion.type)){
-        col <- col2rgb(ion.color[[ion.type]])
+
+      col <- ion.color[[ion.type]]
+      
         bg <- bg.by.ion.type.ordered[[ion.type]]
 
         greater.min.idx <- which(bg > xlim.min, arr.ind=TRUE)
@@ -230,11 +236,7 @@ for(b in 1:length(barcode)){
         bg.in.range <- cbind(bg.greater.min[smaller.max.idx,1], bg.greater.min[smaller.max.idx,2])
 
         points(bg.in.range, pch=".", col=col, cex=5)
-
     }
-
-
 }
 
 dev.off()
-
