@@ -60,7 +60,7 @@ public class PeptideCheckForm extends Form {
                     resetValidation();
 
                     //add custom progress indicator
-                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep peptidechecker job is waiting in the processing queue...", 6);
+                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep peptidechecker job is waiting in the processing queue...", 7);
                     iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
 

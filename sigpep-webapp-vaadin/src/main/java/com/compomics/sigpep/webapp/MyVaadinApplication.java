@@ -169,8 +169,8 @@ public class MyVaadinApplication extends Application implements Pushable {
         GridLayout lGridLayout = new GridLayout(2,1);
         lGridLayout.setSpacing(true);
         lGridLayout.setSizeFull();
-//        lGridLayout.setWidth(100, Sizeable.UNITS_PERCENTAGE);
-//        lGridLayout.setWidth(500, Sizeable.UNITS_PIXELS);
+//      lGridLayout.setWidth(100, Sizeable.UNITS_PERCENTAGE);
+//      lGridLayout.setWidth(500, Sizeable.UNITS_PIXELS);
 
         lGridLayout.addComponent(iCenterLeft, 0, 0);
         lGridLayout.setComponentAlignment(iCenterLeft, Alignment.TOP_LEFT);
@@ -178,13 +178,11 @@ public class MyVaadinApplication extends Application implements Pushable {
         lGridLayout.addComponent(iCenterRight, 1, 0);
         lGridLayout.setComponentAlignment(iCenterRight, Alignment.TOP_CENTER);
 
-
         lVerticalLayout.addComponent(iHeaderLayout);
         lVerticalLayout.addComponent(lGridLayout);
 
         lVerticalLayout.setComponentAlignment(iHeaderLayout, Alignment.MIDDLE_CENTER);
         lVerticalLayout.setComponentAlignment(lGridLayout, Alignment.MIDDLE_CENTER);
-
 
         mainWindow.addComponent(lVerticalLayout);
         mainWindow.addComponent(pusher);
