@@ -35,11 +35,8 @@ import org.vaadin.overlay.CustomOverlay;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -113,6 +110,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         //add main window
         Window mainWindow = new Window("Sigpep Application");
         setMainWindow(mainWindow);
+        mainWindow.addStyleName("v-myfont");
 
         //add notification component
         iNotifique = new Notifique(Boolean.FALSE);

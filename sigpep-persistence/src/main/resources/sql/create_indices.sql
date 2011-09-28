@@ -1,6 +1,7 @@
 USE :schemaName;
 
 --peptide--
+CREATE INDEX idx_peptide_id ON peptide(peptide_id);
 CREATE INDEX idx_sequence_id ON peptide(sequence_id);
 --CREATE INDEX idx_start_pos ON peptide(start_pos);
 --CREATE INDEX idx_end_pos ON peptide(end_pos);
