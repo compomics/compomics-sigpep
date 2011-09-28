@@ -186,7 +186,7 @@ for(ion.type in rownames(target.spectrum)){
 
 
 #plot mass accuracy
-#rect(barcode-0.5,1,barcode+0.5,bg.count, col=accuracy.color, border=accuracy.color)
+# rect(barcode-0.5,1,barcode+0.5,bg.count, col=accuracy.color, border=accuracy.color)
 
 square <- 22
 ion.types <- names(bg.by.ion.type.ordered) 
@@ -219,7 +219,9 @@ for(b in 1:length(barcode)){
 
     #get background in range
     for(ion.type in names(bg.by.ion.type)){
-        col <- col2rgb(ion.color[[ion.type]])
+
+      col <- ion.color[[ion.type]]
+      
         bg <- bg.by.ion.type.ordered[[ion.type]]
 
         greater.min.idx <- which(bg > xlim.min, arr.ind=TRUE)
@@ -229,10 +231,7 @@ for(b in 1:length(barcode)){
         bg.in.range <- cbind(bg.greater.min[smaller.max.idx,1], bg.greater.min[smaller.max.idx,2])
 
         points(bg.in.range, pch=".", col=col, cex=5)
-
     }
-
-
 }
 
 # dev.off()
