@@ -1,5 +1,7 @@
 package com.compomics.sigpep.persistence.rdbms.helper;
 
+import java.util.Map;
+
 /**
  * @TODO: JavaDoc missing
  *
@@ -37,4 +39,11 @@ public interface DatabaseInitialiser {
      * @param adminPassword password of user with administration privileges
      */
     void setAdminPassword(String adminPassword);
+
+    /**
+     * Returns a map of organisms found in the catalog schema
+     *
+     * @return the map (key=ncbi_taxon_id, value=organism_name)
+     */
+    Map<Integer, String> getOrganismMap();
 }
