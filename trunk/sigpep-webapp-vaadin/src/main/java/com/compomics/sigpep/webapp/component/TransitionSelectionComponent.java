@@ -51,11 +51,10 @@ public class TransitionSelectionComponent extends VerticalLayout {
     }
 
     private void initComponents() throws IOException {
-        this.setStyleName("v-selection");
+        this.setStyleName("v-bold-red");
         this.setSpacing(true);
 
         iStatus = new Label("no transitions selected yet");
-        iStatus.setStyleName("v-selection-count");
         this.addComponent(iStatus, 0);
 
         iPreviewSelection = new Button();

@@ -4,10 +4,12 @@ import com.compomics.acromics.rcaller.RFilter;
 import com.compomics.acromics.rcaller.RSource;
 import com.compomics.pepnovo.beans.PeptideInputBean;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.bean.PeptideResultMetaBean;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.compomics.sigpep.webapp.listener.IntensityPredictionClickListener;
 import com.compomics.sigpep.webapp.listener.RCallerClickListener;
 import com.compomics.sigpep.webapp.listener.SelectTransitionListener;
+import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.vaadin.terminal.ClassResource;
@@ -35,10 +37,13 @@ public class ResultsTable extends VerticalLayout {
     Table iTable = new Table();
 
     public static final String COLUMN_LABEL_SELECT = "+";
-    public static final String COLUMN_LABEL_FILENAME = "filename";
-    public static final String COLUMN_LABEL_GRAPH = "graph";
-    public static final String COLUMN_LABEL_FILE = "download";
 
+    public static final String COLUMN_LABEL_PEPTIDE = "peptide";
+    public static final String COLUMN_LABEL_PROTEIN = "protein";
+    public static final String COLUMN_LABEL_TRANSITION_COUNT = "transtions";
+
+    public static final String COLUMN_LABEL_GRAPH = "graph";
+    public static final String COLUMN_LABEL_DOWNLOAD = "download";
     public static final String COLUMN_LABEL_PREDICT = "pepnovo";
 
     /**
@@ -95,11 +100,11 @@ public class ResultsTable extends VerticalLayout {
             Object id = iTable.addItem();
 
             // 1 - Filename.
-            iTable.getContainerProperty(id, COLUMN_LABEL_FILENAME).setValue(generateFileName(lFile));
+            iTable.getContainerProperty(id, COLUMN_LABEL_PEPTIDE).setValue(generateFileName(lFile));
 
             // 2 - Download link to tsv file.
             Link l = ComponentFactory.createFileDownloadLink(lFile, iApplication);
-            iTable.getContainerProperty(id, COLUMN_LABEL_FILE).setValue(l);
+            iTable.getContainerProperty(id, COLUMN_LABEL_DOWNLOAD).setValue(l);
 
             // 3 - Make an R button
             Button lButton = generateBackgroundSignatureButton(lFile);
@@ -112,6 +117,21 @@ public class ResultsTable extends VerticalLayout {
             // 5 - Make the select peptide button
             Button lSelectTransitionButton = generateSelectButton(lFile);
             iTable.getContainerProperty(id, COLUMN_LABEL_SELECT).setValue(lSelectTransitionButton);
+
+            // Attempt to locate the meta information.
+            String lMetaFileName = lFile.getName().substring(0, lFile.getName().indexOf(".tsv")) + ".meta.properties";
+            File lMetaFile = new File(lFile.getParentFile(), lMetaFileName);
+            if(lMetaFile.exists()){
+                PeptideResultMetaBean lPeptideResultMetaBean = new PeptideResultMetaBean(lMetaFile);
+
+                // Add proteins
+                String lParentProteins = Joiner.on(",").join(lPeptideResultMetaBean.getProteins());
+                iTable.getContainerProperty(id, COLUMN_LABEL_PROTEIN).setValue(lParentProteins);
+
+                // Add number of transitions
+                iTable.getContainerProperty(id, COLUMN_LABEL_TRANSITION_COUNT).setValue(lPeptideResultMetaBean.getBarcodeCount());
+            }
+
 
         }
     }
@@ -198,14 +218,16 @@ public class ResultsTable extends VerticalLayout {
     private void createTableColumns() {
         // Define the Table
         iTable.addContainerProperty(COLUMN_LABEL_SELECT, Button.class, null);
-        iTable.addContainerProperty(COLUMN_LABEL_FILENAME, Label.class, null);
-        iTable.addContainerProperty(COLUMN_LABEL_FILE, Link.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_PEPTIDE, Label.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_PROTEIN, Label.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_TRANSITION_COUNT, Label.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_DOWNLOAD, Link.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_GRAPH, Button.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PREDICT, Button.class, null);
 
-        iTable.setColumnWidth(COLUMN_LABEL_FILE, 100);
-        iTable.setColumnWidth(COLUMN_LABEL_FILE, 200);
-        iTable.setColumnWidth(COLUMN_LABEL_FILE, 200);
+        iTable.setColumnWidth(COLUMN_LABEL_DOWNLOAD, 100);
+        iTable.setColumnWidth(COLUMN_LABEL_DOWNLOAD, 200);
+        iTable.setColumnWidth(COLUMN_LABEL_DOWNLOAD, 200);
         iTable.setColumnWidth(COLUMN_LABEL_SELECT, 30);
 
 
