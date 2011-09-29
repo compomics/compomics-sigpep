@@ -130,18 +130,12 @@ CREATE TABLE  sequence2signature_protease (
 
 
 -- Fill the protease table.
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (1,"v8e","EQ","V8E");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (1,"v8e","EQ","V8-E");
 INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (2,"tryp","KR","Trypsin");
 INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (3,"cnbr","M","CNBr");
 INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (4,"argc","R","Arg-C");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (5,"pepa","FL","Pepsin A");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (5,"pepa","FL","PepsinA");
 INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (6,"lysc","K","Lys-C");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (7,"v8de","DNEQ","V8DE");
-
--- Fill the
-INSERT INTO sigpep_catalog.organism (organism_id, organism_name, ncbi_taxon_id) VALUES (10090,"mus musculus",10090);
-INSERT INTO sigpep_catalog.organism (organism_id, organism_name, ncbi_taxon_id) VALUES (9606,"homo sapiens",9606);
-INSERT INTO sigpep_catalog.organism (organism_id, organism_name, ncbi_taxon_id) VALUES (9823,"sus scrofa",9823);
-INSERT INTO sigpep_catalog.organism (organism_id, organism_name, ncbi_taxon_id) VALUES (4932,"saccharomyces cerevisiae",4932);
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (7,"v8de","DNEQ","V8-DE");
 
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 //import com.compomics.ensh.core.TranslationEntity;
 
@@ -868,15 +869,14 @@ public class SigPepDatabase extends MySqlDatabase {
         Map<String, Integer> retVal = new TreeMap<String, Integer>();
 
         try {
-            //DELETE statements
             String deleteFromProtein = "DELETE FROM protein WHERE protein_id IN (:proteinIds)";
-            String deleteFromProtein2Gene = "DELETE FROM protein2gene WHERE protein_id NOT IN (SELECT protein_id FROM protein)";
-            String deleteFromProtein2Organism = "DELETE FROM protein2organism WHERE protein_id NOT IN (SELECT protein_id FROM protein)";
-            String deleteFromProtein2Sequence = "DELETE FROM protein2sequence WHERE protein_id NOT IN (SELECT protein_id FROM protein)";
-            String deleteFromSequence = "DELETE FROM protein_sequence WHERE sequence_id NOT IN (SELECT sequence_id FROM protein2sequence)";
-            String deleteFromPeptide = "DELETE FROM peptide WHERE sequence_id NOT IN (SELECT sequence_id FROM protein_sequence)";
-            String deleteFromSequence2SignatureProtease = "DELETE FROM sequence2signature_protease WHERE sequence_id NOT IN (SELECT sequence_id FROM protein_sequence)";
-            String deleteFromSignaturePeptide = "DELETE FROM signature_peptide WHERE peptide_id NOT IN (SELECT peptide_id FROM peptide)";
+            String deleteFromProtein2Gene = "DELETE FROM T1 USING protein2gene AS T1 LEFT OUTER JOIN protein T2 ON T1.protein_id = T2.protein_id WHERE T2.protein_id IS NULL";
+            String deleteFromProtein2Organism = "DELETE FROM T1 USING protein2organism AS T1 LEFT OUTER JOIN protein T2 ON T1.protein_id = T2.protein_id WHERE T2.protein_id IS NULL";
+            String deleteFromProtein2Sequence = "DELETE FROM T1 USING protein2sequence AS T1 LEFT OUTER JOIN protein T2 ON T1.protein_id = T2.protein_id WHERE T2.protein_id IS NULL";
+            String deleteFromSequence = "DELETE FROM T1 USING protein_sequence T1 LEFT OUTER JOIN protein2sequence T2 ON T1.sequence_id = T2.sequence_id WHERE T2.sequence_id IS NULL";
+            String deleteFromPeptide = "DELETE FROM T1 USING peptide AS T1 LEFT OUTER JOIN protein_sequence T2 ON T1.sequence_id = T2.sequence_id WHERE T2.sequence_id IS NULL";
+            String deleteFromSequence2SignatureProtease = "DELETE FROM T1 USING sequence2signature_protease AS T1 LEFT OUTER JOIN protein_sequence T2 ON T1.sequence_id = T2.sequence_id WHERE T2.sequence_id IS NULL";
+            String deleteFromSignaturePeptide = "DELETE FROM T1 USING signature_peptide AS T1 LEFT OUTER JOIN peptide T2 ON T1.peptide_id = T2.peptide_id WHERE T2.peptide_id IS NULL";
 
             //set parameter values of DELETE FROM protein... statement
             deleteFromProtein = SqlUtil.setParameterSet(deleteFromProtein, "proteinIds", proteinIds);
@@ -910,6 +910,7 @@ public class SigPepDatabase extends MySqlDatabase {
 
             updateCount = s.executeUpdate(deleteFromSignaturePeptide);
             retVal.put("signature_peptide", updateCount);
+
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

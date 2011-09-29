@@ -6,16 +6,15 @@ import com.compomics.dbtools.SqlScript;
 import com.compomics.sigpep.persistence.config.Configuration;
 import com.compomics.sigpep.persistence.rdbms.helper.DatabaseInitialiser;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.net.URL;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 29-Apr-2009<br/>
@@ -47,6 +46,11 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
      * password of user with admin priviliges
      */
     private String adminPassword;
+
+    /**
+     * map of organisms
+     */
+    private Map<Integer, String> organismMap;
 
     /**
      * Constructs a SigPep database initialiser.
@@ -122,6 +126,27 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
         }
 
         return retVal;
+    }
+
+    public Map<Integer, String> getOrganismMap() {
+        if (organismMap == null) {
+            try {
+                Connection conn = DriverManager.getConnection(catalogSchemaUrl, adminUsername, adminPassword);
+                Statement s = conn.createStatement();
+
+                organismMap = new HashMap<Integer, String>();
+
+                ResultSet rs = s.executeQuery(
+                        "SELECT ncbi_taxon_id, organism_name FROM organism");
+
+                while (rs.next()) {
+                    organismMap.put(rs.getInt(1), rs.getString(2));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+        return organismMap;
     }
 
     /**

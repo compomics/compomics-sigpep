@@ -8,10 +8,7 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -268,6 +265,7 @@ public class SigPepSetup {
             logger.error(e);
         } catch (DatabaseException e) {
             logger.error(e);
+            e.printStackTrace();
         }
     }
 
@@ -420,62 +418,46 @@ public class SigPepSetup {
      * @TODO: JavaDoc missing
      */
     public static void main(String[] args) {
-
-        String workingDirectory = "/Users/kennyhelsens/tmp";
-        //String workingDirectory = "/Users/hba041/muller_temp/database";
-
-//        int lOrganismNcbiTaxonId = 9823;
-//        String lOrganismScientificName = "Sus scrofa";
-
-        int lOrganismNcbiTaxonId = 9606;
-        String lOrganismScientificName = "Homo sapiens";
-//
-        String lSequenceDatabaseVersion = "63";
+        String lOrganismScientificName = null;
+        int lOrganismNcbiTaxonId = 0;
         String lSequenceDatabaseName = "Ensembl";
-        String lProtease = "Trypsin";
+        String lSequenceDatabaseVersion = "63";
+        String [] lProteases = new String[]{"Trypsin", "PepsinA"};
         int lMissedCleavages = 0;
         int lHighMass = 4000;
         int lLowMass = 600;
 
-        SigPepSetup.getInstance().setupDatabase(
-                config.getString("sigpep.db.username"),
-                config.getString("sigpep.db.password"),
-                workingDirectory,
-                lOrganismScientificName,
-                lOrganismNcbiTaxonId,
-                lSequenceDatabaseName,
-                lSequenceDatabaseVersion,
-                lLowMass,
-                lHighMass,
-                lMissedCleavages,
-                lProtease);
+        String workingDirectory = "C:/temp";
+        //String workingDirectory = "/Users/hba041/muller_temp/database";
 
-//        int[] taxonIds = new int[]{7227, 7955, 6239};
-//
-//        for (int taxId : taxonIds) {
-//
-//            try {
-//
-//                SigPepSetup sps = new SigPepSetup(
-//                        "mmueller",
-//                        "".toCharArray(),
-//                        workingDirectory,
-//                        taxId,
-//                        45);
-//
-//                sps.setDownloadSequences(false);
-//                sps.setDoDigest(false);
-//                sps.setProcessDigest(false);
-//                sps.setCreateSchema(false);
-//                sps.setPersistDigest(false);
-//                sps.setCleanUpTables(false);
-//                sps.setCreateIndices(false);
-//                sps.setImportSpliceEvents(true);
-//
-//            } catch (DatabaseException e) {
-//                logger.error("Excpetion while setting up SigPep schema for species " + Organisms.getInstance().getSpeciesName(taxId) + ".", e);
-//            }
-//        }
+        //intialize database
+        SigPepSetup sigpepSetup = SigPepSetup.getInstance();
+        DatabaseInitialiser databaseInitializer = sigpepSetup.getDatabaseInitialiser();
+        databaseInitializer.setAdminUsername(config.getString("sigpep.db.username"));
+        databaseInitializer.setAdminPassword(config.getString("sigpep.db.password"));
+        if (!databaseInitializer.isInitialised()) {
+            databaseInitializer.initialise();
+        }
+
+        //loop organisms and create schemas
+        Map<Integer, String> organismMap = databaseInitializer.getOrganismMap();
+        for (Integer i : organismMap.keySet()) {
+            lOrganismNcbiTaxonId = i;
+            lOrganismScientificName = organismMap.get(i);
+            logger.info("Creating schema for organism " + organismMap.get(i));
+            sigpepSetup.setupDatabase(config.getString("sigpep.db.username"),
+                    config.getString("sigpep.db.password"),
+                    workingDirectory,
+                    lOrganismScientificName,
+                    lOrganismNcbiTaxonId,
+                    lSequenceDatabaseName,
+                    lSequenceDatabaseVersion,
+                    lLowMass,
+                    lHighMass,
+                    lMissedCleavages,
+                    lProteases);
+        }
+
     }
 
     /**
@@ -887,5 +869,9 @@ public class SigPepSetup {
             logger.error("exception occured while procession digests.", e);
             return false;
         }
+    }
+
+    public DatabaseInitialiser getDatabaseInitialiser() {
+        return databaseInitialiser;
     }
 }
