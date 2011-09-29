@@ -194,11 +194,15 @@ public class PeptideForm extends Form {
             for (SignatureTransition t : st) {
                 logger.info("printing peptide " + t.getPeptide().getSequenceString());
                 try {
-                    OutputStream os = new FileOutputStream(outputFolder.getAbsolutePath() + File.separator + t.getPeptide().getSequenceString() + ".tsv");
-
                     SignatureTransitionMassMatrix m = new SignatureTransitionMassMatrix(t);
-                    m.write(os);
-                    os.close();
+
+                    OutputStream os1 = new FileOutputStream(outputFolder.getAbsolutePath() + File.separator + t.getPeptide().getSequenceString() + ".tsv");
+                    m.write(os1);
+                    os1.close();
+
+                    OutputStream os2 = new FileOutputStream(outputFolder.getAbsolutePath() + File.separator + t.getPeptide().getSequenceString() + ".meta.properties");
+                    m.writeMetaData(os2);
+                    os2.close();
 
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -1,27 +1,26 @@
 package com.compomics.sigpep.report;
 
 import com.compomics.sigpep.Configuration;
-import com.compomics.sigpep.model.Peptide;
-import com.compomics.sigpep.model.ProductIon;
-import com.compomics.sigpep.model.ProductIonType;
-import com.compomics.sigpep.model.SignatureTransition;
+import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.util.DelimitedTableWriter;
 import com.compomics.sigpep.util.SigPepUtil;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 06-Aug-2008<br/>
  * Time: 11:21:24<br/>
  */
 public class SignatureTransitionMassMatrix implements Writable {
+    private static Logger logger = Logger.getLogger(SignatureTransitionMassMatrix.class);
 
     protected Configuration config = Configuration.getInstance();
     protected int massPrecission = config.getInt("sigpep.app.monoisotopic.mass.precision");
@@ -29,18 +28,16 @@ public class SignatureTransitionMassMatrix implements Writable {
     private SignatureTransition signatureTransition;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param signatureTransition
+     * @TODO: JavaDoc missing.
      */
     public SignatureTransitionMassMatrix(SignatureTransition signatureTransition) {
         this.signatureTransition = signatureTransition;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param outputStream
+     * @TODO: JavaDoc missing.
      */
     public void write(OutputStream outputStream) {
 
@@ -104,6 +101,60 @@ public class SignatureTransitionMassMatrix implements Writable {
 
                 dtw.writeRow(backgroundMz.toArray());
             }
+        }
+    }
+
+    /**
+     * @param outputStream
+     * @TODO: JavaDoc missing.
+     */
+    public void writeMetaData(OutputStream outputStream) {
+
+        try {
+            PropertiesConfiguration lConfiguration = new PropertiesConfiguration();
+
+            // Add the parent protein accession
+            lConfiguration.addProperty(MetaNamesEnumeration.PROTEIN.NAME, Arrays.asList(signatureTransition.getPeptide().getOrigins()));
+
+            // Add the peptide sequence
+            lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE.NAME, signatureTransition.getPeptide().getSequenceString());
+
+            // Add the barcode information
+            List<ProductIon> barcode = signatureTransition.getProductIons();
+
+            ArrayList lIonTypes = new ArrayList();
+            ArrayList lIonMasses = new ArrayList();
+            ArrayList lIonNumbers = new ArrayList();
+
+            for (ProductIon lProductIon : barcode) {
+                double lBarcodeMassOverCharge = lProductIon.getMassOverCharge(1);
+                ProductIonType lProductIonType = lProductIon.getType();
+                String lBarcodeIonType = lProductIonType.getName();
+                int lBarcodeIonNumber = 0;
+
+                for (int i = 1; i < lProductIon.getSequenceLength(); i++) {
+                    ProductIon lRunningIon = lProductIon.getPrecursorIon().getProductIon(lProductIonType, i);
+                    if(Math.abs(lRunningIon.getMassOverCharge(1) - lBarcodeMassOverCharge) <= 0.0001){
+                        // i equals the ion number!
+                        lBarcodeIonNumber = i;
+                        break;
+                    }
+                }
+
+                lIonTypes.add(lBarcodeIonType);
+                lIonMasses.add(lBarcodeMassOverCharge);
+                lIonNumbers.add(lBarcodeIonNumber);
+            }
+
+            lConfiguration.addProperty(MetaNamesEnumeration.BARCODE_IONNUMBER.NAME, lIonNumbers);
+            lConfiguration.addProperty(MetaNamesEnumeration.BARCODE_IONTYPE.NAME, lIonTypes);
+            lConfiguration.addProperty(MetaNamesEnumeration.BARCODE_MASSES.NAME, lIonMasses);
+
+
+            lConfiguration.save(outputStream);
+        } catch (ConfigurationException e) {
+            logger.error(e.getMessage(), e);
+
         }
     }
 }

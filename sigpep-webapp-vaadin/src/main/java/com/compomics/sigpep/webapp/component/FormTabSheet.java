@@ -6,7 +6,6 @@ import com.compomics.sigpep.webapp.bean.PeptideFormBean;
 import com.compomics.sigpep.webapp.form.PeptideCheckForm;
 import com.compomics.sigpep.webapp.form.PeptideForm;
 import com.compomics.sigpep.webapp.form.ProteinForm;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
@@ -28,6 +27,7 @@ public class FormTabSheet extends VerticalLayout implements TabSheet.SelectedTab
 
     public FormTabSheet(MyVaadinApplication aMyVaadinApplication){
         iMyVaadinApplication = aMyVaadinApplication;
+
 
         VerticalLayout lV1 = new VerticalLayout();
         lV1.setMargin(Boolean.TRUE);

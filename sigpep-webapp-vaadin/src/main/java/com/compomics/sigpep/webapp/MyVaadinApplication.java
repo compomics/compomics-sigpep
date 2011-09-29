@@ -86,7 +86,7 @@ public class MyVaadinApplication extends Application implements Pushable {
     public TransitionSelectionComponent iSelectionComponent;
     private Panel iCenterLeft;
     private HorizontalLayout iHeaderLayout;
-    private VerticalLayout iCenterLayoutResults;
+    private VerticalLayout iBottomLayoutResults;
     private Panel iCenterRight;
     private FormTabSheet iFormTabSheet;
 
@@ -110,7 +110,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         //add main window
         Window mainWindow = new Window("Sigpep Application");
         setMainWindow(mainWindow);
-        mainWindow.addStyleName("v-myfont");
+        mainWindow.addStyleName("v-my-app");
 
         //add notification component
         iNotifique = new Notifique(Boolean.FALSE);
@@ -125,28 +125,27 @@ public class MyVaadinApplication extends Application implements Pushable {
         //add panels
         iCenterLeft = new Panel();
         iCenterLeft.addStyleName(Reindeer.PANEL_LIGHT);
-        iCenterLeft.setHeight("600px");
+        iCenterLeft.setHeight("400px");
         iCenterLeft.setWidth("100%");
 
         iCenterRight = new Panel();
         iCenterRight.addStyleName(Reindeer.PANEL_LIGHT);
-        iCenterRight.setHeight("600px");
+        iCenterRight.setHeight("400px");
         iCenterRight.setWidth("75%");
 
         //add form tabs
         iFormTabSheet = new FormTabSheet(this);
         iCenterLeft.addComponent(iFormTabSheet);
 
-        iCenterLayoutResults = new VerticalLayout();
-        iCenterLeft.addComponent(iCenterLayoutResults);
 
+        iBottomLayoutResults = new VerticalLayout();
         Button lButton = new Button("load test data");
         lButton.addListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
                 new BackgroundThread().run();
             }
         });
-        iCenterLeft.addComponent(lButton);
+        iBottomLayoutResults.addComponent(lButton);
 
         // Add the selector component
         iSelectionComponent = new TransitionSelectionComponent(MyVaadinApplication.this);
@@ -158,7 +157,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         iHeaderLayout.setHeight("50px");
 
         Label lLabel = new Label("Signature peptide calculator");
-        lLabel.addStyleName("v-selection");
+        lLabel.addStyleName("v-bold-red");
         iHeaderLayout.addComponent(lLabel);
         iHeaderLayout.addStyleName("v-header");
 
@@ -180,9 +179,11 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         lVerticalLayout.addComponent(iHeaderLayout);
         lVerticalLayout.addComponent(lGridLayout);
+        lVerticalLayout.addComponent(iBottomLayoutResults);
 
         lVerticalLayout.setComponentAlignment(iHeaderLayout, Alignment.MIDDLE_CENTER);
         lVerticalLayout.setComponentAlignment(lGridLayout, Alignment.MIDDLE_CENTER);
+        lVerticalLayout.setComponentAlignment(iBottomLayoutResults, Alignment.MIDDLE_CENTER);
 
         mainWindow.addComponent(lVerticalLayout);
         mainWindow.addComponent(pusher);
@@ -199,11 +200,11 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     public void setResultTableComponent(ResultsTable aResultsTable) {
         clearResultTableComponent();
-        iCenterLayoutResults.addComponent(aResultsTable);
+        iBottomLayoutResults.addComponent(aResultsTable);
     }
 
     public void clearResultTableComponent() {
-        iCenterLayoutResults.removeAllComponents();
+        iBottomLayoutResults.removeAllComponents();
     }
 
     public class BackgroundThread extends Thread {
@@ -219,14 +220,14 @@ public class MyVaadinApplication extends Application implements Pushable {
             synchronized (MyVaadinApplication.this) {
                 getMainWindow().addComponent(new Label("All done"));
 
-                File lResultFolder = new File("/Users/kennyhelsens/tmp/sigpep/");
+                File lResultFolder = new File("/Users/kennyhelsens/tmp/sigpep/metaex/");
                 ArrayList lResultFiles = new ArrayList();
                 Collections.addAll(lResultFiles, lResultFolder.listFiles(new FileFilter() {
                     public boolean accept(File aFile) {
                         return aFile.getName().endsWith(".tsv");
                     }
                 }));
-                iCenterLeft.addComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
+                setResultTableComponent(new ResultsTable(lResultFiles, MyVaadinApplication.this, MyVaadinApplication.this));
             }
             // Push the changes
             pusher.push();
