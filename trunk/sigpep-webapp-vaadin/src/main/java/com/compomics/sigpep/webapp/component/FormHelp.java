@@ -16,28 +16,9 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 public class FormHelp extends ContextHelp {
-    private static Logger logger = Logger.getLogger(FormHelp.class);
-
-    Properties iFormHelpProperties;
 
     public FormHelp(){
         super();
-        //load form properties
-        InputStream lInputStream = MyVaadinApplication.class.getClassLoader().getResourceAsStream("sigPepWebApp.properties");
-        iFormHelpProperties = new Properties();
-        try {
-            iFormHelpProperties.load(lInputStream);
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    public Properties getFormHelpProperties() {
-        return iFormHelpProperties;
-    }
-
-    public void setFormHelpProperties(Properties aFormHelpProperties) {
-        iFormHelpProperties = aFormHelpProperties;
     }
 
 }
