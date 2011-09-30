@@ -164,7 +164,7 @@ public class PeptideCheckForm extends Form {
 
             //show error message if peptide is not found
             if (!lIsFound) {
-                iApplication.getMainWindow().showNotification("Peptide not found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_not_found"), iPeptideFormBean.getPeptideSequence(), iPeptideFormBean.getSpecies().getScientificName(), aProtease.getFullName()), Window.Notification.TYPE_ERROR_MESSAGE);
+                iApplication.getMainWindow().showNotification("Peptide not found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_not_found"), iPeptideFormBean.getPeptideSequence(), iPeptideFormBean.getSpecies().getScientificName(), aProtease.getFullName().toLowerCase()), Window.Notification.TYPE_ERROR_MESSAGE);
                 resetForm();
             } else {
                 //retrieve sequence ID and protein accession sets for the found peptide sequence
