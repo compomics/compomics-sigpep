@@ -115,6 +115,7 @@ public class PeptideCheckForm extends Form {
         PeptideCheckForm.this.setItemDataSource(lBeanItem);
         resetValidation();
         iApplication.clearResultTableComponent();
+        iApplication.getNotifique().clear();
     }
 
     private void setOrder() {
