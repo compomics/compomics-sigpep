@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Mar-2008<br/>
@@ -16,19 +16,33 @@ import java.util.*;
  */
 public class PeptideGeneratorImpl implements PeptideGenerator {
 
-    /** the logger  */
+    /**
+     * the logger
+     */
     protected static Logger logger = Logger.getLogger(PeptideGeneratorImpl.class);
-    /** the protein sequences of the organism */
+    /**
+     * the protein sequences of the organism
+     */
     private Map<Integer, String> proteinSequences;
-    /** the peptide features  */
+    /**
+     * the peptide features
+     */
     private Map<Integer, List<int[]>> peptideFeatures;
-    /** the names of the proteases this peptide generator is for  */
+    /**
+     * the names of the proteases this peptide generator is for
+     */
     private Set<String> proteaseNames;
-    /** the sequence ID to gene accession mapping  */
+    /**
+     * the sequence ID to gene accession mapping
+     */
     private Map<Integer, Set<String>> sequenceIdToGeneAccessionMap;
-    /** the sequence ID to protein accession mapping  */
+    /**
+     * the sequence ID to protein accession mapping
+     */
     private Map<Integer, Set<String>> sequenceIdToProteinAccessionMap;
-    /** the modifications that will be applied to peptide sequences  */
+    /**
+     * the modifications that will be applied to peptide sequences
+     */
     private Set<Modification> modifications;
 
     /**
@@ -46,7 +60,8 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
     /**
      * Sets the protein sequence ID to protein accession mapping.
      *
-     * @param sequenceIdToProteinAccessionMap the sequence ID to protein accession mapping
+     * @param sequenceIdToProteinAccessionMap
+     *         the sequence ID to protein accession mapping
      */
     void setSequenceIdToProteinAccessionMap(Map<Integer, Set<String>> sequenceIdToProteinAccessionMap) {
         this.sequenceIdToProteinAccessionMap = sequenceIdToProteinAccessionMap;
@@ -93,8 +108,8 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
     /**
      * Adds a protein sequence.
      *
-     * @param id        the protein sequence ID
-     * @param sequence  the protein sequence string
+     * @param id       the protein sequence ID
+     * @param sequence the protein sequence string
      */
     void addProteinSequence(int id, String sequence) {
         this.proteinSequences.put(id, sequence);
@@ -230,7 +245,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * the respective protein sequence that have the specified degeneracy.
      *
      * @param proteinAccessions the protein accessions
-     * @param degeneracy the peptide sequence degeneracy
+     * @param degeneracy        the peptide sequence degeneracy
      * @return a map of protein accessions and sets of peptide sequence strings
      */
     public Map<String, Set<String>> getPeptideSequencesByProteinAccessionAndProteinSequenceLevelDegeneracy(Set<String> proteinAccessions, int degeneracy) {
@@ -355,7 +370,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * degeneracy across the protein sequence space of the organism.
      *
      * @param proteinAccessions the protein accessions
-     * @param degeneracy the peptide degeneracy
+     * @param degeneracy        the peptide degeneracy
      * @return a map of protein accessions and sets of peptide objects
      */
     public Map<String, Set<Peptide>> getProteinAccessionToPeptideMap(Set<String> proteinAccessions, int degeneracy) {
@@ -374,7 +389,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * space of the organism.
      *
      * @param proteinAccession the protein accession
-     * @param degeneracy the peptide degeneracy
+     * @param degeneracy       the peptide degeneracy
      * @return a set of peptide objects
      */
     public Set<Peptide> getPeptidesByProteinAccessionAndProteinSequenceLevelDegeneracy(String proteinAccession, int degeneracy) {
@@ -436,7 +451,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
      * organism.
      *
      * @param geneAccessions the gene accessions
-     * @param degeneracy the peptide degeneracy
+     * @param degeneracy     the peptide degeneracy
      * @return a map of gene accessions and sets of peptide sequence objects
      */
     public Map<String, Set<Peptide>> getPeptidesByGeneAccessionAndGeneLevelDegeneracy(Set<String> geneAccessions, int degeneracy) {
@@ -581,6 +596,7 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
 //        return retVal;
 //
 //    }
+
     /**
      * Returns the peptides of the specified degeneracy, generated from a set of protein sequences
      * identified by the protein acessions passed as a parameter.
@@ -730,13 +746,14 @@ public class PeptideGeneratorImpl implements PeptideGenerator {
     }
 
     /**
-     * Checks if a given peptide sequence is a signature peptide
+     * Returns a set of sequence IDs for a given peptide sequence
+     *
      * @param peptideSequence
-     * @return an isSignaturePeptide boolean
+     * @return a set of sequence IDs
      */
-    public boolean isSignaturePeptide(String peptideSequence){
+    public Set<Integer> getSequenceIdsByPeptideSequence(String peptideSequence) {
         Map<String, Set<Integer>> peptideSequenceToSequenceIdMap = this.getPeptideSequenceToSequenceIdMap();
         Set<Integer> sequenceIds = peptideSequenceToSequenceIdMap.get(peptideSequence);
-        return sequenceIds.size() == 1;
+        return sequenceIds;
     }
 }
