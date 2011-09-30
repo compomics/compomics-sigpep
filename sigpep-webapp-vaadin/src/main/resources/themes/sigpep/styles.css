@@ -1,57 +1,52 @@
 @import "../reindeer/styles.css";
-@import url(http://fonts.googleapis.com/css?family=Andika);
 
+/*@import url(http://fonts.googleapis.com/css?family=Andika);*/
 
-
-
-.v-myfont{
-}
-
-.v-app-padding{
-}
-
-.v-my-app {
+.v-app-my {
     background: white;
-    font-family: 'Andika', serif;
-    padding: 10px;
-    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2;
 }
 
 .v-header {
     width: 100%;
-    background-image: url("header.png");
-    background-repeat: repeat-x;
+    background-image: url("graph_header_logo.png");
+    background-repeat: no-repeat;
     vertical-align: middle;
     text-align: center;
     font-size: large;
     font-weight: bold;
-    color: #b22222;
-}
 
-
-.v-bold-red {
-    font-weight: bold;
-    color: #b22222;
 }
 
 .v-download-link {
-    text-align: center;
     vertical-align: middle;
     color: #00008b;
 }
 
 .v-table {
     overflow: hidden;
-    text-align: center;
-    padding: 0px;
 }
 
+.v-table-formresults {
+    text-align: center;
+    vertical-align: middle;
+}
 
 .v-tabsheet-tabitemcell {
     width: 25%;
-    text-align: center;
 }
 
 .v-tabsheet-tabitem .v-caption {
     width: auto !important;
+}
+
+.v-transition-selection {
+    background: #ddd; /* for non-css3 browsers */
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#dddddd', endColorstr = '#ffffffff'); /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#fff)); /* for webkit browsers */
+    background: -moz-linear-gradient(top, #ccc, #fff); /* for firefox 3.6+ */
+
 }

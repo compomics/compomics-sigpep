@@ -24,7 +24,6 @@ import com.compomics.sigpep.webapp.component.FormHelp;
 import com.compomics.sigpep.webapp.component.FormTabSheet;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
-import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
@@ -36,9 +35,9 @@ import org.vaadin.overlay.CustomOverlay;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -108,11 +107,13 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         //add theme
         setTheme("sigpep");
+//        setTheme("reindeer");
+//        setTheme("my-sigpep-cameleon");
 
         //add main window
         Window mainWindow = new Window("Sigpep Application");
         setMainWindow(mainWindow);
-        mainWindow.addStyleName("v-my-app");
+        mainWindow.addStyleName("v-app-my");
 
         //add notification component
         iNotifique = new Notifique(Boolean.FALSE);
@@ -156,11 +157,7 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         iHeaderLayout = new HorizontalLayout();
         iHeaderLayout.setSizeFull();
-        iHeaderLayout.setHeight("50px");
-
-        Label lLabel = new Label("Signature peptide calculator");
-        lLabel.addStyleName("v-bold-red");
-        iHeaderLayout.addComponent(lLabel);
+        iHeaderLayout.setHeight("100px");
         iHeaderLayout.addStyleName("v-header");
 
 
@@ -209,6 +206,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         iBottomLayoutResults.removeAllComponents();
     }
 
+
     public class BackgroundThread extends Thread {
 
         @Override
@@ -223,7 +221,7 @@ public class MyVaadinApplication extends Application implements Pushable {
                 getMainWindow().addComponent(new Label("All done"));
 
                 File lResultFolder = new File("/Users/kennyhelsens/tmp/sigpep/metaex/");
-                ArrayList lResultFiles = new ArrayList();
+                HashSet lResultFiles = new HashSet();
                 Collections.addAll(lResultFiles, lResultFolder.listFiles(new FileFilter() {
                     public boolean accept(File aFile) {
                         return aFile.getName().endsWith(".tsv");
@@ -263,6 +261,25 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     public void addTransitionBean(TransitionBean aTransitionBean) {
         iSelectedTransitionList.add(aTransitionBean);
+        iSelectionComponent.requestRepaintAll();
+    }
+
+
+    public void removeTransitionBeansBySequence(String aPeptideSequence) {
+        ArrayList<TransitionBean> lRemovables = new ArrayList<TransitionBean>();
+
+        // Find beans to be removed.
+        for (TransitionBean lTransitionBean : iSelectedTransitionList) {
+            String lSequence = lTransitionBean.getPeptideSequence();
+            if (lSequence != null && lSequence.equals(aPeptideSequence)) {
+                lRemovables.add(lTransitionBean);
+            }
+        }
+        // Remove the beans from the set.
+        for (TransitionBean lTransitionBean : lRemovables) {
+            iSelectedTransitionList.remove(lTransitionBean);
+        }
+
         iSelectionComponent.requestRepaintAll();
     }
 

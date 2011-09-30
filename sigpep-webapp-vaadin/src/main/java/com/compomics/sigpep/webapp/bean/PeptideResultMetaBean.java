@@ -33,10 +33,10 @@ public class PeptideResultMetaBean {
 
             Object lProperty = lConfiguration.getProperty(MetaNamesEnumeration.PROTEIN.NAME);
             if (lProperty != null) {
-                if(lProperty instanceof String){
+                if (lProperty instanceof String) {
                     iProteins = new ArrayList();
                     iProteins.add(lProperty);
-                }else{
+                } else {
                     iProteins = (ArrayList) lProperty;
                 }
             }
@@ -49,19 +49,16 @@ public class PeptideResultMetaBean {
             lProperty = lConfiguration.getProperty(MetaNamesEnumeration.BARCODE_MASSES.NAME);
             if (lProperty != null) {
                 iBarcodeMasses = (ArrayList) lProperty;
-                ;
             }
 
             lProperty = lConfiguration.getProperty(MetaNamesEnumeration.BARCODE_IONNUMBER.NAME);
             if (lProperty != null) {
                 iBarcodeIonNumbers = (ArrayList) lProperty;
-                ;
             }
 
             lProperty = lConfiguration.getProperty(MetaNamesEnumeration.BARCODE_IONTYPE.NAME);
             if (lProperty != null) {
                 iBarcodeIonTypes = (ArrayList) lProperty;
-                ;
             }
 
         } catch (ConfigurationException e) {
@@ -130,6 +127,27 @@ public class PeptideResultMetaBean {
     }
 
     /**
+     * Returns the barcode index of the specified mass
+     *
+     * @param aMass
+     * @return
+     */
+    public int getMassMatchIndex(double aMass) {
+        int index = 0;
+        int lMax = getBarcodeCount();
+
+        while (index < lMax) {
+            if (Math.abs(getBarcodeMass(index) - aMass) < 0.01) {
+                return index;
+            }
+            index++;
+        }
+
+        // No match found!!
+        return -1;
+    }
+
+    /**
      * Returns the ionType (b-y) at the specified index of the barcode
      *
      * @param aIndex
@@ -145,7 +163,7 @@ public class PeptideResultMetaBean {
      * @param aIndex
      * @return
      */
-    public double getBarcodeIonNumber(int aIndex) {
+    public int getBarcodeIonNumber(int aIndex) {
         return Integer.parseInt(iBarcodeIonNumbers.get(aIndex).toString());
     }
 

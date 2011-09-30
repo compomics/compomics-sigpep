@@ -39,9 +39,11 @@ public class FormTabSheet extends VerticalLayout implements TabSheet.SelectedTab
         iPeptideCheckForm = new PeptideCheckForm("Peptide check form", iMyVaadinApplication);
         lV2.addComponent(iPeptideCheckForm);
 
+
         iTabSheet = new TabSheet();
         iTabSheet.addTab(lV1, "Protein", null);
         iTabSheet.addTab(lV2, "Peptide", null);
+
 
         this.addComponent(iTabSheet);
     }
