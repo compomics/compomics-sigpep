@@ -123,6 +123,7 @@ public class ProteinForm extends Form {
         ProteinForm.this.setItemDataSource(lBeanItem);
         resetValidation();
         iApplication.clearResultTableComponent();
+        iApplication.getNotifique().clear();
     }
 
 

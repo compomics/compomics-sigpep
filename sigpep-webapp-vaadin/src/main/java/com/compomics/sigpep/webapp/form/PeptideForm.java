@@ -123,6 +123,7 @@ public class PeptideForm extends Form {
     private void resetForm() {
         iApplication.getFormTabSheet().cancelPeptideForm();
         iApplication.clearResultTableComponent();
+        iApplication.getNotifique().clear();
     }
 
     private void setOrder() {
