@@ -250,9 +250,12 @@ public interface SimpleQueryDao {
     Set<String> getProteinAccessions();
 
     /**
-     * Returns the peptide with the specified peptide sequence
-     * @param peptideSequence
+     * Returns the protein accessions for a given set of sequence IDs
+     *
+     * @param sequenceIds
      * @return
      */
-    Peptide getPeptideByPeptideSequence(String peptideSequence);
+    Set<String> getProteinAccessionsBySequenceIds(Set<Integer> sequenceIds);
+
+
 }

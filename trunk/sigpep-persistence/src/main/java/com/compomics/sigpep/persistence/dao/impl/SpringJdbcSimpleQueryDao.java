@@ -40,6 +40,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
     private static final String SQL_SELECT_SIGNATURE_PEPTIDE_SEQUENCES_BY_PROTEASE_SHORT_NAMES = namedQueries.getString("peptideSequencesByProteaseShortNames");
     private static final String SQL_SELECT_SEQUENCE_IDS_AND_STRINGS = namedQueries.getString("query.sequenceIdsAndStrings");
     private static final String SQL_SELECT_SEQUENCE_ID_TO_PROTEIN_ACCESSION = namedQueries.getString("query.sequenceIdToProteinAccession");
+    private static final String SQL_SELECT_PROTEIN_ACCESSION_BY_SEQUENCE_ID = namedQueries.getString("query.proteinAccessionBySequenceId");
     private static final String SQL_SELECT_PROTEIN_ACCESSION_TO_GENE_ACCESSION = namedQueries.getString("query.proteinAccessionToGeneAccession");
     private static final String SQL_SELECT_PEPTIDE_FEATURES_BY_PROTEASE_SHORT_NAME = namedQueries.getString("query.peptideFeaturesByProteaseShortName");
     private static final String SQL_SELECT_PEPTIDE_SEQUENCE_AND_SEQUENCE_ID_BY_PEPTIDE_SEQUENCE_AND_PROTEASE_SHORTNAME = namedQueries.getString("query.peptideSequenceAndSequenceIdByPeptideSequenceAndProteaseShortName");
@@ -616,9 +617,26 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
         return retVal;
     }
 
-    public Peptide getPeptideByPeptideSequence(String peptideSequence) {
+    /**
+     * Returns the protein accessions for a given set of sequence IDs
+     *
+     * @param sequenceIds
+     * @return
+     */
+    public Set<String> getProteinAccessionsBySequenceIds(Set<Integer> sequenceIds) {
+        String sql = SqlUtil.setParameterSet(SQL_SELECT_PROTEIN_ACCESSION_BY_SEQUENCE_ID, "sequenceIds", sequenceIds);
+        return (Set<String>) this.getJdbcTemplate().query(sql, new ResultSetExtractor() {
 
-        return null;
+            public Object extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+                Set<String> retVal = new HashSet<String>();
+
+                while (resultSet.next()) {
+                    String proteinAccession = resultSet.getString(1);
+                    retVal.add(proteinAccession);
+                }
+                return retVal;
+            }
+        });
     }
 
     //    public Map<String, Set<String>> getIdentifiableProteome(Set<String> peptideSequences, Set<String> proteaseNames) {

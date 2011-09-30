@@ -40,6 +40,15 @@
             WHERE p.protein_id=p2s.protein_id
         </sequenceIdToProteinAccession>
 
+        <!--returns the protein accessions for a set of sequence IDs-->
+        <proteinAccessionBySequenceId>
+            SELECT p.protein_accession
+            FROM protein p\,
+            protein2sequence p2s
+            WHERE p.protein_id=p2s.protein_id
+            AND p2s.sequence_id IN (:sequenceIds)
+        </proteinAccessionBySequenceId>
+
         <!--returns protein sequence ids and sequences-->
         <sequenceIdsAndStrings>
             SELECT sequence_id\, aa_sequence FROM protein_sequence
