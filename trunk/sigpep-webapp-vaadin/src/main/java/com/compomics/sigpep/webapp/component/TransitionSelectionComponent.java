@@ -8,7 +8,6 @@ import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.google.common.io.Files;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.BaseTheme;
 import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
 import org.hupo.psi.ms.traml.ObjectFactory;
@@ -32,15 +31,16 @@ public class TransitionSelectionComponent extends VerticalLayout {
 
     private final MyVaadinApplication iApplication;
 
-    Label iStatus;
-    Button iCreateTraML;
-    Button iPreviewSelection;
-    Link iDownloadTraML;
-    File iTraMLDownload;
+    private Label iStatus;
+
+    private File iTraMLDownload = null;
+    private VerticalLayout iTreeLayout = new VerticalLayout();
+    private Link iDownloadTraML;
 
 
     public TransitionSelectionComponent(MyVaadinApplication aApplication) {
         super();
+        this.setCaption("Transitions Overview");
         iApplication = aApplication;
 
         try {
@@ -51,38 +51,25 @@ public class TransitionSelectionComponent extends VerticalLayout {
     }
 
     private void initComponents() throws IOException {
-        this.setStyleName("v-bold-red");
+        this.setStyleName("v-transition-selection");
         this.setSpacing(true);
 
-        iStatus = new Label("no transitions selected yet");
+        iStatus = new Label("");
         this.addComponent(iStatus, 0);
 
-        iPreviewSelection = new Button();
-        iPreviewSelection.setEnabled(false);
-        iPreviewSelection.setStyleName(BaseTheme.BUTTON_LINK);
-        iPreviewSelection.setIcon(new ThemeResource("preview.png"));
-        iPreviewSelection.addListener(new PreviewSelectionListener());
-        this.addComponent(iPreviewSelection, 1);
-
-
-        iCreateTraML = new Button("");
-        iCreateTraML.setEnabled(false);
-        iCreateTraML.addListener(new SaveToTraMLClickListener());
-        iCreateTraML.setIcon(new ThemeResource("make_traml.png"));
-        iCreateTraML.setStyleName(BaseTheme.BUTTON_LINK);
-        this.addComponent(iCreateTraML, 2);
 
 
         iDownloadTraML = new Link();
-        iDownloadTraML.setEnabled(false);
+        iDownloadTraML.setEnabled(true);
         iDownloadTraML.setVisible(false);
         iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
         iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
-        this.addComponent(iDownloadTraML, 3);
+        this.addComponent(iDownloadTraML, 1);
+
+        this.addComponent(iTreeLayout);
 
         this.setComponentAlignment(iStatus, Alignment.MIDDLE_LEFT);
-        this.setComponentAlignment(iPreviewSelection, Alignment.MIDDLE_LEFT);
-        this.setComponentAlignment(iCreateTraML, Alignment.MIDDLE_LEFT);
+        this.setComponentAlignment(iTreeLayout, Alignment.MIDDLE_LEFT);
         this.setComponentAlignment(iDownloadTraML, Alignment.MIDDLE_LEFT);
 
     }
@@ -91,13 +78,13 @@ public class TransitionSelectionComponent extends VerticalLayout {
     public void requestRepaintAll() {
         int lSize = iApplication.getSelectedTransitionList().size();
         if (lSize > 0) {
-            iCreateTraML.setEnabled(true);
-            iPreviewSelection.setEnabled(true);
             iStatus.setValue(lSize + " transitions selected");
+            iTreeLayout.removeAllComponents();
+            iTreeLayout.addComponent(new TransitionSetTree(iApplication.getSelectedTransitionList()));
+            iDownloadTraML.setVisible(true);
         } else {
-            iCreateTraML.setEnabled(false);
-            iPreviewSelection.setEnabled(false);
-            iDownloadTraML.setEnabled(false);
+            iTreeLayout.removeAllComponents();
+            iDownloadTraML.setVisible(false);
             iStatus.setValue("no transitions selected");
         }
         super.requestRepaintAll();
@@ -168,45 +155,4 @@ public class TransitionSelectionComponent extends VerticalLayout {
         this.addComponent(iDownloadTraML, 3);
     }
 
-
-    private class PreviewSelectionListener implements Button.ClickListener {
-        /**
-         * Called when a {@link com.vaadin.ui.Button} has been clicked. A reference to the
-         * button is given by {@link com.vaadin.ui.Button.ClickEvent#getButton()}.
-         *
-         * @param event An event containing information about the click.
-         */
-        public void buttonClick(Button.ClickEvent event) {
-            final Window lDialog = new Window();
-            lDialog.setModal(true);
-            lDialog.setCaption("Preview transition selection");
-            lDialog.setWidth("75%");
-            lDialog.setHeight("75%");
-
-            iApplication.getMainWindow().addWindow(lDialog);
-
-
-            Table lTable = new Table();
-            lTable.setWidth("100%");
-            lTable.addContainerProperty("id", Label.class, null);
-            lTable.addContainerProperty("q1", Label.class, null);
-            lTable.addContainerProperty("q3", Label.class, null);
-
-            lTable.setColumnHeader("id", "transition ID");
-            lTable.setColumnHeader("q1", "Q1 m/z");
-            lTable.setColumnHeader("q3", "Q3 m/z");
-
-            for (TransitionBean item : iApplication.getSelectedTransitionList()) {
-                // Add a new item to the table.
-                Object id = lTable.addItem();
-
-                lTable.getContainerProperty(id, "id").setValue(item.getID());
-                lTable.getContainerProperty(id, "q1").setValue(item.getQ1Mass());
-                lTable.getContainerProperty(id, "q3").setValue(item.getQ3Mass());
-
-            }
-
-            lDialog.addComponent(lTable);
-        }
-    }
 }

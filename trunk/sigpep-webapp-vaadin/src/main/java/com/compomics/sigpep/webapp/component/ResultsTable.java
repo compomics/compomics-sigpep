@@ -13,7 +13,6 @@ import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import com.vaadin.terminal.ClassResource;
-import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 import org.apache.log4j.Logger;
@@ -21,8 +20,8 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class represents a series of .tsv transition files as a Table.
@@ -36,7 +35,7 @@ public class ResultsTable extends VerticalLayout {
      */
     Table iTable = new Table();
 
-    public static final String COLUMN_LABEL_SELECT = "+";
+    public static final String COLUMN_LABEL_ADD = "add";
 
     public static final String COLUMN_LABEL_PEPTIDE = "peptide";
     public static final String COLUMN_LABEL_PROTEIN = "protein";
@@ -60,14 +59,19 @@ public class ResultsTable extends VerticalLayout {
      */
     private final MyVaadinApplication iApplication;
 
+
+
+
     /**
      * Create a ResultsTable from a set of files.
      *
      * @param aFiles
      */
-    public ResultsTable(ArrayList<File> aFiles, Pushable aPushable, MyVaadinApplication aApplication) {
+    public ResultsTable(HashSet<File> aFiles, Pushable aPushable, MyVaadinApplication aApplication) {
         super();
         setCaption("Results table");
+        addStyleName("formresults");
+
         iPushable = aPushable;
         iApplication = aApplication;
         try {
@@ -93,7 +97,8 @@ public class ResultsTable extends VerticalLayout {
      *
      * @param aFiles
      */
-    private void populateTable(ArrayList<File> aFiles) throws IOException {
+
+    private void populateTable(Set<File> aFiles) throws IOException {
         // Iterate all given files.
         for (File lFile : aFiles) {
             // Add a new item to the table.
@@ -101,6 +106,22 @@ public class ResultsTable extends VerticalLayout {
 
             // 1 - Filename.
             iTable.getContainerProperty(id, COLUMN_LABEL_PEPTIDE).setValue(generateFileName(lFile));
+
+            // Attempt to locate the meta information.
+            String lMetaFileName = lFile.getName().substring(0, lFile.getName().indexOf(".tsv")) + ".meta.properties";
+            File lMetaFile = new File(lFile.getParentFile(), lMetaFileName);
+            PeptideResultMetaBean lPeptideResultMetaBean = null;
+
+            if (lMetaFile.exists()) {
+                lPeptideResultMetaBean = new PeptideResultMetaBean(lMetaFile);
+
+                // Add proteins
+                String lParentProteins = Joiner.on(",").join(lPeptideResultMetaBean.getProteins());
+                iTable.getContainerProperty(id, COLUMN_LABEL_PROTEIN).setValue(lParentProteins);
+
+                // Add number of transitions
+                iTable.getContainerProperty(id, COLUMN_LABEL_TRANSITION_COUNT).setValue(lPeptideResultMetaBean.getBarcodeCount());
+            }
 
             // 2 - Download link to tsv file.
             Link l = ComponentFactory.createFileDownloadLink(lFile, iApplication);
@@ -115,37 +136,20 @@ public class ResultsTable extends VerticalLayout {
             iTable.getContainerProperty(id, COLUMN_LABEL_PREDICT).setValue(lPredictionButton);
 
             // 5 - Make the select peptide button
-            Button lSelectTransitionButton = generateSelectButton(lFile);
-            iTable.getContainerProperty(id, COLUMN_LABEL_SELECT).setValue(lSelectTransitionButton);
-
-            // Attempt to locate the meta information.
-            String lMetaFileName = lFile.getName().substring(0, lFile.getName().indexOf(".tsv")) + ".meta.properties";
-            File lMetaFile = new File(lFile.getParentFile(), lMetaFileName);
-            if(lMetaFile.exists()){
-                PeptideResultMetaBean lPeptideResultMetaBean = new PeptideResultMetaBean(lMetaFile);
-
-                // Add proteins
-                String lParentProteins = Joiner.on(",").join(lPeptideResultMetaBean.getProteins());
-                iTable.getContainerProperty(id, COLUMN_LABEL_PROTEIN).setValue(lParentProteins);
-
-                // Add number of transitions
-                iTable.getContainerProperty(id, COLUMN_LABEL_TRANSITION_COUNT).setValue(lPeptideResultMetaBean.getBarcodeCount());
-            }
-
-
+            Button lSelectTransitionButton = generateSelectButton(lFile, lPeptideResultMetaBean);
+            iTable.getContainerProperty(id, COLUMN_LABEL_ADD).setValue(lSelectTransitionButton);
         }
     }
 
-    private Button generateSelectButton(File aFile) throws IOException {
+    private Button generateSelectButton(File aFile, PeptideResultMetaBean aPeptideResultMetaBean) throws IOException {
 // Create a new button, display as a link.
-        Button lButton = new Button("");
-        lButton.addStyleName(BaseTheme.BUTTON_LINK);
-        lButton.setIcon(new ThemeResource("add.gif"));
+        CheckBox aCheckBox = new CheckBox("");
+        aCheckBox.setImmediate(true);
 
-        SelectTransitionListener lSelectTransitionListener = new SelectTransitionListener(aFile, iApplication);
-        lButton.addListener(lSelectTransitionListener);
-        return lButton;
+        SelectTransitionListener lSelectTransitionListener = new SelectTransitionListener(aFile, iApplication, aCheckBox, aPeptideResultMetaBean);
 
+        aCheckBox.addListener(lSelectTransitionListener); // react to clicks
+        return aCheckBox;
     }
 
     private Button generatePredictionButton(String aPeptideSequence) {
@@ -217,19 +221,13 @@ public class ResultsTable extends VerticalLayout {
      */
     private void createTableColumns() {
         // Define the Table
-        iTable.addContainerProperty(COLUMN_LABEL_SELECT, Button.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_ADD, CheckBox.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PEPTIDE, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PROTEIN, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_TRANSITION_COUNT, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_DOWNLOAD, Link.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_GRAPH, Button.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PREDICT, Button.class, null);
-
-        iTable.setColumnWidth(COLUMN_LABEL_DOWNLOAD, 100);
-        iTable.setColumnWidth(COLUMN_LABEL_DOWNLOAD, 200);
-        iTable.setColumnWidth(COLUMN_LABEL_DOWNLOAD, 200);
-        iTable.setColumnWidth(COLUMN_LABEL_SELECT, 30);
-
 
     }
 

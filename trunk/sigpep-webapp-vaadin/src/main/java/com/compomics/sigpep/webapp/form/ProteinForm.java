@@ -20,7 +20,6 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import org.apache.log4j.Logger;
 import org.vaadin.notifique.Notifique;
 
@@ -195,18 +194,22 @@ public class ProteinForm extends Form {
             logger.info("finding signature transitions");
             iCustomProgressIndicator.proceed(PropertiesConfigurationHolder.getInstance().getString("form_progress.signature_transition_finder_2"));
             List<SignatureTransition> st = finder.findSignatureTransitions(lSignaturepeptides);
+            HashSet lResultFiles = new HashSet();
 
             for (SignatureTransition t : st) {
                 logger.info("printing peptide " + t.getPeptide().getSequenceString());
                 try {
                     SignatureTransitionMassMatrix m = new SignatureTransitionMassMatrix(t);
 
-                    OutputStream os1 = new FileOutputStream(outputFolder.getAbsolutePath() + File.separator + t.getPeptide().getSequenceString() + ".tsv");
+                    String lFileName = outputFolder.getAbsolutePath() + File.separator + t.getPeptide().getSequenceString() + ".tsv";
+                    File lResultFile = new File(lFileName);
+                    OutputStream os1 = new FileOutputStream(lResultFile);
+                    lResultFiles.add(lResultFile);
                     m.write(os1);
                     os1.close();
 
                     OutputStream os2 = new FileOutputStream(outputFolder.getAbsolutePath() + File.separator + t.getPeptide().getSequenceString() + ".meta.properties");
-                    m.writeMetaData(os2);
+                    m.writeMetaData(os2, iProteinFormBean.getProteinAccession());
                     os2.close();
 
                 } catch (IOException e) {
@@ -214,7 +217,6 @@ public class ProteinForm extends Form {
                 }
             }
 
-            ArrayList lResultFiles = new ArrayList();
             logger.info("generated " + lResultFiles.size() + " peptide result files");
             iCustomProgressIndicator.proceed(MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_result_files"), lResultFiles.size()));
             Collections.addAll(lResultFiles, outputFolder.listFiles(new FileFilter() {

@@ -1,7 +1,10 @@
 package com.compomics.sigpep.report;
 
 import com.compomics.sigpep.Configuration;
-import com.compomics.sigpep.model.*;
+import com.compomics.sigpep.model.Peptide;
+import com.compomics.sigpep.model.ProductIon;
+import com.compomics.sigpep.model.ProductIonType;
+import com.compomics.sigpep.model.SignatureTransition;
 import com.compomics.sigpep.util.DelimitedTableWriter;
 import com.compomics.sigpep.util.SigPepUtil;
 import org.apache.commons.configuration.ConfigurationException;
@@ -9,7 +12,10 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 
 import java.io.OutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
@@ -104,17 +110,30 @@ public class SignatureTransitionMassMatrix implements Writable {
         }
     }
 
+
     /**
-     * @param outputStream
-     * @TODO: JavaDoc missing.
+     * Write the meta data for a transition set (e.g. barcode iontypes and parent protein)
+     * @param outputStream - the target stream
+     * @param aProteinAccession - a single parent protein accession
      */
-    public void writeMetaData(OutputStream outputStream) {
+    public void writeMetaData(OutputStream outputStream, String aProteinAccession) {
+        HashSet<String> lSet = new HashSet<String>();
+        lSet.add(aProteinAccession);
+        writeMetaData(outputStream, lSet);
+    }
+
+    /**
+     * Write the meta data for a transition set (e.g. barcode iontypes and parent protein)
+     * @param outputStream - the target stream
+     * @param aProteinAccessions - a set of parent protein accessions
+     */
+    public void writeMetaData(OutputStream outputStream, Set<String> aProteinAccessions) {
 
         try {
             PropertiesConfiguration lConfiguration = new PropertiesConfiguration();
 
             // Add the parent protein accession
-            lConfiguration.addProperty(MetaNamesEnumeration.PROTEIN.NAME, Arrays.asList(signatureTransition.getPeptide().getOrigins()));
+            lConfiguration.addProperty(MetaNamesEnumeration.PROTEIN.NAME, aProteinAccessions);
 
             // Add the peptide sequence
             lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE.NAME, signatureTransition.getPeptide().getSequenceString());
@@ -134,7 +153,7 @@ public class SignatureTransitionMassMatrix implements Writable {
 
                 for (int i = 1; i < lProductIon.getSequenceLength(); i++) {
                     ProductIon lRunningIon = lProductIon.getPrecursorIon().getProductIon(lProductIonType, i);
-                    if(Math.abs(lRunningIon.getMassOverCharge(1) - lBarcodeMassOverCharge) <= 0.0001){
+                    if (Math.abs(lRunningIon.getMassOverCharge(1) - lBarcodeMassOverCharge) <= 0.001) {
                         // i equals the ion number!
                         lBarcodeIonNumber = i;
                         break;

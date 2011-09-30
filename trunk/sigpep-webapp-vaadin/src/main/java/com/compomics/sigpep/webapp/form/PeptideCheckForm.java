@@ -149,7 +149,7 @@ public class PeptideCheckForm extends Form {
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
 
             //add background peptides to bean
-            iPeptideFormBean.setlBackgroundPeptides(lBackgroundPeptides);
+            iPeptideFormBean.setBackgroundPeptides(lBackgroundPeptides);
 
             //search peptide in background peptides
             iCustomProgressIndicator.proceed(MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_searching"), iPeptideFormBean.getPeptideSequence()));
@@ -173,6 +173,7 @@ public class PeptideCheckForm extends Form {
                 logger.info("Verifying if found peptide is a signature peptide");
                 Set<Integer> lSequenceIds = lGenerator.getSequenceIdsByPeptideSequence(iFoundPeptide.getSequenceString());
                 Set<String> lProteinAccessions = iApplication.getSigPepQueryService().getProteinAccessionsBySequenceIds(lSequenceIds);
+                iPeptideFormBean.setProteinAccessions(lProteinAccessions);
 
                 String lMessage = "";
                 if (lProteinAccessions.size() > 1) {
@@ -208,5 +209,8 @@ public class PeptideCheckForm extends Form {
         }
     }
 
+    private String getSetAsString(Set<String> aStringSet) {
+        return Joiner.on(',').join(aStringSet);
+    }
 }
 

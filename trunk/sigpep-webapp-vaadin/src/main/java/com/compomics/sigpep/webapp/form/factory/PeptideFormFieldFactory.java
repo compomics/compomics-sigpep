@@ -8,8 +8,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.data.validator.IntegerValidator;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TextField;
 import org.apache.log4j.Logger;
 
 /**
@@ -43,7 +41,7 @@ public class PeptideFormFieldFactory implements FormFieldFactory {
         //mass field
         iMassTextField = new TextField("Mass accuracy");
         iMassTextField.setRequired(Boolean.TRUE);
-        iMassTextField.addValidator(new DoubleValidator(PropertiesConfigurationHolder.getInstance().getString("form_validation.double")));
+        iMassTextField.addValidator(new DoubleValidator(com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder.getInstance().getString("form_validation.double")));
         iFormHelp.addHelpForComponent(iMassTextField, PropertiesConfigurationHolder.getInstance().getString("form_help.mass_accuracy"));
 
         //min combination size field

@@ -14,11 +14,31 @@ import java.util.Set;
  */
 public class PeptideFormBean extends AbstractFormBean {
 
+    /**
+     * The peptide sequence requested by the user.
+     */
     private String iPeptideSequence = "LGKLYWLVTQNVDALHTK";
 
-    private PeptideGenerator iPeptideGenerator;
+    /**
+     * The sigpep PeptideGenerator insance
+     */
+    private PeptideGenerator iPeptideGenerator = null;
 
-    private Set<Peptide> lBackgroundPeptides;
+    /**
+     * The collection with backgroundpeptides used to calculate the transition redundancy
+     */
+    private Set<Peptide> iBackgroundPeptides = null;
+
+
+
+    /**
+     * The protein(s) to which the peptide maps.
+     */
+    private Set<String> iProteinAccessions = null;
+
+
+
+
 
     public String getPeptideSequence() {
         return iPeptideSequence;
@@ -36,12 +56,21 @@ public class PeptideFormBean extends AbstractFormBean {
         iPeptideGenerator = aPeptideGenerator;
     }
 
-    public Set<Peptide> getlBackgroundPeptides() {
-        return lBackgroundPeptides;
+    public Set<Peptide> getBackgroundPeptides() {
+        return iBackgroundPeptides;
     }
 
-    public void setlBackgroundPeptides(Set<Peptide> aLBackgroundPeptides) {
-        lBackgroundPeptides = aLBackgroundPeptides;
+    public void setBackgroundPeptides(Set<Peptide> aBackgroundPeptides) {
+        iBackgroundPeptides = aBackgroundPeptides;
+    }
+
+
+    public void setProteinAccessions(Set<String> aProteinAccessions) {
+        iProteinAccessions = aProteinAccessions;
+    }
+
+    public Set<String> getProteinAccessions() {
+        return iProteinAccessions;
     }
 
 }
