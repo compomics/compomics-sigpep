@@ -297,4 +297,12 @@ public interface SigPepQueryService {
      * @return a map of sequence lengths and peptide frequencies
      */
     Map<Integer, Integer> getPeptideLengthFrequencyForProteaseCombination(Protease... protease);
+
+    /**
+     * Returns a set of protein accession strings for a given sequenceId set
+     *
+     * @param sequenceIds
+     * @return a set of protein accession strings
+     */
+    Set<String> getProteinAccessionsBySequenceIds(Set<Integer> sequenceIds);
 }

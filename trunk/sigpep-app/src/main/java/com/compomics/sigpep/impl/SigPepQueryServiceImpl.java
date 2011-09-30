@@ -546,4 +546,14 @@ public class SigPepQueryServiceImpl implements SigPepQueryService {
 
         return simpleQueryDao.getPeptideLengthFrequencyByProteaseShortName(proteaseShortNames);
     }
+
+    /**
+     * Returns a set of protein accession strings for a given sequenceId set
+     *
+     * @param sequenceIds
+     * @return a set of protein accession strings
+     */
+    public Set<String> getProteinAccessionsBySequenceIds(Set<Integer> sequenceIds) {
+        return simpleQueryDao.getProteinAccessionsBySequenceIds(sequenceIds);
+    }
 }

@@ -217,9 +217,10 @@ public interface PeptideGenerator {
     Map<String, Set<Peptide>> getPeptidesByGeneAccessionAndGeneLevelDegeneracy(Set<String> geneAccessions, int degeneracy);
 
     /**
-     * Checks if a given peptide sequence is a signature peptide
+     * Returns a set of sequence IDs for a given peptide sequence
+     *
      * @param peptideSequence
-     * @return an isSignaturePeptide boolean
+     * @return a set of sequence IDs
      */
-    boolean isSignaturePeptide(String peptideSequence);
+    Set<Integer> getSequenceIdsByPeptideSequence(String peptideSequence);
 }
