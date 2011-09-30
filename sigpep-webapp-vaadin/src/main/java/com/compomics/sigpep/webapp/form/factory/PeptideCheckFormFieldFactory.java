@@ -3,6 +3,7 @@ package com.compomics.sigpep.webapp.form.factory;
 import com.compomics.sigpep.model.Organism;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.component.FormHelp;
+import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
@@ -44,20 +45,20 @@ public class PeptideCheckFormFieldFactory implements FormFieldFactory {
         BeanItemContainer<Organism> lOrganismBeanItemContainer = new BeanItemContainer<Organism>(Organism.class);
         lOrganismBeanItemContainer.addAll(getOrganisms());
         iSpeciesSelect.setContainerDataSource(lOrganismBeanItemContainer);
-        iFormHelp.addHelpForComponent(iSpeciesSelect, iFormHelp.getFormHelpProperties().getProperty("form_help.species"));
+        iFormHelp.addHelpForComponent(iSpeciesSelect, PropertiesConfigurationHolder.getInstance().getString("form_help.species"));
 
         //protease field
         iProteaseSelect = new Select("Protease");
         iProteaseSelect.setRequired(Boolean.TRUE);
         iProteaseSelect.setNullSelectionAllowed(Boolean.FALSE);
         iProteaseSelect.setImmediate(Boolean.TRUE);
-        iFormHelp.addHelpForComponent(iProteaseSelect, iFormHelp.getFormHelpProperties().getProperty("form_help.protease"));
+        iFormHelp.addHelpForComponent(iProteaseSelect, PropertiesConfigurationHolder.getInstance().getString("form_help.protease"));
 
         //peptide field
         iPeptideSequenceTextField = new TextField("Peptide sequence");
         iPeptideSequenceTextField.setRequired(Boolean.TRUE);
-        iPeptideSequenceTextField.addValidator(new RegexpValidator("[A-Z]+", "Incorrect peptide sequence format"));
-        iFormHelp.addHelpForComponent(iPeptideSequenceTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.peptide_sequence"));
+        iPeptideSequenceTextField.addValidator(new RegexpValidator("[A-Z]+", PropertiesConfigurationHolder.getInstance().getString("form_validation.peptide_sequence")));
+        iFormHelp.addHelpForComponent(iPeptideSequenceTextField, (String) PropertiesConfigurationHolder.getInstance().getProperty("form_help.peptide_sequence"));
 
         iSpeciesSelect.addListener(new Property.ValueChangeListener() {
             public void valueChange(Property.ValueChangeEvent aValueChangeEvent) {

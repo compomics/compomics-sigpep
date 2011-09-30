@@ -24,6 +24,7 @@ import com.compomics.sigpep.webapp.component.FormHelp;
 import com.compomics.sigpep.webapp.component.FormTabSheet;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
+import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.ui.*;

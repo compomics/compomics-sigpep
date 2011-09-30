@@ -211,7 +211,7 @@ public class PeptideCheckForm extends Form {
             lSetContent += s + ", ";
             logger.info(lSetContent);
         }
-        lSetContent.substring(0, lSetContent.lastIndexOf(", ") - 3);
+        lSetContent = lSetContent.substring(0, lSetContent.lastIndexOf(", ") - 1);
         logger.info(lSetContent);
         return lSetContent;
     }

@@ -3,6 +3,7 @@ package com.compomics.sigpep.webapp.form.factory;
 import com.compomics.sigpep.analysis.SignatureTransitionFinderType;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.component.FormHelp;
+import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.vaadin.data.Item;
 import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.data.validator.IntegerValidator;
@@ -42,20 +43,20 @@ public class PeptideFormFieldFactory implements FormFieldFactory {
         //mass field
         iMassTextField = new TextField("Mass accuracy");
         iMassTextField.setRequired(Boolean.TRUE);
-        iMassTextField.addValidator(new DoubleValidator("Value must be a double"));
-        iFormHelp.addHelpForComponent(iMassTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.mass_accuracy"));
+        iMassTextField.addValidator(new DoubleValidator(PropertiesConfigurationHolder.getInstance().getString("form_validation.double")));
+        iFormHelp.addHelpForComponent(iMassTextField, PropertiesConfigurationHolder.getInstance().getString("form_help.mass_accuracy"));
 
         //min combination size field
         iMinimumCombinationSizeTextField = new TextField("Minimum combination size");
         iMinimumCombinationSizeTextField.setRequired(Boolean.TRUE);
-        iMinimumCombinationSizeTextField.addValidator(new IntegerValidator("Value must be an integer"));
-        iFormHelp.addHelpForComponent(iMinimumCombinationSizeTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.minimum_combination_size"));
+        iMinimumCombinationSizeTextField.addValidator(new IntegerValidator(PropertiesConfigurationHolder.getInstance().getString("form_validation.integer")));
+        iFormHelp.addHelpForComponent(iMinimumCombinationSizeTextField, PropertiesConfigurationHolder.getInstance().getString("form_help.minimum_combination_size"));
 
         //max combination size field
         iMaximumCombinationSizeTextField = new TextField("Maximum combination size");
         iMaximumCombinationSizeTextField.setRequired(Boolean.TRUE);
-        iMaximumCombinationSizeTextField.addValidator(new IntegerValidator("Value must be an integer"));
-        iFormHelp.addHelpForComponent(iMaximumCombinationSizeTextField, iFormHelp.getFormHelpProperties().getProperty("form_help.maximum_combination_size"));
+        iMaximumCombinationSizeTextField.addValidator(new IntegerValidator(PropertiesConfigurationHolder.getInstance().getString("form_validation.integer")));
+        iFormHelp.addHelpForComponent(iMaximumCombinationSizeTextField, PropertiesConfigurationHolder.getInstance().getString("form_help.maximum_combination_size"));
 
         //signature transition field
         iSignatureTransitionFinderTypeSelect = new Select("Signature transition finder");
@@ -64,7 +65,7 @@ public class PeptideFormFieldFactory implements FormFieldFactory {
         for (SignatureTransitionFinderType sig : SignatureTransitionFinderType.values()) {
             iSignatureTransitionFinderTypeSelect.addItem(sig);
         }
-        iFormHelp.addHelpForComponent(iSignatureTransitionFinderTypeSelect, iFormHelp.getFormHelpProperties().getProperty("form_help.signature_transition_finder"));
+        iFormHelp.addHelpForComponent(iSignatureTransitionFinderTypeSelect, PropertiesConfigurationHolder.getInstance().getString("form_help.signature_transition_finder"));
 
         //protease field
         iProteaseTextField = new TextField("Protease");
