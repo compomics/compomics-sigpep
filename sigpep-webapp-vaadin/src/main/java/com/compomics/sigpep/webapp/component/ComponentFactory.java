@@ -33,7 +33,7 @@ public class ComponentFactory {
         StreamResource lStreamResource = new StreamResource(lStreamSource, lFile.getName(), aApplication);
 
         Link lDownload = new Link("Download", lStreamResource);
-        lDownload.setStyleName("v-download-link");
+        lDownload.addStyleName("v-download-link");
         return lDownload;
     }
 

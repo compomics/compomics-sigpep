@@ -139,7 +139,7 @@ public class ResultsTable extends VerticalLayout {
     private Button generateSelectButton(File aFile) throws IOException {
 // Create a new button, display as a link.
         Button lButton = new Button("");
-        lButton.setStyleName(BaseTheme.BUTTON_LINK);
+        lButton.addStyleName(BaseTheme.BUTTON_LINK);
         lButton.setIcon(new ThemeResource("add.gif"));
 
         SelectTransitionListener lSelectTransitionListener = new SelectTransitionListener(aFile, iApplication);
@@ -152,7 +152,7 @@ public class ResultsTable extends VerticalLayout {
 
         // Create a new button, display as a link.
         Button lButton = new Button();
-        lButton.setStyleName(BaseTheme.BUTTON_LINK);
+        lButton.addStyleName(BaseTheme.BUTTON_LINK);
         lButton.setIcon(new ClassResource("/images/graph_int_pred.png", iApplication));
 
         //
@@ -180,7 +180,7 @@ public class ResultsTable extends VerticalLayout {
     private Button generateBackgroundSignatureButton(File lFile) {
         // Create a new button, display as a link.
         Button lButton = new Button();
-        lButton.setStyleName(BaseTheme.BUTTON_LINK);
+        lButton.addStyleName(BaseTheme.BUTTON_LINK);
 
         // Set the image icon from the classpath.
         lButton.setIcon(new ClassResource("/images/graph_sig_bg.png", iApplication));

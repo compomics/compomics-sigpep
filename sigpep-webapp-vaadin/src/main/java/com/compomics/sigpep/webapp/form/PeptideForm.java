@@ -12,7 +12,7 @@ import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.component.ResultsTable;
-import com.compomics.sigpep.webapp.factory.PeptideFormFieldFactory;
+import com.compomics.sigpep.webapp.form.factory.PeptideFormFieldFactory;
 import com.google.common.io.Files;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
