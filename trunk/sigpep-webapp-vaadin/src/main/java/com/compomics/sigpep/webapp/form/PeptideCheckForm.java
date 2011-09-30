@@ -7,7 +7,7 @@ import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
-import com.compomics.sigpep.webapp.factory.PeptideCheckFormFieldFactory;
+import com.compomics.sigpep.webapp.form.factory.PeptideCheckFormFieldFactory;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
@@ -146,6 +146,8 @@ public class PeptideCheckForm extends Form {
 
             //add background peptides to bean
             iPeptideFormBean.setlBackgroundPeptides(lBackgroundPeptides);
+
+            //search peptide in background peptides
             iCustomProgressIndicator.proceed("looking for peptide " + iPeptideFormBean.getPeptideSequence());
             logger.info("looking for peptide " + iPeptideFormBean.getPeptideSequence());
             for (Peptide lPeptide : lBackgroundPeptides) {
@@ -163,12 +165,23 @@ public class PeptideCheckForm extends Form {
                         " and protease " + aProtease.getFullName() + ".", Window.Notification.TYPE_ERROR_MESSAGE);
                 resetForm();
             } else {
-                //check if found peptide is a signature peptide
+                //retrieve sequence ID and protein accession sets for the found peptide sequence
                 iCustomProgressIndicator.proceed("Verifying if found peptide is a signature peptide");
                 logger.info("Verifying if found peptide is a signature peptide");
-                //if (!lGenerator.isSignaturePeptide(lFoundPeptide.getSequenceString())) {
-                ConfirmDialog lConfirmDialog = ConfirmDialog.show(iApplication.getMainWindow(), "Warning",
-                        "The peptide " + iFoundPeptide.getSequenceString() + " is no signature peptide for organism " + iPeptideFormBean.getSpecies().getScientificName() + " and protease " + iPeptideFormBean.getProteaseName() + ". \n\n Continue?", "Yes", "No",
+                Set<Integer> lSequenceIds = lGenerator.getSequenceIdsByPeptideSequence(iFoundPeptide.getSequenceString());
+                Set<String> lProteinAccessions = iApplication.getSigPepQueryService().getProteinAccessionsBySequenceIds(lSequenceIds);
+
+                String lMessage = "";
+                if (lProteinAccessions.size() > 1) {
+                    lMessage = "The peptide " + iFoundPeptide.getSequenceString() + " is found in proteins " + getSetAsString(lProteinAccessions) + " for organism " + iPeptideFormBean.getSpecies().getScientificName() + " and protease " + iPeptideFormBean.getProteaseName() + ".";
+                } else if (lProteinAccessions.size() == 1) {
+                    lMessage = "The peptide " + iFoundPeptide.getSequenceString() + " is found in protein " + getSetAsString(lProteinAccessions) + " for organism " + iPeptideFormBean.getSpecies().getScientificName() + " and protease " + iPeptideFormBean.getProteaseName() + ".";
+                } else {
+                    lMessage = "An unexpected error occurred. Please try again.";
+                }
+
+                ConfirmDialog lConfirmDialog = ConfirmDialog.show(iApplication.getMainWindow(), "Confirmation",
+                        lMessage + " \n\n Continue?", "Yes", "No",
                         new ConfirmDialog.Listener() {
 
                             public void onClose(ConfirmDialog dialog) {
@@ -188,9 +201,19 @@ public class PeptideCheckForm extends Form {
                                 iApplication.push();
                             }
                         });
-                //}
             }
         }
+    }
+
+    private String getSetAsString(Set<String> aStringSet) {
+        String lSetContent = "";
+        for (String s : aStringSet) {
+            lSetContent += s + ", ";
+            logger.info(lSetContent);
+        }
+        lSetContent.substring(0, lSetContent.lastIndexOf(", ") - 3);
+        logger.info(lSetContent);
+        return lSetContent;
     }
 
 }
