@@ -7,7 +7,9 @@ import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
+import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.form.factory.PeptideCheckFormFieldFactory;
+import com.google.common.base.Joiner;
 import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
@@ -18,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.vaadin.dialogs.ConfirmDialog;
 import org.vaadin.notifique.Notifique;
 
+import java.text.MessageFormat;
 import java.util.Set;
 import java.util.Vector;
 
@@ -131,7 +134,7 @@ public class PeptideCheckForm extends Form {
             Protease aProtease = iApplication.getSigPepQueryService().getProteaseByFullName(iPeptideFormBean.getProteaseName());
 
             //create peptide generator for protease
-            iCustomProgressIndicator.proceed("creating peptide generator for protease " + aProtease.getFullName());
+            iCustomProgressIndicator.proceed(MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_generator"), aProtease.getFullName()));
             logger.info("creating peptide generator for protease " + aProtease.getFullName());
             PeptideGenerator lGenerator = lSigPepSession.createPeptideGenerator(aProtease);
 
@@ -139,7 +142,7 @@ public class PeptideCheckForm extends Form {
             iPeptideFormBean.setPeptideGenerator(lGenerator);
 
             //get peptides
-            iCustomProgressIndicator.proceed("generating background peptides");
+            iCustomProgressIndicator.proceed(PropertiesConfigurationHolder.getInstance().getString("form_progress.background_peptides"));
             logger.info("generating lBackgroundPeptides");
             boolean lIsFound = false;
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
@@ -148,8 +151,8 @@ public class PeptideCheckForm extends Form {
             iPeptideFormBean.setlBackgroundPeptides(lBackgroundPeptides);
 
             //search peptide in background peptides
-            iCustomProgressIndicator.proceed("looking for peptide " + iPeptideFormBean.getPeptideSequence());
-            logger.info("looking for peptide " + iPeptideFormBean.getPeptideSequence());
+            iCustomProgressIndicator.proceed(MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_searching"), iPeptideFormBean.getPeptideSequence()));
+            logger.info("searching peptide " + iPeptideFormBean.getPeptideSequence());
             for (Peptide lPeptide : lBackgroundPeptides) {
                 if (lPeptide.getSequenceString().equals(iPeptideFormBean.getPeptideSequence())) {
                     logger.info("peptide found: " + lPeptide.getSequenceString());
@@ -161,21 +164,20 @@ public class PeptideCheckForm extends Form {
 
             //show error message if peptide is not found
             if (!lIsFound) {
-                iApplication.getMainWindow().showNotification("Peptide not found", "The peptide sequence " + iPeptideFormBean.getPeptideSequence() + "</br>was not found for organism " + iPeptideFormBean.getSpecies().getScientificName() +
-                        " and protease " + aProtease.getFullName() + ".", Window.Notification.TYPE_ERROR_MESSAGE);
+                iApplication.getMainWindow().showNotification("Peptide not found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_not_found"), iPeptideFormBean.getPeptideSequence(), iPeptideFormBean.getSpecies().getScientificName(), aProtease.getFullName()), Window.Notification.TYPE_ERROR_MESSAGE);
                 resetForm();
             } else {
                 //retrieve sequence ID and protein accession sets for the found peptide sequence
-                iCustomProgressIndicator.proceed("Verifying if found peptide is a signature peptide");
+                iCustomProgressIndicator.proceed(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_signature_verify"));
                 logger.info("Verifying if found peptide is a signature peptide");
                 Set<Integer> lSequenceIds = lGenerator.getSequenceIdsByPeptideSequence(iFoundPeptide.getSequenceString());
                 Set<String> lProteinAccessions = iApplication.getSigPepQueryService().getProteinAccessionsBySequenceIds(lSequenceIds);
 
                 String lMessage = "";
                 if (lProteinAccessions.size() > 1) {
-                    lMessage = "The peptide " + iFoundPeptide.getSequenceString() + " is found in proteins " + getSetAsString(lProteinAccessions) + " for organism " + iPeptideFormBean.getSpecies().getScientificName() + " and protease " + iPeptideFormBean.getProteaseName() + ".";
+                    lMessage = MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_found_in_protein"), iFoundPeptide.getSequenceString(), Joiner.on(", ").join(lProteinAccessions), iPeptideFormBean.getSpecies().getScientificName(), iPeptideFormBean.getProteaseName().toLowerCase());
                 } else if (lProteinAccessions.size() == 1) {
-                    lMessage = "The peptide " + iFoundPeptide.getSequenceString() + " is found in protein " + getSetAsString(lProteinAccessions) + " for organism " + iPeptideFormBean.getSpecies().getScientificName() + " and protease " + iPeptideFormBean.getProteaseName() + ".";
+                    MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_found_in_proteins"), iFoundPeptide.getSequenceString(), Joiner.on(", ").join(lProteinAccessions), iPeptideFormBean.getSpecies().getScientificName(), iPeptideFormBean.getProteaseName().toLowerCase());
                 } else {
                     lMessage = "An unexpected error occurred. Please try again.";
                 }
@@ -203,17 +205,6 @@ public class PeptideCheckForm extends Form {
                         });
             }
         }
-    }
-
-    private String getSetAsString(Set<String> aStringSet) {
-        String lSetContent = "";
-        for (String s : aStringSet) {
-            lSetContent += s + ", ";
-            logger.info(lSetContent);
-        }
-        lSetContent = lSetContent.substring(0, lSetContent.lastIndexOf(", ") - 1);
-        logger.info(lSetContent);
-        return lSetContent;
     }
 
 }

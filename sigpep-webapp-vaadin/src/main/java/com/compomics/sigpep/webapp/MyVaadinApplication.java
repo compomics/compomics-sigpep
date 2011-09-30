@@ -36,6 +36,7 @@ import org.vaadin.overlay.CustomOverlay;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
