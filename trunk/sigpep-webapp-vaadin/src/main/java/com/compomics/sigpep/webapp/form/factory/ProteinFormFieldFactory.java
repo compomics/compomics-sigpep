@@ -100,7 +100,7 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
         iProteinAccessionTextField = new TextField("Protein accession");
         iProteinAccessionTextField.setRequired(Boolean.TRUE);
         iProteinAccessionTextField.setImmediate(Boolean.TRUE);
-        iProteinAccessionTextField.addValidator(new RegexpValidator("ENS[0-9]{11}", PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession")));
+        //iProteinAccessionTextField.addValidator(new RegexpValidator("ENS[0-9]{11}", PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession")));
         iFormHelp.addHelpForComponent(iProteinAccessionTextField, PropertiesConfigurationHolder.getInstance().getString("form_help.protein_accession"));
 
         iSpeciesSelect.addListener(new Property.ValueChangeListener() {
@@ -128,23 +128,25 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
             public void valueChange(Property.ValueChangeEvent aValueChangeEvent) {
                 String lProteinAccession = (String) iProteinAccessionTextField.getValue();
 
-                Organism lOrganism = (Organism) iSpeciesSelect.getValue();
-                if (lOrganism != null) {
-                    try {
-                        List<String> lMappedProteinAccessions = PICRReader.doPICR(lProteinAccession, "ENSEMBL", Integer.toString(lOrganism.getTaxonId()));
-                        String lMappedProteinAccession = null;
-                        if (lMappedProteinAccessions.size() == 0) {
-                            iApplication.getMainWindow().showNotification("No ENSEMBL mapping found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_not_found"), lProteinAccession, iPeptideFormBean.getSpecies().getScientificName(), lProteinAccession), Window.Notification.TYPE_ERROR_MESSAGE);
-                        } else if (lMappedProteinAccessions.size() == 1) {
-                            iApplication.getMainWindow().showNotification("ENSEMBL mapping found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping"), iPeptideFormBean.getPeptideSequence(), iPeptideFormBean.getSpecies().getScientificName(), aProtease.getFullName().toLowerCase()), Window.Notification.TYPE_ERROR_MESSAGE);
-                        }
-                        else {
-                            iApplication.getMainWindow().showNotification("Multiple ENSEMBL mappings found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_multiple"), iPeptideFormBean.getPeptideSequence(), iPeptideFormBean.getSpecies().getScientificName(), aProtease.getFullName().toLowerCase()), Window.Notification.TYPE_ERROR_MESSAGE);
-                        }
-                        iProteinAccessionTextField.setValue(lMappedProteinAccession);
+                if (!(lProteinAccession == null || lProteinAccession.equals("") || lProteinAccession.startsWith("ENS"))) {
+                    Organism lOrganism = (Organism) iSpeciesSelect.getValue();
+                    if (lOrganism != null) {
+                        try {
+                            List<String> lMappedProteinAccessions = PICRReader.doPICR(lProteinAccession, "ENSEMBL", Integer.toString(lOrganism.getTaxonId()));
+                            String lMappedProteinAccession = "";
+                            if (lMappedProteinAccessions.size() == 0) {
+                                iApplication.getMainWindow().showNotification("No ENSEMBL mapping found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_not_found"), lProteinAccession, lOrganism.getScientificName()), Window.Notification.TYPE_ERROR_MESSAGE);
+                            } else if (lMappedProteinAccessions.size() == 1) {
+                                lMappedProteinAccession = lMappedProteinAccessions.get(0);
+                                iApplication.getMainWindow().showNotification("ENSEMBL mapping found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping"), lProteinAccession, lMappedProteinAccession, lOrganism.getScientificName()), Window.Notification.TYPE_WARNING_MESSAGE);
+                            } else {
+                                iApplication.getMainWindow().showNotification("Multiple ENSEMBL mappings found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_multiple"), lProteinAccession, lOrganism.getScientificName()), Window.Notification.TYPE_ERROR_MESSAGE);
+                            }
+                            iProteinAccessionTextField.setValue(lMappedProteinAccession);
 
-                    } catch (IOException e) {
-                        log.error(e.getMessage(), e);
+                        } catch (IOException e) {
+                            log.error(e.getMessage(), e);
+                        }
                     }
                 }
             }

@@ -41,6 +41,9 @@ public class PICRReader {
         String lTargetDatabase = "ENSEMBL";
         String lTaxonId = "9606";
         List<String> lMappedAccessions = doPICR(lAccession, lTargetDatabase, lTaxonId);
+        if(lMappedAccessions.size() == 0){
+            System.out.println("null");
+        }
         for (String s : lMappedAccessions) {
             System.out.println(s);
         }
@@ -59,7 +62,14 @@ public class PICRReader {
             domFactory.setNamespaceAware(true);
             DocumentBuilder builder = domFactory.newDocumentBuilder();
 
-            Document doc = builder.parse(lInputStream);
+            Document doc = null;
+            try {
+                doc = builder.parse(lInputStream);
+                //doc = builder.parse(new File("C:\\Users\\niels\\Desktop\\picrtest.xml"));
+            } catch (SAXException e) {
+                logger.error(e.getMessage(), e);
+                return lMappedAccessions;
+            }
             lInputStream.close();
 
             NamespaceContext lNamespaceContext = new NamespaceContext() {
@@ -90,7 +100,6 @@ public class PICRReader {
 
             Object result = expr.evaluate(doc, XPathConstants.NODESET);
             NodeList nodes = (NodeList) result;
-            System.out.println(nodes.getLength());
             for (int i = 0; i < nodes.getLength(); i++) {
                 if (nodes.item(i).getChildNodes().item(0).getTextContent().startsWith(PREFIX)) {
                     lMappedAccessions.add(nodes.item(i).getChildNodes().item(0).getTextContent());
@@ -98,11 +107,9 @@ public class PICRReader {
             }
 
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (SAXException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error(e.getMessage(), e);
         } catch (XPathExpressionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error(e.getMessage(), e);
         }
 
         return lMappedAccessions;
