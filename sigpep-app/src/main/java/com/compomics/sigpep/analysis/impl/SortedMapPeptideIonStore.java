@@ -28,37 +28,34 @@ public class SortedMapPeptideIonStore<P extends PeptideIon> implements PeptideIo
     private double massAccuracy;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param chargeStates
      * @param massAccuracy
      * @param massPrecission
+     * @TODO: JavaDoc missing.
      */
     public SortedMapPeptideIonStore(Set<Integer> chargeStates,
-            double massAccuracy,
-            int massPrecission) {
+                                    double massAccuracy,
+                                    int massPrecission) {
         this(chargeStates, massAccuracy);
         this.massPrecission = massPrecission;
 
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param chargeStates
      * @param massAccuracy
+     * @TODO: JavaDoc missing.
      */
     public SortedMapPeptideIonStore(Set<Integer> chargeStates,
-            double massAccuracy) {
+                                    double massAccuracy) {
 
         this.setChargeStates(chargeStates);
         this.massAccuracy = massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param peptideIons
+     * @TODO: JavaDoc missing.
      */
     public void populate(Collection<P> peptideIons) {
 
@@ -76,21 +73,19 @@ public class SortedMapPeptideIonStore<P extends PeptideIon> implements PeptideIo
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param mass
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<P> getPeptideIonsWithMass(double mass) {
         return store.get(mass);
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param lowerMassLimit
      * @param upperMassLimit
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<P> getPeptideIonsInMassRange(double lowerMassLimit, double upperMassLimit) {
 
@@ -102,10 +97,9 @@ public class SortedMapPeptideIonStore<P extends PeptideIon> implements PeptideIo
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param peptideIon
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Map<Integer, Set<P>> getPeptideIonsWithOverlappingMassOverCharge(P peptideIon) {
         double mass = peptideIon.getNeutralMassPeptide();
@@ -114,10 +108,9 @@ public class SortedMapPeptideIonStore<P extends PeptideIon> implements PeptideIo
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param neutralMassPeptide
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Map<Integer, Set<P>> getPeptideIonsWithOverlappingMassOverCharge(double neutralMassPeptide) {
 
@@ -151,27 +144,24 @@ public class SortedMapPeptideIonStore<P extends PeptideIon> implements PeptideIo
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<Double> getUniqueNeutralPeptideIonMasses() {
         return store.keySet();
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<Integer> getChargeStates() {
         return chargeStates.keySet();
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param chargeStates
+     * @TODO: JavaDoc missing.
      */
     public void setChargeStates(Set<Integer> chargeStates) {
         this.chargeStates = new TreeMap<Integer, Double>();
@@ -181,36 +171,32 @@ public class SortedMapPeptideIonStore<P extends PeptideIon> implements PeptideIo
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public double getMassAccuracy() {
         return massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param massAccuracy
+     * @TODO: JavaDoc missing.
      */
     public void setMassAccuracy(double massAccuracy) {
         this.massAccuracy = massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public int getMassPrecission() {
         return massPrecission;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param massPrecission
+     * @TODO: JavaDoc missing.
      */
     public void setMassPrecission(int massPrecission) {
         this.massPrecission = massPrecission;

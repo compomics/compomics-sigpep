@@ -5,19 +5,19 @@
 
     <!--Arabidopsis thaliana-->
     <Resource name="jdbc/SigPepDbArabidopsisThaliana" auth="Container"
-                  type="javax.sql.DataSource"
-                  maxActive="100" maxIdle="30" maxWait="10000"
-                  username="anonymous" password=""
-                  driverClassName="com.mysql.jdbc.Driver"
-                  url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_arabidopsis_thaliana?autoReconnect=true"/>
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="anonymous" password=""
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_arabidopsis_thaliana?autoReconnect=true"/>
 
     <!--Caenorhabditis elegans-->
     <Resource name="jdbc/SigPepDbCaenorhabditisElegans" auth="Container"
-                  type="javax.sql.DataSource"
-                  maxActive="100" maxIdle="30" maxWait="10000"
-                  username="anonymous" password=""
-                  driverClassName="com.mysql.jdbc.Driver"
-                  url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_caenorhabditis_elegans?autoReconnect=true"/>
+              type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              username="anonymous" password=""
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://mysql-sigpep.ebi.ac.uk:4112/sigpep_caenorhabditis_elegans?autoReconnect=true"/>
 
     <!--Danio rerio-->
     <Resource name="jdbc/SigPepDbDanioRerio" auth="Container"

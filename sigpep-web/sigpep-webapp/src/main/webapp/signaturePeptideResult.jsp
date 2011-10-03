@@ -31,48 +31,47 @@
         </h:panelGrid>
 
 
-
         <h:panelGrid border="1">
             <h:form>
-            <t:dataTable id="signaturePeptideTable"
-                         var="signaturePeptideFeature"
-                         value="#{signaturePeptideResultBean.signaturePeptideFeatures}"
-                         rows="10">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="start"/>
+                <t:dataTable id="signaturePeptideTable"
+                             var="signaturePeptideFeature"
+                             value="#{signaturePeptideResultBean.signaturePeptideFeatures}"
+                             rows="10">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="start"/>
+                        </f:facet>
+                        <h:outputText value="#{signaturePeptideFeature.location.start}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="end"/>
+                        </f:facet>
+                        <h:outputText value="#{signaturePeptideFeature.location.end}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="sequence"/>
+                        </f:facet>
+                        <h:outputText value="#{signaturePeptideFeature.featureObject.sequenceString}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="length"/>
+                        </f:facet>
+                        <h:outputText value="#{signaturePeptideFeature.featureObject.sequenceLength}"/>
+                    </h:column>
+                    <f:facet name="footer">
+                        <t:dataScroller id="signaturePeptideTableScroller"
+                                        for="signaturePeptideTable"
+                                        paginator="true"/>
                     </f:facet>
-                    <h:outputText value="#{signaturePeptideFeature.location.start}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="end"/>
-                    </f:facet>
-                    <h:outputText value="#{signaturePeptideFeature.location.end}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="sequence"/>
-                    </f:facet>
-                    <h:outputText value="#{signaturePeptideFeature.featureObject.sequenceString}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="length"/>
-                    </f:facet>
-                    <h:outputText value="#{signaturePeptideFeature.featureObject.sequenceLength}"/>
-                </h:column>
-                <f:facet name="footer">
-                    <t:dataScroller id="signaturePeptideTableScroller"
-                            for="signaturePeptideTable"
-                            paginator="true"/>     
-                </f:facet>
-            </t:dataTable>
+                </t:dataTable>
             </h:form>
         </h:panelGrid>
 
         <%--<h:panelGrid>--%>
-            <%----%>
+        <%----%>
         <%--</h:panelGrid>--%>
 
     </h:panelGrid>

@@ -1,11 +1,12 @@
 package com.compomics.sigpep.persistence.rdbms;
 
 import com.compomics.sigpep.persistence.config.Configuration;
+
 import javax.sql.DataSource;
 
 /**
  * Provides JDBC data sources.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 02-Jun-2008<br/>
@@ -13,13 +14,19 @@ import javax.sql.DataSource;
  */
 public abstract class DataSourceFactory {
 
-    /** provides access to the persistence layer configuration in sigpep-persistence.properties */
+    /**
+     * provides access to the persistence layer configuration in sigpep-persistence.properties
+     */
     private static Configuration config = Configuration.getInstance();
 
-    /** the name of the data source factory implementation class */
+    /**
+     * the name of the data source factory implementation class
+     */
     private static String dataSourceFactoryClass = config.getString("sigpep.db.datasource.factory.class");
 
-    /** the singleton instance */
+    /**
+     * the singleton instance
+     */
     private static DataSourceFactory ourInstance;
 
     /**
@@ -33,7 +40,7 @@ public abstract class DataSourceFactory {
         if (ourInstance == null) {
 
             try {
-                ourInstance = (DataSourceFactory)Class.forName(dataSourceFactoryClass).newInstance();
+                ourInstance = (DataSourceFactory) Class.forName(dataSourceFactoryClass).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {

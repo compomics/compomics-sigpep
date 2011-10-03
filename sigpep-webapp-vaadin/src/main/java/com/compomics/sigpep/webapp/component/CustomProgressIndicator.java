@@ -22,7 +22,7 @@ public class CustomProgressIndicator extends VerticalLayout {
     private ProgressIndicator iProgressIndicator;
     private Label iLabel;
 
-    public CustomProgressIndicator(String aCaption, int aMaxStepNumber){
+    public CustomProgressIndicator(String aCaption, int aMaxStepNumber) {
         iLabel = new Label();
         iLabel.setCaption(aCaption);
         iMaxStepNumber = aMaxStepNumber;
@@ -43,13 +43,12 @@ public class CustomProgressIndicator extends VerticalLayout {
         iLabel = aLabel;
     }
 
-    public void proceed(String aMessage){
-        if(iStepNumber != iMaxStepNumber){
+    public void proceed(String aMessage) {
+        if (iStepNumber != iMaxStepNumber) {
             iLabel.setCaption(aMessage);
-            iProgressIndicator.setValue((float ) iStepNumber / iMaxStepNumber);
-            iStepNumber ++;
-        }
-        else {
+            iProgressIndicator.setValue((float) iStepNumber / iMaxStepNumber);
+            iStepNumber++;
+        } else {
             iProgressIndicator.setValue(1f);
         }
     }

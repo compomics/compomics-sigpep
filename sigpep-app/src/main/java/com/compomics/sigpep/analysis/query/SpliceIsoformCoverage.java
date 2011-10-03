@@ -33,7 +33,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 22-Jan-2008<br/>
@@ -85,19 +85,17 @@ public class SpliceIsoformCoverage {
     private SigPepDatabase sigPepDatabase;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param sigPepDatabase
+     * @TODO: JavaDoc missing.
      */
     public SpliceIsoformCoverage(SigPepDatabase sigPepDatabase) {
         this.sigPepDatabase = sigPepDatabase;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param peptideIds
      * @param printWriter
+     * @TODO: JavaDoc missing.
      */
     public void reportSpliceIsoformCoverage(Set<Integer> peptideIds, PrintWriter printWriter) {
 
@@ -159,45 +157,44 @@ public class SpliceIsoformCoverage {
     /**
      * @TODO: JavaDoc missing.
      */
-    public void reportSpliceEventCoverage(){
+    public void reportSpliceEventCoverage() {
 
         String query =
                 "SELECT DISTINCT gene.gene_accession, \n" +
-                "                prot.protein_accession, \n" +
-                "                prot.known AS protein_known,\n" +
-                "                spe.splice_event_id,\n" +
-                "                spe.pos_start AS exon_end, \n" +
-                "                pep.peptide_id, \n" +
-                "                pep.pos_start AS peptide_start, \n" +
-                "                pep.pos_end AS peptide_end, \n" +
-                "                CHAR_LENGTH(seq.aa_sequence) sequence_length\n" +
-                "FROM gene gene,\n" +
-                "     protein2gene gene2prot, \n" +
-                "     protein prot, \n" +
-                "     protein2sequence prot2seq, \n" +
-                "     protein_sequence seq,\n" +
-                "     splice_event_location spe,\n" +
-                "     peptide pep\n" +
-                "WHERE gene.gene_id=gene2prot.gene_id\n" +
-                "  AND gene2prot.protein_id=prot.protein_id \n" +
-                "  AND prot.protein_id=prot2seq.protein_id\n" +
-                "  AND prot2seq.sequence_id=seq.sequence_id\n" +
-                "  AND seq.sequence_id=spe.sequence_id\n" +
-                "  AND (seq.sequence_id=pep.sequence_id AND pep.pos_start < spe.pos_start AND pep.pos_end > spe.pos_end) \n" +
-                "ORDER BY gene_accession, protein_accession, spe.pos_start";
+                        "                prot.protein_accession, \n" +
+                        "                prot.known AS protein_known,\n" +
+                        "                spe.splice_event_id,\n" +
+                        "                spe.pos_start AS exon_end, \n" +
+                        "                pep.peptide_id, \n" +
+                        "                pep.pos_start AS peptide_start, \n" +
+                        "                pep.pos_end AS peptide_end, \n" +
+                        "                CHAR_LENGTH(seq.aa_sequence) sequence_length\n" +
+                        "FROM gene gene,\n" +
+                        "     protein2gene gene2prot, \n" +
+                        "     protein prot, \n" +
+                        "     protein2sequence prot2seq, \n" +
+                        "     protein_sequence seq,\n" +
+                        "     splice_event_location spe,\n" +
+                        "     peptide pep\n" +
+                        "WHERE gene.gene_id=gene2prot.gene_id\n" +
+                        "  AND gene2prot.protein_id=prot.protein_id \n" +
+                        "  AND prot.protein_id=prot2seq.protein_id\n" +
+                        "  AND prot2seq.sequence_id=seq.sequence_id\n" +
+                        "  AND seq.sequence_id=spe.sequence_id\n" +
+                        "  AND (seq.sequence_id=pep.sequence_id AND pep.pos_start < spe.pos_start AND pep.pos_end > spe.pos_end) \n" +
+                        "ORDER BY gene_accession, protein_accession, spe.pos_start";
 
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param peptideIds
      * @param printWriter
+     * @TODO: JavaDoc missing.
      */
     public void reportSpliceEventCoverage(Set<Integer> peptideIds, PrintWriter printWriter) {
 
         logger.info("starting splice event analysis...");
-         int ncbiTaxonId = 9606;
+        int ncbiTaxonId = 9606;
         try {
 
             int tableColumnCount = 8;
@@ -216,7 +213,7 @@ public class SpliceIsoformCoverage {
 
             int geneCount = 0;
 
-            for (Iterator<Gene> genes = sigPepQuery.iterate(); genes.hasNext();) {
+            for (Iterator<Gene> genes = sigPepQuery.iterate(); genes.hasNext(); ) {
 
                 Gene gene = genes.next();
                 geneCount++;
@@ -333,15 +330,14 @@ public class SpliceIsoformCoverage {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param inputFile
      * @param pw
+     * @TODO: JavaDoc missing.
      */
     public void createSpliceAnalysisSummary(URL inputFile, PrintWriter pw) {
 
         try {
-        
+
             SessionFactory enshSessionFactory = Ensh.getSessionFactory(9606, 45);
             Session enshSession = enshSessionFactory.openSession();
             Query enshQuery = enshSession.createQuery("from Translation");
@@ -349,7 +345,7 @@ public class SpliceIsoformCoverage {
             //get protein status
             logger.info("fetching Ensembl translation status...");
             HashMap<String, String> ensemblTranslationStatus = new HashMap<String, String>();
-            for (Iterator<Translation> translations = enshQuery.iterate(); translations.hasNext();) {
+            for (Iterator<Translation> translations = enshQuery.iterate(); translations.hasNext(); ) {
 
                 Translation translation = translations.next();
                 String stableId = translation.getStableId().getStableId();
@@ -360,7 +356,7 @@ public class SpliceIsoformCoverage {
             logger.info("fetching Ensembl gene status...");
             enshQuery = enshSession.createQuery("from Gene");
             HashMap<String, String> ensemblGeneStatus = new HashMap<String, String>();
-            for (Iterator<com.compomics.ensh.core.model.Gene> genes = enshQuery.iterate(); genes.hasNext();) {
+            for (Iterator<com.compomics.ensh.core.model.Gene> genes = enshQuery.iterate(); genes.hasNext(); ) {
                 com.compomics.ensh.core.model.Gene gene = genes.next();
                 String stableId = gene.getStableId().getStableId();
                 String status = gene.getStatus();
@@ -426,7 +422,7 @@ public class SpliceIsoformCoverage {
 
             //ENSG00000198939 false   ENSP00000354453 1857228 282     290     exon_usage
 
-            for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtr.read(); rows.hasNext(); ) {
 
                 String[] row = rows.next();
 
@@ -635,9 +631,8 @@ public class SpliceIsoformCoverage {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 

@@ -5,7 +5,7 @@ import com.compomics.sigpep.model.ProteinSequence;
 
 /**
  * Implementation of SequenceLocation.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 16-Jan-2008<br/>

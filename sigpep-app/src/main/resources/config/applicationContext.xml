@@ -10,6 +10,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="sigPepApplication" class="com.compomics.sigpep.impl.SigPepApplicationImpl">
         <property name="sigPepSessionFactory" ref="sigPepSessionFactoryBean"/>
-    </bean>   
+    </bean>
 
 </beans>

@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * The SigPepApplication bean.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jul-2008<br/>
@@ -19,58 +19,76 @@ import java.util.List;
  */
 public class SigPepApplicationImpl implements SigPepApplication {
 
-    /** provides access to the configuration in the sigpep-app.properties file */
+    /**
+     * provides access to the configuration in the sigpep-app.properties file
+     */
     private static Configuration config = Configuration.getInstance();
 
-    /** the default target product ion types considered in signature transition searches */
+    /**
+     * the default target product ion types considered in signature transition searches
+     */
     private static Set<ProductIonType> defaultTargetProductIonTypes = new HashSet<ProductIonType>();
 
-    /** the default background product ion types considered in signature transition searches */
+    /**
+     * the default background product ion types considered in signature transition searches
+     */
     private static Set<ProductIonType> defaultBackgroundProductIonTypes = new HashSet<ProductIonType>();
 
-    /** the default precursor ion charge states used in signature transition searches */
+    /**
+     * the default precursor ion charge states used in signature transition searches
+     */
     private static Set<Integer> defaultPrecursorIonChargeStates = new HashSet<Integer>();
 
-    /** the default product ion charge states used in signature transition searches */
+    /**
+     * the default product ion charge states used in signature transition searches
+     */
     private static Set<Integer> defaultProductIonChargeStates = new HashSet<Integer>();
 
-    /** the default mass accuracy used in signature transition searches */
+    /**
+     * the default mass accuracy used in signature transition searches
+     */
     private static double defaultMassAccuracy = config.getDouble("sigpep.app.mass.accuracy");
 
-    /** the default minimal number of product ions defining a signature transition */
+    /**
+     * the default minimal number of product ions defining a signature transition
+     */
     private static int defaultMinimumSignatureTransitionSize = config.getInt("sigpep.app.min.signature.transition.size");
 
-    /** the default maximum number of product ions defining a signature transition */
+    /**
+     * the default maximum number of product ions defining a signature transition
+     */
     private static int defaultMaximumSignatureTransitionSize = config.getInt("sigpep.app.max.signature.transition.size");
 
-    static{
+    static {
 
         //populate target product ion type set
         List<String> targetProductIonTypes = config.getList("sigpep.app.target.product.ion.types");
-        for(String type : targetProductIonTypes){
+        for (String type : targetProductIonTypes) {
             defaultTargetProductIonTypes.add(ProductIonType.valueOf(type));
         }
 
         //populate default target product ion set
         List<String> backgroundProductIonTypes = config.getList("sigpep.app.background.product.ion.types");
-        for(String type : backgroundProductIonTypes){
+        for (String type : backgroundProductIonTypes) {
             defaultBackgroundProductIonTypes.add(ProductIonType.valueOf(type));
         }
 
         //populate default precursor ion charge state set
         List<String> precursorIonChargeStates = config.getList("sigpep.app.precursor.ion.charge.states");
-        for(String chargeState : precursorIonChargeStates){
+        for (String chargeState : precursorIonChargeStates) {
             defaultPrecursorIonChargeStates.add(new Integer(chargeState));
         }
 
         //populate default product ion charge state set
         List<String> productIonChargeStates = config.getList("sigpep.app.product.ion.charge.states");
-        for(String chargeState : productIonChargeStates){
+        for (String chargeState : productIonChargeStates) {
             defaultProductIonChargeStates.add(new Integer(chargeState));
         }
     }
 
-    /** the SigPepSession factory  */
+    /**
+     * the SigPepSession factory
+     */
     private SigPepSessionFactory sigPepSessionFactory;
 
     /**
@@ -88,7 +106,7 @@ public class SigPepApplicationImpl implements SigPepApplication {
      * @param sigPepSessionFactory the SigPepSession factory
      */
     public void setSigPepSessionFactory(SigPepSessionFactory sigPepSessionFactory) {
-        this.sigPepSessionFactory=sigPepSessionFactory;
+        this.sigPepSessionFactory = sigPepSessionFactory;
     }
 
     /**

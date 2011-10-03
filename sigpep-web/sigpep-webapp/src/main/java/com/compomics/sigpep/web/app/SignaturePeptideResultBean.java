@@ -27,9 +27,9 @@ public class SignaturePeptideResultBean {
         this.signaturePeptideFeatures = signaturePeptideFeatures;
     }
 
-    public List<PeptideFeature> getSignaturePeptideFeatures(){
+    public List<PeptideFeature> getSignaturePeptideFeatures() {
 
-        if(signaturePeptideFeatures==null){
+        if (signaturePeptideFeatures == null) {
             this.setSignaturePeptideFeature(sigPepSessionBean.getSignaturePeptides());
         }
 

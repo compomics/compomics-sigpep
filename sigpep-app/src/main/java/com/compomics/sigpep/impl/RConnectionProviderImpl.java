@@ -8,7 +8,7 @@ import com.compomics.sigpep.RConnectionProvider;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 20-Aug-2008<br/>
@@ -23,17 +23,16 @@ public class RConnectionProviderImpl extends RConnectionProvider {
     private int rServePort = config.getInt("sigpep.app.r.serve.port");
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @return
+     * @TODO: JavaDoc missing.
      */
     public RConnection getRConnection() {
 
         logger.info("connecting to Rserve on host " + rServeHost + ", port " + rServePort + ".");
-        try {            
+        try {
             return new RConnection(rServeHost, rServePort);
         } catch (RserveException e) {
-            throw new RuntimeException("Exception while connecting to R at " + rServeHost + " on port " + rServePort 
+            throw new RuntimeException("Exception while connecting to R at " + rServeHost + " on port " + rServePort
                     + ". Make sure Rserve is running and accepts connections. In case you try to connect remotely remote "
                     + "connections have to be enabled by including \"remote enable\" in the Rserve configuration file.", e);
         }

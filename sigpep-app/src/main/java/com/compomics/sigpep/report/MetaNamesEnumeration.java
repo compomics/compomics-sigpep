@@ -12,6 +12,7 @@ public enum MetaNamesEnumeration {
     BARCODE_IONNUMBER("sigpep.meta.barcode.ionnumber");
 
     public String NAME;
+
     MetaNamesEnumeration(String aName) {
         this.NAME = aName;
     }

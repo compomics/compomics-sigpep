@@ -22,34 +22,34 @@ public class SigPepWebApplication {
     private static SigPepApplication sigPepApplication = ApplicationLocator.getInstance().getApplication();
     private static SigPepSessionFactory sigPepsessionFactory = (SigPepSessionFactory) sigPepApplication.getSigPepSessionFactory();
     private static Map<Integer, Organism> availableOrganisms;
-            
+
     public SigPepSession createSigPepSession(Organism organism) {
         return sigPepsessionFactory.createSigPepSession(organism);
     }
 
-    public void setAvailableOrganisms(Set<Organism> organisms){
-        availableOrganisms=new HashMap<Integer, Organism>();
-        for(Organism organism : organisms) {
-            availableOrganisms.put(organism.getTaxonId(),organism);
+    public void setAvailableOrganisms(Set<Organism> organisms) {
+        availableOrganisms = new HashMap<Integer, Organism>();
+        for (Organism organism : organisms) {
+            availableOrganisms.put(organism.getTaxonId(), organism);
         }
     }
 
-    public Collection<Organism> getAvailableOrganisms(){
-        if(availableOrganisms == null){
+    public Collection<Organism> getAvailableOrganisms() {
+        if (availableOrganisms == null) {
             setAvailableOrganisms(sigPepsessionFactory.getOrganisms());
         }
 
         return availableOrganisms.values();
     }
 
-    public Organism getOrganismByTaxonId(int taxonId){
+    public Organism getOrganismByTaxonId(int taxonId) {
 
-        if(availableOrganisms == null){
+        if (availableOrganisms == null) {
             setAvailableOrganisms(sigPepsessionFactory.getOrganisms());
         }
 
         Organism retVal = null;
-        if(availableOrganisms.containsKey(taxonId)){
+        if (availableOrganisms.containsKey(taxonId)) {
             retVal = availableOrganisms.get(taxonId);
         }
 

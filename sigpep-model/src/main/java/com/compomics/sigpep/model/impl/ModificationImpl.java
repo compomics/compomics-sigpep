@@ -5,7 +5,7 @@ import com.compomics.sigpep.model.Modification;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Feb-2008<br/>
@@ -30,18 +30,18 @@ public class ModificationImpl implements Modification {
      * @param name           the name of the modification
      * @param formula        the formula of the modification
      * @param massDifference the mass difference
-     * @param isStable         whether the modification is stable
+     * @param isStable       whether the modification is stable
      * @param isStatic       whether the modification is static
      * @param position       the position of the modification
      */
     public ModificationImpl(String name,
-            String description,
-            String residue,
-            String formula,
-            double massDifference,
-            boolean isStable,
-            boolean isStatic,
-            ModificationPosition position) {
+                            String description,
+                            String residue,
+                            String formula,
+                            double massDifference,
+                            boolean isStable,
+                            boolean isStatic,
+                            ModificationPosition position) {
         this.residue = residue;
         this.formula = formula;
         this.description = description;
@@ -127,72 +127,64 @@ public class ModificationImpl implements Modification {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public boolean isStatic() {
         return isStatic;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param isStatic
+     * @TODO: JavaDoc missing
      */
     public void setStatic(boolean isStatic) {
         this.isStatic = isStatic;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public String getFormula() {
         return formula;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param formula
+     * @TODO: JavaDoc missing
      */
     public void setFormula(String formula) {
         this.formula = formula;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param description
+     * @TODO: JavaDoc missing
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public ModificationPosition getPosition() {
         return position;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param position
+     * @TODO: JavaDoc missing
      */
     public void setPosition(ModificationPosition position) {
         this.position = position;

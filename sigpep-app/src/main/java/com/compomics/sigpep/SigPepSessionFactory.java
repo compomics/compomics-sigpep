@@ -1,11 +1,12 @@
 package com.compomics.sigpep;
 
 import com.compomics.sigpep.model.Organism;
+
 import java.util.Set;
 
 /**
  * Creates SigPepSessions for a specified organism.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 02-Jun-2008<br/>

@@ -4,7 +4,7 @@ import com.compomics.sigpep.model.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 11-Jan-2008<br/>
@@ -13,9 +13,8 @@ import com.compomics.sigpep.model.*;
 public class PeptideIonTest {
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -24,12 +23,12 @@ public class PeptideIonTest {
         PrecursorIon pi = p.getPrecursorIon();
 
         System.out.println("y-ions");
-        for(ProductIon prod : pi.getProductIons(ProductIonType.Y)){
+        for (ProductIon prod : pi.getProductIons(ProductIonType.Y)) {
             System.out.println(prod.getMassOverCharge(1));
         }
 
         System.out.println("b-ions");
-        for(ProductIon prod : pi.getProductIons(ProductIonType.B)){
+        for (ProductIon prod : pi.getProductIons(ProductIonType.B)) {
             System.out.println(prod.getMassOverCharge(1));
         }
 

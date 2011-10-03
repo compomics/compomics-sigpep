@@ -3,7 +3,7 @@ package com.compomics.sigpep.playground;
 /**
  * @TODO: JavaDoc missing.
  * @TODO: all code in this class is commented out...
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 17-Apr-2008<br/>

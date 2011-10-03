@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>
@@ -118,7 +118,7 @@ public abstract class AbstractPeptide implements Peptide {
      * A residue can only carry one modification. Modifications that affect residues that
      * have already been modified previously will be ignored.
      *
-     * @param peptide                       the peptide to modify
+     * @param peptide      the peptide to modify
      * @param modification the modification
      * @return a list of modified peptides
      */
@@ -443,7 +443,7 @@ public abstract class AbstractPeptide implements Peptide {
                                     modPep = new ModifiedPeptideImpl(peptide);
                                 }
 
-                               Set combination = residueCombinations.nextElement();
+                                Set combination = residueCombinations.nextElement();
 
                                 for (Object positionObject : combination) {
 
@@ -489,7 +489,7 @@ public abstract class AbstractPeptide implements Peptide {
     public Set<Peptide> applyModifications(Set<Modification> modifications) {
 
         Set<Peptide> retVal = new HashSet<Peptide>();
-        if(modifications == null || modifications.size() == 0){
+        if (modifications == null || modifications.size() == 0) {
             retVal.add(this);
             return retVal;
         }
@@ -533,10 +533,9 @@ public abstract class AbstractPeptide implements Peptide {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param peptides
      * @return
+     * @TODO: JavaDoc missing
      */
     private List<ModifiedPeptide> removeUnmodified(List<Peptide> peptides) {
 
@@ -552,11 +551,10 @@ public abstract class AbstractPeptide implements Peptide {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param peptides
      * @param ptms
      * @return
+     * @TODO: JavaDoc missing
      */
     private Set<Peptide> applyModififcationsRecursively(Set<Peptide> peptides, Iterator<Modification> ptms) {
 

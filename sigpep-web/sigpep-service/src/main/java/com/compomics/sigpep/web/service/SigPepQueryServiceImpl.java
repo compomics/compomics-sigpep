@@ -50,9 +50,9 @@ public class SigPepQueryServiceImpl implements SigPepQueryService {
     /**
      * Returns the signature peptides emitted by a protein when digested with a protease.
      *
-     * @param ncbiTaxonId      the NCBI taxon ID identifying the species
+     * @param ncbiTaxonId       the NCBI taxon ID identifying the species
      * @param proteinAccessions the accession of the protein
-     * @param proteaseName     the protease generating the peptides
+     * @param proteaseName      the protease generating the peptides
      * @return a set of peptide sequences
      */
     public HashMap<String, HashSet<String>> getPeptidesForProteinSet(int ncbiTaxonId, HashSet<String> proteinAccessions, String... proteaseName) {
@@ -86,7 +86,7 @@ public class SigPepQueryServiceImpl implements SigPepQueryService {
         //fetch protein
         q = s.createQuery("from Protein where sequence.primaryDbXref.accession in (:accessions)");
         q.setParameterList("accessions", proteinAccessions);
-        for (Iterator<Protein> proteins = q.iterate(); proteins.hasNext();) {
+        for (Iterator<Protein> proteins = q.iterate(); proteins.hasNext(); ) {
 
             Protein p = proteins.next();
 

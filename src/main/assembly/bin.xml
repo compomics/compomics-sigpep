@@ -38,7 +38,7 @@
                         <unpack>false</unpack>
                         <scope>runtime</scope>
                     </dependencySet>
-                </dependencySets>                
+                </dependencySets>
             </binaries>
         </moduleSet>
 
@@ -72,7 +72,7 @@
                         <directory>src/main/resources</directory>
                         <includes>
                             <include>**/config/*</include>
-                            <include>**/sql/*</include>                   
+                            <include>**/sql/*</include>
                         </includes>
                     </fileSet>
                 </fileSets>
@@ -92,24 +92,24 @@
         </moduleSet>
 
         <!--<moduleSet>-->
-            <!--<includes>-->
-                <!--<include>com.compomics.sigpep:sigpep-app</include>-->
-                <!--<include>com.compomics.sigpep:sigpep-model</include>-->
-                <!--<include>com.compomics.sigpep:sigpep-persistence</include>-->
-                <!--<include>com.compomics.sigpep:sigpep-util</include>-->
-                <!--<include>com.compomics.sigpep:sigpep-analysis</include>-->
-            <!--</includes>-->
-            <!--<binaries>-->
-                <!--<outputDirectory>modules/${artifactId}</outputDirectory>-->
-                <!--<unpack>false</unpack>-->
-                <!--<dependencySets>-->
-                    <!--<dependencySet>-->
-                        <!--<outputDirectory>modules/${artifactId}/lib</outputDirectory>-->
-                        <!--<unpack>false</unpack>-->
-                        <!--<scope>runtime</scope>-->
-                    <!--</dependencySet>-->
-                <!--</dependencySets>-->
-            <!--</binaries>-->
+        <!--<includes>-->
+        <!--<include>com.compomics.sigpep:sigpep-app</include>-->
+        <!--<include>com.compomics.sigpep:sigpep-model</include>-->
+        <!--<include>com.compomics.sigpep:sigpep-persistence</include>-->
+        <!--<include>com.compomics.sigpep:sigpep-util</include>-->
+        <!--<include>com.compomics.sigpep:sigpep-analysis</include>-->
+        <!--</includes>-->
+        <!--<binaries>-->
+        <!--<outputDirectory>modules/${artifactId}</outputDirectory>-->
+        <!--<unpack>false</unpack>-->
+        <!--<dependencySets>-->
+        <!--<dependencySet>-->
+        <!--<outputDirectory>modules/${artifactId}/lib</outputDirectory>-->
+        <!--<unpack>false</unpack>-->
+        <!--<scope>runtime</scope>-->
+        <!--</dependencySet>-->
+        <!--</dependencySets>-->
+        <!--</binaries>-->
         <!--</moduleSet>-->
     </moduleSets>
 </assembly>

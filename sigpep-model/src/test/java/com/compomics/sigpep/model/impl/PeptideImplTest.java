@@ -1,8 +1,10 @@
 package com.compomics.sigpep.model.impl;
 
 import org.junit.*;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.util.DelimitedTableReader;
 import com.compomics.sigpep.util.SigPepUtil;
@@ -15,7 +17,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>
@@ -84,7 +86,7 @@ public class PeptideImplTest {
 
         try {
             DelimitedTableReader dtr = new DelimitedTableReader(new FileInputStream("/home/mmueller/dev/java/sigpep/sigpep-model/src/test/resources/metAndCysContainingPeptides.tsv"), "\t");
-            for (Iterator<String[]> peptides = dtr.read(); peptides.hasNext();) {
+            for (Iterator<String[]> peptides = dtr.read(); peptides.hasNext(); ) {
                 peptidesContainingMetAndCysRedsidues.add(peptides.next()[0]);
             }
         } catch (IOException e) {
@@ -174,7 +176,7 @@ public class PeptideImplTest {
         //apply multiple modifications
         Set<Modification> staticAndNonStaticModification = ModificationFactory.createPostTranslationalModifications("cyscarbamidmeth", "metox");
         for (String peptideSequence : peptidesContainingMetAndCysRedsidues) {
-          //String peptideSequence = "TFGCGSAIASSSYMTELVQGMTLDDAAK";
+            //String peptideSequence = "TFGCGSAIASSSYMTELVQGMTLDDAAK";
             Peptide peptide = PeptideFactory.createPeptide(peptideSequence);
             Set<Peptide> modifiedPeptids = peptide.applyModifications(staticAndNonStaticModification);
 
@@ -186,13 +188,13 @@ public class PeptideImplTest {
                 }
 
             }
-            if(peptide.getResidueCount("C") > 0){
-                expectedModifiedPeptideCount++;    
+            if (peptide.getResidueCount("C") > 0) {
+                expectedModifiedPeptideCount++;
             }
 
             assertTrue("Number of modified peptides (" + modifiedPeptids.size() + ") not equal number of expected modified peptides (" + expectedModifiedPeptideCount + ") for peptide " + peptideSequence + ".", expectedModifiedPeptideCount == modifiedPeptids.size());
             System.out.println("Number of modified peptides (" + modifiedPeptids.size() + "); expected modified peptides (" + expectedModifiedPeptideCount + ")");
-        
+
 
         }
 

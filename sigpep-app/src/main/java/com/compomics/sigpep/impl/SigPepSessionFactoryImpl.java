@@ -12,7 +12,7 @@ import java.util.Set;
 
 /**
  * Creates SigPepSessions for a specified organism.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 02-Jun-2008<br/>
@@ -20,13 +20,21 @@ import java.util.Set;
  */
 public class SigPepSessionFactoryImpl implements SigPepSessionFactory {
 
-    /** Field cacheFactory  */
+    /**
+     * Field cacheFactory
+     */
     private CacheFactory cacheFactory;
-    /** Field catalogDaoFactory  */
+    /**
+     * Field catalogDaoFactory
+     */
     private CatalogDaoFactory catalogDaoFactory;
-    /** Field objectDaoFactory  */
+    /**
+     * Field objectDaoFactory
+     */
     private ObjectDaoFactory objectDaoFactory;
-    /** Field simpleQueryDaoFactory  */
+    /**
+     * Field simpleQueryDaoFactory
+     */
     private SimpleQueryDaoFactory simpleQueryDaoFactory;
 
     /**

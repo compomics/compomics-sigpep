@@ -64,10 +64,9 @@ public interface MassOverChargeRange extends Comparable<MassOverChargeRange> {
     List<MassOverChargeRange[]> getFlankingPeptideMassOverChargeRanges(Set<Integer> chargeStatesThat);
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param chargeStateThat
      * @return
+     * @TODO: JavaDoc missing.
      */
     List<MassOverChargeRange[]> getFlankingPeptideMassOverChargeRanges(int chargeStateThat);
 

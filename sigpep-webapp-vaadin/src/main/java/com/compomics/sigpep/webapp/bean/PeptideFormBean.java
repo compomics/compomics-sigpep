@@ -30,14 +30,10 @@ public class PeptideFormBean extends AbstractFormBean {
     private Set<Peptide> iBackgroundPeptides = null;
 
 
-
     /**
      * The protein(s) to which the peptide maps.
      */
     private Set<String> iProteinAccessions = null;
-
-
-
 
 
     public String getPeptideSequence() {

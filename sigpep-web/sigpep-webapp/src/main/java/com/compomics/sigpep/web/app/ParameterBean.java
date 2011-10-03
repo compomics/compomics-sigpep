@@ -26,10 +26,10 @@ public class ParameterBean {
         return retVal;
     }
 
-    public List<SelectItem> getAvailableLevels(){
+    public List<SelectItem> getAvailableLevels() {
         List<SelectItem> retVal = new ArrayList<SelectItem>();
-        for(String level : levels){
-            retVal.add(new SelectItem(level));    
+        for (String level : levels) {
+            retVal.add(new SelectItem(level));
         }
         return retVal;
     }
@@ -53,5 +53,5 @@ public class ParameterBean {
     public String send() {
         return "success";
     }
-    
+
 }

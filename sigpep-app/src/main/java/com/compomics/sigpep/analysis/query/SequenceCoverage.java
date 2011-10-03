@@ -22,7 +22,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 10-Apr-2008<br/>
@@ -132,16 +132,16 @@ public class SequenceCoverage {
 
             ResultSet rsCoverage = s.executeQuery(SqlUtil.setParameterSet(
                     "SELECT pf.sequence_id, CHAR_LENGTH(seq.aa_sequence) AS sequence_length, pf.peptide_id , pf.pos_start, pf.pos_end "
-                    + "  FROM peptide_feature pf, "
-                    + "       protein_sequence seq, "
-                    + "       protease2peptide_feature prot2pf, "
-                    + "       protease prot,"
-                    + "       signature_peptides sp "
-                    + "WHERE pf.sequence_id=seq.sequence_id "
-                    + "  AND pf.peptide_feature_id=prot2pf.peptide_feature_id "
-                    + "  AND prot2pf.protease_id=prot.protease_id "
-                    + "  AND prot.name IN (:proteaseCombination)"
-                    + "  AND pf.peptide_id=sp.peptide_id", "proteaseCombination", proteaseNames));
+                            + "  FROM peptide_feature pf, "
+                            + "       protein_sequence seq, "
+                            + "       protease2peptide_feature prot2pf, "
+                            + "       protease prot,"
+                            + "       signature_peptides sp "
+                            + "WHERE pf.sequence_id=seq.sequence_id "
+                            + "  AND pf.peptide_feature_id=prot2pf.peptide_feature_id "
+                            + "  AND prot2pf.protease_id=prot.protease_id "
+                            + "  AND prot.name IN (:proteaseCombination)"
+                            + "  AND pf.peptide_id=sp.peptide_id", "proteaseCombination", proteaseNames));
 
             PrintWriter pw = new PrintWriter(outputFileName);
             DelimitedTableWriter dtw = new DelimitedTableWriter(pw, "\t", false);
@@ -264,9 +264,8 @@ public class SequenceCoverage {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 

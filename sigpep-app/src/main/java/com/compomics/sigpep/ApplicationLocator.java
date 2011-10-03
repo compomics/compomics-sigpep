@@ -2,11 +2,11 @@ package com.compomics.sigpep;
 
 /**
  * Provides access to an instance of SigPepApplication.
- *
+ * <p/>
  * The implementation of the locator depends on the the
  * application context (standalone, webapp, ...) and
  * is configured in the sigpep-app.properties file.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jul-2008<br/>
@@ -14,13 +14,19 @@ package com.compomics.sigpep;
  */
 public abstract class ApplicationLocator {
 
-    /** provides access to the configuration in the sigpep-app.properties file */
+    /**
+     * provides access to the configuration in the sigpep-app.properties file
+     */
     private static Configuration config = Configuration.getInstance();
 
-    /** the ApplicationLocator implemenation */
+    /**
+     * the ApplicationLocator implemenation
+     */
     private static String locatorClass = config.getString("sigpep.app.locator.class");
 
-    /** the ApplicationLocator singleton */
+    /**
+     * the ApplicationLocator singleton
+     */
     private static ApplicationLocator ourInstance;
 
     /**
@@ -35,7 +41,7 @@ public abstract class ApplicationLocator {
 
             //instantiate implementation
             try {
-                ourInstance = (ApplicationLocator)Class.forName(locatorClass).newInstance();
+                ourInstance = (ApplicationLocator) Class.forName(locatorClass).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {

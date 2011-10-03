@@ -2,7 +2,7 @@ package com.compomics.sigpep.analysis.query;
 
 /**
  * @TODO: All code in this class is commented out...
- *
+ * <p/>
  * Provides methods to create various reports regarding the coverage of the proteome by
  * signature peptides.
  * <p/>

@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * Maps a peptide to a sequence.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -41,5 +41,5 @@ public interface PeptideFeature extends Feature<FeaturePeptide> {
      * @param spliceEventFeatures the splice events
      */
     void setSpliceEventFeatures(Set<SpliceEventFeature> spliceEventFeatures);
-    
+
 }

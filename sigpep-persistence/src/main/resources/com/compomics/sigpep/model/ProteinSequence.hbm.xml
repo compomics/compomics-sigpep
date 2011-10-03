@@ -28,11 +28,11 @@
             <one-to-many class="SpliceEventFeatureImpl"/>
         </set>
 
-         <set name="signaturePeptides" table="peptide_feature" inverse="true">
+        <set name="signaturePeptides" table="peptide_feature" inverse="true">
             <key column="sequence_id"/>
             <one-to-many class="PeptideFeatureImpl"/>
             <filter name="signaturePeptideFeatures"
-                condition="peptide_id IN :signaturePeptideIds"/>
+                    condition="peptide_id IN :signaturePeptideIds"/>
         </set>
 
     </class>

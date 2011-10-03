@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -23,21 +23,20 @@ import java.util.concurrent.Future;
 public class FindAllMapProductIonScanner extends AbstractMapProductIonScanner {
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param targetProductIonTypes
      * @param backgroundProductIonTypes
      * @param productIonChargeStates
      * @param massAccuracy
      * @param minimumCombinationSize
      * @param maximumCombinationSize
+     * @TODO: JavaDoc missing.
      */
     public FindAllMapProductIonScanner(HashSet<ProductIonType> targetProductIonTypes,
-            HashSet<ProductIonType> backgroundProductIonTypes,
-            HashSet<Integer> productIonChargeStates,
-            Double massAccuracy,
-            Integer minimumCombinationSize,
-            Integer maximumCombinationSize) {
+                                       HashSet<ProductIonType> backgroundProductIonTypes,
+                                       HashSet<Integer> productIonChargeStates,
+                                       Double massAccuracy,
+                                       Integer minimumCombinationSize,
+                                       Integer maximumCombinationSize) {
 
         super(targetProductIonTypes,
                 backgroundProductIonTypes,
@@ -49,12 +48,11 @@ public class FindAllMapProductIonScanner extends AbstractMapProductIonScanner {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param exclusionMatrix
      * @param minCombinationSize
      * @param maxCombinationSize
      * @return
+     * @TODO: JavaDoc missing.
      */
     protected Map<Set<ProductIon>, Double> getUniqueProductIonCombinations(Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix, int minCombinationSize, int maxCombinationSize) {
         Map<Set<ProductIon>, Double> retVal = Collections.synchronizedMap(new HashMap<Set<ProductIon>, Double>());

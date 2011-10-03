@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -29,36 +29,32 @@ public class SpliceEventFeatureImpl extends AbstractFeature<FeatureSpliceEvent> 
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;

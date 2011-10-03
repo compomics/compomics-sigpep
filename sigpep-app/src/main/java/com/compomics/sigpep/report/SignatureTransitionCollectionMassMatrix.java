@@ -16,7 +16,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Aug-2008<br/>
@@ -30,18 +30,16 @@ public class SignatureTransitionCollectionMassMatrix {
     private Collection<SignatureTransition> signatureTransitions;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param signatureTransitions
+     * @TODO: JavaDoc missing.
      */
     public SignatureTransitionCollectionMassMatrix(Collection<SignatureTransition> signatureTransitions) {
         this.signatureTransitions = signatureTransitions;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param outputStream
+     * @TODO: JavaDoc missing.
      */
     public void write(OutputStream outputStream) {
 
@@ -70,12 +68,12 @@ public class SignatureTransitionCollectionMassMatrix {
 
                 StringBuffer barcodeName = new StringBuffer();
                 int p = 0;
-                for(ProductIon pi : barcode){
+                for (ProductIon pi : barcode) {
                     p++;
                     barcodeName.append(pi.getType().getName());
                     barcodeName.append(pi.getSequenceLength());
-                    if(p != barcode.size()){
-                        barcodeName.append("-");        
+                    if (p != barcode.size()) {
+                        barcodeName.append("-");
                     }
                 }
 
@@ -103,7 +101,7 @@ public class SignatureTransitionCollectionMassMatrix {
                         targetMz.add("" + SigPepUtil.round(pi.getMassOverCharge(z), massPrecission));
                     }
                 }
-                
+
                 dtw.writeRow(targetMz.toArray());
             }
 

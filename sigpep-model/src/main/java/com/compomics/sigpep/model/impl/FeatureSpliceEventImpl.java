@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -21,36 +21,32 @@ public class FeatureSpliceEventImpl extends SpliceEventImpl implements FeatureSp
     private Set<SpliceEventFeature> features;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -71,7 +67,7 @@ public class FeatureSpliceEventImpl extends SpliceEventImpl implements FeatureSp
      * @param features the features
      */
     public void setFeatures(Set<SpliceEventFeature> features) {
-        this.features=features;
+        this.features = features;
     }
 
     /**
@@ -80,7 +76,7 @@ public class FeatureSpliceEventImpl extends SpliceEventImpl implements FeatureSp
     public Set<ProteinSequence> getParentSequences() {
 
         Set<ProteinSequence> retVal = new HashSet<ProteinSequence>();
-        
+
         for (Feature f : features) {
             retVal.add(f.getLocation().getSequence());
         }

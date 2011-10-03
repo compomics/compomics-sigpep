@@ -1,13 +1,15 @@
 package com.compomics.sigpep.model.impl;
 
 import org.junit.*;
+
 import static org.junit.Assert.assertEquals;
+
 import com.compomics.sigpep.model.ProductIonType;
 
 /**
  * @TODO: JavaDoc missing
  * @TODO: most of the code in this test is commented out...
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 27-Nov-2007<br/>

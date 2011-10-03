@@ -2,7 +2,7 @@ package com.compomics.sigpep.model;
 
 /**
  * Implemented by objects with a sequence location.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 01-Feb-2008<br/>

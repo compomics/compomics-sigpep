@@ -4,7 +4,7 @@ import com.opensymphony.oscache.base.Cache;
 
 /**
  * Factory to create object caches.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 09-Jul-2008<br/>
@@ -12,7 +12,9 @@ import com.opensymphony.oscache.base.Cache;
  */
 public abstract class CacheFactory {
 
-    /** the singleton instance  */
+    /**
+     * the singleton instance
+     */
     private static CacheFactory ourInstance;
 
     /**
@@ -28,7 +30,7 @@ public abstract class CacheFactory {
         if (ourInstance == null) {
 
             try {
-                ourInstance = (CacheFactory)Class.forName(cacheFactoryClass).newInstance();
+                ourInstance = (CacheFactory) Class.forName(cacheFactoryClass).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {

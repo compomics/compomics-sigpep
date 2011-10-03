@@ -25,16 +25,14 @@ public interface Persistable {
     void setId(int id);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     Object getSessionFactory();
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param sessionFactory
+     * @TODO: JavaDoc missing.
      */
     void setSessionFactory(Object sessionFactory);
 

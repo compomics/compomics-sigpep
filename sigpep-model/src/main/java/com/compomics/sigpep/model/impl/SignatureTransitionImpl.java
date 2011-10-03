@@ -12,7 +12,7 @@ import java.util.TreeMap;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 31-Jul-2008<br/>
@@ -31,10 +31,9 @@ public class SignatureTransitionImpl extends TransitionImpl implements Signature
     private int targetPeptideChargeState;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param target
      * @param backgroundPeptides
+     * @TODO: JavaDoc missing
      */
     public SignatureTransitionImpl(Peptide target, Set<Peptide> backgroundPeptides) {
         super(target);
@@ -42,14 +41,13 @@ public class SignatureTransitionImpl extends TransitionImpl implements Signature
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param targetProductIons
      * @param backgroundPeptides
+     * @TODO: JavaDoc missing
      */
     public SignatureTransitionImpl(List<ProductIon> targetProductIons, Set<Peptide> backgroundPeptides) {
         super(targetProductIons);
-       this.backgroundPeptides = backgroundPeptides;
+        this.backgroundPeptides = backgroundPeptides;
     }
 
     /**
@@ -81,144 +79,128 @@ public class SignatureTransitionImpl extends TransitionImpl implements Signature
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<Peptide> getBackgroundPeptides() {
         return backgroundPeptides;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param backgroundPeptides
+     * @TODO: JavaDoc missing
      */
     public void setBackgroundPeptides(Set<Peptide> backgroundPeptides) {
         this.backgroundPeptides = backgroundPeptides;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public double getExclusionScore() {
         return exclusionScore;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param exclusionScore
+     * @TODO: JavaDoc missing
      */
     public void setExclusionScore(double exclusionScore) {
         this.exclusionScore = exclusionScore;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<ProductIonType> getTargetProductIonTypes() {
         return targetProductIonTypes;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param targetProductIonTypes
+     * @TODO: JavaDoc missing
      */
     public void setTargetProductIonTypes(Set<ProductIonType> targetProductIonTypes) {
         this.targetProductIonTypes = targetProductIonTypes;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<ProductIonType> getBackgroundProductIonTypes() {
         return backgroundProductIonTypes;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param backgroundProductIonTypes
+     * @TODO: JavaDoc missing
      */
     public void setBackgroundProductIonTypes(Set<ProductIonType> backgroundProductIonTypes) {
         this.backgroundProductIonTypes = backgroundProductIonTypes;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<Integer> getPrecursorIonChargeStates() {
         return precursorIonChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param precursorIonChargeStates
+     * @TODO: JavaDoc missing
      */
     public void setPrecursorIonChargeStates(Set<Integer> precursorIonChargeStates) {
         this.precursorIonChargeStates = precursorIonChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<Integer> getProductIonChargeStates() {
         return productIonChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param productIonChargeStates
+     * @TODO: JavaDoc missing
      */
     public void setProductIonChargeStates(Set<Integer> productIonChargeStates) {
         this.productIonChargeStates = productIonChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public double getMassAccuracy() {
         return massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param massAccuracy
+     * @TODO: JavaDoc missing
      */
     public void setMassAccuracy(double massAccuracy) {
         this.massAccuracy = massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getTargetPeptideChargeState() {
         return targetPeptideChargeState;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param targetPeptideChargeState
+     * @TODO: JavaDoc missing
      */
     public void setTargetPeptideChargeState(int targetPeptideChargeState) {
         this.targetPeptideChargeState = targetPeptideChargeState;

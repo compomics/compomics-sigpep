@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 15-Aug-2008<br/>
@@ -17,5 +17,5 @@ public interface ChargeProbabilityCalculator {
 
     Map<Double, Map<Integer, Double>> getChargeProbablitiesGivenMass(double... mass);
 
-    Set<Integer> getAllowedChargeStates(); 
+    Set<Integer> getAllowedChargeStates();
 }

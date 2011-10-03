@@ -97,6 +97,7 @@ public interface PeptideIon {
 
     /**
      * Adds an allowed charge state and its probability
+     *
      * @param z           the charge state
      * @param probability the probability
      */

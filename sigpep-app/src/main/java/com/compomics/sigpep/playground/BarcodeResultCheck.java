@@ -17,7 +17,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 07-Mar-2008<br/>
@@ -26,9 +26,8 @@ import java.util.*;
 public class BarcodeResultCheck {
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -38,7 +37,7 @@ public class BarcodeResultCheck {
 
             DelimitedTableReader dtr = new DelimitedTableReader(new FileInputStream(filename), "\t");
             Set<String> barcodeResultPeptides = new HashSet<String>();
-            for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtr.read(); rows.hasNext(); ) {
                 String[] row = rows.next();
                 barcodeResultPeptides.add(row[0]);
 

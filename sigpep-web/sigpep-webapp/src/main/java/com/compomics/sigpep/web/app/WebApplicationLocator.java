@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 /**
  * ApplicationLocator that uses the Spring WebApplicationContext
  * to instantiate the SigPepApplication bean.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jul-2008<br/>
@@ -19,13 +19,19 @@ import javax.faces.context.FacesContext;
  */
 public class WebApplicationLocator extends ApplicationLocator {
 
-    /** the servelet context */
+    /**
+     * the servelet context
+     */
     private static ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 
-    /** the Spring application context */
+    /**
+     * the Spring application context
+     */
     private static ApplicationContext appContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 
-    /** the SigPepApplication bean */
+    /**
+     * the SigPepApplication bean
+     */
     private static SigPepApplication sigPepApplication = (SigPepApplication) appContext.getBean("sigPepApplication");
 
     /**
@@ -36,5 +42,5 @@ public class WebApplicationLocator extends ApplicationLocator {
     public SigPepApplication getApplication() {
         return sigPepApplication;
     }
-    
+
 }

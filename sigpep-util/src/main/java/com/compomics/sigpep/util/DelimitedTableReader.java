@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 30-Jan-2008<br/>
@@ -22,31 +22,28 @@ public class DelimitedTableReader {
     private int currentRowNumber = 0;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param inputStream
      * @param columnDelimiter
+     * @TODO: JavaDoc missing
      */
     public DelimitedTableReader(InputStream inputStream,
-            String columnDelimiter) {
+                                String columnDelimiter) {
         this.inputStream = inputStream;
         this.columnDelimiter = columnDelimiter;
 
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Iterator<String[]> read() {
         return new RowIterator(inputStream);
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getCurrentRowNumber() {
         return currentRowNumber;

@@ -4,7 +4,7 @@ import java.util.Map;
 
 /**
  * A peptide that carries post-translational modification.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 13-Feb-2008<br/>

@@ -15,7 +15,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Aug-2008<br/>
@@ -33,9 +33,9 @@ public class BayesianChargeProbabilityCalculator {
 
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param observedPeptideMassChargeStateCombinations
+     *
+     * @TODO: JavaDoc missing.
      */
     public BayesianChargeProbabilityCalculator(List<Map<Double, Integer>> observedPeptideMassChargeStateCombinations) {
 
@@ -49,9 +49,8 @@ public class BayesianChargeProbabilityCalculator {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     private Map<Integer, Double> getPeptideChargeProbablityMassDistribution() {
 
@@ -125,9 +124,8 @@ public class BayesianChargeProbabilityCalculator {
 //    }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     private DensityDistribution getPeptideMassProbabilityDensityDistribution() {
 
@@ -169,9 +167,8 @@ public class BayesianChargeProbabilityCalculator {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     private Map<Integer, DensityDistribution> getPeptideMassProbabilityDensityDistributionByCharge() {
 
@@ -231,10 +228,9 @@ public class BayesianChargeProbabilityCalculator {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param doubles
      * @return
+     * @TODO: JavaDoc missing.
      */
     private double[] collectionToArrayOfPrimitives(Collection<Double> doubles) {
 
@@ -248,33 +244,31 @@ public class BayesianChargeProbabilityCalculator {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public List<Map<Double, Integer>> getObservedPeptideMassChargeStateCombinations() {
         return observedPeptideMassChargeStateCombinations;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param observedPeptideMassChargeStateCombinations
+     *
+     * @TODO: JavaDoc missing.
      */
     public void setObservedPeptideMassChargeStateCombinations(List<Map<Double, Integer>> observedPeptideMassChargeStateCombinations) {
         this.observedPeptideMassChargeStateCombinations = observedPeptideMassChargeStateCombinations;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param mass
      * @return
+     * @TODO: JavaDoc missing.
      */
-    public Map<Integer, Double> getChargeProbablitiesGivenMass(double mass){
+    public Map<Integer, Double> getChargeProbablitiesGivenMass(double mass) {
 
         Map<Integer, Double> retVal = new TreeMap<Integer, Double>();
-        for(Integer charge : allowedChargeStates){
+        for (Integer charge : allowedChargeStates) {
             retVal.put(charge, getProbabilityOfChargeGivenMass(charge, mass));
         }
         return retVal;
@@ -282,11 +276,10 @@ public class BayesianChargeProbabilityCalculator {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param z
      * @param mass
      * @return
+     * @TODO: JavaDoc missing.
      */
     public double getProbabilityOfChargeGivenMass(int z, double mass) {
 
@@ -313,11 +306,10 @@ public class BayesianChargeProbabilityCalculator {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param value
      * @param densityDistribution
      * @return
+     * @TODO: JavaDoc missing.
      */
     private double approximateProbability(double value, DensityDistribution densityDistribution) {
 
@@ -353,18 +345,16 @@ public class BayesianChargeProbabilityCalculator {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<Integer> getAllowedChargeStates() {
         return allowedChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -372,7 +362,7 @@ public class BayesianChargeProbabilityCalculator {
 
             List<Map<Double, Integer>> massToCharge = new ArrayList<Map<Double, Integer>>();
             DelimitedTableReader dtr = new DelimitedTableReader(new FileInputStream("/home/mmueller/data/sigpep/collab_waters/michael_charge_details.tab"), "\t");
-            for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtr.read(); rows.hasNext(); ) {
 
                 String[] row = rows.next();
 

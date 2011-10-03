@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -29,17 +29,16 @@ public class SignatureTransitionFinderImpl implements SignatureTransitionFinder 
     protected List<Map<Double, Integer>> observedMassChargeStateCombinations;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param backgroundPeptides
      * @param precursorIonChargeStates
      * @param massAccuracy
      * @param productIonScanner
+     * @TODO: JavaDoc missing.
      */
     public SignatureTransitionFinderImpl(Set<Peptide> backgroundPeptides,
-            Set<Integer> precursorIonChargeStates,
-            double massAccuracy,
-            ProductIonScanner productIonScanner) {
+                                         Set<Integer> precursorIonChargeStates,
+                                         double massAccuracy,
+                                         ProductIonScanner productIonScanner) {
 
         this.backgroundPeptides = backgroundPeptides;
         this.precursorIonChargeStates = precursorIonChargeStates;
@@ -50,17 +49,17 @@ public class SignatureTransitionFinderImpl implements SignatureTransitionFinder 
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param backgroundPeptides
      * @param observedMassChargeStateCombinations
+     *
      * @param massAccuracy
      * @param productIonScanner
+     * @TODO: JavaDoc missing.
      */
     public SignatureTransitionFinderImpl(Set<Peptide> backgroundPeptides,
-            List<Map<Double, Integer>> observedMassChargeStateCombinations,
-            double massAccuracy,
-            ProductIonScanner productIonScanner) {
+                                         List<Map<Double, Integer>> observedMassChargeStateCombinations,
+                                         double massAccuracy,
+                                         ProductIonScanner productIonScanner) {
 
         this.backgroundPeptides = backgroundPeptides;
         this.precursorIonChargeStates = null;
@@ -71,10 +70,9 @@ public class SignatureTransitionFinderImpl implements SignatureTransitionFinder 
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param targetPeptide
      * @return
+     * @TODO: JavaDoc missing.
      */
     public List<SignatureTransition> findSignatureTransitions(Peptide targetPeptide) {
         Set<Peptide> targetPeptideSet = new HashSet<Peptide>();
@@ -83,10 +81,9 @@ public class SignatureTransitionFinderImpl implements SignatureTransitionFinder 
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param targetPeptides
      * @return
+     * @TODO: JavaDoc missing.
      */
     public List<SignatureTransition> findSignatureTransitions(Collection<Peptide> targetPeptides) {
 
@@ -129,8 +126,8 @@ public class SignatureTransitionFinderImpl implements SignatureTransitionFinder 
 
                     List<SignatureTransition> signatureTransitions =
                             productIonScanner.findSignatureTransitions(
-                            targetPeptide,
-                            overlappingBackgroundPeptides);
+                                    targetPeptide,
+                                    overlappingBackgroundPeptides);
 
                     //put the target peptide sequence and it's mass back to the set
                     //of overlapping sequence ids
@@ -152,10 +149,9 @@ public class SignatureTransitionFinderImpl implements SignatureTransitionFinder 
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param peptides
      * @return
+     * @TODO: JavaDoc missing.
      */
     private PeptideIonStore<PrecursorIon> createPrecursorIonStore(Set<Peptide> peptides) {
 

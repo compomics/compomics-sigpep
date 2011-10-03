@@ -2,7 +2,7 @@ package com.compomics.sigpep.model;
 
 /**
  * Specifies from which part of a protein a peptide originates.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 13-Mar-2008<br/>

@@ -422,7 +422,7 @@ public class SigPepSetup {
         int lOrganismNcbiTaxonId = 0;
         String lSequenceDatabaseName = "Ensembl";
         String lSequenceDatabaseVersion = "63";
-        String [] lProteases = new String[]{"Trypsin", "PepsinA"};
+        String[] lProteases = new String[]{"Trypsin", "PepsinA"};
         int lMissedCleavages = 0;
         int lHighMass = 4000;
         int lLowMass = 600;

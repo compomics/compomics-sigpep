@@ -51,7 +51,7 @@ public interface ProteinSequence {
 
     /**
      * Returns the locations of the transcript splice sites in the protein sequence.
-     *
+     * <p/>
      * The position corresponds to the position of the last amino acid encoded
      * by an exon. If the splice site falls onto a codon the position corresponds to the
      * last amino acid before that codon.
@@ -62,26 +62,24 @@ public interface ProteinSequence {
 
     /**
      * Sets the locations of the transcript splice sites in the protein sequence.
-     *
+     * <p/>
      * The position corresponds to the position of the last amino acid encoded
      * by an exon. If the splice site falls onto a codon the position corresponds to the
      * last amino acid before that codon.
-     * 
+     *
      * @param spliceEvents the positions of splice sites
      */
     void setSpliceEvents(Set<SpliceEventFeature> spliceEvents);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<PeptideFeature> getSignaturePeptides();
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param signaturePeptides
+     * @TODO: JavaDoc missing.
      */
     public void setSignaturePeptides(Set<PeptideFeature> signaturePeptides);
 }

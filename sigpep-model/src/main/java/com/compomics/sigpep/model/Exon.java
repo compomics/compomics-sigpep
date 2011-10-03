@@ -2,7 +2,7 @@ package com.compomics.sigpep.model;
 
 /**
  * An exon.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Feb-2008<br/>

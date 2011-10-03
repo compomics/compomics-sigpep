@@ -3,13 +3,13 @@ package com.compomics.sigpep.analysis.query;
 /**
  * @TODO: JavaDoc missing.
  * @TODO: All code in this class is commented out...
- *
+ * <p/>
  * Created by IntelliJ IDEA.
  * User: mmueller
  * Date: 16-Aug-2007
  * Time: 14:48:39
  */
-public class PeptideQuery  {
+public class PeptideQuery {
 
 //    private Connection connection;
 //

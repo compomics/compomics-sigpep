@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Feb-2008<br/>
@@ -30,11 +30,10 @@ public class MatrixFindFirstProductIonScanner {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param peptides
      * @param productIonTypes
      * @return
+     * @TODO: JavaDoc missing.
      */
     private SortedMap<Double, Set<ProductIon>> createBackgroundProductIonStore(Collection<? extends Peptide> peptides, Set<ProductIonType> productIonTypes) {
 
@@ -72,14 +71,14 @@ public class MatrixFindFirstProductIonScanner {
      * @return a transition unique to the target peptide
      */
     public List<SignatureTransition> findSignatureTransitions(Peptide targetPeptide,
-            Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize,
-            SignatureTransitionFinderType searchType) {
+                                                              Set<Peptide> backgroundPeptides,
+                                                              Set<ProductIonType> targetProductIonTypes,
+                                                              Set<ProductIonType> backgroundProductIonTypes,
+                                                              Set<Integer> productIonChargeStates,
+                                                              double massAccuracy,
+                                                              int minimumCombinationSize,
+                                                              int maximumCombinationSize,
+                                                              SignatureTransitionFinderType searchType) {
 
         List<SignatureTransition> retVal = new ArrayList<SignatureTransition>();
         SignatureTransition transition = new SignatureTransitionImpl(targetPeptide, backgroundPeptides);
@@ -289,10 +288,10 @@ public class MatrixFindFirstProductIonScanner {
      * @return a set of column indexes
      */
     private Set<Integer> determineColumnCombination(Matrix matrix,
-            Set<Integer> includedColumns,
-            double previousColumnSum,
-            Matrix previousIntersection,
-            int iteration) {
+                                                    Set<Integer> includedColumns,
+                                                    double previousColumnSum,
+                                                    Matrix previousIntersection,
+                                                    int iteration) {
 
         iteration++;
 

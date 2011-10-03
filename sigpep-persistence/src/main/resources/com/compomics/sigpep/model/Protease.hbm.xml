@@ -16,8 +16,8 @@
         <property name="cleaves" column="cleavage_site"/>
 
         <!--<set name="peptides" table="protease2peptide_feature" inverse="true">-->
-            <!--<key column="protease_id"/>-->
-            <!--<many-to-many column="peptide_feature_id" unique="true" entity-name="PeptideFeature"/>-->
+        <!--<key column="protease_id"/>-->
+        <!--<many-to-many column="peptide_feature_id" unique="true" entity-name="PeptideFeature"/>-->
         <!--</set>-->
 
     </class>

@@ -1,12 +1,13 @@
 package com.compomics.sigpep;
 
 import com.compomics.sigpep.model.ProductIonType;
+
 import java.util.Set;
 
 /**
  * The SigPepApplication provides access to the SigPepSessionFactory
  * and to the default settings.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jul-2008<br/>
@@ -80,7 +81,7 @@ public interface SigPepApplication {
      * Returns the default maximum number of product ions
      * defining a signature transition.
      *
-     * @return the maximum number of product ions defining a signature transition 
+     * @return the maximum number of product ions defining a signature transition
      */
     public int getDefaultMaximumSignatureTransitionSize();
 }

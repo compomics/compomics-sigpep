@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -19,11 +19,10 @@ import java.util.Map;
 public class MapExclusionScoreCalculatorFactory extends ExclusionScoreCalculatorFactory {
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param productIonCombination
      * @param exclusionMatrix
      * @return
+     * @TODO: JavaDoc missing.
      */
     public ExclusionScoreCalculator getCalculator(Set<ProductIon> productIonCombination, Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix) {
         return new MapExclusionScoreCalculator(productIonCombination, exclusionMatrix);

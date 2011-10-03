@@ -58,7 +58,6 @@ public class TransitionSelectionComponent extends VerticalLayout {
         this.addComponent(iStatus, 0);
 
 
-
         iDownloadTraML = new Link();
         iDownloadTraML.setEnabled(true);
         iDownloadTraML.setVisible(false);

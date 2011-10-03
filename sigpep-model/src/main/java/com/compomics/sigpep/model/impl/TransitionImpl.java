@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 07-Mar-2008<br/>
@@ -18,9 +18,8 @@ public class TransitionImpl implements Transition {
     private List<ProductIon> productIons;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param peptide
+     * @TODO: JavaDoc missing
      */
     public TransitionImpl(Peptide peptide) {
         this.peptide = peptide;
@@ -28,14 +27,13 @@ public class TransitionImpl implements Transition {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param productIons
+     * @TODO: JavaDoc missing
      */
     public TransitionImpl(List<ProductIon> productIons) {
 
-        if(productIons.size() == 0){
-            throw new IllegalArgumentException("The collection of product ions defining the transition has to contain at least one precursor.");                              
+        if (productIons.size() == 0) {
+            throw new IllegalArgumentException("The collection of product ions defining the transition has to contain at least one precursor.");
         }
 
         productIonSanityCheck(productIons);
@@ -45,18 +43,16 @@ public class TransitionImpl implements Transition {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public List<ProductIon> getProductIons() {
         return productIons;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param productIons
+     * @TODO: JavaDoc missing
      */
     public void setProductIons(List<ProductIon> productIons) {
         productIonSanityCheck(productIons);
@@ -64,41 +60,38 @@ public class TransitionImpl implements Transition {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Peptide getPeptide() {
         return peptide;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param type
      * @param length
+     * @TODO: JavaDoc missing
      */
-    public void addProductIon(ProductIonType type, int length){
-        ProductIon  pi = peptide.getPrecursorIon().getProductIon(type, length);
+    public void addProductIon(ProductIonType type, int length) {
+        ProductIon pi = peptide.getPrecursorIon().getProductIon(type, length);
         this.productIons.add(pi);
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param productIons
      * @throws IllegalArgumentException
+     * @TODO: JavaDoc missing
      */
     private void productIonSanityCheck(Collection<ProductIon> productIons) throws IllegalArgumentException {
 
         //check that all product ions come from the same precursor
         PrecursorIon previousPrecursor = null;
-        for(ProductIon product : productIons){
+        for (ProductIon product : productIons) {
             PrecursorIon precursor = product.getPrecursorIon();
-            if(precursor == null){
+            if (precursor == null) {
                 throw new IllegalArgumentException("The precursor ion of one or more product ion(s) is NULL.");
             }
-            if(previousPrecursor != null && !precursor.equals(previousPrecursor)){
+            if (previousPrecursor != null && !precursor.equals(previousPrecursor)) {
                 throw new IllegalArgumentException("All product ions defining the transition have to come from the same precursor.");
             }
             previousPrecursor = precursor;
@@ -106,9 +99,8 @@ public class TransitionImpl implements Transition {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public String toString() {
         return "TransitionImpl{" +
@@ -117,10 +109,9 @@ public class TransitionImpl implements Transition {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param o
      * @return
+     * @TODO: JavaDoc missing
      */
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -134,9 +125,8 @@ public class TransitionImpl implements Transition {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int hashCode() {
         return productIons.hashCode();

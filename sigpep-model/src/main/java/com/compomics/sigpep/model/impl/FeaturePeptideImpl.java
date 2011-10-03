@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 15-Jan-2008<br/>
@@ -18,22 +18,21 @@ public class FeaturePeptideImpl extends PeptideImpl implements FeaturePeptide, P
     private Object sessionFactory;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
     /**
      * the proteome locations of the peptide
      */
@@ -50,10 +49,9 @@ public class FeaturePeptideImpl extends PeptideImpl implements FeaturePeptide, P
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param location
      * @param proteases
+     * @TODO: JavaDoc missing
      */
     public FeaturePeptideImpl(SequenceLocation location, Set<Protease> proteases) {
         super();
@@ -61,10 +59,9 @@ public class FeaturePeptideImpl extends PeptideImpl implements FeaturePeptide, P
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param location
      * @param protease
+     * @TODO: JavaDoc missing
      */
     public FeaturePeptideImpl(SequenceLocation location, Protease protease) {
         super();
@@ -92,18 +89,16 @@ public class FeaturePeptideImpl extends PeptideImpl implements FeaturePeptide, P
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
@@ -218,10 +213,9 @@ public class FeaturePeptideImpl extends PeptideImpl implements FeaturePeptide, P
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param o
      * @return
+     * @TODO: JavaDoc missing
      */
     public boolean equals(Object o) {
         if (this == o) {
@@ -241,9 +235,8 @@ public class FeaturePeptideImpl extends PeptideImpl implements FeaturePeptide, P
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @return
+     * @TODO: JavaDoc missing
      */
     public int hashCode() {
         return peptideFeatures.hashCode();

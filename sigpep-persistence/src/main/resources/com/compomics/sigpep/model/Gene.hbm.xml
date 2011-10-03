@@ -35,9 +35,13 @@
     <query name="allGenes">from com.compomics.sigpep.model.impl.GeneImpl</query>
 
     <!--selects all genes with the specified accession number-->
-    <query name="geneByAccession">from com.compomics.sigpep.model.impl.GeneImpl where primaryDbXref.accession in (:accession)</query>
+    <query name="geneByAccession">from com.compomics.sigpep.model.impl.GeneImpl where primaryDbXref.accession in
+        (:accession)
+    </query>
 
-    
-    <query name="alternativelySplicedGenesTranscriptLevel">from com.compomics.sigpep.model.impl.GeneImpl where size(proteins) > 1</query>
+
+    <query name="alternativelySplicedGenesTranscriptLevel">from com.compomics.sigpep.model.impl.GeneImpl where
+        size(proteins) > 1
+    </query>
 
 </hibernate-mapping>

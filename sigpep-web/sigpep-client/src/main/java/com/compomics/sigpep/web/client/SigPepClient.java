@@ -21,14 +21,13 @@ public class SigPepClient {
             String response = query.sayHello("Michael");
             System.out.println(response);
 
-            
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public SigPepQueryService createQuery(){
+    public SigPepQueryService createQuery() {
         return service.getSigPepQueryImplPort();
     }
 

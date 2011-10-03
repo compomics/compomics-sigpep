@@ -67,8 +67,8 @@ public class PrecursorIonImpl extends AbstractPeptideIon implements PrecursorIon
      */
     public ProductIon getProductIon(ProductIonType type, int length) {
 
-        if(length > peptide.getSequenceLength()){
-            throw new IllegalArgumentException("The product ion length (" + length + ") cannot be greater then the peptide length (" + peptide.getSequenceLength() + "). " );
+        if (length > peptide.getSequenceLength()) {
+            throw new IllegalArgumentException("The product ion length (" + length + ") cannot be greater then the peptide length (" + peptide.getSequenceLength() + "). ");
         }
 
         int startCoordinate = 0;
@@ -213,7 +213,7 @@ public class PrecursorIonImpl extends AbstractPeptideIon implements PrecursorIon
      *
      * @return the monoisotopic mass in Da
      */
-    public double getModificationMass(){
+    public double getModificationMass() {
 
         double retVal = 0;
 
@@ -235,7 +235,7 @@ public class PrecursorIonImpl extends AbstractPeptideIon implements PrecursorIon
      *
      * @return a list of PTMs which is empty if there are no PTMs occuring on the peptide
      */
-    public Collection<Modification> getPostTranslationalModifications(){
+    public Collection<Modification> getPostTranslationalModifications() {
         Collection<Modification> retVal = new ArrayList<Modification>();
         if (peptide instanceof ModifiedPeptide) {
             ModifiedPeptide modifiedPeptide = (ModifiedPeptide) peptide;

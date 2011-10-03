@@ -3,7 +3,7 @@ package com.compomics.sigpep.playground;
 /**
  * @TODO: JavaDoc missing.
  * @TODO: all code in this class is commented out...
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 18-Mar-2008<br/>
@@ -11,7 +11,7 @@ package com.compomics.sigpep.playground;
  */
 public class PeptideToProteinMapper {
 
-     /**
+    /**
      * The log4j logger
      */
 //    protected static Logger logger = Logger.getLogger(SigPepQueryServiceImpl.class);

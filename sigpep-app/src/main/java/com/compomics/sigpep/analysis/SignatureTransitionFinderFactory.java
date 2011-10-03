@@ -10,7 +10,7 @@ import java.util.Set;
 
 /**
  * Creates signature transition finders.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -18,9 +18,13 @@ import java.util.Set;
  */
 public class SignatureTransitionFinderFactory {
 
-    /** the singleton instance  */
+    /**
+     * the singleton instance
+     */
     private static SignatureTransitionFinderFactory instance = new SignatureTransitionFinderFactory();
-    /** the product ion scanner factory  */
+    /**
+     * the product ion scanner factory
+     */
     private static ProductIonScannerFactory scannerFactory = ProductIonScannerFactory.getInstance();
 
     /**
@@ -53,13 +57,13 @@ public class SignatureTransitionFinderFactory {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createFindFirstSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            List<Map<Double, Integer>> precursorIonChargeStates,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                                              Set<ProductIonType> targetProductIonTypes,
+                                                                              Set<ProductIonType> backgroundProductIonTypes,
+                                                                              List<Map<Double, Integer>> precursorIonChargeStates,
+                                                                              Set<Integer> productIonChargeStates,
+                                                                              double massAccuracy,
+                                                                              int minimumCombinationSize,
+                                                                              int maximumCombinationSize) {
 
         ProductIonScanner scanner = scannerFactory.createFindFirstProductIonScanner(targetProductIonTypes,
                 backgroundProductIonTypes,
@@ -90,13 +94,13 @@ public class SignatureTransitionFinderFactory {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createFindFirstSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> precursorIonChargeStates,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                                              Set<ProductIonType> targetProductIonTypes,
+                                                                              Set<ProductIonType> backgroundProductIonTypes,
+                                                                              Set<Integer> precursorIonChargeStates,
+                                                                              Set<Integer> productIonChargeStates,
+                                                                              double massAccuracy,
+                                                                              int minimumCombinationSize,
+                                                                              int maximumCombinationSize) {
 
         ProductIonScanner scanner = scannerFactory.createFindFirstProductIonScanner(targetProductIonTypes,
                 backgroundProductIonTypes,
@@ -128,13 +132,13 @@ public class SignatureTransitionFinderFactory {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createFindMinimalSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            List<Map<Double, Integer>> precursorIonChargeStates,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                                                Set<ProductIonType> targetProductIonTypes,
+                                                                                Set<ProductIonType> backgroundProductIonTypes,
+                                                                                List<Map<Double, Integer>> precursorIonChargeStates,
+                                                                                Set<Integer> productIonChargeStates,
+                                                                                double massAccuracy,
+                                                                                int minimumCombinationSize,
+                                                                                int maximumCombinationSize) {
 
         ProductIonScanner scanner = scannerFactory.createFindMinimalProductIonScanner(targetProductIonTypes,
                 backgroundProductIonTypes,
@@ -165,13 +169,13 @@ public class SignatureTransitionFinderFactory {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createFindMinimalSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> precursorIonChargeStates,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                                                Set<ProductIonType> targetProductIonTypes,
+                                                                                Set<ProductIonType> backgroundProductIonTypes,
+                                                                                Set<Integer> precursorIonChargeStates,
+                                                                                Set<Integer> productIonChargeStates,
+                                                                                double massAccuracy,
+                                                                                int minimumCombinationSize,
+                                                                                int maximumCombinationSize) {
 
         ProductIonScanner scanner = scannerFactory.createFindMinimalProductIonScanner(targetProductIonTypes,
                 backgroundProductIonTypes,
@@ -201,13 +205,13 @@ public class SignatureTransitionFinderFactory {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createFindAllSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> precursorIonChargeStates,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                                            Set<ProductIonType> targetProductIonTypes,
+                                                                            Set<ProductIonType> backgroundProductIonTypes,
+                                                                            Set<Integer> precursorIonChargeStates,
+                                                                            Set<Integer> productIonChargeStates,
+                                                                            double massAccuracy,
+                                                                            int minimumCombinationSize,
+                                                                            int maximumCombinationSize) {
 
         ProductIonScanner scanner = scannerFactory.createFindAllProductIonScanner(targetProductIonTypes,
                 backgroundProductIonTypes,
@@ -231,7 +235,8 @@ public class SignatureTransitionFinderFactory {
      * @param backgroundPeptides        the set of background peptides to find signature transitions against
      * @param targetProductIonTypes     the product ion types of the target peptides to include in the search
      * @param backgroundProductIonTypes the product ion types of the background peptides to take into account in the search
-     * @param observedPrecursorIonChargeStates  the observed precursor ion charge states
+     * @param observedPrecursorIonChargeStates
+     *                                  the observed precursor ion charge states
      * @param productIonChargeStates    the allowed product ion charge states
      * @param massAccuracy              the assumed mass accuracy of the mass spectrometer
      * @param minimumCombinationSize    the minimum number of product ions a signature transition is defined by
@@ -239,13 +244,13 @@ public class SignatureTransitionFinderFactory {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createFindAllSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            List<Map<Double, Integer>> observedPrecursorIonChargeStates,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                                            Set<ProductIonType> targetProductIonTypes,
+                                                                            Set<ProductIonType> backgroundProductIonTypes,
+                                                                            List<Map<Double, Integer>> observedPrecursorIonChargeStates,
+                                                                            Set<Integer> productIonChargeStates,
+                                                                            double massAccuracy,
+                                                                            int minimumCombinationSize,
+                                                                            int maximumCombinationSize) {
 
         ProductIonScanner scanner = scannerFactory.createFindAllProductIonScanner(targetProductIonTypes,
                 backgroundProductIonTypes,

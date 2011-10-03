@@ -11,13 +11,19 @@ import com.compomics.sigpep.persistence.config.Configuration;
  */
 public abstract class CatalogDaoFactory {
 
-    /** provides access to the persistence layer configuration  */
+    /**
+     * provides access to the persistence layer configuration
+     */
     private static Configuration config = Configuration.getInstance();
 
-    /** the name of the catalog DAO implementation class  */
+    /**
+     * the name of the catalog DAO implementation class
+     */
     private static String catalogDaoClass = config.getString("sigpep.db.catalog.dao.factory.class");
 
-    /** the singleton instance of the catalog DAO factory  */
+    /**
+     * the singleton instance of the catalog DAO factory
+     */
     private static CatalogDaoFactory ourInstance;
 
     /**
@@ -31,7 +37,7 @@ public abstract class CatalogDaoFactory {
         if (ourInstance == null) {
 
             try {
-                ourInstance = (CatalogDaoFactory)Class.forName(catalogDaoClass).newInstance();
+                ourInstance = (CatalogDaoFactory) Class.forName(catalogDaoClass).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {
@@ -60,7 +66,7 @@ public abstract class CatalogDaoFactory {
      */
     public static void main(String[] args) {
         CatalogDao dao = CatalogDaoFactory.getInstance().createCatalogDao();
-        for(Organism o : dao.getOrganisms()){
+        for (Organism o : dao.getOrganisms()) {
             System.out.println(o);
         }
     }

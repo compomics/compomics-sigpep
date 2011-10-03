@@ -15,6 +15,7 @@
  */
 package com.compomics.sigpep.webapp;
 
+import com.compomics.acromics.config.RCallerConfiguration;
 import com.compomics.jtraml.beans.TransitionBean;
 import com.compomics.sigpep.ApplicationLocator;
 import com.compomics.sigpep.SigPepQueryService;
@@ -93,6 +94,7 @@ public class MyVaadinApplication extends Application implements Pushable {
 
     /**
      * Get the static instance for executing Threads in the sigpep application.
+     *
      * @return
      */
     public static ExecutorService getExecutorService() {
@@ -164,7 +166,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         VerticalLayout lVerticalLayout = new VerticalLayout();
 
 
-        GridLayout lGridLayout = new GridLayout(2,1);
+        GridLayout lGridLayout = new GridLayout(2, 1);
         lGridLayout.setSpacing(true);
         lGridLayout.setSizeFull();
 //      lGridLayout.setWidth(100, Sizeable.UNITS_PERCENTAGE);
@@ -185,6 +187,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         lVerticalLayout.setComponentAlignment(iBottomLayoutResults, Alignment.MIDDLE_CENTER);
 
         mainWindow.addComponent(lVerticalLayout);
+        mainWindow.addComponent(new Label(RCallerConfiguration.getRscriptLocation()));
         mainWindow.addComponent(pusher);
 
     }

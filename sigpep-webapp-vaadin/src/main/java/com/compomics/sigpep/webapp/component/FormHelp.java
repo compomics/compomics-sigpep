@@ -17,7 +17,7 @@ import java.util.Properties;
  */
 public class FormHelp extends ContextHelp {
 
-    public FormHelp(){
+    public FormHelp() {
         super();
     }
 

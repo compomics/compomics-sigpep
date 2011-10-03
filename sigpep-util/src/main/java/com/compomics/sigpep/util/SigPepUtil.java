@@ -55,10 +55,9 @@ public class SigPepUtil {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param array
      * @param ps
+     * @TODO: JavaDoc missing
      */
     public static void printArray(int[][] array, PrintStream ps) {
 
@@ -74,10 +73,9 @@ public class SigPepUtil {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param n
      * @return
+     * @TODO: JavaDoc missing
      */
     public static long factorial(int n) {
         if (n <= 1) { // base case
@@ -143,13 +141,12 @@ public class SigPepUtil {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param data
      * @param binSize
      * @param minBinValue
      * @param maxBinValue
      * @return
+     * @TODO: JavaDoc missing
      */
     public static Map<Integer, Integer> bin(Map<Double, Integer> data, int binSize, int minBinValue, int maxBinValue) {
 
@@ -268,9 +265,8 @@ public class SigPepUtil {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param args
+     * @TODO: JavaDoc missing
      */
     public static void main(String[] args) {
 

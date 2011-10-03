@@ -7,7 +7,7 @@ import com.compomics.sigpep.persistence.util.HibernateUtil;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 18-Jul-2008<br/>
@@ -22,9 +22,8 @@ public class SpringHibernateCatalogDaoFactory extends CatalogDaoFactory {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @return
+     * @TODO: JavaDoc missing
      */
     public CatalogDao createCatalogDao() {
         SpringHibernateCatalogDao retVal = new SpringHibernateCatalogDao();

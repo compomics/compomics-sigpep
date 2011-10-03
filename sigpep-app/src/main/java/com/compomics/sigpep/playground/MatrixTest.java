@@ -4,7 +4,7 @@ import com.compomics.sigpep.util.Combinations;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 12-Nov-2007<br>
@@ -13,15 +13,14 @@ import com.compomics.sigpep.util.Combinations;
 public class MatrixTest {
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
-        Combinations c = new Combinations(2, "y2","y3","y4");
-        while(c.hasNext()){
-            System.out.println(c.next());    
+        Combinations c = new Combinations(2, "y2", "y3", "y4");
+        while (c.hasNext()) {
+            System.out.println(c.next());
         }
 
 //        Matrix x = new Matrix(4, 5);

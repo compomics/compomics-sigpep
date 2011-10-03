@@ -4,7 +4,7 @@ import java.util.Set;
 
 /**
  * A short amino acid sequence generated through proteolytic cleavage of a protein.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>

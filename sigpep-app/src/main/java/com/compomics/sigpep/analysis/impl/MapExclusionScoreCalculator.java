@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -23,13 +23,12 @@ public class MapExclusionScoreCalculator implements ExclusionScoreCalculator<Map
     private Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param productIonCombination
      * @param exclusionMatrix
+     * @TODO: JavaDoc missing.
      */
     public MapExclusionScoreCalculator(Set<ProductIon> productIonCombination,
-            Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix) {
+                                       Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix) {
         this.productIonCombination = productIonCombination;
         this.exclusionMatrix = exclusionMatrix;
     }
@@ -45,9 +44,8 @@ public class MapExclusionScoreCalculator implements ExclusionScoreCalculator<Map
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     private Map<Set<ProductIon>, Double> calculateExclusionScore() {
 

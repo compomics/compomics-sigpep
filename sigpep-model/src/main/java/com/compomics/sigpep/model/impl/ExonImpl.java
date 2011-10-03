@@ -4,7 +4,7 @@ import com.compomics.sigpep.model.*;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Feb-2008<br/>
@@ -16,58 +16,53 @@ public class ExonImpl implements Exon, Persistable {
     private Object sessionFactory;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
     /**
      * the source database cross reference
      */
     private DbXref primaryDbXref;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param dbXref
+     * @TODO: JavaDoc missing
      */
     public void setPrimaryDbXref(DbXref dbXref) {
         this.primaryDbXref = dbXref;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public DbXref getPrimaryDbXref() {
         return primaryDbXref;

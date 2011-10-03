@@ -4,7 +4,7 @@ import java.util.Set;
 
 /**
  * A peptide that can be mapped to a sequence.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>

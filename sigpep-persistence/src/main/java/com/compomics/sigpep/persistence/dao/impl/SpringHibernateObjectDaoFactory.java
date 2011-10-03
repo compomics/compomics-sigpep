@@ -7,7 +7,7 @@ import com.compomics.sigpep.persistence.util.HibernateUtil;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jun-2008<br/>
@@ -30,10 +30,9 @@ public class SpringHibernateObjectDaoFactory extends ObjectDaoFactory {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param taxonId the taxonomy id
      * @return the ObjectDao
+     * @TODO: JavaDoc missing
      */
     public ObjectDao createObjectDao(int taxonId) {
         SpringHibernateObjectDao retVal = new SpringHibernateObjectDao();

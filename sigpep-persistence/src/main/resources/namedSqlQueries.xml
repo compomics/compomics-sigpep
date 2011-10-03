@@ -149,8 +149,8 @@
             WHERE
             g2p.protein_id=p.protein_id
             AND g2p.gene_id IN (
-                SELECT gene_id
-                FROM gene_altsplice
+            SELECT gene_id
+            FROM gene_altsplice
             )
         </proteinIdsAlternativelySplicedGenesTranscriptLevel>
 

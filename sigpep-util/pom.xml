@@ -98,7 +98,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifest>                
+                        <manifest>
                             <packageName>com.compomics.sigpep.util</packageName>
                             <addClasspath>true</addClasspath>
                         </manifest>
@@ -113,7 +113,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
-           
+
         </plugins>
     </build>
 

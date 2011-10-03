@@ -72,7 +72,7 @@ public interface PeptideGenerator {
     /**
      * Returns peptide objects for peptide sequences with the specified degeneracy
      * across all protein sequences of the organism.
-     * 
+     *
      * @param degeneracy peptide sequence degeneracy
      * @return set of peptide objects
      */
@@ -83,7 +83,7 @@ public interface PeptideGenerator {
      * the respective protein sequence that have the specified degeneracy.
      *
      * @param proteinAccessions the protein accessions
-     * @param degeneracy the peptide sequence degeneracy
+     * @param degeneracy        the peptide sequence degeneracy
      * @return a map of protein accessions and sets of peptide sequence strings
      */
     Map<String, Set<String>> getPeptideSequencesByProteinAccessionAndProteinSequenceLevelDegeneracy(Set<String> proteinAccessions, int degeneracy);
@@ -91,7 +91,7 @@ public interface PeptideGenerator {
     /**
      * Returns a map of all protein accessions for the organism and sets of proteolytic peptides emitted by
      * the respective protein sequence that have the specified degeneracy.
-     * 
+     *
      * @param degeneracy the peptide sequence degeneracy
      * @return a map of all protein accessions and sets of peptide sequence strings
      */
@@ -158,7 +158,7 @@ public interface PeptideGenerator {
      * degeneracy across the protein sequence space of the organism.
      *
      * @param proteinAccessions the protein accessions
-     * @param degeneracy the peptide degeneracy
+     * @param degeneracy        the peptide degeneracy
      * @return a map of protein accessions and sets of peptide objects
      */
     Map<String, Set<Peptide>> getProteinAccessionToPeptideMap(Set<String> proteinAccessions, int degeneracy);
@@ -170,7 +170,7 @@ public interface PeptideGenerator {
      * space of the organism.
      *
      * @param proteinAccession the protein accession
-     * @param degeneracy the peptide degeneracy
+     * @param degeneracy       the peptide degeneracy
      * @return a set of peptide objects
      */
     Set<Peptide> getPeptidesByProteinAccessionAndProteinSequenceLevelDegeneracy(String proteinAccession, int degeneracy);
@@ -211,7 +211,7 @@ public interface PeptideGenerator {
      * organism.
      *
      * @param geneAccessions the gene accessions
-     * @param degeneracy the peptide degeneracy
+     * @param degeneracy     the peptide degeneracy
      * @return a map of gene accessions and sets of peptide sequence objects
      */
     Map<String, Set<Peptide>> getPeptidesByGeneAccessionAndGeneLevelDegeneracy(Set<String> geneAccessions, int degeneracy);

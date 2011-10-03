@@ -11,7 +11,7 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * Implementation that fetches protein sequences from the Ensembl FTP server.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 30-Apr-2009<br/>
@@ -19,16 +19,24 @@ import java.util.zip.GZIPInputStream;
  */
 public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
 
-    /** the log4j logger */
+    /**
+     * the log4j logger
+     */
     private static Logger logger = Logger.getLogger(EnsemblFtpSequenceRetriever.class);
 
-    /** provides access to the persistence layer configuration  */
+    /**
+     * provides access to the persistence layer configuration
+     */
     public static Configuration config = Configuration.getInstance();
 
-    /** the URL pattern of the the Ensembl FTP directory containing the sequence file  */
+    /**
+     * the URL pattern of the the Ensembl FTP directory containing the sequence file
+     */
     public static String ensemblFtpUrl = config.getString("sigpep.db.protein.sequences.ensembl.ftp.url.pattern.ensembl");
 
-    /** the file extension of the FASTA file containing the protein sequences */
+    /**
+     * the file extension of the FASTA file containing the protein sequences
+     */
     public static String ensemblFileExtension = config.getString("sigpep.db.protein.sequences.ensembl.file.extension");
 
 
@@ -37,12 +45,12 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
      * deposits them in FASTA format in the specified
      * destination file.
      *
-     * @param organismScientificName  the scientific name of the organism
-     * @param organismNcbiTaxonID     the NCBI taxon ID of the organism
-     * @param databaseVersion         the version of the database
-     * @param destination             the target location
+     * @param organismScientificName the scientific name of the organism
+     * @param organismNcbiTaxonID    the NCBI taxon ID of the organism
+     * @param databaseVersion        the version of the database
+     * @param destination            the target location
      * @return true if the sequences were fetched successfully, false otherwise
-     * @throws RuntimeException       if an exception occurs during sequence retrieval
+     * @throws RuntimeException if an exception occurs during sequence retrieval
      */
     public boolean fetch(String organismScientificName, int organismNcbiTaxonID, String databaseVersion, URL destination) {
 
@@ -79,7 +87,7 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
      * @param organismScientificName the scientific name of the organism
      * @param databaseVersion        the Ensembl release version
      * @return URL                   the FTP directory path as a URL
-     * @throws MalformedURLException when malformed URL is created  
+     * @throws MalformedURLException when malformed URL is created
      */
     private URL createDirectoryUrl(String organismScientificName, String databaseVersion) throws MalformedURLException {
 
@@ -128,7 +136,7 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
         BufferedReader br = new BufferedReader(new InputStreamReader(fromInputStream));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(toOutputStream));
         String line;
-        
+
         while ((line = br.readLine()) != null) {
 
             bw.write(line);

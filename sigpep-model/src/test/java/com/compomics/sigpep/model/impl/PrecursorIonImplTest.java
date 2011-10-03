@@ -1,7 +1,9 @@
 package com.compomics.sigpep.model.impl;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
+
 import com.compomics.sigpep.model.constants.MonoElementMasses;
 import com.compomics.sigpep.model.*;
 
@@ -9,7 +11,7 @@ import java.util.List;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>
@@ -24,7 +26,7 @@ public class PrecursorIonImplTest {
 
     @BeforeClass
     public static void unitSetup() {
-        
+
     } // unitSetup()
 
     @AfterClass
@@ -49,16 +51,16 @@ public class PrecursorIonImplTest {
     } // methodCleanup()
 
     @Test
-    public void testGetPeptide(){
+    public void testGetPeptide() {
 
         assertEquals(aPeptide, aPrecursorIon.getPeptide());
 
     }
 
     @Test
-    public void testGetProductIon(){
+    public void testGetProductIon() {
 
-        for(ProductIonType type : ProductIonType.values()){
+        for (ProductIonType type : ProductIonType.values()) {
 
             int length = 3;
             ProductIon product = aPrecursorIon.getProductIon(type, length);
@@ -67,12 +69,12 @@ public class PrecursorIonImplTest {
             assertTrue(product.getType() == type);
 
             //...of the correct length
-            assertTrue(product.getSequenceLength()==length);
-       
+            assertTrue(product.getSequenceLength() == length);
+
         }
 
         //make sure an illegal argument exception is thrown for precursor lengths greater peptide length
-        try{
+        try {
 
             aPrecursorIon.getProductIon(ProductIonType.B, aPrecursorIon.getSequenceLength() + 1);
 
@@ -84,18 +86,18 @@ public class PrecursorIonImplTest {
 
         //make sure the product ions have the correct sequence
 
-        for(int length = 1; length <= aPrecursorIon.getSequenceLength(); length++){
+        for (int length = 1; length <= aPrecursorIon.getSequenceLength(); length++) {
 
             ProductIon product = aPrecursorIon.getProductIon(ProductIonType.B, length);
 
             String value = product.getSequenceString();
-            String expected = aPrecursorIon.getPeptide().getSequenceString().substring(0,length);
+            String expected = aPrecursorIon.getPeptide().getSequenceString().substring(0, length);
 
-            assertEquals(value,expected);
+            assertEquals(value, expected);
 
         }
 
-        for(int length = 1; length <= aPrecursorIon.getSequenceLength(); length++){
+        for (int length = 1; length <= aPrecursorIon.getSequenceLength(); length++) {
 
             ProductIon product = aPrecursorIon.getProductIon(ProductIonType.Y, length);
 
@@ -103,14 +105,14 @@ public class PrecursorIonImplTest {
             int peptideLength = aPrecursorIon.getPeptide().getSequenceLength();
             String expected = aPrecursorIon.getPeptide().getSequenceString().substring(peptideLength - length, peptideLength);
 
-            assertEquals(value,expected);
+            assertEquals(value, expected);
 
         }
 
     }
 
     @Test
-    public void testGetProductIons(){
+    public void testGetProductIons() {
 
 
         List<ProductIon> products = aPrecursorIon.getProductIons(ProductIonType.Y);
@@ -119,8 +121,8 @@ public class PrecursorIonImplTest {
         assertTrue(products.size() == aPrecursorIon.getSequenceLength());
 
         //make sure the product ions are of the correct type
-        for(ProductIon product : products){
-            assertTrue(product.getType()==ProductIonType.Y);
+        for (ProductIon product : products) {
+            assertTrue(product.getType() == ProductIonType.Y);
         }
 
     }
@@ -131,7 +133,7 @@ public class PrecursorIonImplTest {
         //should be monoisotopic mass of H atom
         double expected = MonoElementMasses.getInstance().getDouble("H");
 
-        assertTrue(aPrecursorIon.getNeutralMassNTerminalGroup()==expected);
+        assertTrue(aPrecursorIon.getNeutralMassNTerminalGroup() == expected);
 
     }
 
@@ -142,7 +144,7 @@ public class PrecursorIonImplTest {
         double expected = MonoElementMasses.getInstance().getDouble("H") +
                 MonoElementMasses.getInstance().getDouble("O");
 
-        assertTrue(aPrecursorIon.getNeutralMassCTerminalGroup()==expected);
+        assertTrue(aPrecursorIon.getNeutralMassCTerminalGroup() == expected);
 
     }
 
@@ -154,7 +156,7 @@ public class PrecursorIonImplTest {
 
         aPrecursorIon.setNeutralMassNTerminalGroup(newValue);
 
-        assertTrue(aPrecursorIon.getNeutralMassNTerminalGroup()==newValue);
+        assertTrue(aPrecursorIon.getNeutralMassNTerminalGroup() == newValue);
 
         aPrecursorIon.setNeutralMassNTerminalGroup(originalValue);
 
@@ -168,7 +170,7 @@ public class PrecursorIonImplTest {
 
         aPrecursorIon.setNeutralMassCTerminalGroup(newValue);
 
-        assertTrue(aPrecursorIon.getNeutralMassCTerminalGroup()==newValue);
+        assertTrue(aPrecursorIon.getNeutralMassCTerminalGroup() == newValue);
 
         aPrecursorIon.setNeutralMassCTerminalGroup(originalValue);
 

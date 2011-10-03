@@ -15,13 +15,13 @@ import com.compomics.sigpep.persistence.rdbms.SigPepDatabase;
 /**
  * @TODO: JavaDoc missing.
  * @TODO: All code in this class is commented out...
- * 
+ * <p/>
  * Created by IntelliJ IDEA.</br>
  * User: mmueller</br>
  * Date: 04-Sep-2007</br>
  * Time: 11:35:16</br>
  */
-public class ProteinsWithoutSignaturePeptide  {
+public class ProteinsWithoutSignaturePeptide {
 
 //    private static final String filenameProteinsWithoutSignaturePeptideSummary =
 //            "proteins_without_sigpep_summary.tsv";

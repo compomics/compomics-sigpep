@@ -1,7 +1,9 @@
 package com.compomics.sigpep.model.impl;
 
 import org.junit.*;
+
 import static org.junit.Assert.*;
+
 import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.model.ModificationFactory;
 
@@ -11,7 +13,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>
@@ -46,7 +48,7 @@ public class ModifiedPeptideImplTest {
         peptide.setProteases(proteases);
         methionineOxidation = ModificationFactory.createPostTranslationalModification("metox");
         modifiedPeptides = peptide.applyModification(methionineOxidation);
-        aModifiedPeptide = (ModifiedPeptide)modifiedPeptides.iterator().next();
+        aModifiedPeptide = (ModifiedPeptide) modifiedPeptides.iterator().next();
 
     } // methodSetup()
 
@@ -68,7 +70,7 @@ public class ModifiedPeptideImplTest {
 
         for (Peptide pep : modifiedPeptides) {
 
-            ModifiedPeptide modPep = (ModifiedPeptide)pep;
+            ModifiedPeptide modPep = (ModifiedPeptide) pep;
             Map<Integer, Modification> ptms = modPep.getPostTranslationalModifications();
 
             //check if we get something back
@@ -82,14 +84,14 @@ public class ModifiedPeptideImplTest {
             for (Integer ptmPosition : ptms.keySet()) {
                 assertTrue(peptide.getResiduePositions(methionineOxidation.getResidue()).contains(ptmPosition));
             }
-            
+
         }
 
     }
 
     @Test
     public void testGetProteases() {
-        assertEquals(proteases,aModifiedPeptide.getProteases());
+        assertEquals(proteases, aModifiedPeptide.getProteases());
     }
 
     @Test
@@ -104,10 +106,10 @@ public class ModifiedPeptideImplTest {
         aModifiedPeptide.setProteases(expected);
 
         //make sure that the protease set has changed
-        assertTrue(aModifiedPeptide.getProteases()==expected);
+        assertTrue(aModifiedPeptide.getProteases() == expected);
 
         //make sure that the setting is applied to the unmodified peptide
-        assertTrue(aModifiedPeptide.getProteases()==aModifiedPeptide.getUnmodifiedPeptide().getProteases());
+        assertTrue(aModifiedPeptide.getProteases() == aModifiedPeptide.getUnmodifiedPeptide().getProteases());
 
         //reset proteases
         aModifiedPeptide.setProteases(originalValue);
@@ -115,7 +117,7 @@ public class ModifiedPeptideImplTest {
     }
 
     @Test
-    public void testGetSequenceString(){
+    public void testGetSequenceString() {
 
         assertEquals(aModifiedPeptide.getSequenceString(), sequenceString);
 
@@ -124,7 +126,7 @@ public class ModifiedPeptideImplTest {
     }
 
     @Test
-    public void testGetSequenceLength(){
+    public void testGetSequenceLength() {
 
         assertEquals(aModifiedPeptide.getSequenceLength(), sequenceString.length());
 
@@ -133,8 +135,8 @@ public class ModifiedPeptideImplTest {
     }
 
     @Test
-    public void testIsModified(){
-        
+    public void testIsModified() {
+
         assertTrue(aModifiedPeptide.isModified());
 
         assertFalse(aModifiedPeptide.getUnmodifiedPeptide().isModified());
@@ -142,7 +144,7 @@ public class ModifiedPeptideImplTest {
     }
 
     @Test
-    public void testGetPrecursorIon(){
+    public void testGetPrecursorIon() {
 
         PrecursorIon modifiedPrecursor = aModifiedPeptide.getPrecursorIon();
         PrecursorIon unmodifiedPrecursor = aModifiedPeptide.getUnmodifiedPeptide().getPrecursorIon();
@@ -160,7 +162,7 @@ public class ModifiedPeptideImplTest {
     }
 
     @Test
-    public void testGetResiduePositions(){
+    public void testGetResiduePositions() {
 
         assertEquals(aModifiedPeptide.getResiduePositions("M"), peptide.getResiduePositions("M"));
 

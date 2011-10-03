@@ -17,8 +17,8 @@
         <p>
             <h:outputLabel id="organismInputLabel" value="Please choose an organism " for="organismInput"/>
             <h:selectOneMenu id="organismInput"
-                                value="#{sigPepSessionBean.selectedOrganism}"
-                                required="true">
+                             value="#{sigPepSessionBean.selectedOrganism}"
+                             required="true">
                 <f:selectItems value="#{selectOrganismBean.availableOrganisms}"/>
             </h:selectOneMenu>
 
