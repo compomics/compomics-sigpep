@@ -223,7 +223,7 @@ public class MyVaadinApplication extends Application implements Pushable {
             synchronized (MyVaadinApplication.this) {
                 getMainWindow().addComponent(new Label("All done"));
 
-                File lResultFolder = new File("/Users/kennyhelsens/tmp/sigpep/metaex/");
+                File lResultFolder = new File("C://temp//testing");
                 HashSet lResultFiles = new HashSet();
                 Collections.addAll(lResultFiles, lResultFolder.listFiles(new FileFilter() {
                     public boolean accept(File aFile) {
