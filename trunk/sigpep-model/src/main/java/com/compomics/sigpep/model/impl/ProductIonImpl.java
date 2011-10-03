@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Implementation of ProductIon.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 10-Jan-2008<br/>
@@ -29,9 +29,9 @@ public class ProductIonImpl extends AbstractPeptideIon implements ProductIon {
      * @param endCoordinate   the end coordinate in the precursor ion proteinSequence
      */
     ProductIonImpl(PrecursorIon precursorIon,
-            ProductIonType type,
-            int startCoordinate,
-            int endCoordinate) {
+                   ProductIonType type,
+                   int startCoordinate,
+                   int endCoordinate) {
 
         if (precursorIon == null) {
             throw new IllegalArgumentException("PrecursorIon cannot be NULL.");

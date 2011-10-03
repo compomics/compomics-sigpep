@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * Implementation of the gene interface.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 16-Jan-2008<br/>
@@ -30,36 +30,32 @@ public class GeneImpl implements Gene, Persistable {
     private Set<Protein> proteins;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -108,7 +104,7 @@ public class GeneImpl implements Gene, Persistable {
     }
 
     /**
-     * Checks for equality to another object. Two Genes are equal if their 
+     * Checks for equality to another object. Two Genes are equal if their
      * primary <code>DbXref</coce>s are equal.
      *
      * @param o the object to check for equality

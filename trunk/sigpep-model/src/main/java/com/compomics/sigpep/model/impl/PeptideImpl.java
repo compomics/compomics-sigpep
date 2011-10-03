@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Feb-2008<br/>
@@ -25,17 +25,16 @@ public class PeptideImpl extends AbstractPeptide {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param sequence
+     * @TODO: JavaDoc missing
      */
     public PeptideImpl(String sequence) {
         this.sequence = sequence;
     }
 
     /**
-     * @TODO: JavaDoc missing
      * @return
+     * @TODO: JavaDoc missing
      */
     public String getSequenceString() {
         return sequence;

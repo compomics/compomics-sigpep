@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 31-Jul-2008<br/>
@@ -64,86 +64,74 @@ public interface SignatureTransition extends Transition {
     void setExclusionScore(double score);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     Set<ProductIonType> getTargetProductIonTypes();
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param productIonTypes
+     * @TODO: JavaDoc missing.
      */
     void setTargetProductIonTypes(Set<ProductIonType> productIonTypes);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     Set<ProductIonType> getBackgroundProductIonTypes();
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param productIonTypes
+     * @TODO: JavaDoc missing.
      */
     void setBackgroundProductIonTypes(Set<ProductIonType> productIonTypes);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     Set<Integer> getPrecursorIonChargeStates();
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param chargeStates
+     * @TODO: JavaDoc missing.
      */
     void setPrecursorIonChargeStates(Set<Integer> chargeStates);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     Set<Integer> getProductIonChargeStates();
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param chargeStates
+     * @TODO: JavaDoc missing.
      */
     void setProductIonChargeStates(Set<Integer> chargeStates);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     double getMassAccuracy();
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param massAccuracy
+     * @TODO: JavaDoc missing.
      */
     void setMassAccuracy(double massAccuracy);
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     int getTargetPeptideChargeState();
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param z
+     * @TODO: JavaDoc missing.
      */
     void setTargetPeptideChargeState(int z);
 }

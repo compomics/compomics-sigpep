@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 /**
  * Abstract implementation of PeptideIon.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 10-Jan-2008<br/>
@@ -89,10 +89,10 @@ public abstract class AbstractPeptideIon implements PeptideIon {
      */
     public static double calculateProductIonMass(String sequence, ProductIonType type, int fragmentLength, double massNTerm, double massCTerm) {
 
-        if (fragmentLength > sequence.length()){
+        if (fragmentLength > sequence.length()) {
             throw new IllegalArgumentException(
                     "The the length of the fragment ion cannot be greater then the length of the peptide proteinSequence. ("
-                    + fragmentLength + " > " + sequence.length() + ")");
+                            + fragmentLength + " > " + sequence.length() + ")");
         }
 
         String fragmentSequence;
@@ -302,30 +302,27 @@ public abstract class AbstractPeptideIon implements PeptideIon {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Map<Integer, Double> getAllowedChargeStates() {
         return allowedChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param allowedChargeStates
+     * @TODO: JavaDoc missing
      */
     public void setAllowedChargeStates(Map<Integer, Double> allowedChargeStates) {
         this.allowedChargeStates = allowedChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param z
      * @param probability
+     * @TODO: JavaDoc missing
      */
-    public void addAllowedChargeState(int z, double probability){
+    public void addAllowedChargeState(int z, double probability) {
         this.allowedChargeStates.put(z, probability);
     }
 }

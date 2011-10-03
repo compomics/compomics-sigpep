@@ -13,30 +13,30 @@
     <h:form id="parameterForm">
 
         <p>
-        <h:outputLabel id="selectLevelLabel" for="selectLevel" value="Level: "/>
-        <h:selectOneRadio id="selectLevel"
-                          value="#{sigPepSessionBean.selectedLevel}">
-            <f:selectItems value="#{parameterBean.availableLevels}"/>
-        </h:selectOneRadio>
+            <h:outputLabel id="selectLevelLabel" for="selectLevel" value="Level: "/>
+            <h:selectOneRadio id="selectLevel"
+                              value="#{sigPepSessionBean.selectedLevel}">
+                <f:selectItems value="#{parameterBean.availableLevels}"/>
+            </h:selectOneRadio>
         </p>
 
         <p>
-        <h:outputLabel id="accessionFilterLabel" for="accessionFilter" value="Accessions: "/>
-        <h:inputTextarea id="accessionFilter"
-                         value="#{sigPepSessionBean.accessionFilter}"
-                         converter="inputListConverter"/>
+            <h:outputLabel id="accessionFilterLabel" for="accessionFilter" value="Accessions: "/>
+            <h:inputTextarea id="accessionFilter"
+                             value="#{sigPepSessionBean.accessionFilter}"
+                             converter="inputListConverter"/>
         </p>
 
         <p>
-        <h:outputLabel id="selectProteasesLabel" for="selectProteases" value="Proteases: "/>
-        <h:selectManyCheckbox id="selectProteases"
-                              value="#{sigPepSessionBean.selectedProteases}">
-            <f:selectItems value="#{parameterBean.availableProteases}"/>
-        </h:selectManyCheckbox>
+            <h:outputLabel id="selectProteasesLabel" for="selectProteases" value="Proteases: "/>
+            <h:selectManyCheckbox id="selectProteases"
+                                  value="#{sigPepSessionBean.selectedProteases}">
+                <f:selectItems value="#{parameterBean.availableProteases}"/>
+            </h:selectManyCheckbox>
         </p>
 
         <p>
-        <h:commandButton id="submitButton" value="submit" action="#{parameterBean.send}"/>
+            <h:commandButton id="submitButton" value="submit" action="#{parameterBean.send}"/>
         </p>
 
         <h:commandLink id="backLink" action="back">

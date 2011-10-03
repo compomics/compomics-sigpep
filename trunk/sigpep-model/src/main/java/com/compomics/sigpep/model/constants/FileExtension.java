@@ -2,7 +2,7 @@ package com.compomics.sigpep.model.constants;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 19-Sep-2007<br>
@@ -16,6 +16,7 @@ public enum FileExtension {
 
     /**
      * Creates a new FileExtension.
+     *
      * @param stringValue
      */
     FileExtension(String stringValue) {

@@ -27,7 +27,7 @@ public class HibernateContextListener implements ServletContextListener {
         } catch (IllegalAccessException e) {
             logger.error(e);
         }
-        
+
     }
 
     public void contextDestroyed(ServletContextEvent event) {

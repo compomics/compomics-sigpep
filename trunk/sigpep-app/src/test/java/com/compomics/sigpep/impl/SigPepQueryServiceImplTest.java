@@ -1,22 +1,23 @@
 package com.compomics.sigpep.impl;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
 import com.compomics.sigpep.model.*;
+import org.junit.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.junit.Assert.*;
+
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 10-Jul-2008<br/>
@@ -184,8 +185,8 @@ public class SigPepQueryServiceImplTest {
             Set<ProteinSequence> sequences = peptide.getParentSequences(protease);
             ProteinSequence sequence = sequences.iterator().next();
 
-            for(Protein p : sequence.getProteins()){
-                System.out.println(((Persistable)sequence).getId() + " " + p.getPrimaryDbXref().getAccession() + " " + peptide.getSequenceString());
+            for (Protein p : sequence.getProteins()) {
+                System.out.println(((Persistable) sequence).getId() + " " + p.getPrimaryDbXref().getAccession() + " " + peptide.getSequenceString());
             }
 
             assertTrue("getSignaturePeptidesForProteinSet returns gene with only on translation", sequences.size() == 1);
@@ -209,7 +210,7 @@ public class SigPepQueryServiceImplTest {
             Set<Gene> genes = new HashSet<Gene>();
             for (ProteinSequence sequence : peptide.getParentSequences(protease)) {
                 for (Protein protein : sequence.getProteins()) {
-                    System.out.println(((Persistable)sequence).getId() + " " + protein.getPrimaryDbXref().getAccession() + " "
+                    System.out.println(((Persistable) sequence).getId() + " " + protein.getPrimaryDbXref().getAccession() + " "
                             + protein.getGene().getPrimaryDbXref().getAccession() + " " + peptide.getSequenceString());
                     genes.add(protein.getGene());
                 }

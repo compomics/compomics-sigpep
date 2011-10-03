@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 29-May-2008<br/>
@@ -87,7 +87,7 @@ public interface SimpleQueryDao {
      * Returns the signature peptide ids by protease short names gene level.
      *
      * @param proteaseShortNames the short names for the proteases
-     * @return the signature peptide ids 
+     * @return the signature peptide ids
      */
     Set<Integer> getSignaturePeptideIdsByProteaseShortNamesGeneLevel(Set<String> proteaseShortNames);
 
@@ -200,7 +200,7 @@ public interface SimpleQueryDao {
     /**
      * Returns the peptide feature ids by peptide id and sequence id.
      *
-     * @param peptideId the peptide ids
+     * @param peptideId  the peptide ids
      * @param sequenceId the sequence ids
      * @return the peptide feature ids
      */
@@ -244,7 +244,7 @@ public interface SimpleQueryDao {
 
     /**
      * Returns the protein accession numbers.
-     * 
+     *
      * @return the protein accession numbers
      */
     Set<String> getProteinAccessions();

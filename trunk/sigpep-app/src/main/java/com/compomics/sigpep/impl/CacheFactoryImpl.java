@@ -11,7 +11,7 @@ import java.util.Properties;
 
 /**
  * Cache factory implementation.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 09-Jul-2008<br/>
@@ -19,7 +19,9 @@ import java.util.Properties;
  */
 public class CacheFactoryImpl extends CacheFactory {
 
-    /** provides access  */
+    /**
+     * provides access
+     */
     private Configuration config = Configuration.getInstance();
 
     /**

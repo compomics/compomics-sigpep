@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -24,12 +24,11 @@ public class SignatureTransitionFinderExecutor {
     private static int massPrecission = config.getInt("sigpep.app.monoisotopic.mass.precision");
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param printWriter
      * @param proteinAccession
      * @param geneAccession
      * @param transition
+     * @TODO: JavaDoc missing.
      */
     public static void writeResultEntry(PrintWriter printWriter,
                                         String proteinAccession,
@@ -127,10 +126,9 @@ public class SignatureTransitionFinderExecutor {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
      * @return
+     * @TODO: JavaDoc missing.
      */
     public static Map<String, String> parseCommandLineArguments(String[] args) {
 
@@ -153,9 +151,8 @@ public class SignatureTransitionFinderExecutor {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -280,7 +277,7 @@ public class SignatureTransitionFinderExecutor {
             logger.info("product ion charge states  : " + productChargeStates);
             logger.info("MS mass accuracy           : " + massAccuracy);
             logger.info("");
-            
+
             //SigPepQueryService sigPepQuery = session.createSigPepQueryService();
             Map<String, String> proteinAccessionToGeneAccessionMap = session.getSimpleQueryDao().getProteinAccessionToGeneAccessionMap();
 

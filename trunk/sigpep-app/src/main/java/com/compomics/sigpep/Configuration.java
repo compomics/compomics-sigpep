@@ -5,7 +5,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * Provides access to the SigPep application configuration in the config/sigpep-app.properties file.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 02-Jun-2008<br/>
@@ -13,7 +13,9 @@ import org.apache.commons.configuration.PropertiesConfiguration;
  */
 public class Configuration extends PropertiesConfiguration {
 
-    /** the singleton instance  */
+    /**
+     * the singleton instance
+     */
     private static Configuration ourInstance;
 
     /**
@@ -24,10 +26,10 @@ public class Configuration extends PropertiesConfiguration {
     public static Configuration getInstance() {
 
         //create the singleton instance if it doesn't exist yet
-        if(ourInstance==null){
+        if (ourInstance == null) {
 
             try {
-                ourInstance=new Configuration("config/sigpep-app.properties");
+                ourInstance = new Configuration("config/sigpep-app.properties");
             } catch (ConfigurationException e) {
                 throw new RuntimeException(e);
             }

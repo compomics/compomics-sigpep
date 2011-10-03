@@ -2,7 +2,7 @@ package com.compomics.sigpep.model;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 13-Mar-2008<br/>
@@ -28,7 +28,7 @@ public enum ModificationPosition {
     /**
      * Creates a position with name <code>name</code> and integer value <code>integerValue</value>
      *
-     * @param name the position name
+     * @param name         the position name
      * @param integerValue the position integer value
      */
     ModificationPosition(String name, int integerValue) {

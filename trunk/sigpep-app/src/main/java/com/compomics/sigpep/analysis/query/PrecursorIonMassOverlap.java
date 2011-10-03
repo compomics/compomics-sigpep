@@ -3,13 +3,13 @@ package com.compomics.sigpep.analysis.query;
 /**
  * @TODO: JavaDoc missing.
  * @TODO: All code in this class is commented out...
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 12-Oct-2007<br>
  * Time: 11:46:45<br>
  */
-public class PrecursorIonMassOverlap  {
+public class PrecursorIonMassOverlap {
 
 
 //    private static final String SQL_CREATE_TEMPORARY_PEPTIDE_MASS_TABLE =
@@ -352,4 +352,4 @@ public class PrecursorIonMassOverlap  {
 //
 //
 //        }
-        }
+}

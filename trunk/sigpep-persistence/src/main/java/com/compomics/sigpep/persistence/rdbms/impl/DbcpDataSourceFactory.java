@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  * Provides Apache commons DBCP connection pool data sources.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 02-Jun-2008<br/>
@@ -17,13 +17,15 @@ import java.util.Properties;
  */
 public class DbcpDataSourceFactory extends DataSourceFactory {
 
-    /** provides access to the persistence layer configuration in sigpep-persistence.properties */
+    /**
+     * provides access to the persistence layer configuration in sigpep-persistence.properties
+     */
     private static Configuration config = Configuration.getInstance();
 
     /**
      * Constructs a data source factory provides ODCP data sources.
      */
-    public DbcpDataSourceFactory()  {
+    public DbcpDataSourceFactory() {
     }
 
     /**
@@ -32,7 +34,7 @@ public class DbcpDataSourceFactory extends DataSourceFactory {
      * @param taxonId the NCBI taxon ID
      * @return a data source
      */
-    public DataSource createDataSource(int taxonId){
+    public DataSource createDataSource(int taxonId) {
 
         Properties properties = new Properties();
         properties.setProperty("username", config.getString("sigpep.db.username"));
@@ -47,7 +49,7 @@ public class DbcpDataSourceFactory extends DataSourceFactory {
         }
     }
 
-    public DataSource createCatalogDataSource(){
+    public DataSource createCatalogDataSource() {
 
         Properties properties = new Properties();
         properties.setProperty("username", config.getString("sigpep.db.username"));

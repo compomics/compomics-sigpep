@@ -1,12 +1,13 @@
 package com.compomics.sigpep;
 
 import com.compomics.sigpep.model.*;
+
 import java.util.Map;
 import java.util.Set;
 
 /**
  * Provides methods to query the SigPep database.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 04-Jul-2008<br/>
@@ -151,7 +152,7 @@ public interface SigPepQueryService {
      */
     Set<Gene> getGenesWithAlternativeTranslations();
 
-        
+
     /////////////////
     //Protein queries
     /////////////////

@@ -22,7 +22,7 @@
             <key column="peptide_id"/>
             <many-to-many column="protease_id" unique="true" class="ProteaseImpl"/>
         </set>
-        
+
     </class>
 
 
@@ -43,5 +43,5 @@
     </class>
 
     <query name="peptideById">from com.compomics.sigpep.model.impl.PeptideImpl where id = :peptideId</query>
-           
+
 </hibernate-mapping>

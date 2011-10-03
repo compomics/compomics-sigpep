@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 07-Mar-2008<br/>
@@ -25,7 +25,8 @@ public interface Transition {
      * @param productIons the product ions
      */
     void setProductIons(List<ProductIon> productIons);
-/**
+
+    /**
      * Returns the peptide identified by the transition.
      *
      * @return the peptide

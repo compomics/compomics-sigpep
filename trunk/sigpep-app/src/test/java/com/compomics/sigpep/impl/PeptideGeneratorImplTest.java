@@ -1,7 +1,9 @@
 package com.compomics.sigpep.impl;
 
 import org.junit.*;
+
 import static org.junit.Assert.assertTrue;
+
 import com.compomics.sigpep.*;
 import com.compomics.sigpep.model.*;
 import com.compomics.sigpep.util.SigPepUtil;
@@ -10,7 +12,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 25-Mar-2008<br/>
@@ -140,15 +142,13 @@ public class PeptideGeneratorImplTest {
 
                 //residue modification
                 //position: peptide N-terminal
-                else
-                if (peptide.getResiduePositions(residue).contains(1) && position == ModificationPosition.N_TERMINAL) {
+                else if (peptide.getResiduePositions(residue).contains(1) && position == ModificationPosition.N_TERMINAL) {
                     expectedModifiedPeptideCount++;
                 }
 
                 //residue modification
                 //position: peptide C-terminal
-                else
-                if (peptide.getResiduePositions(residue).contains(peptide.getSequenceLength()) && position == ModificationPosition.C_TERMINAL) {
+                else if (peptide.getResiduePositions(residue).contains(peptide.getSequenceLength()) && position == ModificationPosition.C_TERMINAL) {
                     expectedModifiedPeptideCount++;
                 }
 
@@ -220,16 +220,14 @@ public class PeptideGeneratorImplTest {
 
                     //residue modification
                     //position: peptide N-terminal
-                    else
-                    if (peptide.getResiduePositions(residue).contains(1) && position == ModificationPosition.N_TERMINAL) {
+                    else if (peptide.getResiduePositions(residue).contains(1) && position == ModificationPosition.N_TERMINAL) {
                         expectedModifiedPeptideCount++;
 
                     }
 
                     //residue modification
                     //position: peptide C-terminal
-                    else
-                    if (peptide.getResiduePositions(residue).contains(peptide.getSequenceLength()) && position == ModificationPosition.C_TERMINAL) {
+                    else if (peptide.getResiduePositions(residue).contains(peptide.getSequenceLength()) && position == ModificationPosition.C_TERMINAL) {
                         expectedModifiedPeptideCount++;
 
                     }
@@ -298,25 +296,25 @@ public class PeptideGeneratorImplTest {
 
             if (peptide.isModified()) {
                 modifiedPeptideCount++;
-                ModifiedPeptide modPep = (ModifiedPeptide)peptide;
-                if(modPep.getPostTranslationalModifications().values().contains(aStaticPtm)){
+                ModifiedPeptide modPep = (ModifiedPeptide) peptide;
+                if (modPep.getPostTranslationalModifications().values().contains(aStaticPtm)) {
                     staticModifiedPeptideCount++;
                 }
-                if(modPep.getPostTranslationalModifications().values().contains(aNonStaticPtm)){
+                if (modPep.getPostTranslationalModifications().values().contains(aNonStaticPtm)) {
                     nonStaticModifiedPeptideCount++;
                 }
-                if(modPep.getPostTranslationalModifications().values().contains(aNonStaticPtm) &&
-                       modPep.getPostTranslationalModifications().values().contains(aStaticPtm) ){
+                if (modPep.getPostTranslationalModifications().values().contains(aNonStaticPtm) &&
+                        modPep.getPostTranslationalModifications().values().contains(aStaticPtm)) {
                     staticAndNonStaticModifiedPeptideCount++;
                 }
 
 
             }
 
-            if(!peptide.isModified() &&
-                       peptide.getResidueCount(aNonStaticPtm.getResidue()) > 0 ){
-                    peptidesThatShouldBeNonStaticallyModified.add(peptide.getSequenceString());
-                }
+            if (!peptide.isModified() &&
+                    peptide.getResidueCount(aNonStaticPtm.getResidue()) > 0) {
+                peptidesThatShouldBeNonStaticallyModified.add(peptide.getSequenceString());
+            }
 
             //calculate expected non-statically modified peptide count
             String sequenceString = peptide.getSequenceString();
@@ -330,16 +328,14 @@ public class PeptideGeneratorImplTest {
 
                 //residue modification
                 //position: peptide C-terminal
-                else
-                if (peptide.getResiduePositions(aNonStaticPtm.getResidue()).contains(peptide.getSequenceLength()) && aNonStaticPtm.getPosition() == ModificationPosition.C_TERMINAL) {
+                else if (peptide.getResiduePositions(aNonStaticPtm.getResidue()).contains(peptide.getSequenceLength()) && aNonStaticPtm.getPosition() == ModificationPosition.C_TERMINAL) {
                     expectedModifiedPeptideCount++;
 
                 }
 
                 //residue modification
                 //position: non-positional
-                else
-                if (peptide.getResidueCount(aNonStaticPtm.getResidue()) > 0 && aNonStaticPtm.getPosition() == ModificationPosition.NON_POSITIONAL) {
+                else if (peptide.getResidueCount(aNonStaticPtm.getResidue()) > 0 && aNonStaticPtm.getPosition() == ModificationPosition.NON_POSITIONAL) {
                     int residueCount = peptide.getResidueCount(aNonStaticPtm.getResidue());
                     for (int combinationSize = 1; combinationSize <= residueCount; combinationSize++) {
                         expectedModifiedPeptideCount = expectedModifiedPeptideCount + (int) SigPepUtil.combinationsWithoutRepitition(residueCount, combinationSize);
@@ -354,27 +350,25 @@ public class PeptideGeneratorImplTest {
 
             if (peptide.getResiduePositions(aStaticPtm.getResidue()).contains(1) && aStaticPtm.getPosition() == ModificationPosition.N_TERMINAL) {
                 expectedStaticallyModifiedPeptides.add(sequenceString);
-                if(peptide.getResiduePositions(aStaticPtm.getResidue()).size() > 0){
+                if (peptide.getResiduePositions(aStaticPtm.getResidue()).size() > 0) {
                     expectedStaticallyAndNonStaticallyModifiedPeptides.add(peptide.getSequenceString());
                 }
             }
 
             //residue modification
             //position: peptide C-terminal
-            else
-            if (peptide.getResiduePositions(aStaticPtm.getResidue()).contains(peptide.getSequenceLength()) && aStaticPtm.getPosition() == ModificationPosition.C_TERMINAL) {
+            else if (peptide.getResiduePositions(aStaticPtm.getResidue()).contains(peptide.getSequenceLength()) && aStaticPtm.getPosition() == ModificationPosition.C_TERMINAL) {
                 expectedStaticallyModifiedPeptides.add(sequenceString);
-                if(peptide.getResiduePositions(aStaticPtm.getResidue()).size() > 0){
+                if (peptide.getResiduePositions(aStaticPtm.getResidue()).size() > 0) {
                     expectedStaticallyAndNonStaticallyModifiedPeptides.add(peptide.getSequenceString());
                 }
             }
 
             //residue modification
             //position: non-positional
-            else
-            if (peptide.getResidueCount(aStaticPtm.getResidue()) > 0 && aStaticPtm.getPosition() == ModificationPosition.NON_POSITIONAL) {
+            else if (peptide.getResidueCount(aStaticPtm.getResidue()) > 0 && aStaticPtm.getPosition() == ModificationPosition.NON_POSITIONAL) {
                 expectedStaticallyModifiedPeptides.add(sequenceString);
-                if(peptide.getResiduePositions(aStaticPtm.getResidue()).size() > 0){
+                if (peptide.getResiduePositions(aStaticPtm.getResidue()).size() > 0) {
                     expectedStaticallyAndNonStaticallyModifiedPeptides.add(peptide.getSequenceString());
                 }
             }
@@ -399,13 +393,13 @@ public class PeptideGeneratorImplTest {
 
         /**
          *  int staticModifiedPeptideCount = 0;
-        int nonStaticModifiedPeptideCount = 0;
-        int staticAndNonStaticModifiedPeptideCount = 0;
+         int nonStaticModifiedPeptideCount = 0;
+         int staticAndNonStaticModifiedPeptideCount = 0;
          */
         System.out.println("");
         System.out.println("staticModifiedPeptideCount = " + staticModifiedPeptideCount);
-              System.out.println("nonStaticModifiedPeptideCount = " + nonStaticModifiedPeptideCount);
-              System.out.println("staticAndNonStaticModifiedPeptideCount = " + staticAndNonStaticModifiedPeptideCount);
+        System.out.println("nonStaticModifiedPeptideCount = " + nonStaticModifiedPeptideCount);
+        System.out.println("staticAndNonStaticModifiedPeptideCount = " + staticAndNonStaticModifiedPeptideCount);
         System.out.println("peptidesThatShouldBeNonStaticallyModified = " + peptidesThatShouldBeNonStaticallyModified);
 
         assertTrue("Modified peptide count (" + modifiedPeptideCount + ") is not equal expected modified peptide count ("

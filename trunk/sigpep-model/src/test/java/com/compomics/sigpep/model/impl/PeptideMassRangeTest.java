@@ -1,8 +1,10 @@
 package com.compomics.sigpep.model.impl;
 
 import junit.framework.JUnit4TestAdapter;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +14,7 @@ import java.util.TreeSet;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 22-Oct-2007<br>
@@ -138,7 +140,6 @@ public class PeptideMassRangeTest {
 
     @Test
     public void testOverlappsWith() {
-
 
 
         double minOverlap = 0;

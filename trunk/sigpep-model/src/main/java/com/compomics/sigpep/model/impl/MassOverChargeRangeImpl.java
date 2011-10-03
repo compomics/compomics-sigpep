@@ -81,9 +81,9 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
     /**
      * Constructs a m/z range for a peptide mass.
      *
-     * @param peptideMass   the peptide mass
+     * @param peptideMass  the peptide mass
      * @param chargeStates the allowed charges of the peptide ion
-     * @param accuracy      the mass accuracy of the mass spectrometer
+     * @param accuracy     the mass accuracy of the mass spectrometer
      */
     public MassOverChargeRangeImpl(double peptideMass,
                                    Set<Integer> chargeStates,
@@ -116,8 +116,8 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
      */
     private void calculateMassesOverCharges() {
         this.massesOverCharges.clear();
-        for(int z : chargeStates){
-        //for (int z = minimumCharge; z <= maximumCharge; z++) {
+        for (int z : chargeStates) {
+            //for (int z = minimumCharge; z <= maximumCharge; z++) {
             this.massesOverCharges.put(z, PrecursorIonImpl.calculateMassOverCharge(peptideMass, z));
         }
     }
@@ -133,8 +133,8 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
 
         this.lowerBounds.clear();
         this.upperBounds.clear();
-        for(int z : chargeStates){
-        //for (int z = minimumCharge; z <= maximumCharge; z++) {
+        for (int z : chargeStates) {
+            //for (int z = minimumCharge; z <= maximumCharge; z++) {
             this.lowerBounds.put(z, this.massesOverCharges.get(z) - accuracy);
             this.upperBounds.put(z, this.massesOverCharges.get(z) + accuracy);
         }
@@ -146,14 +146,14 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
     public List<MassOverChargeRange[]> getFlankingPeptideMassOverChargeRanges() {
 
         List<MassOverChargeRange[]> retVal = new ArrayList<MassOverChargeRange[]>();
-        for(int zThis : chargeStates){
-        //for (int zThis = minimumCharge; zThis <= maximumCharge; zThis++) {
+        for (int zThis : chargeStates) {
+            //for (int zThis = minimumCharge; zThis <= maximumCharge; zThis++) {
 
             double thisLowerBoundMassOverCharge = this.getLowerBound(zThis);
             double thisUpperBoundMassOverCharge = this.getUpperBound(zThis);
 
-            for(int zThat : chargeStates){
-            //for (int zThat = minimumCharge; zThat <= maximumCharge; zThat++) {
+            for (int zThat : chargeStates) {
+                //for (int zThat = minimumCharge; zThat <= maximumCharge; zThat++) {
 
                 double thatLowerBoundMass = PrecursorIonImpl.calculatePeptideMassFromMassOverCharge(thisLowerBoundMassOverCharge - accuracy, zThat);
                 double thatUpperBoundMass = PrecursorIonImpl.calculatePeptideMassFromMassOverCharge(thisUpperBoundMassOverCharge + accuracy, zThat);
@@ -173,20 +173,19 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param chargeStatesThat
      * @return
+     * @TODO: JavaDoc missing
      */
     public List<MassOverChargeRange[]> getFlankingPeptideMassOverChargeRanges(Set<Integer> chargeStatesThat) {
 
         List<MassOverChargeRange[]> retVal = new ArrayList<MassOverChargeRange[]>();
-        for(int zThis : this.chargeStates){
+        for (int zThis : this.chargeStates) {
 
             double thisLowerBoundMassOverCharge = this.getLowerBound(zThis);
             double thisUpperBoundMassOverCharge = this.getUpperBound(zThis);
 
-            for(int zThat : chargeStatesThat){
+            for (int zThat : chargeStatesThat) {
 
                 double thatLowerBoundMass = PrecursorIonImpl.calculatePeptideMassFromMassOverCharge(thisLowerBoundMassOverCharge - accuracy, zThat);
                 double thatUpperBoundMass = PrecursorIonImpl.calculatePeptideMassFromMassOverCharge(thisUpperBoundMassOverCharge + accuracy, zThat);
@@ -203,10 +202,9 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param chargeStateThat
      * @return
+     * @TODO: JavaDoc missing
      */
     public List<MassOverChargeRange[]> getFlankingPeptideMassOverChargeRanges(int chargeStateThat) {
         HashSet<Integer> chargeStateSet = new HashSet<Integer>();
@@ -221,11 +219,11 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
 
         double overlap = 0;
 
-        for(int zThis : chargeStates){
-        //for (int zThis = minimumCharge; zThis <= maximumCharge; zThis++) {
+        for (int zThis : chargeStates) {
+            //for (int zThis = minimumCharge; zThis <= maximumCharge; zThis++) {
 
-            for(int zThat : that.getChargeStates()){
-            //for (int zThat = that.getMinimumCharge(); zThat <= that.getMaximumCharge(); zThat++) {
+            for (int zThat : that.getChargeStates()) {
+                //for (int zThat = that.getMinimumCharge(); zThat <= that.getMaximumCharge(); zThat++) {
 
                 double overlapTemp = 0;
                 double lowerBoundThat = that.getLowerBound(zThat);
@@ -327,18 +325,16 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
 //    }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<Integer> getChargeStates() {
         return chargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param chargeStates
+     * @TODO: JavaDoc missing
      */
     public void setChargeStates(Set<Integer> chargeStates) {
         this.chargeStates = chargeStates;
@@ -398,7 +394,6 @@ public class MassOverChargeRangeImpl implements MassOverChargeRange {
 //        result = 31 * result + maximumCharge;
 //        return result;
 //    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -31,5 +31,5 @@ public interface ProductIon extends PeptideIon {
      * @return the residue count
      */
     int getResidueCount(String aminoAcid);
-    
+
 }

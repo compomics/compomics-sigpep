@@ -41,7 +41,7 @@ public class OrganismTypeConverter implements Converter {
 
         retVal = sigPepApplication.getSigPepSessionFactory().getOrganism(taxonId);
 
-        if(retVal == null){
+        if (retVal == null) {
             throw new IllegalArgumentException("Taxon ID " + taxonId + " not mapped to Organism.");
         }
 
@@ -51,15 +51,15 @@ public class OrganismTypeConverter implements Converter {
 
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object o) throws ConverterException {
 
-        if(!(o instanceof Organism)){
+        if (!(o instanceof Organism)) {
             throw new IllegalArgumentException("Object to convert must be instance of Organism.");
         }
 
-        Organism organism = (Organism)o;
+        Organism organism = (Organism) o;
 
-        return "" + organism.getTaxonId() ;
-    
+        return "" + organism.getTaxonId();
+
     }
 
-    
+
 }

@@ -25,13 +25,13 @@ public class FormTabSheet extends VerticalLayout implements TabSheet.SelectedTab
     private PeptideForm iPeptideForm;
     private VerticalLayout lV2;
 
-    public FormTabSheet(MyVaadinApplication aMyVaadinApplication){
+    public FormTabSheet(MyVaadinApplication aMyVaadinApplication) {
         iMyVaadinApplication = aMyVaadinApplication;
 
 
         VerticalLayout lV1 = new VerticalLayout();
         lV1.setMargin(Boolean.TRUE);
-        iProteinForm =  new ProteinForm("Protein form", iMyVaadinApplication);
+        iProteinForm = new ProteinForm("Protein form", iMyVaadinApplication);
         lV1.addComponent(iProteinForm);
 
         lV2 = new VerticalLayout();
@@ -52,13 +52,13 @@ public class FormTabSheet extends VerticalLayout implements TabSheet.SelectedTab
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void proceedPeptideForm(PeptideFormBean aPeptideFormBean, Peptide aPeptide){
+    public void proceedPeptideForm(PeptideFormBean aPeptideFormBean, Peptide aPeptide) {
         lV2.removeComponent(iPeptideCheckForm);
         iPeptideForm = new PeptideForm("Peptide form", aPeptideFormBean, aPeptide, iMyVaadinApplication);
         lV2.addComponent(iPeptideForm);
     }
 
-    public void cancelPeptideForm(){
+    public void cancelPeptideForm() {
         lV2.removeComponent(iPeptideForm);
         iPeptideCheckForm = new PeptideCheckForm("Peptide check form", iMyVaadinApplication);
         lV2.addComponent(iPeptideCheckForm);

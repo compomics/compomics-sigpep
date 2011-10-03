@@ -60,8 +60,6 @@ public class ResultsTable extends VerticalLayout {
     private final MyVaadinApplication iApplication;
 
 
-
-
     /**
      * Create a ResultsTable from a set of files.
      *

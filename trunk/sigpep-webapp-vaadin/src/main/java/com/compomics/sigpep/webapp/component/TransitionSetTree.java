@@ -109,7 +109,7 @@ public class TransitionSetTree extends VerticalLayout implements Action.Handler 
             Object lProteinID;
             if (lProteinMap.get(lProteins) == null) {
                 lProteinID = lContainer.addItem();
-                lContainer.getContainerProperty(lProteinID,"name").setValue(lProteins);
+                lContainer.getContainerProperty(lProteinID, "name").setValue(lProteins);
                 lProteinMap.put(lProteins, lProteinID);
             } else {
                 lProteinID = lProteinMap.get(lProteins);
@@ -131,7 +131,7 @@ public class TransitionSetTree extends VerticalLayout implements Action.Handler 
             Object lTransitionID = lContainer.addItem();
             lContainer.getContainerProperty(lTransitionID, "name").setValue(lTransition);
             lContainer.setParent(lTransitionID, lPeptideID);
-            lContainer.setChildrenAllowed(lTransitionID,false);
+            lContainer.setChildrenAllowed(lTransitionID, false);
 
         }
         return lContainer;

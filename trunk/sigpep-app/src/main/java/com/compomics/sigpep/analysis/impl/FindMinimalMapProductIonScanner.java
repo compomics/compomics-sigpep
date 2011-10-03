@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -23,21 +23,20 @@ import java.util.concurrent.Future;
 public class FindMinimalMapProductIonScanner extends AbstractMapProductIonScanner {
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param targetProductIonTypes
      * @param backgroundProductIonTypes
      * @param productIonChargeStates
      * @param massAccuracy
      * @param minimumCombinationSize
      * @param maximumCombinationSize
+     * @TODO: JavaDoc missing.
      */
     public FindMinimalMapProductIonScanner(HashSet<ProductIonType> targetProductIonTypes,
-            HashSet<ProductIonType> backgroundProductIonTypes,
-            HashSet<Integer> productIonChargeStates,
-            Double massAccuracy,
-            Integer minimumCombinationSize,
-            Integer maximumCombinationSize) {
+                                           HashSet<ProductIonType> backgroundProductIonTypes,
+                                           HashSet<Integer> productIonChargeStates,
+                                           Double massAccuracy,
+                                           Integer minimumCombinationSize,
+                                           Integer maximumCombinationSize) {
 
         super(targetProductIonTypes, backgroundProductIonTypes, productIonChargeStates, massAccuracy, minimumCombinationSize, maximumCombinationSize);
     }

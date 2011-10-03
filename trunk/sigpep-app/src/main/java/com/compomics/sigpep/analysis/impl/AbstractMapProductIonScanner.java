@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -41,11 +41,11 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @param maximumCombinationSize    the maximum product ion combination size of the signature transition
      */
     public AbstractMapProductIonScanner(HashSet<ProductIonType> targetProductIonTypes,
-            HashSet<ProductIonType> backgroundProductIonTypes,
-            HashSet<Integer> productIonChargeStates,
-            Double massAccuracy,
-            Integer minimumCombinationSize,
-            Integer maximumCombinationSize) {
+                                        HashSet<ProductIonType> backgroundProductIonTypes,
+                                        HashSet<Integer> productIonChargeStates,
+                                        Double massAccuracy,
+                                        Integer minimumCombinationSize,
+                                        Integer maximumCombinationSize) {
 
         this.targetProductIonTypes = targetProductIonTypes;
         this.backgroundProductIonTypes = backgroundProductIonTypes;
@@ -64,7 +64,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @return a map of scored combinations
      */
     public List<SignatureTransition> findSignatureTransitions(Peptide targetPeptide,
-            Set<Peptide> isobaricPeptides) {
+                                                              Set<Peptide> isobaricPeptides) {
 
         List<SignatureTransition> retVal = new ArrayList<SignatureTransition>();
 
@@ -166,7 +166,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @return a map of monoisotopic masses and product ions sets
      */
     protected SortedMap<Double, Set<ProductIon>> createProductIonStore(Collection<? extends Peptide> peptides,
-            Set<ProductIonType> productIonTypes) {
+                                                                       Set<ProductIonType> productIonTypes) {
 
         SortedMap<Double, Set<ProductIon>> retVal = new TreeMap<Double, Set<ProductIon>>();
 
@@ -197,7 +197,7 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
      * @return a map of monoisotopic masses and frequencies
      */
     protected Map<Double, Integer> getProductIonMassDistribution(Collection<? extends Peptide> peptides,
-            Set<ProductIonType> productIonTypes) {
+                                                                 Set<ProductIonType> productIonTypes) {
 
         //insert background product ion masses into table
         Map<Double, Integer> retVal = new TreeMap<Double, Integer>();
@@ -332,6 +332,6 @@ public abstract class AbstractMapProductIonScanner implements ProductIonScanner 
     }
 
     protected abstract Map<Set<ProductIon>, Double> getUniqueProductIonCombinations(Map<ProductIon, Map<Peptide, Integer>> exclusionMatrix,
-            int minCombinationSize,
-            int maxCombinationSize);
+                                                                                    int minCombinationSize,
+                                                                                    int maxCombinationSize);
 }

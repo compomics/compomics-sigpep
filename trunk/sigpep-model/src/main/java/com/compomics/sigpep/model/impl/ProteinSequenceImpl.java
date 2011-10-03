@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 15-Jan-2008<br/>
@@ -41,36 +41,32 @@ public class ProteinSequenceImpl implements ProteinSequence, Persistable {
     private Set<SpliceEventFeature> spliceEvents;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -84,18 +80,16 @@ public class ProteinSequenceImpl implements ProteinSequence, Persistable {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<PeptideFeature> getSignaturePeptides() {
         return signaturePeptides;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param signaturePeptides
+     * @TODO: JavaDoc missing
      */
     public void setSignaturePeptides(Set<PeptideFeature> signaturePeptides) {
         this.signaturePeptides = signaturePeptides;

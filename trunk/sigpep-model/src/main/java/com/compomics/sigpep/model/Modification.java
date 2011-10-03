@@ -2,7 +2,7 @@ package com.compomics.sigpep.model;
 
 /**
  * A post-translational protein modification.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Feb-2008<br/>

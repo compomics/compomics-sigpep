@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 22-Jan-2008<br/>
@@ -20,12 +20,11 @@ public class DelimitedTableWriter {
     private int currentRowNumber = 0;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param printWriter
      * @param columnCount
      * @param columnDelimiter
      * @param printLineNumber
+     * @TODO: JavaDoc missing
      */
     public DelimitedTableWriter(
             PrintWriter printWriter,
@@ -40,12 +39,11 @@ public class DelimitedTableWriter {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param outputStream
      * @param columnCount
      * @param columnDelimiter
      * @param printLineNumber
+     * @TODO: JavaDoc missing
      */
     public DelimitedTableWriter(
             OutputStream outputStream,
@@ -57,11 +55,10 @@ public class DelimitedTableWriter {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param printWriter
      * @param columnDelimiter
      * @param printLineNumber
+     * @TODO: JavaDoc missing
      */
     public DelimitedTableWriter(
             PrintWriter printWriter,
@@ -74,11 +71,10 @@ public class DelimitedTableWriter {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param outputStream
      * @param columnDelimiter
      * @param printLineNumber
+     * @TODO: JavaDoc missing
      */
     public DelimitedTableWriter(
             OutputStream outputStream,
@@ -89,28 +85,25 @@ public class DelimitedTableWriter {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param columnHeaders
+     * @TODO: JavaDoc missing
      */
     public void writeHeader(Object... columnHeaders) {
         this.writeRow(0, columnHeaders);
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param columnValues
+     * @TODO: JavaDoc missing
      */
     public void writeRow(Object... columnValues) {
         this.writeRow(++currentRowNumber, columnValues);
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param rowNumber
      * @param columnValues
+     * @TODO: JavaDoc missing
      */
     private void writeRow(int rowNumber, Object... columnValues) {
 
@@ -151,27 +144,24 @@ public class DelimitedTableWriter {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public boolean isPrintLineNumber() {
         return printLineNumber;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param printLineNumber
+     * @TODO: JavaDoc missing
      */
     public void setPrintLineNumber(boolean printLineNumber) {
         this.printLineNumber = printLineNumber;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getCurrentRowNumber() {
         return currentRowNumber;
@@ -185,54 +175,48 @@ public class DelimitedTableWriter {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public PrintWriter getPrintWriter() {
         return printWriter;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param printWriter
+     * @TODO: JavaDoc missing
      */
     public void setPrintWriter(PrintWriter printWriter) {
         this.printWriter = printWriter;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public String getColumnDelimiter() {
         return columnDelimiter;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param columnDelimiter
+     * @TODO: JavaDoc missing
      */
     public void setColumnDelimiter(String columnDelimiter) {
         this.columnDelimiter = columnDelimiter;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getColumnCount() {
         return columnCountLimit;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param columnCount
+     * @TODO: JavaDoc missing
      */
     public void setColumnCount(int columnCount) {
         this.columnCountLimit = columnCount;

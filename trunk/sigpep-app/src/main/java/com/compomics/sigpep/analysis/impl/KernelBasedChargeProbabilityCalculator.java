@@ -13,7 +13,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 15-Aug-2008<br/>
@@ -26,9 +26,9 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     private RConnection rConnection;
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param observedPeptideMassChargeStateCombinations
+     *
+     * @TODO: JavaDoc missing.
      */
     public KernelBasedChargeProbabilityCalculator(List<Map<Double, Integer>> observedPeptideMassChargeStateCombinations) {
 
@@ -41,10 +41,9 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param mass
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Map<Double, Map<Integer, Double>> getChargeProbablitiesGivenMass(double... mass) {
 
@@ -70,11 +69,10 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param z
      * @param mass
      * @return
+     * @TODO: JavaDoc missing.
      */
     public double[] getProbabilityOfChargeGivenMass(int z, double... mass) {
 
@@ -104,10 +102,9 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
      * @throws RserveException
+     * @TODO: JavaDoc missing.
      */
     private RConnection setUpREnvironment() throws RserveException {
 
@@ -199,10 +196,9 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param doubles
      * @return
+     * @TODO: JavaDoc missing.
      */
     private double[] collectionOfDoublesToArrayOfPrimitives(Collection<Double> doubles) {
 
@@ -216,10 +212,9 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param integers
      * @return
+     * @TODO: JavaDoc missing.
      */
     private int[] collectionOfIntegersToArrayOfPrimitives(Collection<Integer> integers) {
 
@@ -233,18 +228,16 @@ public class KernelBasedChargeProbabilityCalculator implements ChargeProbability
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<Integer> getAllowedChargeStates() {
         return allowedChargeStates;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @throws Throwable
+     * @TODO: JavaDoc missing.
      */
     protected void finalize() throws Throwable {
         //clean up

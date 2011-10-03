@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 /**
  * Implementation of Protease.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 16-Jan-2008<br/>
@@ -31,49 +31,44 @@ public class ProteaseImpl implements Protease, Persistable {
     /**
      * @TODO: JavaDoc missing
      */
-    protected ProteaseImpl(){        
+    protected ProteaseImpl() {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param name
+     * @TODO: JavaDoc missing
      */
     public ProteaseImpl(String name) {
         this.shortName = name;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -120,7 +115,7 @@ public class ProteaseImpl implements Protease, Persistable {
         return cleaves;
     }
 
-     /**
+    /**
      * Sets the cleavage sites.
      *
      * @param cleaves a concatanation of the one letter amino acid codes of the cleavage sites
@@ -136,7 +131,7 @@ public class ProteaseImpl implements Protease, Persistable {
      */
     public Set<String> getCleavageSites() {
         Set<String> retVal = new TreeSet<String>();
-        for(char aa : this.cleaves.toCharArray()){
+        for (char aa : this.cleaves.toCharArray()) {
             retVal.add("" + aa);
         }
         return retVal;
@@ -149,10 +144,10 @@ public class ProteaseImpl implements Protease, Persistable {
      */
     public void setCleavageSites(Set<String> cleavageSites) {
         StringBuilder sb = new StringBuilder();
-        for(String aa : cleavageSites){
+        for (String aa : cleavageSites) {
             sb.append(aa);
         }
-        this.cleaves=sb.toString();
+        this.cleaves = sb.toString();
     }
 
     /**

@@ -39,7 +39,7 @@ public class SigPepSessionBean {
         this.sigPepWebApplication = sigPepWebApplication;
     }
 
-    public Set<Protease> getAvailableProteases(){
+    public Set<Protease> getAvailableProteases() {
         return sigPepQueryService.getAllProteases();
     }
 
@@ -90,11 +90,11 @@ public class SigPepSessionBean {
         this.sigPepQueryService = sigPepSession.createSigPepQueryService();
     }
 
-    public List<PeptideFeature> getSignaturePeptides(){
+    public List<PeptideFeature> getSignaturePeptides() {
 
         Set<Protein> proteins = this.sigPepQueryService.getProteinSetByAccession(new HashSet<String>(accessionFilter));
         Set<Protease> proteases = this.sigPepQueryService.getProteaseSetByShortName(new HashSet<String>(this.getSelectedProteases()));
-        Set<PeptideFeature> signaturePeptideFeatures = this.sigPepQueryService.getSignaturePeptidesForProteinSet(proteins, proteases);    
+        Set<PeptideFeature> signaturePeptideFeatures = this.sigPepQueryService.getSignaturePeptidesForProteinSet(proteins, proteases);
 
         List<PeptideFeature> retVal = new ArrayList<PeptideFeature>();
         retVal.addAll(signaturePeptideFeatures);

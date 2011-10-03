@@ -11,9 +11,9 @@
             <generator class="native"/>
         </id>
 
-        <property name="scientificName" column="organism_name" />
+        <property name="scientificName" column="organism_name"/>
         <property name="taxonId" column="ncbi_taxon_id" not-null="true"/>
-        
+
     </class>
 
     <query name="organism">from com.compomics.sigpep.model.Organism</query>

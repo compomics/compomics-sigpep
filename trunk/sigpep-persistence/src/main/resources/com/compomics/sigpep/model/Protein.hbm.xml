@@ -20,7 +20,7 @@
             <many-to-one name="gene" column="gene_id" not-null="true" class="GeneImpl"/>
         </join>
 
-        <join table="protein2sequence" optional="true"  >
+        <join table="protein2sequence" optional="true">
             <key column="protein_id"/>
             <many-to-one name="sequence" column="sequence_id" not-null="true" class="ProteinSequenceImpl"/>
         </join>
@@ -31,7 +31,9 @@
     <query name="allProteins">from com.compomics.sigpep.model.impl.ProteinImpl</query>
 
     <!--selects all proteins with the specified accession-->
-    <query name="proteinByAccession">from com.compomics.sigpep.model.Protein where primaryDbXref.accession in (:accession)</query>
+    <query name="proteinByAccession">from com.compomics.sigpep.model.Protein where primaryDbXref.accession in
+        (:accession)
+    </query>
 
 
 </hibernate-mapping>

@@ -11,13 +11,13 @@ import java.util.TreeMap;
 /**
  * @TODO: JavaDoc missing.
  * @TODO: All code in this class is commented out...
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 02-Nov-2007<br>
  * Time: 16:50:43<br>
  */
-public class SigPepQueryPeptides  {
+public class SigPepQueryPeptides {
 
 //    private static String SQL_SELECT_PROTEIN_COUNT_BY_PEPTIDE =
 //            "SELECT p.peptide_id, COUNT(DISTINCT pro2seq.protein_id)\n" +

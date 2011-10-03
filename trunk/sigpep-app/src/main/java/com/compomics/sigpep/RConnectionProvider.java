@@ -12,12 +12,12 @@ import org.rosuda.REngine.Rserve.RConnection;
  * or typing<br/>
  * <code>R CMD path/to/R/libs/Rserve/libs/Rserve-bin.so</code></br>
  * on the command line.
- *
+ * <p/>
  * If connecting to Rserve remotely remote access has to be enabled in Rserve
  * by including <code>remote enable</code> in the configuration file. The default location
  * of the configuration file is /etc/Rserv.conf. Alternative or additional configuration
  * files can be speficied with the command line option --RS-conf.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 20-Aug-2008<br/>
@@ -25,7 +25,9 @@ import org.rosuda.REngine.Rserve.RConnection;
  */
 public abstract class RConnectionProvider {
 
-    /** the singleton instance  */
+    /**
+     * the singleton instance
+     */
     private static RConnectionProvider ourInstance;
 
     /**
@@ -43,7 +45,7 @@ public abstract class RConnectionProvider {
         if (ourInstance == null) {
 
             try {
-                ourInstance = (RConnectionProvider)Class.forName(rConnectionProviderClass).newInstance();
+                ourInstance = (RConnectionProvider) Class.forName(rConnectionProviderClass).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {

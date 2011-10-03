@@ -6,13 +6,13 @@ import com.compomics.sigpep.model.SequenceLocation;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
  * Time: 14:57:07<br/>
  */
-public abstract class AbstractFeature<O  extends FeatureObject> implements Feature<O> {
+public abstract class AbstractFeature<O extends FeatureObject> implements Feature<O> {
 
     protected SequenceLocation location;
     protected O featureObject;
@@ -24,10 +24,9 @@ public abstract class AbstractFeature<O  extends FeatureObject> implements Featu
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param location
      * @param featureObject
+     * @TODO: JavaDoc missing
      */
     protected AbstractFeature(SequenceLocation location, O featureObject) {
         this.location = location;
@@ -49,7 +48,7 @@ public abstract class AbstractFeature<O  extends FeatureObject> implements Featu
      * @param location the object location
      */
     public void setLocation(SequenceLocation location) {
-        this.location=location;
+        this.location = location;
     }
 
     /**
@@ -67,6 +66,6 @@ public abstract class AbstractFeature<O  extends FeatureObject> implements Featu
      * @param featureObject the feature object
      */
     public void setFeatureObject(O featureObject) {
-        this.featureObject=featureObject;
+        this.featureObject = featureObject;
     }
 }

@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-May-2009<br/>
@@ -37,10 +37,9 @@ public class DBToolkitProteolyticDigest implements ProteolyticDigest {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param enzyme
      * @param missedCleavages
+     * @TODO: JavaDoc missing
      */
     public DBToolkitProteolyticDigest(String enzyme, int missedCleavages) {
         this.enzyme = enzyme;
@@ -48,12 +47,11 @@ public class DBToolkitProteolyticDigest implements ProteolyticDigest {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param enzyme
      * @param missedCleavages
      * @param lowMass
      * @param highMass
+     * @TODO: JavaDoc missing
      */
     public DBToolkitProteolyticDigest(String enzyme, int missedCleavages, int lowMass, int highMass) {
         this.enzyme = enzyme;

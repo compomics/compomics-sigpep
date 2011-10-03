@@ -22,11 +22,11 @@ import com.compomics.sigpep.model.Persistable;
  * on Tomcat server place spring-tomcat-weaver.jar file in Tomcat's
  * lib folder and configure Tomcat to use the new classloader in the
  * Web Application's META-INF/context.xml file:
- *
+ * <p/>
  * <Context>
- *  <Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
+ * <Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
  * </Context>
- *
+ * <p/>
  * (http://static.springframework.org/spring/docs/2.5.x/reference/aop.html).
  * <p/>
  * Created by IntelliJ IDEA.<br/>

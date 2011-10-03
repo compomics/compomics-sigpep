@@ -21,7 +21,7 @@ public class Combinations<T> implements Enumeration<Set<T>>, Iterator<Set<T>> {
      * than the size of the set it will be set to the set size.
      *
      * @param elements the elements to chose from
-     * @param k the number to select in each choice
+     * @param k        the number to select in each choice
      */
     public Combinations(int k, T... elements) {
         this.inArray = new ArrayList<T>();
@@ -50,7 +50,7 @@ public class Combinations<T> implements Enumeration<Set<T>>, Iterator<Set<T>> {
      * than the size of the set it will be set to the set size.
      *
      * @param elements the elements to chose from
-     * @param k the number to select in each choice
+     * @param k        the number to select in each choice
      */
     public Combinations(int k, Set<T> elements) {
         this.inArray = new ArrayList<T>();
@@ -84,6 +84,7 @@ public class Combinations<T> implements Enumeration<Set<T>>, Iterator<Set<T>> {
 
     /**
      * Returns true if has next.
+     *
      * @return true if has next
      */
     public boolean hasNext() {
@@ -94,13 +95,12 @@ public class Combinations<T> implements Enumeration<Set<T>>, Iterator<Set<T>> {
      * Move the index forward a notch. The algorithm finds the rightmost
      * index element that can be incremented, increments it, and then
      * changes the elements to the right to each be 1 plus the element on their left.
-     * <p>
+     * <p/>
      * For example, if an index of 5 things taken 3 at a time is at {0 3 4}, only the 0 can
      * be incremented without running out of room. The next index is {1, 1+1, 1+2) or
      * {1, 2, 3}. This will be followed by {1, 2, 4}, {1, 3, 4}, and {2, 3, 4}.
-     * <p>
+     * <p/>
      * The algorithm is from Applied Combinatorics, by Alan Tucker.
-     *
      */
     private void moveIndex() {
         int i = rightmostIndexBelowMax();
@@ -115,9 +115,8 @@ public class Combinations<T> implements Enumeration<Set<T>>, Iterator<Set<T>> {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<T> next() {
         return nextElement();
@@ -125,10 +124,10 @@ public class Combinations<T> implements Enumeration<Set<T>>, Iterator<Set<T>> {
 
     /**
      * @return java.lang.Object, the next combination from the supplied Object array.
-     * <p>
-     * Actually, an array of Objects is returned. The declaration must say just Object,
-     * because the Combinations class implements Enumeration, which declares that the
-     * nextElement() returns a plain Object. Users must cast the returned object to (Object[]).
+     *         <p/>
+     *         Actually, an array of Objects is returned. The declaration must say just Object,
+     *         because the Combinations class implements Enumeration, which declares that the
+     *         nextElement() returns a plain Object. Users must cast the returned object to (Object[]).
      */
     public Set<T> nextElement() {
         if (!hasMore) {
@@ -145,9 +144,8 @@ public class Combinations<T> implements Enumeration<Set<T>>, Iterator<Set<T>> {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @return the index which can be bumped up.
+     * @TODO: JavaDoc missing
      */
     private int rightmostIndexBelowMax() {
         for (int i = k - 1; i >= 0; i--) {

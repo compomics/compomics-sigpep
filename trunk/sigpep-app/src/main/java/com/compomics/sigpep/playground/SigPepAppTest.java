@@ -27,9 +27,8 @@ public class SigPepAppTest {
     private static String outputFolder = "/Users/kennyhelsens/tmp/sigpep/";
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 

@@ -113,7 +113,8 @@ public class SignatureTransitionMassMatrix implements Writable {
 
     /**
      * Write the meta data for a transition set (e.g. barcode iontypes and parent protein)
-     * @param outputStream - the target stream
+     *
+     * @param outputStream      - the target stream
      * @param aProteinAccession - a single parent protein accession
      */
     public void writeMetaData(OutputStream outputStream, String aProteinAccession) {
@@ -124,7 +125,8 @@ public class SignatureTransitionMassMatrix implements Writable {
 
     /**
      * Write the meta data for a transition set (e.g. barcode iontypes and parent protein)
-     * @param outputStream - the target stream
+     *
+     * @param outputStream       - the target stream
      * @param aProteinAccessions - a set of parent protein accessions
      */
     public void writeMetaData(OutputStream outputStream, Set<String> aProteinAccessions) {

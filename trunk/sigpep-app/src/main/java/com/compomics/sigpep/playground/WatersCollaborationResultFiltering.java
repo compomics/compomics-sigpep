@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 22-Aug-2008<br/>
@@ -24,9 +24,8 @@ import java.util.regex.Pattern;
 public class WatersCollaborationResultFiltering {
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -42,7 +41,7 @@ public class WatersCollaborationResultFiltering {
 
             InputStream isIdMap = new FileInputStream(idMapInput);
             DelimitedTableReader dtrIdMap = new DelimitedTableReader(isIdMap, "\t");
-            for (Iterator<String[]> rows = dtrIdMap.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtrIdMap.read(); rows.hasNext(); ) {
 
                 String[] row = rows.next();
 
@@ -69,7 +68,7 @@ public class WatersCollaborationResultFiltering {
 
             InputStream isObservedFragments = new FileInputStream(observedFragmentsInput);
             DelimitedTableReader dtrObservedFragments = new DelimitedTableReader(isObservedFragments, "\t");
-            for (Iterator<String[]> rows = dtrObservedFragments.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtrObservedFragments.read(); rows.hasNext(); ) {
 
                 String[] row = rows.next();
                 if (row.length > 1) {
@@ -116,7 +115,7 @@ public class WatersCollaborationResultFiltering {
             OutputStream os = new FileOutputStream(transitionsFilteredOutput);
             //OutputStream os = System.out;
             DelimitedTableWriter dtwTransitionsFiltered = new DelimitedTableWriter(os, "\t", false);
-            for (Iterator<String[]> rows = dtrTransitions.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtrTransitions.read(); rows.hasNext(); ) {
 
                 // ENSG00000074370
                 // SQMAAVEPER

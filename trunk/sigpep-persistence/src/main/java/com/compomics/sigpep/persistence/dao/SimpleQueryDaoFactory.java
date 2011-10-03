@@ -4,7 +4,7 @@ import com.compomics.sigpep.persistence.config.Configuration;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 03-Jun-2008<br/>
@@ -26,7 +26,7 @@ public abstract class SimpleQueryDaoFactory {
         if (ourInstance == null) {
 
             try {
-                ourInstance = (SimpleQueryDaoFactory)Class.forName(simpleQueryDaoClass).newInstance();
+                ourInstance = (SimpleQueryDaoFactory) Class.forName(simpleQueryDaoClass).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {

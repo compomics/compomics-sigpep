@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Feb-2008<br/>
@@ -58,7 +58,7 @@ public abstract class ModificationFactory {
         try {
 
             modificationKeys = new TreeSet<String>();
-            for (Iterator<String> propertyKeys = configuration.getKeys(); propertyKeys.hasNext();) {
+            for (Iterator<String> propertyKeys = configuration.getKeys(); propertyKeys.hasNext(); ) {
 
                 String key = propertyKeys.next();
                 String modificationKey = key.split("\\.")[1];
@@ -131,10 +131,9 @@ public abstract class ModificationFactory {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param keys
      * @return
+     * @TODO: JavaDoc missing.
      */
     public static Set<Modification> createPostTranslationalModifications(String... keys) {
 
@@ -198,7 +197,7 @@ public abstract class ModificationFactory {
 
         Pattern p = Pattern.compile("([A-Za-z]{1}\\(-?\\d{1}\\))");
         Matcher m = p.matcher(formula);
-        
+
         while (m.find()) {
 
             String group = m.group();

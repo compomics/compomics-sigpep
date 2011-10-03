@@ -87,7 +87,7 @@ public class SpliceEventAnalyser {
      * @throws SQLException if an exception occurs while connecting to the SigPep database
      */
     public void reportSpliceEventCoverage(OutputStream outputStream,
-            Set<String> proteaseNames) throws SQLException {
+                                          Set<String> proteaseNames) throws SQLException {
 
         logger.info("fetching splice site spanning peptides for protease(s) " + proteaseNames.toString() + "...");
         int[] peptideIds = fetchSpliceEventSpanningPeptides(proteaseNames, null);
@@ -104,8 +104,8 @@ public class SpliceEventAnalyser {
      * @throws SQLException if an exception occurs while connecting to the SigPep database
      */
     public void reportSpliceEventCoverage(OutputStream outputStream,
-            Set<Integer> peptideIds,
-            Set<String> proteaseNames) throws SQLException {
+                                          Set<Integer> peptideIds,
+                                          Set<String> proteaseNames) throws SQLException {
 
         logger.info("fetching splice site spanning peptides for protease(s) " + proteaseNames.toString() + "...");
         int[] spliceEventSpanningPeptideIds = fetchSpliceEventSpanningPeptides(proteaseNames, peptideIds);
@@ -122,8 +122,8 @@ public class SpliceEventAnalyser {
      * @throws SQLException if an exception occurs while connecting to the SigPep database
      */
     private void reportSpliceEventCoverageForPeptides(OutputStream outputStream,
-            int[] peptideIds,
-            Set<String> proteaseNames)
+                                                      int[] peptideIds,
+                                                      Set<String> proteaseNames)
             throws SQLException {
 
         if (!mapsFetched) {
@@ -209,9 +209,9 @@ public class SpliceEventAnalyser {
      * @param delimitedTableWriter the delimited table writer
      */
     private void analyseSpliceEventCoverage(Integer peptideId,
-            Set<String> proteaseNames,
-            Session session,
-            DelimitedTableWriter delimitedTableWriter) {
+                                            Set<String> proteaseNames,
+                                            Session session,
+                                            DelimitedTableWriter delimitedTableWriter) {
 
         List<PeptideFeature> peptideFeatures = fetchPeptideFeatures(peptideId, proteaseNames, session);
         Set<SequenceLocation> peptideLocations = new HashSet<SequenceLocation>();
@@ -378,7 +378,7 @@ public class SpliceEventAnalyser {
         Query query = session.createQuery(
                 "select protein.sequence.id, protein.primaryDbXref.accession from Protein protein");
 
-        for (Iterator<Object[]> result = query.iterate(); result.hasNext();) {
+        for (Iterator<Object[]> result = query.iterate(); result.hasNext(); ) {
 
             Object[] row = result.next();
             Integer sequenceId = (Integer) row[0];
@@ -409,7 +409,7 @@ public class SpliceEventAnalyser {
         Query query = session.createQuery(
                 "select protein.primaryDbXref.accession, gene.primaryDbXref.accession  from Gene gene inner join gene.proteins protein");
 
-        for (Iterator<Object[]> result = query.iterate(); result.hasNext();) {
+        for (Iterator<Object[]> result = query.iterate(); result.hasNext(); ) {
             Object[] row = result.next();
             String proteinAccession = (String) row[0];
             String geneAccession = (String) row[1];
@@ -434,7 +434,7 @@ public class SpliceEventAnalyser {
         Query query = session.createQuery(
                 "select gene.primaryDbXref.accession, size(proteins) from Gene gene group by gene");
 
-        for (Iterator result = query.iterate(); result.hasNext();) {
+        for (Iterator result = query.iterate(); result.hasNext(); ) {
             Object[] object = (Object[]) result.next();
             String geneAccession = (String) object[0];
             int proteinCount = (Integer) object[1];
@@ -459,10 +459,10 @@ public class SpliceEventAnalyser {
 
         Query query = session.createQuery(
                 "select gene.primaryDbXref.accession as accession, protein.sequence.id "
-                + "from Gene gene "
-                + "inner join gene.proteins protein");
+                        + "from Gene gene "
+                        + "inner join gene.proteins protein");
 
-        for (Iterator<Object[]> result = query.iterate(); result.hasNext();) {
+        for (Iterator<Object[]> result = query.iterate(); result.hasNext(); ) {
             Object[] row = result.next();
             String geneAccession = (String) row[0];
             Integer sequenceId = (Integer) row[1];
@@ -488,7 +488,7 @@ public class SpliceEventAnalyser {
      * @return an array of peptide IDs
      */
     private int[] fetchSpliceEventSpanningPeptides(Set<String> proteaseNames,
-            Set<Integer> peptideIds) {
+                                                   Set<Integer> peptideIds) {
 
         Session session = sessionFactory.openSession(connection);
 
@@ -497,19 +497,19 @@ public class SpliceEventAnalyser {
 
             query = session.createQuery(
                     "select peptideFeature.id from PeptideFeature peptideFeature "
-                    + "inner join peptideFeature.proteaseFilter protease "
-                    + "where protease.name in (:proteaseNames) "
-                    + "and peptideFeature.spliceEventFeatures.size > 0");
+                            + "inner join peptideFeature.proteaseFilter protease "
+                            + "where protease.name in (:proteaseNames) "
+                            + "and peptideFeature.spliceEventFeatures.size > 0");
             query.setParameterList("proteaseNames", proteaseNames);
 
         } else {
 
             query = session.createQuery(
                     "select peptideFeature.id from PeptideFeature peptideFeature "
-                    + "inner join peptideFeature.proteaseFilter protease "
-                    + "where protease.name in (:proteaseNames) "
-                    + "and peptideFeature.featurObject.id IN (:peptideIds) "
-                    + "and peptideFeature.spliceEventFeatures.size > 0");
+                            + "inner join peptideFeature.proteaseFilter protease "
+                            + "where protease.name in (:proteaseNames) "
+                            + "and peptideFeature.featurObject.id IN (:peptideIds) "
+                            + "and peptideFeature.spliceEventFeatures.size > 0");
 
             query.setParameterList("proteaseNames", proteaseNames);
             query.setParameterList("peptideIds", peptideIds);
@@ -536,13 +536,13 @@ public class SpliceEventAnalyser {
      * @return a list of PeptideFeatures
      */
     private List<PeptideFeature> fetchPeptideFeatures(Integer peptideId,
-            Set<String> proteaseNames,
-            Session session) {
+                                                      Set<String> proteaseNames,
+                                                      Session session) {
 
         Query query = session.createQuery(
                 "select peptideFeature from PeptideFeature peptideFeature inner join peptideFeature.proteaseFilter protease "
-                + "where peptideFeature.featureObject.id = :peptideId "
-                + "and protease.name in (:proteaseNames)");
+                        + "where peptideFeature.featureObject.id = :peptideId "
+                        + "and protease.name in (:proteaseNames)");
         query.setParameter("peptideId", peptideId);
         query.setParameterList("proteaseNames", proteaseNames);
 
@@ -550,11 +550,10 @@ public class SpliceEventAnalyser {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param inputFileName
      * @return
      * @throws FileNotFoundException
+     * @TODO: JavaDoc missing.
      */
     private static Set<Integer> readPeptideIds(String inputFileName) throws FileNotFoundException {
 
@@ -562,7 +561,7 @@ public class SpliceEventAnalyser {
 
 
         Set<Integer> retVal = new HashSet<Integer>();
-        for (Iterator<String[]> rows = tableReader.read(); rows.hasNext();) {
+        for (Iterator<String[]> rows = tableReader.read(); rows.hasNext(); ) {
 
             String[] row = rows.next();
 
@@ -579,9 +578,8 @@ public class SpliceEventAnalyser {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -657,10 +655,9 @@ public class SpliceEventAnalyser {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
      * @return
+     * @TODO: JavaDoc missing.
      */
     public static Map<String, String> parseCommandLineArguments(String[] args) {
 

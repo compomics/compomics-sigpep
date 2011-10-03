@@ -1,4 +1,4 @@
-<%@ page session="false"%>
+<%@ page session="false" %>
 <%
     response.sendRedirect("faces/selectOrganism.jsp");
 %>

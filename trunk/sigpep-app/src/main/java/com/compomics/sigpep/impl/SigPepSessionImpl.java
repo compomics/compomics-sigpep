@@ -17,7 +17,7 @@ import java.util.*;
 
 /**
  * SigPep session bean implementation.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 02-Jun-2008<br/>
@@ -25,17 +25,29 @@ import java.util.*;
  */
 public class SigPepSessionImpl implements SigPepSession {
 
-    /** the organism the session is for */
+    /**
+     * the organism the session is for
+     */
     private Organism organism;
-    /** the object cache  */
+    /**
+     * the object cache
+     */
     private Cache cache;
-    /** the simple query DAO  */
+    /**
+     * the simple query DAO
+     */
     private SimpleQueryDao simpleQueryDao;
-    /** the object DAO  */
+    /**
+     * the object DAO
+     */
     private ObjectDao objectDao;
-    /** the factory for signature transition finders */
+    /**
+     * the factory for signature transition finders
+     */
     private SignatureTransitionFinderFactory signatureTransitionFinderFactory = SignatureTransitionFinderFactory.getInstance();
-    /** the application instance this session belongs to */
+    /**
+     * the application instance this session belongs to
+     */
     private static SigPepApplication application = ApplicationLocator.getInstance().getApplication();
 
     /**
@@ -48,7 +60,7 @@ public class SigPepSessionImpl implements SigPepSession {
      * Constructs a new SigPep session bean with the DAOs passed as parameters.
      *
      * @param simpleQueryDao the simple query DAO
-     * @param objectDao the object DAO
+     * @param objectDao      the object DAO
      */
     public SigPepSessionImpl(SimpleQueryDao simpleQueryDao, ObjectDao objectDao) {
 
@@ -65,8 +77,8 @@ public class SigPepSessionImpl implements SigPepSession {
      * Constructs a new SigPep session bean with the DAOs and cache passed as parameters.
      *
      * @param simpleQueryDao the simple query DAO
-     * @param objectDao the simple object DAO
-     * @param cache the object cache
+     * @param objectDao      the simple object DAO
+     * @param cache          the object cache
      */
     public SigPepSessionImpl(SimpleQueryDao simpleQueryDao, ObjectDao objectDao, Cache cache) {
 
@@ -102,7 +114,6 @@ public class SigPepSessionImpl implements SigPepSession {
      * Sets the simple query DAO of this SigPep session bean.
      *
      * @param simpleQueryDao the simpleQueryDao of this SigPepSessionImpl object.
-     *
      */
     public void setSimpleQueryDao(SimpleQueryDao simpleQueryDao) {
         this.simpleQueryDao = simpleQueryDao;
@@ -412,14 +423,14 @@ public class SigPepSessionImpl implements SigPepSession {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            List<Map<Double, Integer>> observedPrecursorIonChargeStates,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize,
-            SignatureTransitionFinderType type) {
+                                                                     Set<ProductIonType> targetProductIonTypes,
+                                                                     Set<ProductIonType> backgroundProductIonTypes,
+                                                                     List<Map<Double, Integer>> observedPrecursorIonChargeStates,
+                                                                     Set<Integer> productIonChargeStates,
+                                                                     double massAccuracy,
+                                                                     int minimumCombinationSize,
+                                                                     int maximumCombinationSize,
+                                                                     SignatureTransitionFinderType type) {
 
         SignatureTransitionFinder retVal = null;
 
@@ -470,7 +481,7 @@ public class SigPepSessionImpl implements SigPepSession {
      * @return a signature transition finder
      */
     public SignatureTransitionFinder createSignatureTransitionFinder(Set<Peptide> backgroundPeptides,
-            SignatureTransitionFinderType type) {
+                                                                     SignatureTransitionFinderType type) {
 
         return createSignatureTransitionFinder(backgroundPeptides,
                 application.getDefaultTargetProductIonTypes(),

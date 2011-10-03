@@ -39,7 +39,7 @@ public class HibernateTest {
         String geneAccession = "YAL002W";
 //        String proteinAccession = "YAL002W";
 
-        String proteinAccession= "ENSP00000323304";
+        String proteinAccession = "ENSP00000323304";
 
 
         String protease = "trypsin";

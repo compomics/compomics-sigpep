@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 12-Aug-2008<br/>
@@ -31,36 +31,35 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
     private double probabilityThreshold = 0.1;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param observedMassChargeStateCombinations
+     *
      * @param massAccuracy
      * @param massPrecission
+     * @TODO: JavaDoc missing.
      */
     public ProbabilityBasedPeptideIonStore(List<Map<Double, Integer>> observedMassChargeStateCombinations,
-            double massAccuracy,
-            int massPrecission) {
+                                           double massAccuracy,
+                                           int massPrecission) {
         this(observedMassChargeStateCombinations, massAccuracy);
         this.massPrecission = massPrecission;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param observedMassChargeStateCombinations
+     *
      * @param massAccuracy
+     * @TODO: JavaDoc missing.
      */
     public ProbabilityBasedPeptideIonStore(List<Map<Double, Integer>> observedMassChargeStateCombinations,
-            double massAccuracy) {
+                                           double massAccuracy) {
         this.chargeProbabilityCalculator = new KernelBasedChargeProbabilityCalculator(observedMassChargeStateCombinations);
         this.observedMassChargeStateCombinations = observedMassChargeStateCombinations;
         this.massAccuracy = massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param peptideIons
+     * @TODO: JavaDoc missing.
      */
     public void populate(Collection<P> peptideIons) {
 
@@ -116,21 +115,19 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param mass
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<P> getPeptideIonsWithMass(double mass) {
         return store.get(mass);
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param lowerMassLimit
      * @param upperMassLimit
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<P> getPeptideIonsInMassRange(double lowerMassLimit, double upperMassLimit) {
 
@@ -142,10 +139,9 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param peptideIon
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Map<Integer, Set<P>> getPeptideIonsWithOverlappingMassOverCharge(P peptideIon) {
 
@@ -155,10 +151,9 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param neutralMassPeptide
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Map<Integer, Set<P>> getPeptideIonsWithOverlappingMassOverCharge(double neutralMassPeptide) {
 
@@ -215,63 +210,57 @@ public class ProbabilityBasedPeptideIonStore<P extends PeptideIon> implements Pe
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public Set<Double> getUniqueNeutralPeptideIonMasses() {
         return store.keySet();
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public List<Map<Double, Integer>> getObservedMassChargeStateCombinations() {
         return observedMassChargeStateCombinations;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param observedMassChargeStateCombinations
+     *
+     * @TODO: JavaDoc missing.
      */
     public void setObservedMassChargeStateCombinations(List<Map<Double, Integer>> observedMassChargeStateCombinations) {
         this.observedMassChargeStateCombinations = observedMassChargeStateCombinations;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public double getMassAccuracy() {
         return massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param massAccuracy
+     * @TODO: JavaDoc missing.
      */
     public void setMassAccuracy(double massAccuracy) {
         this.massAccuracy = massAccuracy;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public int getMassPrecission() {
         return massPrecission;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param massPrecission
+     * @TODO: JavaDoc missing.
      */
     public void setMassPrecission(int massPrecission) {
         this.massPrecission = massPrecission;

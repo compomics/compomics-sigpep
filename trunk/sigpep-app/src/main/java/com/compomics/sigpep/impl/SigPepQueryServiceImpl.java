@@ -13,7 +13,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 31-Aug-2007<br/>
@@ -21,16 +21,24 @@ import java.util.*;
  */
 public class SigPepQueryServiceImpl implements SigPepQueryService {
 
-    /** the log4j logger   */
+    /**
+     * the log4j logger
+     */
     protected static Logger logger = Logger.getLogger(SigPepQueryServiceImpl.class);
 
-    /** Field simpleQueryDao  */
+    /**
+     * Field simpleQueryDao
+     */
     protected SimpleQueryDao simpleQueryDao;
 
-    /** Field objectDao  */
+    /**
+     * Field objectDao
+     */
     protected ObjectDao objectDao;
 
-    /** Field sigPepSession  */
+    /**
+     * Field sigPepSession
+     */
     protected SigPepSession sigPepSession;
 
     /**
@@ -525,7 +533,7 @@ public class SigPepQueryServiceImpl implements SigPepQueryService {
      *
      * @return a map of protease names and shortnames to protease IDs
      */
-    public Map<String, Integer> getProteaseNameToIDMap(){
+    public Map<String, Integer> getProteaseNameToIDMap() {
         return simpleQueryDao.getProteaseNameToProteaseIDMap();
     }
 
@@ -539,7 +547,7 @@ public class SigPepQueryServiceImpl implements SigPepQueryService {
     public Map<Integer, Integer> getPeptideLengthFrequencyForProteaseCombination(Protease... protease) {
 
         Set<String> proteaseShortNames = new HashSet<String>();
-        
+
         for (Protease p : protease) {
             proteaseShortNames.add(p.getShortName());
         }

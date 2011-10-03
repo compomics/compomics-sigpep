@@ -12,7 +12,7 @@ import java.util.TreeMap;
 
 /**
  * @TODO: JavaDoc missing
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 25-Sep-2007<br>
@@ -27,9 +27,8 @@ public class Organisms {
     private Map<Integer, String> ncbiTaxonId2SpeciesName = new TreeMap<Integer, String>();
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public static Organisms getInstance() {
         if (ourInstance == null) {
@@ -43,12 +42,11 @@ public class Organisms {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param propertiesFile
      * @throws ConfigurationException
+     * @TODO: JavaDoc missing
      */
-    private Organisms(String propertiesFile) throws ConfigurationException {       
+    private Organisms(String propertiesFile) throws ConfigurationException {
         this.speciesConfig = new PropertiesConfiguration(propertiesFile);
         this.populateMaps();
     }
@@ -61,7 +59,7 @@ public class Organisms {
         speciesName2NcbiTaxonId = new TreeMap<String, Integer>();
         ncbiTaxonId2SpeciesName = new TreeMap<Integer, String>();
 
-        for (Iterator<String> keys = speciesConfig.getKeys(); keys.hasNext();) {
+        for (Iterator<String> keys = speciesConfig.getKeys(); keys.hasNext(); ) {
 
             String key = keys.next();
             String speciesName = key.replace(".", " ");
@@ -73,10 +71,9 @@ public class Organisms {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param speciesName
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getNcbiTaxonId(String speciesName) {
 
@@ -87,10 +84,9 @@ public class Organisms {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param ncbiTaxonId
      * @return
+     * @TODO: JavaDoc missing
      */
     public String getSpeciesName(int ncbiTaxonId) {
 
@@ -100,38 +96,34 @@ public class Organisms {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<String> getSpeciesNames() {
         return speciesName2NcbiTaxonId.keySet();
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Set<Integer> getNcbiTaxonIds() {
         return ncbiTaxonId2SpeciesName.keySet();
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param speciesName
      * @return
+     * @TODO: JavaDoc missing
      */
     public boolean contains(String speciesName) {
         return speciesName2NcbiTaxonId.containsKey(speciesName);
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param ncbiTaxonId
      * @return
+     * @TODO: JavaDoc missing
      */
     public boolean contains(int ncbiTaxonId) {
         return ncbiTaxonId2SpeciesName.containsKey(ncbiTaxonId);

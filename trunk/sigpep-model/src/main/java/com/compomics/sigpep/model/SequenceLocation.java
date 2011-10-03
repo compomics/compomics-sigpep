@@ -20,6 +20,7 @@ public interface SequenceLocation {
 
     /**
      * Sets the protein sequence the peptide is contained in.
+     *
      * @param proteinSequence the protein sequence
      */
     void setSequence(ProteinSequence proteinSequence);
@@ -34,7 +35,7 @@ public interface SequenceLocation {
     /**
      * Sets the start coordinate of the peptide location.
      *
-     * @param start  the start coordinate
+     * @param start the start coordinate
      */
     void setStart(int start);
 

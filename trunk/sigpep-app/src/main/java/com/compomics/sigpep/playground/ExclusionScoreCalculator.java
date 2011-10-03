@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 01-Aug-2008<br/>
@@ -23,25 +23,23 @@ public class ExclusionScoreCalculator extends Thread {
     private double score;
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param productIonCombination
      * @param exclusionMatrix
+     * @TODO: JavaDoc missing.
      */
     public ExclusionScoreCalculator(
             Set<ProductIon> productIonCombination,
             Map<ProductIon,
-            Map<Peptide, Integer>> exclusionMatrix) {
+                    Map<Peptide, Integer>> exclusionMatrix) {
         this.productIonCombination = productIonCombination;
         this.exclusionMatrix = exclusionMatrix;
         this.run();
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param number1
      * @param number2
+     * @TODO: JavaDoc missing.
      */
     public ExclusionScoreCalculator(int number1, int number2) {
         this.number1 = number1;
@@ -50,9 +48,8 @@ public class ExclusionScoreCalculator extends Thread {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public synchronized double getScore() {
         return score;
@@ -125,9 +122,8 @@ public class ExclusionScoreCalculator extends Thread {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 

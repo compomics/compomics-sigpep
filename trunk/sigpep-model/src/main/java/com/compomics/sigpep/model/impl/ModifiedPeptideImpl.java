@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 13-Feb-2008<br/>
@@ -104,12 +104,12 @@ public class ModifiedPeptideImpl extends AbstractPeptide implements ModifiedPept
     }
 
     @Override
-    public Set<PeptideOrigin> getOrigins(){
+    public Set<PeptideOrigin> getOrigins() {
         return peptide.getOrigins();
     }
 
     @Override
-    public void setOrigins(Set<PeptideOrigin> origins){
+    public void setOrigins(Set<PeptideOrigin> origins) {
         peptide.setOrigins(origins);
     }
 

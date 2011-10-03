@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jun-2008<br/>
@@ -24,7 +24,7 @@ public class SpringJdbcSimpleQueryDaoFactory extends SimpleQueryDaoFactory {
 
     /**
      * Creates a new SimpleQueryDao from the given taxonomy id.
-     * 
+     *
      * @param taxonId the taxonomy id to use.
      * @return the SpringJdbcSimpleQueryDao
      */

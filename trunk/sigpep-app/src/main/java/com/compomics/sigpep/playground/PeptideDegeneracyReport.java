@@ -13,7 +13,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 14-Jul-2008<br/>
@@ -22,10 +22,9 @@ import java.util.Set;
 public class PeptideDegeneracyReport {
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param taxonId
      * @param proteaseShortNames
+     * @TODO: JavaDoc missing.
      */
     public static void reportOriginOfDegeneracy(int taxonId, String... proteaseShortNames) {
 
@@ -86,9 +85,8 @@ public class PeptideDegeneracyReport {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
         PeptideDegeneracyReport.reportOriginOfDegeneracy(9606, "argc", "lysc", "v8e");

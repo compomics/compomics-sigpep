@@ -2,6 +2,7 @@ package com.compomics.sigpep.analysis;
 
 import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.model.SignatureTransition;
+
 import java.util.List;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  * Implementing classes scan product ions of the target peptide for one or more
  * combinations that are unique to the target peptide against the background of
  * isobaric peptides.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 27-Nov-2007<br/>

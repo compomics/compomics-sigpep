@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 17-Jan-2008<br/>
@@ -26,12 +26,12 @@ public class HibernateUtil {
     private static JndiDataSourceLookup jndiDataSourceLookup = new JndiDataSourceLookup();
 
     protected static Logger logger = Logger.getLogger(HibernateUtil.class);
-        
+
     static {
         //initialise catalog session factory when class is instantiated
         getCatalogSessionFactory();
     }
-  
+
 
     /**
      * Returns a Hibernate session factory for the species specified by the taxon ID.
@@ -106,7 +106,7 @@ public class HibernateUtil {
     public static SessionFactory getCatalogSessionFactory() {
 
         Configuration config = Configuration.getInstance();
-                
+
         SessionFactory retVal = null;
 
         //check if session factory for taxon ID is in cache

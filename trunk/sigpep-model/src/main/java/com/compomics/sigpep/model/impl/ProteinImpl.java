@@ -4,7 +4,7 @@ import com.compomics.sigpep.model.*;
 
 /**
  * Implementation of Protein.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 16-Jan-2008<br/>
@@ -29,54 +29,48 @@ public class ProteinImpl implements Protein, Persistable {
     private ProteinSequence proteinSequence;
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Organism getOrganism() {
         return organism;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     * 
      * @param organism
+     * @TODO: JavaDoc missing
      */
     public void setOrganism(Organism organism) {
         this.organism = organism;

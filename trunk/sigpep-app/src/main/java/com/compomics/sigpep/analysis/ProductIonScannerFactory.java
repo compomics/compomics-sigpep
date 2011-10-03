@@ -2,13 +2,14 @@ package com.compomics.sigpep.analysis;
 
 import com.compomics.sigpep.Configuration;
 import com.compomics.sigpep.model.ProductIonType;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 05-Aug-2008<br/>
@@ -29,17 +30,14 @@ public class ProductIonScannerFactory {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @return
+     * @TODO: JavaDoc missing.
      */
     public static ProductIonScannerFactory getInstance() {
         return instance;
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param targetProductIonTypes
      * @param backgroundProductIonTypes
      * @param productIonChargeStates
@@ -47,13 +45,14 @@ public class ProductIonScannerFactory {
      * @param minimumCombinationSize
      * @param maximumCombinationSize
      * @return
+     * @TODO: JavaDoc missing.
      */
     public ProductIonScanner createFindFirstProductIonScanner(Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                              Set<ProductIonType> backgroundProductIonTypes,
+                                                              Set<Integer> productIonChargeStates,
+                                                              double massAccuracy,
+                                                              int minimumCombinationSize,
+                                                              int maximumCombinationSize) {
 
         return getScannerInstance(findFirstScannerClass,
                 targetProductIonTypes,
@@ -65,8 +64,6 @@ public class ProductIonScannerFactory {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param targetProductIonTypes
      * @param backgroundProductIonTypes
      * @param productIonChargeStates
@@ -74,13 +71,14 @@ public class ProductIonScannerFactory {
      * @param minimumCombinationSize
      * @param maximumCombinationSize
      * @return
+     * @TODO: JavaDoc missing.
      */
     public ProductIonScanner createFindMinimalProductIonScanner(Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                                Set<ProductIonType> backgroundProductIonTypes,
+                                                                Set<Integer> productIonChargeStates,
+                                                                double massAccuracy,
+                                                                int minimumCombinationSize,
+                                                                int maximumCombinationSize) {
 
         return getScannerInstance(findMinimalScannerClass,
                 targetProductIonTypes,
@@ -92,8 +90,6 @@ public class ProductIonScannerFactory {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param targetProductIonTypes
      * @param backgroundProductIonTypes
      * @param productIonChargeStates
@@ -101,13 +97,14 @@ public class ProductIonScannerFactory {
      * @param minimumCombinationSize
      * @param maximumCombinationSize
      * @return
+     * @TODO: JavaDoc missing.
      */
     public ProductIonScanner createFindAllProductIonScanner(Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> productIonChargeStates,
-            double massAccuracy,
-            int minimumCombinationSize,
-            int maximumCombinationSize) {
+                                                            Set<ProductIonType> backgroundProductIonTypes,
+                                                            Set<Integer> productIonChargeStates,
+                                                            double massAccuracy,
+                                                            int minimumCombinationSize,
+                                                            int maximumCombinationSize) {
 
         return getScannerInstance(findAllScannerClass,
                 targetProductIonTypes,
@@ -119,8 +116,6 @@ public class ProductIonScannerFactory {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param scannerClass
      * @param targetProductIonTypes
      * @param backgroundProductIonTypes
@@ -129,14 +124,15 @@ public class ProductIonScannerFactory {
      * @param minimumCombinationSize
      * @param maximumCombinationSize
      * @return
+     * @TODO: JavaDoc missing.
      */
     private ProductIonScanner getScannerInstance(String scannerClass,
-            Set<ProductIonType> targetProductIonTypes,
-            Set<ProductIonType> backgroundProductIonTypes,
-            Set<Integer> productIonChargeStates,
-            Double massAccuracy,
-            Integer minimumCombinationSize,
-            Integer maximumCombinationSize) {
+                                                 Set<ProductIonType> targetProductIonTypes,
+                                                 Set<ProductIonType> backgroundProductIonTypes,
+                                                 Set<Integer> productIonChargeStates,
+                                                 Double massAccuracy,
+                                                 Integer minimumCombinationSize,
+                                                 Integer maximumCombinationSize) {
 
         Object[] intArgs = new Object[6];
         intArgs[0] = targetProductIonTypes;

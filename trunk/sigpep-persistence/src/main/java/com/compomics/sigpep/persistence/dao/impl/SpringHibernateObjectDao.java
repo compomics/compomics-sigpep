@@ -19,18 +19,18 @@ import java.util.Set;
  * <p/>
  * To enable class loader instrumentation the JVM has to be setupDatabase with
  * parameter  -javaagent:/path/to/spring-agent-2.5.5.jar.
- *
+ * <p/>
  * To use Spring load-time AspectJ weaving when the application is setupDatabase
  * on Tomcat server place spring-tomcat-weaver.jar file in Tomcat's
  * lib folder and configure Tomcat to use the new classloader in the
  * Web Application's META-INF/context.xml file:
- *
+ * <p/>
  * <Context>
- *  <Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
+ * <Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
  * </Context>
- *
+ * <p/>
  * http://www.springindepth.com/book/ch06s02.html
- *
+ * <p/>
  * <p/>
  * (http://static.springframework.org/spring/docs/2.5.x/reference/aop.html).
  * <p/>
@@ -236,7 +236,7 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
 
             Query query = session.getNamedQuery("geneByAccession").setParameterList("accession", geneAccession);
             for (Object o : query.list()) {
-                    retVal.add((Gene) setResultSessionFactory(o));
+                retVal.add((Gene) setResultSessionFactory(o));
             }
 
         } else {
@@ -318,7 +318,7 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
 
             Query query = session.getNamedQuery("proteinByAccession").setParameterList("accession", proteinAccession);
             for (Object o : query.list()) {
-                    retVal.add((Protein) setResultSessionFactory(o));
+                retVal.add((Protein) setResultSessionFactory(o));
             }
 
         } else {
@@ -391,7 +391,7 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
 
     /**
      * Get peptide feature by sequence.
-     *
+     * <p/>
      * Note: not implemented, always returns null!
      *
      * @param peptideSequence the peptide sequence
@@ -425,10 +425,9 @@ public class SpringHibernateObjectDao extends HibernateDaoSupport implements Obj
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param object
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object setResultSessionFactory(Object object) {
 

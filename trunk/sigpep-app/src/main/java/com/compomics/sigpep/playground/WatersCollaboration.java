@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 07-Aug-2008<br/>
@@ -25,9 +25,8 @@ public class WatersCollaboration {
     private static Logger logger = Logger.getLogger(WatersCollaboration.class);
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 
@@ -174,17 +173,16 @@ public class WatersCollaboration {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param filename
      * @return
+     * @TODO: JavaDoc missing.
      */
     public static List<Map<Double, Integer>> readPeptideChargeStates(String filename) {
 
         List<Map<Double, Integer>> retVal = new ArrayList<Map<Double, Integer>>();
         try {
             DelimitedTableReader dtr = new DelimitedTableReader(new FileInputStream(filename), "\t");
-            for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtr.read(); rows.hasNext(); ) {
 
                 String[] row = rows.next();
 
@@ -207,10 +205,9 @@ public class WatersCollaboration {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param filename
      * @return
+     * @TODO: JavaDoc missing.
      */
     private static Set<String> readIdentifiers(String filename) {
 
@@ -220,7 +217,7 @@ public class WatersCollaboration {
             InputStream input = new FileInputStream(filename);
 
             DelimitedTableReader dtr = new DelimitedTableReader(input, "\t");
-            for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
+            for (Iterator<String[]> rows = dtr.read(); rows.hasNext(); ) {
                 String[] row = rows.next();
                 retVal.add(row[0]);
             }
@@ -235,11 +232,10 @@ public class WatersCollaboration {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param directory
      * @param geneAccession
      * @param transitions
+     * @TODO: JavaDoc missing.
      */
     private static void writeResult(
             String directory,
@@ -258,11 +254,10 @@ public class WatersCollaboration {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param directory
      * @param geneAccession
      * @param transitions
+     * @TODO: JavaDoc missing.
      */
     private static void createTransitionPlotMatrix(
             String directory,
@@ -294,11 +289,10 @@ public class WatersCollaboration {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param directory
      * @param geneAccession
      * @param transitions
+     * @TODO: JavaDoc missing.
      */
     private static void appendToTable(
             String directory,

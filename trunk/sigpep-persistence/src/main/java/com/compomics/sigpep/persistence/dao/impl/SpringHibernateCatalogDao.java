@@ -12,7 +12,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 18-Jul-2008<br/>
@@ -50,7 +50,7 @@ public class SpringHibernateCatalogDao extends HibernateDaoSupport implements Ca
         Set<Organism> result = new HashSet<Organism>();
         result.addAll(query.list());
         session.getTransaction().commit();
-        session.close();        
+        session.close();
         return result;
     }
 
@@ -65,7 +65,7 @@ public class SpringHibernateCatalogDao extends HibernateDaoSupport implements Ca
         Session session = this.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.getNamedQuery("organismByTaxonId").setParameter("taxonId", taxonId);
-        Organism retVal = (Organism)query.uniqueResult();
+        Organism retVal = (Organism) query.uniqueResult();
         session.getTransaction().commit();
         session.close();
         return retVal;

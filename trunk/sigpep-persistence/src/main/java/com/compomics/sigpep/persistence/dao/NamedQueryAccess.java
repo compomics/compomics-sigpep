@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Singelton to access named SQL queries.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br>
  * User: mmueller<br>
  * Date: 25-Sep-2007<br>
@@ -23,7 +23,7 @@ public class NamedQueryAccess extends XMLConfiguration {
      * @return the NamedQueryAccess instance
      */
     public static NamedQueryAccess getInstance() {
-        if(ourInstance==null){
+        if (ourInstance == null) {
             try {
                 ourInstance = new NamedQueryAccess("namedSqlQueries.xml");
             } catch (ConfigurationException e) {

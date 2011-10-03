@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
  * Provides access to an ExecutorService that provides methods to manage termination
  * and methods that can produce a Future for tracking progress of one or
  * more asynchronous tasks.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 01-Aug-2008<br/>
@@ -14,10 +14,14 @@ import java.util.concurrent.ExecutorService;
  */
 public abstract class ExecutorServiceLocator {
 
-    /** the singleton instance  */
+    /**
+     * the singleton instance
+     */
     private static ExecutorServiceLocator ourInstance;
 
-    /** the executor service instance created when getExecutorService() is called the first time  */
+    /**
+     * the executor service instance created when getExecutorService() is called the first time
+     */
     protected static ExecutorService executorService;
 
     /**
@@ -35,7 +39,7 @@ public abstract class ExecutorServiceLocator {
         if (ourInstance == null) {
 
             try {
-                ourInstance = (ExecutorServiceLocator)Class.forName(locatorClass).newInstance();
+                ourInstance = (ExecutorServiceLocator) Class.forName(locatorClass).newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {

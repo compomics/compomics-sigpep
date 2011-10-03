@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * @TODO: JavaDoc missing
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 19-Feb-2008<br/>
@@ -28,48 +28,43 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param peptide
      * @param location
      * @param proteases
+     * @TODO: JavaDoc missing
      */
     public PeptideFeatureImpl(FeaturePeptide peptide, SequenceLocation location, Set<Protease> proteases) {
         super(location, peptide);
-        this.proteases=proteases;
+        this.proteases = proteases;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param id
+     * @TODO: JavaDoc missing
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
+     * @TODO: JavaDoc missing
      */
     public Object getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param sessionFactory
+     * @TODO: JavaDoc missing
      */
     public void setSessionFactory(Object sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -90,7 +85,7 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
      * @param peptide the feature object
      */
     public void setFeatureObject(FeaturePeptide peptide) {
-        this.peptide=peptide;
+        this.peptide = peptide;
     }
 
     /**
@@ -108,7 +103,7 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
      * @param proteases the proteases
      */
     public void setProteases(Set<Protease> proteases) {
-        this.proteases=proteases;
+        this.proteases = proteases;
     }
 
     /**
@@ -126,7 +121,7 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
      * @param spliceEventFeatures the splice events
      */
     public void setSpliceEventFeatures(Set<SpliceEventFeature> spliceEventFeatures) {
-        this.spliceEventFeatures=spliceEventFeatures;
+        this.spliceEventFeatures = spliceEventFeatures;
     }
 
     @Override
@@ -143,7 +138,7 @@ public class PeptideFeatureImpl extends AbstractFeature<FeaturePeptide> implemen
     }
 
     @Override
-    public int hashCode() {        
+    public int hashCode() {
         int result = location.hashCode();
         result = 31 * result + proteases.hashCode();
         return result;

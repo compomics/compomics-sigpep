@@ -6,7 +6,7 @@ import java.util.Set;
 
 /**
  * Provides access to the organisms available in the SigPep database.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 18-Jul-2008<br/>

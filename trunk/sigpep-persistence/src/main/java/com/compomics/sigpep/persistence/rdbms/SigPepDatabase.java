@@ -125,7 +125,7 @@ public class SigPepDatabase extends MySqlDatabase {
 
         Statement s = con.createStatement();
 
-        for (Iterator<String> statements = script.getStatementIterator(); statements.hasNext();) {
+        for (Iterator<String> statements = script.getStatementIterator(); statements.hasNext(); ) {
             String statement = statements.next();
             statement = SqlUtil.setParameter(statement, "schemaName", schemaName, false);
             logger.info(statement);
@@ -176,7 +176,7 @@ public class SigPepDatabase extends MySqlDatabase {
 
         Statement s = con.createStatement();
 
-        for (Iterator<String> statements = script.getStatementIterator(); statements.hasNext();) {
+        for (Iterator<String> statements = script.getStatementIterator(); statements.hasNext(); ) {
             String statement = statements.next();
             statement = SqlUtil.setParameter(statement, "schemaName", schemaName, false);
             logger.info(statement);
@@ -259,7 +259,8 @@ public class SigPepDatabase extends MySqlDatabase {
         s.close();
 
         con.close();
-        logger.info("done...");;
+        logger.info("done...");
+        ;
     }
 
     /**
@@ -326,10 +327,9 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
      * @throws SQLException
+     * @TODO: JavaDoc missing
      */
     private Map<String, Integer> fetchProteinAccession2SequenceIdMap() throws SQLException {
         try {
@@ -354,12 +354,11 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param ensemblVersion
      * @param ensemblIds
      * @return
      * @throws EnshException
+     * @TODO: JavaDoc missing
      */
     public Map<String, Set<String>> fetchEnsemblSpliceEvents(int ensemblVersion, Set<String> ensemblIds) throws EnshException {
         Map<String, Set<String>> retVal = new HashMap<String, Set<String>>();
@@ -440,11 +439,10 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param exonAccessions
      * @return
      * @throws SQLException
+     * @TODO: JavaDoc missing
      */
     private Map<String, Integer> insertExons(Set<String> exonAccessions) throws SQLException {
         Connection con = null;
@@ -503,12 +501,11 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param exonAccession2Id
      * @param spliceEvents
      * @return
      * @throws SQLException
+     * @TODO: JavaDoc missing
      */
     private Map<String, Integer> insertSpliceEvents(Map<String, Integer> exonAccession2Id, Set<String> spliceEvents) throws SQLException {
         Connection con = null;
@@ -572,12 +569,11 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param proteinAccession2SequenceId
      * @param spliceEvent2Id
      * @param spliceEvent2SequenceLocation
      * @throws SQLException
+     * @TODO: JavaDoc missing
      */
     private void insertSpliceEventLocations(Map<String, Integer> proteinAccession2SequenceId,
                                             Map<String, Integer> spliceEvent2Id,
@@ -648,10 +644,9 @@ public class SigPepDatabase extends MySqlDatabase {
     }
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @return
      * @throws SQLException
+     * @TODO: JavaDoc missing
      */
     private int populateTablePeptide2SpliceEvent() throws SQLException {
         String sql =
@@ -714,7 +709,6 @@ public class SigPepDatabase extends MySqlDatabase {
      * <code>protein_sequence</code>, <code>peptide</code> and
      * <code>sequence2signature_protease</code>.
      *
-     *
      * @param ensemblVersion the major version number of the Ensembl release to use
      * @return a map with the table name as key and the number of entries deleted from the table as value
      * @throws DatabaseException if an exception occurs during access to Ensembl Mart or SigPep
@@ -754,7 +748,6 @@ public class SigPepDatabase extends MySqlDatabase {
      * The table <code><organism_prefix>_gene_ensembl__transcript__main</code> of
      * the <code>ensembl_mart_<version></code> is queried to fetch the respective
      * Ensembl translation IDs.
-     *
      *
      * @param ensemblVersion the major version number of the Ensembl release to use
      * @return set of Ensembl translation IDs
@@ -1020,9 +1013,8 @@ public class SigPepDatabase extends MySqlDatabase {
 
 
     /**
-     * @TODO: JavaDoc missing
-     *
      * @param args
+     * @TODO: JavaDoc missing
      */
     public static void main(String[] args) {
         try {

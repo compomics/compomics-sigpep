@@ -24,7 +24,7 @@ import java.util.*;
 
 /**
  * @TODO: JavaDoc missing.
- * 
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 11-Mar-2008<br/>
@@ -54,7 +54,7 @@ public class CollabMapping {
         //read peptides into set
         Set<String> peptides = new HashSet<String>();
 
-        for (Iterator<String[]> rows = dtr.read(); rows.hasNext();) {
+        for (Iterator<String[]> rows = dtr.read(); rows.hasNext(); ) {
             String[] row = rows.next();
             String peptide = row[0];
             peptides.add(peptide);
@@ -82,12 +82,11 @@ public class CollabMapping {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param qstarQtrapIdentInputFile
      * @param srmIdentFile
      * @param outputFile
      * @throws IOException
+     * @TODO: JavaDoc missing.
      */
     public static void joinQtrapQstarSrmIdentifications(
             String qstarQtrapIdentInputFile,
@@ -105,7 +104,7 @@ public class CollabMapping {
         //read SRM identifications and peptides
         //and put them into map with protein accession
         //as key
-        for (Iterator<String[]> rows = dtrSrm.read(); rows.hasNext();) {
+        for (Iterator<String[]> rows = dtrSrm.read(); rows.hasNext(); ) {
 
             String[] row = rows.next();
             String ensemblId = row[0];
@@ -121,7 +120,7 @@ public class CollabMapping {
         //read qtrap/qstar identifications and peptides
         //and put them into a protein id -> peptide sequence map
         //and a peptide -> peptide cardinality map
-        for (Iterator<String[]> rows = dtrQ.read(); rows.hasNext();) {
+        for (Iterator<String[]> rows = dtrQ.read(); rows.hasNext(); ) {
 
             String[] row = rows.next();
             String ensemblId = row[1];
@@ -195,7 +194,7 @@ public class CollabMapping {
         //and put them into map with protein accession
         //as key
         logger.info("reading SRM identifications from " + srmIdentFile);
-        for (Iterator<String[]> rows = dtrSrmIdent.read(); rows.hasNext();) {
+        for (Iterator<String[]> rows = dtrSrmIdent.read(); rows.hasNext(); ) {
 
             String[] row = rows.next();
             String ensemblId = row[0];
@@ -212,7 +211,7 @@ public class CollabMapping {
         //and put them into map with protein accession
         //as key
         logger.info("reading SRM predictions from " + srmPredFile);
-        for (Iterator<String[]> rows = dtrSrmPred.read(); rows.hasNext();) {
+        for (Iterator<String[]> rows = dtrSrmPred.read(); rows.hasNext(); ) {
 
             String[] row = rows.next();
             String ensemblId = row[1];
@@ -268,11 +267,10 @@ public class CollabMapping {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param inputFile
      * @param outputFile
      * @throws IOException
+     * @TODO: JavaDoc missing.
      */
     public static void convertTransitions(String inputFile, String outputFile) throws IOException {
 
@@ -320,10 +318,9 @@ public class CollabMapping {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     * 
      * @param filename
      * @throws FileNotFoundException
+     * @TODO: JavaDoc missing.
      */
     public static void exportProteinFastaFile(String filename) throws FileNotFoundException {
 
@@ -334,7 +331,7 @@ public class CollabMapping {
 
         Query q = s.createQuery("from ProteinSequence");
         int counter = 0;
-        for (Iterator<ProteinSequence> sequences = q.iterate(); sequences.hasNext();) {
+        for (Iterator<ProteinSequence> sequences = q.iterate(); sequences.hasNext(); ) {
 
             ProteinSequence sequence = sequences.next();
             String sequenceString = sequence.getSequenceString();
@@ -357,8 +354,8 @@ public class CollabMapping {
     }
 
     /**
-     * @TODO: JavaDoc missing.
      * @throws FileNotFoundException
+     * @TODO: JavaDoc missing.
      */
     public static void checkPeptideMapping() throws FileNotFoundException {
 
@@ -374,14 +371,14 @@ public class CollabMapping {
 
             Map<String, String> ipi2Ensembl = new HashMap<String, String>();
             Set<String> ensemblIds = new HashSet<String>();
-            for (Iterator<String[]> mappingIt = mappingDtr.read(); mappingIt.hasNext();) {
+            for (Iterator<String[]> mappingIt = mappingDtr.read(); mappingIt.hasNext(); ) {
                 String[] row = mappingIt.next();
                 ipi2Ensembl.put(row[0], row[1]);
                 ensemblIds.add(row[1]);
             }
 
             Map<String, Set<String>> ipi2Pep = new HashMap<String, Set<String>>();
-            for (Iterator<String[]> identIt = identDtr.read(); identIt.hasNext();) {
+            for (Iterator<String[]> identIt = identDtr.read(); identIt.hasNext(); ) {
                 String[] row = identIt.next();
 
                 if (!ipi2Pep.containsKey(row[0])) {
@@ -392,7 +389,7 @@ public class CollabMapping {
             }
 
             Map<String, String> ensembl2Seq = new HashMap<String, String>();
-            for (Iterator<String[]> sequenceIt = sequenceDtr.read(); sequenceIt.hasNext();) {
+            for (Iterator<String[]> sequenceIt = sequenceDtr.read(); sequenceIt.hasNext(); ) {
                 String[] row = sequenceIt.next();
                 ensembl2Seq.put(row[0], row[1]);
             }
@@ -415,14 +412,13 @@ public class CollabMapping {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @throws FileNotFoundException
+     * @TODO: JavaDoc missing.
      */
     public static void signatureTransitionPredictionSanityCheck() throws FileNotFoundException {
 
@@ -435,7 +431,7 @@ public class CollabMapping {
             DelimitedTableReader sequenceDtr = new DelimitedTableReader(new FileInputStream(sequenceFile), "\t");
 
             Map<String, Set<String>> ensembl2Pep = new HashMap<String, Set<String>>();
-            for (Iterator<String[]> identIt = transitionDtr.read(); identIt.hasNext();) {
+            for (Iterator<String[]> identIt = transitionDtr.read(); identIt.hasNext(); ) {
                 String[] row = identIt.next();
                 if (!row[0].equals("#")) {
                     if (!ensembl2Pep.containsKey(row[1])) {
@@ -447,7 +443,7 @@ public class CollabMapping {
             }
 
             Map<String, String> ensembl2Seq = new HashMap<String, String>();
-            for (Iterator<String[]> sequenceIt = sequenceDtr.read(); sequenceIt.hasNext();) {
+            for (Iterator<String[]> sequenceIt = sequenceDtr.read(); sequenceIt.hasNext(); ) {
                 String[] row = sequenceIt.next();
                 ensembl2Seq.put(row[0], row[1]);
             }
@@ -465,17 +461,16 @@ public class CollabMapping {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param proteinAccessions
      * @param proteaseNames
      * @param outputDirectory
      * @param transitionOutputFile
+     * @TODO: JavaDoc missing.
      */
     public static void findSignatureTransitions(Set<String> proteinAccessions, Set<String> proteaseNames, String outputDirectory, String transitionOutputFile) {
 
@@ -670,9 +665,8 @@ public class CollabMapping {
     }
 
     /**
-     * @TODO: JavaDoc missing.
-     *
      * @param args
+     * @TODO: JavaDoc missing.
      */
     public static void main(String[] args) {
 

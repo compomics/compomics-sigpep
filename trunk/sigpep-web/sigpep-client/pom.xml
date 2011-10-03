@@ -22,7 +22,7 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        
+
     </dependencies>
 
     <distributionManagement>
@@ -91,7 +91,7 @@
                                 <!--replace with actual URL-->
                                 <wsdlUrl>http://localhost:8080/sigpep-service/queryService?wsdl</wsdlUrl>
                             </wsdlUrls>
-                            <sourceDestDir>${basedir}/src/main/java</sourceDestDir> 
+                            <sourceDestDir>${basedir}/src/main/java</sourceDestDir>
                             <packageName>com.compomics.sigpep.web.client</packageName>
                         </configuration>
                     </execution>
@@ -126,7 +126,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
-            
+
         </plugins>
     </build>
 

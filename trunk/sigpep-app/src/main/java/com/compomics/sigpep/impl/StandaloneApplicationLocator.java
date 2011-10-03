@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * ApplicationLocator that uses the Spring ClassPathXmlApplicationContext
  * to instantiate the SigPepApplication bean.
- *
+ * <p/>
  * Created by IntelliJ IDEA.<br/>
  * User: mmueller<br/>
  * Date: 24-Jul-2008<br/>
@@ -16,10 +16,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class StandaloneApplicationLocator extends ApplicationLocator {
 
-    /** the Spring application context */
+    /**
+     * the Spring application context
+     */
     private static ApplicationContext appContext = new ClassPathXmlApplicationContext("/config/applicationContext.xml");
 
-    /** the SigPepApplication bean */
+    /**
+     * the SigPepApplication bean
+     */
     private static SigPepApplication sigPepApplication = (SigPepApplication) appContext.getBean("sigPepApplication");
 
     /**
