@@ -5,6 +5,7 @@ import com.compomics.sigpep.model.Organism;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.component.FormHelp;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
+import com.compomics.sigpep.webapp.reader.PICRReader;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
@@ -13,7 +14,13 @@ import com.vaadin.data.validator.IntegerValidator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
+import org.hupo.psi.ms.traml.IntermediateProductType;
+import org.w3c.css.sac.ElementSelector;
+import sun.rmi.runtime.Log;
 
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -92,7 +99,8 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
         //protein accession field
         iProteinAccessionTextField = new TextField("Protein accession");
         iProteinAccessionTextField.setRequired(Boolean.TRUE);
-        iProteinAccessionTextField.addValidator(new RegexpValidator("ENSP[0-9]{11}", PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession")));
+        iProteinAccessionTextField.setImmediate(Boolean.TRUE);
+        iProteinAccessionTextField.addValidator(new RegexpValidator("ENS[0-9]{11}", PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession")));
         iFormHelp.addHelpForComponent(iProteinAccessionTextField, PropertiesConfigurationHolder.getInstance().getString("form_help.protein_accession"));
 
         iSpeciesSelect.addListener(new Property.ValueChangeListener() {
@@ -112,6 +120,32 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                         iApplication.setSigPepSession(iApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
                     }
                     fillProteaseSelect();
+                }
+            }
+        });
+
+        iProteinAccessionTextField.addListener(new Property.ValueChangeListener() {
+            public void valueChange(Property.ValueChangeEvent aValueChangeEvent) {
+                String lProteinAccession = (String) iProteinAccessionTextField.getValue();
+
+                Organism lOrganism = (Organism) iSpeciesSelect.getValue();
+                if (lOrganism != null) {
+                    try {
+                        List<String> lMappedProteinAccessions = PICRReader.doPICR(lProteinAccession, "ENSEMBL", Integer.toString(lOrganism.getTaxonId()));
+                        String lMappedProteinAccession = null;
+                        if (lMappedProteinAccessions.size() == 0) {
+                            iApplication.getMainWindow().showNotification("No ENSEMBL mapping found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_not_found"), lProteinAccession, iPeptideFormBean.getSpecies().getScientificName(), lProteinAccession), Window.Notification.TYPE_ERROR_MESSAGE);
+                        } else if (lMappedProteinAccessions.size() == 1) {
+                            iApplication.getMainWindow().showNotification("ENSEMBL mapping found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping"), iPeptideFormBean.getPeptideSequence(), iPeptideFormBean.getSpecies().getScientificName(), aProtease.getFullName().toLowerCase()), Window.Notification.TYPE_ERROR_MESSAGE);
+                        }
+                        else {
+                            iApplication.getMainWindow().showNotification("Multiple ENSEMBL mappings found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_multiple"), iPeptideFormBean.getPeptideSequence(), iPeptideFormBean.getSpecies().getScientificName(), aProtease.getFullName().toLowerCase()), Window.Notification.TYPE_ERROR_MESSAGE);
+                        }
+                        iProteinAccessionTextField.setValue(lMappedProteinAccession);
+
+                    } catch (IOException e) {
+                        log.error(e.getMessage(), e);
+                    }
                 }
             }
         });

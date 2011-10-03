@@ -114,6 +114,8 @@ public class PeptideCheckForm extends Form {
         BeanItem<PeptideFormBean> lBeanItem = new BeanItem<PeptideFormBean>(iPeptideFormBean);
         PeptideCheckForm.this.setItemDataSource(lBeanItem);
         resetValidation();
+        iSubmitButton.setEnabled(Boolean.TRUE);
+        iResetButton.setEnabled(Boolean.TRUE);
         iApplication.clearResultTableComponent();
         iApplication.getNotifique().clear();
     }

@@ -121,6 +121,8 @@ public class ProteinForm extends Form {
         BeanItem<ProteinFormBean> lBeanItem = new BeanItem<ProteinFormBean>(iProteinFormBean);
         ProteinForm.this.setItemDataSource(lBeanItem);
         resetValidation();
+        iSubmitButton.setEnabled(Boolean.TRUE);
+        iResetButton.setEnabled(Boolean.TRUE);
         iApplication.clearResultTableComponent();
         iApplication.getNotifique().clear();
     }

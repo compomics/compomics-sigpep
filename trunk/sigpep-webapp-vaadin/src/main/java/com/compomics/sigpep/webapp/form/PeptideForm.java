@@ -121,6 +121,8 @@ public class PeptideForm extends Form {
     }
 
     private void resetForm() {
+        iSubmitButton.setEnabled(Boolean.TRUE);
+        iCancelButton.setEnabled(Boolean.TRUE);
         iApplication.getFormTabSheet().cancelPeptideForm();
         iApplication.clearResultTableComponent();
         iApplication.getNotifique().clear();
