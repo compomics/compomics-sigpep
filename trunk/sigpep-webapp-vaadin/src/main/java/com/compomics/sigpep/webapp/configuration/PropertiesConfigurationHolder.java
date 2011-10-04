@@ -3,6 +3,8 @@ package com.compomics.sigpep.webapp.configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+import java.io.File;
+
 /**
  * Created by IntelliJ IDEA.
  * User: niels
@@ -39,5 +41,17 @@ public class PropertiesConfigurationHolder extends PropertiesConfiguration {
      */
     private PropertiesConfigurationHolder(String propertiesFile) throws ConfigurationException {
         super(propertiesFile);
+    }
+
+    public static int getApplicationExecutorServiceThreadCount(){
+        return ourInstance.getInt("executor.thread.count");
+    }
+
+    public static File getTestDemoFolder() {
+        return new File(ourInstance.getString("test.result.button.path"));
+    }
+
+    public static boolean showTestDemoFolder() {
+        return ourInstance.getBoolean("test.result.button.display");
     }
 }

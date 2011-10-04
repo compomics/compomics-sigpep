@@ -24,9 +24,9 @@
         </dependency>
 
         <dependency>
-            <groupId>lennart</groupId>
+            <groupId>com.compomics</groupId>
             <artifactId>dbtoolkit</artifactId>
-            <version>3.5.4</version>
+            <version>4.1.5</version>
             <scope>compile</scope>
         </dependency>
 

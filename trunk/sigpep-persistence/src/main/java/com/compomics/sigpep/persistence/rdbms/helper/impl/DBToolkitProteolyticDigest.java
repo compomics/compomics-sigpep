@@ -1,6 +1,6 @@
 package com.compomics.sigpep.persistence.rdbms.helper.impl;
 
-import be.proteomics.dbtoolkit.toolkit.EnzymeDigest;
+import com.compomics.dbtoolkit.toolkit.EnzymeDigest;
 import org.apache.log4j.Logger;
 import com.compomics.sigpep.persistence.rdbms.helper.ProteolyticDigest;
 

@@ -45,5 +45,6 @@ public interface DatabaseInitialiser {
      *
      * @return the map (key=ncbi_taxon_id, value=organism_name)
      */
-    Map<Integer, String> getOrganismMap();
+    Map<Integer, String>
+    getOrganismMap();
 }

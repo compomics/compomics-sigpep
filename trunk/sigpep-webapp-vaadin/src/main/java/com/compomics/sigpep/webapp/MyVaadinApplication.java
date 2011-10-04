@@ -25,6 +25,7 @@ import com.compomics.sigpep.webapp.component.FormHelp;
 import com.compomics.sigpep.webapp.component.FormTabSheet;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
+import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
@@ -52,7 +53,7 @@ public class MyVaadinApplication extends Application implements Pushable {
     /**
      * This service limits the number of sigpep jobs that are run simultaneously.
      */
-    private static ExecutorService iExecutor = Executors.newFixedThreadPool(1);
+    private static ExecutorService iExecutor = Executors.newFixedThreadPool(PropertiesConfigurationHolder.getApplicationExecutorServiceThreadCount());
 
     /**
      * This ArrayList will hold the Transitions that are selected by the user on a per-session level.
@@ -144,13 +145,16 @@ public class MyVaadinApplication extends Application implements Pushable {
 
 
         iBottomLayoutResults = new VerticalLayout();
-        Button lButton = new Button("load test data");
-        lButton.addListener(new Button.ClickListener() {
-            public void buttonClick(Button.ClickEvent event) {
-                new BackgroundThread().run();
-            }
-        });
-        iBottomLayoutResults.addComponent(lButton);
+
+        if (PropertiesConfigurationHolder.showTestDemoFolder()) {
+            Button lButton = new Button("load test data");
+            lButton.addListener(new Button.ClickListener() {
+                public void buttonClick(Button.ClickEvent event) {
+                    new BackgroundThread().run();
+                }
+            });
+            iBottomLayoutResults.addComponent(lButton);
+        }
 
         // Add the selector component
         iSelectionComponent = new TransitionSelectionComponent(MyVaadinApplication.this);
@@ -223,7 +227,9 @@ public class MyVaadinApplication extends Application implements Pushable {
             synchronized (MyVaadinApplication.this) {
                 getMainWindow().addComponent(new Label("All done"));
 
-                File lResultFolder = new File("C://temp//testing");
+                File lResultFolder = PropertiesConfigurationHolder.getTestDemoFolder();
+                logger.debug("demo folder " + lResultFolder.getAbsolutePath());
+
                 HashSet lResultFiles = new HashSet();
                 Collections.addAll(lResultFiles, lResultFolder.listFiles(new FileFilter() {
                     public boolean accept(File aFile) {

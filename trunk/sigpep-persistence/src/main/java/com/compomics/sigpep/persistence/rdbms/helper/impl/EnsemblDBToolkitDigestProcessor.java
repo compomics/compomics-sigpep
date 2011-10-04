@@ -1,8 +1,8 @@
 package com.compomics.sigpep.persistence.rdbms.helper.impl;
 
-import be.proteomics.dbtoolkit.io.DBLoaderLoader;
-import be.proteomics.dbtoolkit.io.interfaces.DBLoader;
-import be.proteomics.util.protein.Protein;
+import com.compomics.dbtoolkit.io.DBLoaderLoader;
+import com.compomics.dbtoolkit.io.interfaces.DBLoader;
+import com.compomics.util.protein.Protein;
 import com.compomics.sigpep.persistence.rdbms.SigPepDatabase;
 import com.compomics.sigpep.persistence.rdbms.helper.DigestProcessor;
 import org.apache.commons.io.FileUtils;
