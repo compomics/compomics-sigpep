@@ -174,11 +174,11 @@ for(ion.type in names(bg.by.ion.type.ordered)){
 
 #draw spectrum
 for(ion.type in rownames(target.spectrum)){
-    abline(v=target.spectrum[ion.type,], col=spectrum.color, lty="dashed")
+    abline(v=target.spectrum[ion.type,], col=spectrum.color, lty="dashed", lwd=2)
 }
 
 #draw barcode
-abline(v=barcode, col=barcode.color)
+abline(v=barcode, col=barcode.color, lwd=3)
 
 #ion series labels
 rect(min.mz,bg.count+1,max.mz,bg.count+200, col="white", border="white")

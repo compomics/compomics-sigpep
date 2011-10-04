@@ -11,12 +11,8 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.data.validator.IntegerValidator;
-import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
-import org.hupo.psi.ms.traml.IntermediateProductType;
-import org.w3c.css.sac.ElementSelector;
-import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.text.MessageFormat;

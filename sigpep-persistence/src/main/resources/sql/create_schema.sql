@@ -130,12 +130,14 @@ CREATE TABLE  sequence2signature_protease (
 
 
 -- Fill the protease table.
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (1,"v8e","EQ","V8-E");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (2,"tryp","KR","Trypsin");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (3,"cnbr","M","CNBr");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (4,"argc","R","Arg-C");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (5,"pepa","FL","PepsinA");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (6,"lysc","K","Lys-C");
-INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (7,"v8de","DNEQ","V8-DE");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (1,"tryp","KR","Trypsin");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (2,"argc","R","Arg-C");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (3,"lysc","K","Lys-C");
+INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (4,"pepa","FL","PepsinA");
+-- INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (4,"lysn","K","Lys-N");
+-- INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (5,"aspn","D","Asp-N");
+-- INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (1,"v8e","EQ","V8-E");
+-- INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (3,"cnbr","M","CNBr");
+-- INSERT INTO protease (`protease_id`, `name`, `cleavage_site`, `full_name`) VALUES (7,"v8de","DNEQ","V8-DE");
 
 

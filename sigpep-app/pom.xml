@@ -34,12 +34,13 @@
             <version>0.5</version>
         </dependency>
 
-        <!--DBToolKit-->
         <dependency>
-            <groupId>lennart</groupId>
+            <groupId>com.compomics</groupId>
             <artifactId>dbtoolkit</artifactId>
-            <version>3.5.4</version>
+            <version>4.1.5</version>
+            <scope>compile</scope>
         </dependency>
+
 
         <dependency>
             <groupId>lennart</groupId>
