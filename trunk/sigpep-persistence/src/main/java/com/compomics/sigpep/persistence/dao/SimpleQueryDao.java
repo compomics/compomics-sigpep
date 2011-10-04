@@ -25,6 +25,13 @@ public interface SimpleQueryDao {
     public int getProteinCount();
 
     /**
+     * Return the number of proteins with a specific name
+     *
+     * @return
+     */
+    public int getProteinCountByName(String proteinAccession);
+
+    /**
      * Returns the number of gene entries in the database.
      *
      * @return gene count

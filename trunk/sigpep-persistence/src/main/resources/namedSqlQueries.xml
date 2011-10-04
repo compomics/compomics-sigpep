@@ -14,6 +14,13 @@
         <!--returns the number of protein entries in the database-->
         <proteinCount>SELECT COUNT(protein_id) AS count FROM protein</proteinCount>
 
+        <!--returns the protein accessions for a set of sequence IDs-->
+        <proteinCountByName>
+            SELECT count(*)
+            FROM protein p
+            WHERE protein_accession = (:protein_accession)
+        </proteinCountByName>
+
         <!--returns the number of gene entries in the database-->
         <geneCount>SELECT COUNT(gene_id) AS count FROM gene</geneCount>
 
