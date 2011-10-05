@@ -192,6 +192,7 @@ public class ResultsTable extends VerticalLayout {
         File lRFile = new File(aResource.getPath());
         RSource lRSource = new RSource(lRFile);
         RFilter lRFilter = new RFilter();
+        logger.debug(lFile.getAbsolutePath());
         lRFilter.add("file.input", lFile.getPath());
         File lTempFile = new File(iTempFolder, System.currentTimeMillis() + ".png");
         lRFilter.add("file.output", lTempFile.getPath());
