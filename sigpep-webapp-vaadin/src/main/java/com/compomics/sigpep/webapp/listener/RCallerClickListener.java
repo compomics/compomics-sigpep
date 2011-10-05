@@ -53,6 +53,8 @@ public class RCallerClickListener implements Button.ClickListener {
         iRFilter = aRFilter;
         iPushable = aPushable;
         iApplication = aApplication;
+        logger.debug("RFilter out \t" + aRFilter.get("file.output"));
+        logger.debug("RFilter in \t" + aRFilter.get("file.input"));
 
         iRSource.filter(aRFilter);
     }

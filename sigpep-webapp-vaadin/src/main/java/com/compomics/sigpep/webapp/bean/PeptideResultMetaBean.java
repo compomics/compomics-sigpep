@@ -133,14 +133,15 @@ public class PeptideResultMetaBean {
      * @return
      */
     public int getMassMatchIndex(double aMass) {
-        int index = 0;
         int lMax = getBarcodeCount();
 
-        while (index < lMax) {
-            if (Math.abs(getBarcodeMass(index) - aMass) < 0.01) {
-                return index;
+        for (int i = 0; i < lMax; i++) {
+            logger.info(i + "\t" + getBarcodeMass(i) + "\t" + aMass);
+            if (Math.abs(getBarcodeMass(i) - aMass) < 0.01) {
+                logger.info("TRUE");
+                return i + 1;
             }
-            index++;
+            logger.info("FALSE");
         }
 
         // No match found!!
