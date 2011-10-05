@@ -73,8 +73,9 @@ public class PeptideCheckFormFieldFactory implements FormFieldFactory {
                         setFormComponentsVisible(iVisible);
                     }
                     if (iApplication.getSigPepSession() == null || !iApplication.getSigPepSession().getOrganism().getScientificName().equals(lOrganism.getScientificName())) {
-                        log.info("Creating sigpep session for organism " + lOrganism.getScientificName());
+                        log.info("Creating sigpep session and query service for organism " + lOrganism.getScientificName());
                         iApplication.setSigPepSession(iApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
+                        iApplication.setSigPepQueryService(iApplication.getSigPepSession().createSigPepQueryService());
                     }
                     fillProteaseSelect();
                 }
