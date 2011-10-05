@@ -17,19 +17,19 @@ package com.compomics.sigpep.webapp;
 
 import com.compomics.acromics.config.RCallerConfiguration;
 import com.compomics.jtraml.beans.TransitionBean;
-import com.compomics.sigpep.ApplicationLocator;
-import com.compomics.sigpep.SigPepQueryService;
-import com.compomics.sigpep.SigPepSession;
-import com.compomics.sigpep.SigPepSessionFactory;
+import com.compomics.sigpep.*;
+import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.webapp.component.FormHelp;
 import com.compomics.sigpep.webapp.component.FormTabSheet;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
+import com.google.common.io.Files;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.vaadin.artur.icepush.ICEPush;
 import org.vaadin.notifique.Notifique;
@@ -37,9 +37,11 @@ import org.vaadin.overlay.CustomOverlay;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -114,9 +116,9 @@ public class MyVaadinApplication extends Application implements Pushable {
 //        setTheme("my-sigpep-cameleon");
 
         //add main window
-        Window mainWindow = new Window("Sigpep Application");
-        setMainWindow(mainWindow);
-        mainWindow.addStyleName("v-app-my");
+        Window lMainwindow = new Window("Sigpep Application");
+        setMainWindow(lMainwindow);
+        lMainwindow.addStyleName("v-app-my");
 
         //add notification component
         iNotifique = new Notifique(Boolean.FALSE);
@@ -190,9 +192,18 @@ public class MyVaadinApplication extends Application implements Pushable {
         lVerticalLayout.setComponentAlignment(lGridLayout, Alignment.MIDDLE_CENTER);
         lVerticalLayout.setComponentAlignment(iBottomLayoutResults, Alignment.MIDDLE_CENTER);
 
-        mainWindow.addComponent(lVerticalLayout);
-        mainWindow.addComponent(new Label(RCallerConfiguration.getRscriptLocation()));
-        mainWindow.addComponent(pusher);
+        lMainwindow.addComponent(lVerticalLayout);
+        lMainwindow.addComponent(new Label(RCallerConfiguration.getRscriptLocation()));
+        lMainwindow.addComponent(pusher);
+
+        //add close listener to main window
+        lMainwindow.addListener(new Window.CloseListener() {
+            public void windowClose(Window.CloseEvent e) {
+                logger.info("Closing the application");
+                iExecutor.shutdown();
+                getMainWindow().getApplication().close();
+            }
+        });
 
     }
 
@@ -319,4 +330,5 @@ public class MyVaadinApplication extends Application implements Pushable {
     public void setFormHelp(FormHelp aFormHelp) {
         iFormHelp = aFormHelp;
     }
+
 }

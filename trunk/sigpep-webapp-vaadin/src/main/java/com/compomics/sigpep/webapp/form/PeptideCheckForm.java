@@ -63,9 +63,8 @@ public class PeptideCheckForm extends Form {
                     resetValidation();
 
                     //add custom progress indicator
-                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep peptidechecker job is waiting in the processing queue...", 7);
+                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep peptidechecker job is waiting in the processing queue...", 5);
                     iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
-
 
                     //disable form buttons during run
                     iSubmitButton.setEnabled(Boolean.FALSE);
@@ -130,10 +129,6 @@ public class PeptideCheckForm extends Form {
 
             SigPepSession lSigPepSession = iApplication.getSigPepSession();
 
-            if (iApplication.getSigPepQueryService() == null) {
-                iApplication.setSigPepQueryService(iApplication.getSigPepSession().createSigPepQueryService());
-            }
-
             Protease aProtease = iApplication.getSigPepQueryService().getProteaseByFullName(iPeptideFormBean.getProteaseName());
 
             //create peptide generator for protease
@@ -144,16 +139,16 @@ public class PeptideCheckForm extends Form {
             //add generator to bean
             iPeptideFormBean.setPeptideGenerator(lGenerator);
 
-            //get peptides
-            iCustomProgressIndicator.proceed(PropertiesConfigurationHolder.getInstance().getString("form_progress.background_peptides"));
-            logger.info("generating lBackgroundPeptides");
-            boolean lIsFound = false;
+            //create background peptides
+            iCustomProgressIndicator.proceed(MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_background"), aProtease.getFullName()));
+            logger.info("creating background peptides for protease " + aProtease.getFullName());
             Set<Peptide> lBackgroundPeptides = lGenerator.getPeptides();
 
             //add background peptides to bean
             iPeptideFormBean.setBackgroundPeptides(lBackgroundPeptides);
 
             //search peptide in background peptides
+            boolean lIsFound = false;
             iCustomProgressIndicator.proceed(MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_searching"), iPeptideFormBean.getPeptideSequence()));
             logger.info("searching peptide " + iPeptideFormBean.getPeptideSequence());
             for (Peptide lPeptide : lBackgroundPeptides) {
