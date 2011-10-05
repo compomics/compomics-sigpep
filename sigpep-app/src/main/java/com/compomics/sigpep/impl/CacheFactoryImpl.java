@@ -37,7 +37,8 @@ public class CacheFactoryImpl extends CacheFactory {
         p.setProperty("cache.unlimited.disk", config.getString("sigpep.app.cache.unlimited.disk"));
         p.setProperty("cache.persistence.overflow.only", config.getString("sigpep.app.cache.persistence.overflow.only"));
         p.setProperty("cache.blocking", config.getString("sigpep.app.cache.blocking"));
-        p.setProperty("cache.persistence.class", config.getString("sigpep.app.cache.persistence.class"));
+        //p.setProperty("cache.persistence.class", config.getString("sigpep.app.cache.persistence.class"));
+        p.setProperty("cache.algorithm", config.getString("sigpep.app.cache.algorithm"));
         p.setProperty("cache.path", config.getString("sigpep.app.cache.path"));
 
         Config osCacheConfig = new Config(p);
@@ -47,7 +48,7 @@ public class CacheFactoryImpl extends CacheFactory {
                 config.getBoolean("sigpep.app.cache.unlimited.disk"),
                 config.getBoolean("sigpep.app.cache.persistence.overflow.only"),
                 config.getBoolean("sigpep.app.cache.blocking"),
-                config.getString("sigpep.app.cache.persistence.class"),
+                config.getString("sigpep.app.cache.algorithm"),
                 config.getInt("sigpep.app.cache.capacity"));
 
         PersistenceListener pl = new HashDiskPersistenceListener();

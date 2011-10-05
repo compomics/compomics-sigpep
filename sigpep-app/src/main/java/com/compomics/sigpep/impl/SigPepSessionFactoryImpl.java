@@ -76,10 +76,10 @@ public class SigPepSessionFactoryImpl implements SigPepSessionFactory {
         //create DAOs
         ObjectDao objectDao = objectDaoFactory.createObjectDao(taxonId);
         SimpleQueryDao simpleQueryDao = simpleQueryDaoFactory.createSimpleQueryDao(taxonId);
-        Cache sessionCache = cacheFactory.createCache();
+        //Cache sessionCache = cacheFactory.createCache();
 
         //return session
-        return new SigPepSessionImpl(simpleQueryDao, objectDao, sessionCache);
+        return new SigPepSessionNoCacheImpl(simpleQueryDao, objectDao, null);
     }
 
     /**
