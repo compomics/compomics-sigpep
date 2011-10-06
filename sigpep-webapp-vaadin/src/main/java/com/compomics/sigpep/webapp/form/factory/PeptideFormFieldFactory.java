@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  * To change this template use File | Settings | File Templates.
  */
 public class PeptideFormFieldFactory implements FormFieldFactory {
-    private static Logger log = Logger.getLogger(PeptideFormFieldFactory.class);
+    private static final Logger logger = Logger.getLogger(PeptideFormFieldFactory.class);
 
     private FormHelp iFormHelp;
 

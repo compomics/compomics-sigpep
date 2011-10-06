@@ -120,6 +120,8 @@ public class EnsemblFtpSequenceRetriever implements SequenceRetriever {
             }
         }
 
+        br.close();
+
         return retVal;
     }
 

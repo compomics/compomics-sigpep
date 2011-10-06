@@ -32,7 +32,7 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class PeptideCheckForm extends Form {
-    private static Logger logger = Logger.getLogger(PeptideCheckForm.class);
+    private static final Logger logger = Logger.getLogger(PeptideCheckForm.class);
 
     private MyVaadinApplication iApplication;
 

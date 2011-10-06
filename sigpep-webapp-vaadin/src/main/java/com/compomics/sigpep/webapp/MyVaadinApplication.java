@@ -50,7 +50,7 @@ import java.util.concurrent.Executors;
  */
 @SuppressWarnings("serial")
 public class MyVaadinApplication extends Application implements Pushable {
-    private static Logger logger = Logger.getLogger(MyVaadinApplication.class);
+    private static final Logger logger = Logger.getLogger(MyVaadinApplication.class);
 
     /**
      * This service limits the number of sigpep jobs that are run simultaneously.

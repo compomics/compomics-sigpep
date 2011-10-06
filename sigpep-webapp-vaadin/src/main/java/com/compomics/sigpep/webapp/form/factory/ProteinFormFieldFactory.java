@@ -27,7 +27,7 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public class ProteinFormFieldFactory implements FormFieldFactory {
-    private static Logger log = Logger.getLogger(ProteinFormFieldFactory.class);
+    private static final Logger logger = Logger.getLogger(ProteinFormFieldFactory.class);
 
     private MyVaadinApplication iApplication;
     private FormHelp iFormHelp;
@@ -112,7 +112,7 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                         setFormComponentsVisible(iVisible);
                     }
                     if (iApplication.getSigPepSession() == null || !iApplication.getSigPepSession().getOrganism().getScientificName().equals(lOrganism.getScientificName())) {
-                        log.info("Creating sigpep session and query service for organism " + lOrganism.getScientificName());
+                        logger.info("Creating sigpep session and query service for organism " + lOrganism.getScientificName());
                         iApplication.setSigPepSession(iApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
                         iApplication.setSigPepQueryService(iApplication.getSigPepSession().createSigPepQueryService());
                     }
@@ -144,7 +144,7 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                                 iProteinAccessionTextField.setValue(lMappedProteinAccession);
 
                             } catch (IOException e) {
-                                log.error(e.getMessage(), e);
+                                logger.error(e.getMessage(), e);
                             }
                         } else {
                             if (iApplication.getSigPepSession().getSimpleQueryDao().getProteinCountByName(lProteinAccession) != 1) {
