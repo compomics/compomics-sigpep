@@ -5,6 +5,7 @@ import org.apache.commons.configuration.ConfigurationUtils;
 import com.compomics.dbtools.SqlScript;
 import com.compomics.sigpep.persistence.config.Configuration;
 import com.compomics.sigpep.persistence.rdbms.helper.DatabaseInitialiser;
+import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 
 import java.sql.*;
 import java.net.URL;
@@ -75,14 +76,15 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
      * @return true if the database has been initialised successfully, false if not.
      */
     public boolean initialise() {
-
+        Connection conn = null;
+        Statement s = null;
         try {
 
             String scriptFilePath = Configuration.getInstance().getString("sigpep.db.create.catalog.schema.sql");
             URL urlSqlScript = ConfigurationUtils.locate(scriptFilePath);
-            Connection conn = DriverManager.getConnection(config.getString("sigpep.db.url") + "/", adminUsername, adminPassword);
+            conn = DriverManager.getConnection(config.getString("sigpep.db.url") + "/", adminUsername, adminPassword);
 
-            Statement s = conn.createStatement();
+            s = conn.createStatement();
 
             s.execute("CREATE SCHEMA " + config.getString("sigpep.db.schema.catalog"));
             s.execute("USE " + config.getString("sigpep.db.schema.catalog"));
@@ -94,8 +96,14 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
             logger.error("Exception while initialising database", e);
         } catch (IOException e) {
             logger.error("Exception while initialising database", e);
+        } finally {
+            try {
+                s.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
-
         return isInitialised();
     }
 
@@ -107,32 +115,38 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
     public boolean isInitialised() {
 
         boolean retVal = true;
-
+        Connection con = null;
         try {
 
             Class.forName(config.getString("sigpep.db.driverClassName"));
-            DriverManager.getConnection(catalogSchemaUrl, adminUsername, adminPassword);
+            con = DriverManager.getConnection(catalogSchemaUrl, adminUsername, adminPassword);
 
         } catch (SQLException e) {
-
             if (e.getMessage().startsWith("Unknown database")) {
                 retVal = false;
             } else {
                 throw new RuntimeException(e);
             }
-
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
 
         return retVal;
     }
 
     public Map<Integer, String> getOrganismMap() {
+        Connection conn = null;
+        Statement s = null;
         if (organismMap == null) {
             try {
-                Connection conn = DriverManager.getConnection(catalogSchemaUrl, adminUsername, adminPassword);
-                Statement s = conn.createStatement();
+                conn = DriverManager.getConnection(catalogSchemaUrl, adminUsername, adminPassword);
+                s = conn.createStatement();
 
                 organismMap = new HashMap<Integer, String>();
 
@@ -144,6 +158,13 @@ public class DatabaseInitialiserImpl implements DatabaseInitialiser {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } finally {
+                try {
+                    s.close();
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
         }
         return organismMap;

@@ -222,6 +222,8 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
             }
         }
 
+        sequences.close();
+
         PrintWriter table = new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameGeneTable);
 
         int id = 1;
@@ -262,6 +264,8 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                 entries.add(acc + "\t" + location + "\t" + known);
             }
         }
+
+        sequences.close();
 
         PrintWriter table = new PrintWriter(outputDirectoryUrl.getPath() + "/" + fileNameProteinTable);
 
@@ -908,7 +912,7 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
                     FileUtils.deleteQuietly(inputFile);
                     FileUtils.moveFile(tempFile, inputFile);
                 } catch (IOException e) {
-                    logger.error(e.getMessage());
+                    logger.error(e.getMessage(), e);
                 }
 
 
@@ -938,6 +942,8 @@ public class EnsemblDBToolkitDigestProcessor implements DigestProcessor {
         while ((line = brError.readLine()) != null) {
             logger.error(line);
         }
+
+        brError.close();
 
         //wait for process to finish
         p.waitFor();

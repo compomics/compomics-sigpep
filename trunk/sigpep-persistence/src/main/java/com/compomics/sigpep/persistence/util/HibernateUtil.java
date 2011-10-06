@@ -25,7 +25,7 @@ public class HibernateUtil {
 
     private static JndiDataSourceLookup jndiDataSourceLookup = new JndiDataSourceLookup();
 
-    protected static Logger logger = Logger.getLogger(HibernateUtil.class);
+    protected static final Logger logger = Logger.getLogger(HibernateUtil.class);
 
     static {
         //initialise catalog session factory when class is instantiated

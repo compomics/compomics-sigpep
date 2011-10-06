@@ -832,6 +832,8 @@ public class SigPepSetup {
             String sequenceDatabaseVersion,
             String... protease) {
 
+        Connection sigPepDatabaseConnection = null;
+        PreparedStatement lStatement = null;
         try {
 
             String sequenceFilename = buildSequenceFilename(organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
@@ -855,8 +857,8 @@ public class SigPepSetup {
                 protease2Url.put(p, digestFileURL);
             }
 
-            Connection sigPepDatabaseConnection = sigPepDatabase.getConnection();
-            PreparedStatement lStatement = sigPepDatabaseConnection.prepareStatement("SELECT protease_id, name, full_name FROM protease");
+            sigPepDatabaseConnection = sigPepDatabase.getConnection();
+            lStatement = sigPepDatabaseConnection.prepareStatement("SELECT protease_id, name, full_name FROM protease");
             ResultSet resultSet = lStatement.executeQuery();
 
             Map<String, Integer> proteases = new HashMap<String, Integer>();
@@ -880,6 +882,13 @@ public class SigPepSetup {
         } catch (Exception e) {
             logger.error("exception occured while procession digests.", e);
             return false;
+        } finally {
+            try {
+                lStatement.close();
+                sigPepDatabaseConnection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 

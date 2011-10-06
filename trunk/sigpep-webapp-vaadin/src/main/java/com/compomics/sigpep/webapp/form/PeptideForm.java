@@ -36,7 +36,7 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class PeptideForm extends Form {
-    private static Logger logger = Logger.getLogger(PeptideForm.class);
+    private static final Logger logger = Logger.getLogger(PeptideForm.class);
 
     private MyVaadinApplication iApplication;
 

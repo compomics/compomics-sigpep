@@ -260,7 +260,6 @@ public class SigPepDatabase extends MySqlDatabase {
 
         con.close();
         logger.info("done...");
-        ;
     }
 
     /**
@@ -332,11 +331,13 @@ public class SigPepDatabase extends MySqlDatabase {
      * @TODO: JavaDoc missing
      */
     private Map<String, Integer> fetchProteinAccession2SequenceIdMap() throws SQLException {
+        Connection con = null;
+        Statement s = null;
         try {
             Map<String, Integer> retVal = new HashMap<String, Integer>();
 
-            Connection con = this.getConnection();
-            Statement s = con.createStatement();
+            con = this.getConnection();
+            s = con.createStatement();
 
             ResultSet rs = s.executeQuery(
                     "SELECT prot.protein_accession, prot2seq.sequence_id "
@@ -350,7 +351,11 @@ public class SigPepDatabase extends MySqlDatabase {
             return retVal;
         } catch (SQLException e) {
             throw new SQLException("Exception while fetching data from SigPep database.", e);
+        } finally {
+            s.close();
+            con.close();
         }
+
     }
 
     /**
@@ -362,7 +367,7 @@ public class SigPepDatabase extends MySqlDatabase {
      */
     public Map<String, Set<String>> fetchEnsemblSpliceEvents(int ensemblVersion, Set<String> ensemblIds) throws EnshException {
         Map<String, Set<String>> retVal = new HashMap<String, Set<String>>();
-        Set<String> processedIds = new HashSet<String>();
+//        Set<String> processedIds = new HashSet<String>();
 
 //        SessionFactory sessionFactory = Ensh.getSessionFactory(this.getNcbiTaxonId(), ensemblVersion);
 //
@@ -593,6 +598,7 @@ public class SigPepDatabase extends MySqlDatabase {
                 int eventId = spliceEvent2Id.get(event);
 
                 for (String sequenceLocation : spliceEvent2SequenceLocation.get(event)) {
+
                     String proteinAccession = sequenceLocation.split(":")[0];
 
                     if (proteinAccession2SequenceId.containsKey(proteinAccession)) {
@@ -623,8 +629,6 @@ public class SigPepDatabase extends MySqlDatabase {
             logger.info(counter + " splice events of " + spliceEvent2SequenceLocation.size() + " processed...");
 
             s.executeBatch();
-            s.close();
-            con.close();
         } catch (SQLException e) {
             throw new SQLException("Exception while inserting data into table splice_event_location.", e);
         } finally {
@@ -713,7 +717,7 @@ public class SigPepDatabase extends MySqlDatabase {
      * @return a map with the table name as key and the number of entries deleted from the table as value
      * @throws DatabaseException if an exception occurs during access to Ensembl Mart or SigPep
      */
-    public Map<String, Integer> cleanupTables(String ensemblVersion) throws DatabaseException {
+    public Map<String, Integer> cleanupTables(String ensemblVersion) throws DatabaseException, SQLException {
         Map<String, Integer> retVal = new TreeMap<String, Integer>();
         retVal.put("protein", 0);
         retVal.put("protein2gene", 0);
@@ -753,7 +757,7 @@ public class SigPepDatabase extends MySqlDatabase {
      * @return set of Ensembl translation IDs
      * @throws DatabaseException if an exception occurs during the database transaction
      */
-    private Set<String> fetchEnsemblProteinCodingTranslationIds(String ensemblVersion) throws DatabaseException {
+    private Set<String> fetchEnsemblProteinCodingTranslationIds(String ensemblVersion) throws DatabaseException, SQLException {
         Set<String> retVal = new HashSet<String>();
 
         //create Database object for Ensembl Mart database
@@ -775,9 +779,11 @@ public class SigPepDatabase extends MySqlDatabase {
         String ensemblMartTableName = ensemblMartTablePrefix + "_" + ensemblMartTableSuffix;
 
         //fetch ensembl translation ids of proteins of biotype 'protein_coding'
+        Connection con = null;
+        Statement s = null;
         try {
             //get database connection
-            Connection con = ensemblMart.getConnection();
+            con = ensemblMart.getConnection();
 
             //execute query
             /**
@@ -792,7 +798,7 @@ public class SigPepDatabase extends MySqlDatabase {
 
             String lTranslationIDColumn = "stable_id_1070";
             String queryStatement = "SELECT DISTINCT " + lTranslationIDColumn + " FROM " + ensemblMartTableName + " WHERE biotype_1064 = 'protein_coding'";
-            Statement s = con.createStatement();
+            s = con.createStatement();
             ResultSet rs = s.executeQuery(queryStatement);
 
             while (rs.next()) {
@@ -801,9 +807,11 @@ public class SigPepDatabase extends MySqlDatabase {
             }
 
             rs.close();
-            s.close();
         } catch (SQLException e) {
             logger.error(e);
+        } finally {
+            s.close();
+            con.close();
         }
 
         return retVal;
@@ -820,13 +828,14 @@ public class SigPepDatabase extends MySqlDatabase {
      */
     private Set<Integer> fetchNonProteinCodingProteinIds(Set<String> ensemblProteinCodingTranslationIds) throws DatabaseException {
         Set<Integer> retVal = new TreeSet<Integer>();
-
+        Connection con = null;
+        Statement s = null;
         try {
             //get database connection
-            Connection con = this.getConnection();
+            con = this.getConnection();
 
             //create statement
-            Statement s = con.createStatement();
+            s = con.createStatement();
 
             //set Ensembl IDs as parameter values of SQL statements
             String fetchNonProteinCodingEnsemblTranslations = "SELECT protein_id FROM protein WHERE protein_accession NOT IN (:ensemblIds)";
@@ -841,6 +850,13 @@ public class SigPepDatabase extends MySqlDatabase {
             rs.close();
         } catch (SQLException e) {
             throw new DatabaseException("Exception while fetching protein_ids from SigPep database.", e);
+        } finally {
+            try {
+                s.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
 
         return retVal;
@@ -860,7 +876,8 @@ public class SigPepDatabase extends MySqlDatabase {
      */
     private Map<String, Integer> deleteRelatedDatbaseEntries(Set<Integer> proteinIds) throws DatabaseException {
         Map<String, Integer> retVal = new TreeMap<String, Integer>();
-
+        Connection con = null;
+        Statement s = null;
         try {
             String deleteFromProtein = "DELETE FROM protein WHERE protein_id IN (:proteinIds)";
             String deleteFromProtein2Gene = "DELETE FROM T1 USING protein2gene AS T1 LEFT OUTER JOIN protein T2 ON T1.protein_id = T2.protein_id WHERE T2.protein_id IS NULL";
@@ -875,8 +892,8 @@ public class SigPepDatabase extends MySqlDatabase {
             deleteFromProtein = SqlUtil.setParameterSet(deleteFromProtein, "proteinIds", proteinIds);
 
             //get database connection and create statement
-            Connection con = this.getConnection();
-            Statement s = con.createStatement();
+            con = this.getConnection();
+            s = con.createStatement();
 
             //execute DELETE statements
             int updateCount;
@@ -906,8 +923,14 @@ public class SigPepDatabase extends MySqlDatabase {
 
         } catch (SQLException e) {
             throw new DatabaseException(e);
+        } finally {
+            try {
+                s.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
-
         return retVal;
     }
 
@@ -925,7 +948,8 @@ public class SigPepDatabase extends MySqlDatabase {
      */
     private Map<String, Integer> deleteRelatedDatbaseEntries2(Set<Integer> proteinIds) throws DatabaseException {
         Map<String, Integer> retVal = new TreeMap<String, Integer>();
-
+        Connection con = null;
+        Statement s = null;
         try {
             //DELETE statements
             String deleteFromProtein = "DELETE FROM protein WHERE protein_id IN (:proteinIds)";
@@ -941,8 +965,8 @@ public class SigPepDatabase extends MySqlDatabase {
             deleteFromProtein = SqlUtil.setParameterSet(deleteFromProtein, "proteinIds", proteinIds);
 
             //get database connection and create statement
-            Connection con = this.getConnection();
-            Statement s = con.createStatement();
+            con = this.getConnection();
+            s = con.createStatement();
 
             //execute DELETE statements
             int updateCount;
@@ -971,6 +995,13 @@ public class SigPepDatabase extends MySqlDatabase {
             retVal.put("signature_peptide", updateCount);
         } catch (SQLException e) {
             throw new DatabaseException(e);
+        } finally {
+            try {
+                s.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
 
         return retVal;
@@ -1017,7 +1048,7 @@ public class SigPepDatabase extends MySqlDatabase {
      * @TODO: JavaDoc missing
      */
     public static void main(String[] args) {
-        try {
+/*        try {
             SigPepDatabase sigPepDb = new SigPepDatabase("root", "".toCharArray(), 9823);
 //            SigPepDatabase sigPepDb = new SigPepDatabase("root", "".toCharArray(), 9606);
 //            sigPepDb.importSpliceEvents(46);
@@ -1027,6 +1058,6 @@ public class SigPepDatabase extends MySqlDatabase {
 //            e.printStackTrace();
 //        } catch (EnshException e) {
 //            e.printStackTrace();
-        }
+        }*/
     }
 }

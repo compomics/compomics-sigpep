@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * This class is a
  */
 public class PeptideResultMetaBean {
-    private static Logger logger = Logger.getLogger(PeptideResultMetaBean.class);
+    private static final Logger logger = Logger.getLogger(PeptideResultMetaBean.class);
 
     // Instance variables for the expected fields around the meta properties files.
     private ArrayList iProteins = null;

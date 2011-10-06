@@ -21,7 +21,7 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public class PeptideCheckFormFieldFactory implements FormFieldFactory {
-    private static Logger log = Logger.getLogger(PeptideCheckFormFieldFactory.class);
+    private static final Logger logger = Logger.getLogger(PeptideCheckFormFieldFactory.class);
 
     private MyVaadinApplication iApplication;
     private FormHelp iFormHelp;
@@ -73,7 +73,7 @@ public class PeptideCheckFormFieldFactory implements FormFieldFactory {
                         setFormComponentsVisible(iVisible);
                     }
                     if (iApplication.getSigPepSession() == null || !iApplication.getSigPepSession().getOrganism().getScientificName().equals(lOrganism.getScientificName())) {
-                        log.info("Creating sigpep session and query service for organism " + lOrganism.getScientificName());
+                        logger.info("Creating sigpep session and query service for organism " + lOrganism.getScientificName());
                         iApplication.setSigPepSession(iApplication.getSigPepSessionFactory().createSigPepSession(lOrganism));
                         iApplication.setSigPepQueryService(iApplication.getSigPepSession().createSigPepQueryService());
                     }
