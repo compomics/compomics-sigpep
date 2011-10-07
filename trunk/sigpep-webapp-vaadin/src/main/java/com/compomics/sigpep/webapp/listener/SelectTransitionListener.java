@@ -1,6 +1,6 @@
 package com.compomics.sigpep.webapp.listener;
 
-import com.compomics.jtraml.beans.ThermoTransitionBean;
+import com.compomics.sigpep.jtraml.SigpepTransitionBean;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideResultMetaBean;
 import com.compomics.util.protein.Protein;
@@ -59,19 +59,20 @@ public class SelectTransitionListener implements Button.ClickListener {
                     for (int i = 1; i < lElements.length; i++) {
                         String lQ3Mass = lElements[i];
                         if (!lQ3Mass.equals("")) {
-                            ThermoTransitionBean lTransitionBean = new ThermoTransitionBean();
+                            SigpepTransitionBean lTransitionBean = new SigpepTransitionBean();
                             lTransitionBean.setQ1Mass(lMass);
                             double lQ3MassDouble = Double.parseDouble(lQ3Mass);
                             lTransitionBean.setQ3Mass(lQ3MassDouble);
 
                             //CSASVLPVDVQTLNSSGPPFGK.2y16-1
-                            lTransitionBean.setID(lPeptide + ".1x1-" + i);
                             lTransitionBean.setPeptideSequence(lPeptide);
                             lTransitionBean.setProteinAccessions(new HashSet<String>(iPeptideResultMetaBean.getProteins()));
 
                             int index = iPeptideResultMetaBean.getMassMatchIndex(lQ3MassDouble);
                             lTransitionBean.setIonType(new char[]{iPeptideResultMetaBean.getBarcodeIonType(index)});
                             lTransitionBean.setIonNumber(iPeptideResultMetaBean.getBarcodeIonNumber(index));
+                            lTransitionBean.setIonCharge(1);
+
 
                             iApplication.addTransitionBean(lTransitionBean);
                         }

@@ -213,7 +213,7 @@ public class SigPepSetup {
         logger.info("-----------------------------------------------------");
         logger.info("processing sequences...");
 
-//        digestsProcessed = processDigests(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, protease);
+        digestsProcessed = processDigests(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, protease);
         digestsProcessed = true;
 
         if (!digestsProcessed) {
@@ -424,7 +424,8 @@ public class SigPepSetup {
         String lSequenceDatabaseVersion = "64";
 //        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Lys-N", "Arg-C", "Asp-N"};
 //        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Arg-C", "Asp-N"};
-        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Arg-C", "PepsinA"};
+//        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Arg-C", "PepsinA"};
+        String[] lProteases = new String[]{"Trypsin"};
 //        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Lys-N", "Arg-C", "Asp-N"};
         int lMissedCleavages = 0;
         int lHighMass = 4000;

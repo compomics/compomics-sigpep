@@ -22,7 +22,7 @@ public class ComponentFactory {
      * @return Vaadin Link instance.
      * @throws java.io.IOException
      */
-    public static Link createFileDownloadLink(File lFile, MyVaadinApplication aApplication) throws IOException {
+    public static FireableLink createFileDownloadLink(File lFile, MyVaadinApplication aApplication) throws IOException {
         final InputStream is = Files.newInputStreamSupplier(lFile).getInput();
 
         StreamResource.StreamSource lStreamSource = new StreamResource.StreamSource() {
@@ -32,7 +32,7 @@ public class ComponentFactory {
         };
         StreamResource lStreamResource = new StreamResource(lStreamSource, lFile.getName(), aApplication);
 
-        Link lDownload = new Link("Download", lStreamResource);
+        FireableLink lDownload = new FireableLink("Download", lStreamResource);
         lDownload.addStyleName("v-download-link");
         return lDownload;
     }
@@ -56,5 +56,6 @@ public class ComponentFactory {
         StreamResource lStreamResource = new StreamResource(lStreamSource, aOutputFile.getName(), aApplication);
         return new Embedded(aImageCaption, lStreamResource);
     }
+
 
 }

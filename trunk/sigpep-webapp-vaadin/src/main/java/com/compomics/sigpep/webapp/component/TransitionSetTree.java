@@ -1,6 +1,6 @@
 package com.compomics.sigpep.webapp.component;
 
-import com.compomics.jtraml.beans.TransitionBean;
+import com.compomics.sigpep.jtraml.TransitionBean;
 import com.google.common.base.Joiner;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
@@ -12,7 +12,10 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * This class is a

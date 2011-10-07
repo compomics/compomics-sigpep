@@ -147,15 +147,21 @@ public class SignatureTransitionMassMatrix implements Writable {
             ArrayList lIonMasses = new ArrayList();
             ArrayList lIonNumbers = new ArrayList();
 
+            logger.debug("writing metadata for peptide " + signatureTransition.getPeptide().getSequenceString());
             for (ProductIon lProductIon : barcode) {
                 double lBarcodeMassOverCharge = lProductIon.getMassOverCharge(1);
                 ProductIonType lProductIonType = lProductIon.getType();
                 String lBarcodeIonType = lProductIonType.getName();
                 int lBarcodeIonNumber = 0;
 
-                for (int i = 1; i < lProductIon.getSequenceLength(); i++) {
+                logger.debug("production mz\t" + lBarcodeMassOverCharge);
+                logger.debug("production type\t" + lBarcodeIonType);
+                logger.debug("production seq length\t" + lProductIon.getSequenceLength());
+
+                for (int i = 1; i < signatureTransition.getPeptide().getSequenceLength(); i++) {
                     ProductIon lRunningIon = lProductIon.getPrecursorIon().getProductIon(lProductIonType, i);
-                    if (Math.abs(lRunningIon.getMassOverCharge(1) - lBarcodeMassOverCharge) <= 0.001) {
+                    logger.debug("parent to product " + i + " " + lRunningIon.getMassOverCharge(1));
+                    if (Math.abs(lRunningIon.getMassOverCharge(1) - lBarcodeMassOverCharge) <= 0.01) {
                         // i equals the ion number!
                         lBarcodeIonNumber = i;
                         break;
