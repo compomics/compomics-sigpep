@@ -1,26 +1,17 @@
 package com.compomics.sigpep.webapp.component;
 
-import com.compomics.jtraml.beans.TransitionBean;
-import com.compomics.jtraml.factory.CVFactory;
-import com.compomics.jtraml.interfaces.TSVFileImportModel;
-import com.compomics.jtraml.model.ThermoToTraml;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
-import com.google.common.io.Files;
+import com.compomics.sigpep.webapp.runnable.SigpepTraMLCreatorRunnable;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
-import org.hupo.psi.ms.traml.ObjectFactory;
-import org.hupo.psi.ms.traml.TraMLType;
-import org.systemsbiology.apps.tramlcreator.TraMLCreator;
+import org.vaadin.notifique.Notifique;
 
-import javax.xml.bind.JAXBException;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
+import java.io.*;
 
 
 /**
@@ -35,7 +26,8 @@ public class TransitionSelectionComponent extends VerticalLayout {
 
     private File iTraMLDownload = null;
     private VerticalLayout iTreeLayout = new VerticalLayout();
-    private Link iDownloadTraML;
+    private Button iDownloadTraML;
+    private CustomProgressIndicator iCustomProgressIndicator;
 
 
     public TransitionSelectionComponent(MyVaadinApplication aApplication) {
@@ -50,6 +42,10 @@ public class TransitionSelectionComponent extends VerticalLayout {
         }
     }
 
+    public static Logger getLogger() {
+        return logger;
+    }
+
     private void initComponents() throws IOException {
         this.setStyleName("v-transition-selection");
         this.setSpacing(true);
@@ -58,11 +54,12 @@ public class TransitionSelectionComponent extends VerticalLayout {
         this.addComponent(iStatus, 0);
 
 
-        iDownloadTraML = new Link();
+        iDownloadTraML = new Button();
         iDownloadTraML.setEnabled(true);
         iDownloadTraML.setVisible(false);
         iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
         iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
+        iDownloadTraML.addListener(new SaveToTraMLClickListener());
         this.addComponent(iDownloadTraML, 1);
 
         this.addComponent(iTreeLayout);
@@ -89,8 +86,8 @@ public class TransitionSelectionComponent extends VerticalLayout {
         super.requestRepaintAll();
     }
 
-    private class SaveToTraMLClickListener implements Button.ClickListener {
 
+    private class SaveToTraMLClickListener implements Button.ClickListener {
 
         /**
          * Called when a {@link com.vaadin.ui.Button} has been clicked. A reference to the
@@ -99,59 +96,15 @@ public class TransitionSelectionComponent extends VerticalLayout {
          * @param event An event containing information about the click.
          */
         public void buttonClick(Button.ClickEvent event) {
-            ArrayList<TransitionBean> lSelectedTransitionList = iApplication.getSelectedTransitionList();
 
-            BufferedWriter br = null;
-            File lTempDir = Files.createTempDir();
-            File lTargetFile = new File(lTempDir, System.currentTimeMillis() + ".traml");
-            try {
-                lTargetFile.createNewFile();
-                br = Files.newWriter(lTargetFile, Charset.defaultCharset());
+            //add custom progress indicator
+            iCustomProgressIndicator = new CustomProgressIndicator("creating TraML file...", 1);
+            iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
-                ObjectFactory lObjectFactory = new ObjectFactory();
-                TraMLType lTraMLType = lObjectFactory.createTraMLType();
-                lTraMLType.setCvList(CVFactory.getCvListType());
+            MyVaadinApplication.getExecutorService().submit(new SigpepTraMLCreatorRunnable(iApplication));
 
-
-                TSVFileImportModel lTSVFileImportModel = new ThermoToTraml();
-
-                for (TransitionBean lTransitionBean : lSelectedTransitionList) {
-                    lTSVFileImportModel.addRowToTraml(lTraMLType, lTransitionBean.getSeparatedOrder());
-                }
-
-                // Ok, all rows have been added.
-                TraMLCreator lTraMLCreator = new TraMLCreator();
-                lTraMLCreator.setTraML(lTraMLType);
-
-
-                br.write(lTraMLCreator.asString());
-                // Ok. The File should have been written!
-                br.flush();
-                br.close();
-
-                iTraMLDownload = lTargetFile;
-                updateDownloadTramlLink();
-
-                requestRepaintAll();
-
-            } catch (FileNotFoundException e) {
-                logger.error(e.getMessage(), e);
-            } catch (IOException e) {
-                logger.error(e.getMessage(), e);
-            } catch (JAXBException e) {
-                logger.error(e.getMessage(), e);
-            }
         }
     }
 
-    private void updateDownloadTramlLink() throws IOException {
-        this.removeComponent(iDownloadTraML);
-
-        iDownloadTraML = ComponentFactory.createFileDownloadLink(iTraMLDownload, iApplication);
-        iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
-        iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
-
-        this.addComponent(iDownloadTraML, 3);
-    }
 
 }

@@ -136,14 +136,10 @@ public class PeptideResultMetaBean {
         int lMax = getBarcodeCount();
 
         for (int i = 0; i < lMax; i++) {
-            logger.info(i + "\t" + getBarcodeMass(i) + "\t" + aMass);
             if (Math.abs(getBarcodeMass(i) - aMass) < 0.01) {
-                logger.info("TRUE");
-                return i + 1;
+                return i;
             }
-            logger.info("FALSE");
         }
-
         // No match found!!
         return -1;
     }
