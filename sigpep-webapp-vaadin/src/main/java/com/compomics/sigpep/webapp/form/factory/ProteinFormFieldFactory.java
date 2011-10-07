@@ -128,11 +128,11 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                 Organism lOrganism = (Organism) iSpeciesSelect.getValue();
                 if (lOrganism != null) {
                     if (!(lProteinAccession == null || lProteinAccession.equals(""))) {
+                        String lMappedProteinAccession = "";
                         if (!lProteinAccession.startsWith("ENS")) {
                             try {
                                 //do PICR search
                                 List<String> lMappedProteinAccessions = PICRReader.doPICR(lProteinAccession, "ENSEMBL", Integer.toString(lOrganism.getTaxonId()));
-                                String lMappedProteinAccession = "";
                                 if (lMappedProteinAccessions.size() == 0) {
                                     iApplication.getMainWindow().showNotification("No ENSEMBL mapping found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_not_found"), lProteinAccession, lOrganism.getScientificName()), Window.Notification.TYPE_ERROR_MESSAGE);
                                 } else if (lMappedProteinAccessions.size() == 1) {
@@ -141,8 +141,6 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                                 } else {
                                     iApplication.getMainWindow().showNotification("Multiple ENSEMBL mappings found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_mapping_multiple"), lProteinAccession, lOrganism.getScientificName()), Window.Notification.TYPE_ERROR_MESSAGE);
                                 }
-                                iProteinAccessionTextField.setValue(lMappedProteinAccession);
-
                             } catch (IOException e) {
                                 logger.error(e.getMessage(), e);
                             }
@@ -151,6 +149,7 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                                 iApplication.getMainWindow().showNotification("No protein found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_not_found"), lProteinAccession, lOrganism.getScientificName()), Window.Notification.TYPE_ERROR_MESSAGE);
                             }
                         }
+                        iProteinAccessionTextField.setValue(lMappedProteinAccession);
                     }
                 }
             }
