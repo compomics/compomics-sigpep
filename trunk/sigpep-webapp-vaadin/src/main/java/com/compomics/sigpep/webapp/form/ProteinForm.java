@@ -72,8 +72,8 @@ public class ProteinForm extends Form {
                     iSubmitButton.setEnabled(Boolean.FALSE);
                     iResetButton.setEnabled(Boolean.FALSE);
 
-                    ProteinFormThread lSigPepFormThread = new ProteinFormThread();
-                    MyVaadinApplication.getExecutorService().submit(lSigPepFormThread);
+                    ProteinFormThread lProteinFormThread = new ProteinFormThread();
+                    MyVaadinApplication.getExecutorService().execute(lProteinFormThread);
 
                 } catch (Validator.InvalidValueException e) {
                     // Failed to commit. The validation errors are
@@ -137,7 +137,7 @@ public class ProteinForm extends Form {
 
             SigPepSession lSigPepSession = iApplication.getSigPepSession();
 
-            File outputFolder = outputFolder = Files.createTempDir();
+            File outputFolder = Files.createTempDir();
 
             Protease aProtease = iApplication.getSigPepQueryService().getProteaseByFullName(iProteinFormBean.getProteaseName());
 
