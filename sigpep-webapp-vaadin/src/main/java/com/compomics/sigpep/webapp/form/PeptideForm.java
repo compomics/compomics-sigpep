@@ -69,7 +69,7 @@ public class PeptideForm extends Form {
                     resetValidation();
 
                     //add custom progress indicator
-                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep protein job is waiting in the processing queue...", 7);
+                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep protein job is waiting in the processing queue...", 5);
                     iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
                     //disable form buttons during run
@@ -77,7 +77,7 @@ public class PeptideForm extends Form {
                     iCancelButton.setEnabled(Boolean.FALSE);
 
                     PeptideFormThread lSigPepFormThread = new PeptideFormThread();
-                    MyVaadinApplication.getExecutorService().submit(lSigPepFormThread);
+                    MyVaadinApplication.getExecutorService().execute(lSigPepFormThread);
 
 
                 } catch (Validator.InvalidValueException e) {

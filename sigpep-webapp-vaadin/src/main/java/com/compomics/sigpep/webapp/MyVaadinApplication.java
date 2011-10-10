@@ -20,13 +20,11 @@ import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
 import com.compomics.sigpep.jtraml.TransitionBean;
-import com.compomics.sigpep.webapp.component.FormHelp;
-import com.compomics.sigpep.webapp.component.FormTabSheet;
-import com.compomics.sigpep.webapp.component.ResultsTable;
-import com.compomics.sigpep.webapp.component.TransitionSelectionComponent;
+import com.compomics.sigpep.webapp.component.*;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
+import com.vaadin.terminal.Terminal;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
@@ -54,7 +52,6 @@ public class MyVaadinApplication extends Application implements Pushable {
     private static ExecutorService iExecutor = Executors.newFixedThreadPool(PropertiesConfigurationHolder.getApplicationExecutorServiceThreadCount());
 
     /**
-     *
      * This ArrayList will hold the Transitions that are selected by the user on a per-session level.
      */
     private ArrayList<TransitionBean> iSelectedTransitionList = new ArrayList<TransitionBean>();
@@ -149,7 +146,7 @@ public class MyVaadinApplication extends Application implements Pushable {
             Button lButton = new Button("load test data");
             lButton.addListener(new Button.ClickListener() {
                 public void buttonClick(Button.ClickEvent event) {
-                    new BackgroundThread().run();
+                   new BackgroundThread().run();
                 }
             });
             iBottomLayoutResults.addComponent(lButton);
@@ -191,6 +188,22 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         lMainwindow.addComponent(lVerticalLayout);
         lMainwindow.addComponent(pusher);
+
+        /**
+         * Sets an UncaughtExceptionHandler and executes the thread by the ExecutorsService
+         */
+        Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+    }
+
+    @Override
+    public void terminalError(Terminal.ErrorEvent event) {
+        // Call the default implementation.
+        super.terminalError(event);
+
+        // Some custom behaviour.
+        if (getMainWindow() != null) {
+            ComponentFactory.addUncaughtExceptionWindow("Unexpected exception", "application_unexpected_error", MyVaadinApplication.this);
+        }
     }
 
     /**
@@ -209,7 +222,6 @@ public class MyVaadinApplication extends Application implements Pushable {
     public void clearResultTableComponent() {
         iBottomLayoutResults.removeAllComponents();
     }
-
 
     public class BackgroundThread extends Thread {
 
@@ -297,24 +309,21 @@ public class MyVaadinApplication extends Application implements Pushable {
         return iFormTabSheet;
     }
 
-    public void setFormTabSheet(FormTabSheet aFormTabSheet) {
-        iFormTabSheet = aFormTabSheet;
-    }
-
     public Notifique getNotifique() {
         return iNotifique;
-    }
-
-    public void setNotifique(Notifique aINotifique) {
-        iNotifique = aINotifique;
     }
 
     public FormHelp getFormHelp() {
         return iFormHelp;
     }
 
-    public void setFormHelp(FormHelp aFormHelp) {
-        iFormHelp = aFormHelp;
+    private class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+        public void uncaughtException(Thread t, Throwable e) {
+            logger.error("Uncaught exception in thread " + t.getName() + ": " + e.getMessage(), e);
+
+            ComponentFactory.addUncaughtExceptionWindow("Unexpected exception", "application_unexpected_error", MyVaadinApplication.this);
+
+        }
     }
 
 }

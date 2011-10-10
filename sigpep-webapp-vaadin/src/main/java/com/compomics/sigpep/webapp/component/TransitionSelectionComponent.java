@@ -101,7 +101,7 @@ public class TransitionSelectionComponent extends VerticalLayout {
             iCustomProgressIndicator = new CustomProgressIndicator("creating TraML file...", 1);
             iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
-            MyVaadinApplication.getExecutorService().submit(new SigpepTraMLCreatorRunnable(iApplication));
+            MyVaadinApplication.getExecutorService().execute(new SigpepTraMLCreatorRunnable(iApplication));
 
         }
     }

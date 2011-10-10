@@ -1,6 +1,7 @@
 package com.compomics.sigpep.webapp.component;
 
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.google.common.io.Files;
 import com.vaadin.Application;
 import com.vaadin.terminal.StreamResource;
@@ -55,6 +56,44 @@ public class ComponentFactory {
         };
         StreamResource lStreamResource = new StreamResource(lStreamSource, aOutputFile.getName(), aApplication);
         return new Embedded(aImageCaption, lStreamResource);
+    }
+
+    /**
+     * Add a notification window to the application in case of an uncaught exception
+     *
+     * @param aCaption
+     * @param aPropertyString
+     * @param aMyVaadinApplication
+     */
+    public static void addUncaughtExceptionWindow(String aCaption, String aPropertyString, final MyVaadinApplication aMyVaadinApplication) {
+        aMyVaadinApplication.getNotifique().clear();
+
+        //show error notification window
+        final Window lWindow = new Window(aCaption);
+        lWindow.setClosable(Boolean.FALSE);
+        lWindow.setModal(Boolean.TRUE);
+        lWindow.setResizable(Boolean.FALSE);
+        lWindow.setWidth("22%");
+        lWindow.setHeight("16%");
+
+        Label lLabel = new Label(PropertiesConfigurationHolder.getInstance().getString(aPropertyString), Label.CONTENT_RAW);
+        Button lButton = new Button("OK", new Button.ClickListener() {
+            public void buttonClick(Button.ClickEvent aClickEvent) {
+                aMyVaadinApplication.getMainWindow().removeWindow(lWindow);
+                //close the application
+                aMyVaadinApplication.close();
+            }
+        });
+
+        VerticalLayout lVerticalLayout = new VerticalLayout();
+        lVerticalLayout.setSpacing(Boolean.TRUE);
+        lVerticalLayout.setSizeFull();
+        lVerticalLayout.addComponent(lLabel);
+        lVerticalLayout.addComponent(lButton);
+        lVerticalLayout.setComponentAlignment(lButton, Alignment.BOTTOM_RIGHT);
+        lWindow.addComponent(lVerticalLayout);
+
+        aMyVaadinApplication.getMainWindow().addWindow(lWindow);
     }
 
 

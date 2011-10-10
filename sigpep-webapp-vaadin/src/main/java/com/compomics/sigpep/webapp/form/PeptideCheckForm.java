@@ -63,7 +63,7 @@ public class PeptideCheckForm extends Form {
                     resetValidation();
 
                     //add custom progress indicator
-                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep peptidechecker job is waiting in the processing queue...", 5);
+                    iCustomProgressIndicator = new CustomProgressIndicator("sigpep peptidechecker job is waiting in the processing queue...", 4);
                     iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
                     //disable form buttons during run
@@ -71,7 +71,7 @@ public class PeptideCheckForm extends Form {
                     iResetButton.setEnabled(Boolean.FALSE);
 
                     PeptideCheckFormThread lPeptideCheckFormThread = new PeptideCheckFormThread();
-                    MyVaadinApplication.getExecutorService().submit(lPeptideCheckFormThread);
+                    MyVaadinApplication.getExecutorService().execute(lPeptideCheckFormThread);
 
                 } catch (Validator.InvalidValueException e) {
                     // Failed to commit. The validation errors are
