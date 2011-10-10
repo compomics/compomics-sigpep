@@ -148,6 +148,9 @@ public class ProteinFormFieldFactory implements FormFieldFactory {
                             if (iApplication.getSigPepSession().getSimpleQueryDao().getProteinCountByName(lProteinAccession) != 1) {
                                 iApplication.getMainWindow().showNotification("No protein found", MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_validation.protein_accession_not_found"), lProteinAccession, lOrganism.getScientificName()), Window.Notification.TYPE_ERROR_MESSAGE);
                             }
+                            else {
+                                lMappedProteinAccession = lProteinAccession;
+                            }
                         }
                         iProteinAccessionTextField.setValue(lMappedProteinAccession);
                     }
