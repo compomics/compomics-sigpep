@@ -5,6 +5,7 @@ import com.compomics.pepnovo.beans.IntensityPredictionBean;
 import com.compomics.pepnovo.beans.PeptideInputBean;
 import com.compomics.pepnovo.beans.PeptideOutputBean;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.bean.PeptideResultMetaBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.ui.*;
@@ -12,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.vaadin.notifique.Notifique;
 import sun.misc.ConditionLock;
 
+import java.io.File;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -29,6 +31,8 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
      * The parent Application in which this listener is running.
      */
     private final MyVaadinApplication iApplication;
+    private final File iFile;
+    private final PeptideResultMetaBean iPeptideResultMetaBean;
     public Notifique iNotifique;
     public CustomProgressIndicator iProgressIndicator;
 
@@ -37,14 +41,16 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
      *
      * @param aPushable
      * @param aApplication
+     * @param aFile
+     * @param aPeptideResultMetaBean
      */
-    public IntensityPredictionClickListener(Set<PeptideInputBean> aInputBeans, Pushable aPushable, MyVaadinApplication aApplication) {
+    public IntensityPredictionClickListener(Set<PeptideInputBean> aInputBeans, Pushable aPushable, MyVaadinApplication aApplication, File aFile, PeptideResultMetaBean aPeptideResultMetaBean) {
         super();
         iInputBeans = aInputBeans;
-
         iPushable = aPushable;
         iApplication = aApplication;
-
+        iFile = aFile;
+        iPeptideResultMetaBean = aPeptideResultMetaBean;
     }
 
 
@@ -95,6 +101,7 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
 
 
                             Table lTable = new Table(lOutputBean.getPeptideSequence() + " - " + lOutputBean.getCharge());
+                            lTable.addContainerProperty("add", CheckBox.class, null);
                             lTable.addContainerProperty("rank", Label.class, null);
                             lTable.addContainerProperty("score", Label.class, null);
                             lTable.addContainerProperty("iontype", Label.class, null);
@@ -105,12 +112,15 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
                                 // Add a new item to the table.
                                 Object id = lTable.addItem();
 
+                                lTable.getContainerProperty(id, "add").setValue(generateSelectButton(item));
                                 lTable.getContainerProperty(id, "rank").setValue(item.getRank());
                                 lTable.getContainerProperty(id, "score").setValue(item.getScore());
                                 lTable.getContainerProperty(id, "iontype").setValue(item.getPeptideFragmentIon().getIonType());
                                 lTable.getContainerProperty(id, "ionnumber").setValue(item.getPeptideFragmentIon().getNumber());
 
                             }
+
+                            lTable.setColumnWidth("add", 40);
 
                             iNotifique.clear();
 
@@ -119,5 +129,16 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
                         }
                     }
                 });
+    }
+
+    private Button generateSelectButton(IntensityPredictionBean aPredictionBean) {
+// Create a new button, display as a link.
+        CheckBox aCheckBox = new CheckBox("");
+        aCheckBox.setImmediate(true);
+
+        SelectPepnovoTransitionListener lSelectTransitionListener = new SelectPepnovoTransitionListener(iFile, iApplication, aCheckBox, iPeptideResultMetaBean, aPredictionBean);
+
+        aCheckBox.addListener(lSelectTransitionListener); // react to clicks
+        return aCheckBox;
     }
 }

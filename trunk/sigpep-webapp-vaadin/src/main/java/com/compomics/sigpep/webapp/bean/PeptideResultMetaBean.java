@@ -17,6 +17,7 @@ public class PeptideResultMetaBean {
     // Instance variables for the expected fields around the meta properties files.
     private ArrayList iProteins = null;
     private String iPeptide = null;
+    private int iCharge = 0;
     private ArrayList iBarcodeMasses = null;
     private ArrayList iBarcodeIonTypes = null;
     private ArrayList iBarcodeIonNumbers = null;
@@ -40,7 +41,6 @@ public class PeptideResultMetaBean {
                     iProteins = (ArrayList) lProperty;
                 }
             }
-
             lProperty = lConfiguration.getProperty(MetaNamesEnumeration.PEPTIDE.NAME);
             if (lProperty != null) {
                 iPeptide = (String) lProperty;
@@ -59,6 +59,11 @@ public class PeptideResultMetaBean {
             lProperty = lConfiguration.getProperty(MetaNamesEnumeration.BARCODE_IONTYPE.NAME);
             if (lProperty != null) {
                 iBarcodeIonTypes = (ArrayList) lProperty;
+            }
+
+            lProperty = lConfiguration.getProperty(MetaNamesEnumeration.PEPTIDE_CHARGE.NAME);
+            if (lProperty != null) {
+                iCharge = Integer.parseInt(lProperty.toString());
             }
 
         } catch (ConfigurationException e) {
@@ -162,6 +167,14 @@ public class PeptideResultMetaBean {
      */
     public int getBarcodeIonNumber(int aIndex) {
         return Integer.parseInt(iBarcodeIonNumbers.get(aIndex).toString());
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getPeptideCharge(){
+        return iCharge;
     }
 
 }

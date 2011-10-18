@@ -1,17 +1,17 @@
 package com.compomics.sigpep.webapp.component;
 
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
+import com.compomics.sigpep.webapp.runnable.SigpepTraMLCreaterToConverterRunnable;
 import com.compomics.sigpep.webapp.runnable.SigpepTraMLCreatorRunnable;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
 import org.vaadin.notifique.Notifique;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -20,6 +20,9 @@ import java.io.*;
 public class TransitionSelectionComponent extends VerticalLayout {
     private static Logger logger = Logger.getLogger(TransitionSelectionComponent.class);
 
+    protected enum Type{Download, Converter};
+
+
     private final MyVaadinApplication iApplication;
 
     private Label iStatus;
@@ -27,6 +30,7 @@ public class TransitionSelectionComponent extends VerticalLayout {
     private File iTraMLDownload = null;
     private VerticalLayout iTreeLayout = new VerticalLayout();
     private Button iDownloadTraML;
+    private Button iTraMLConverter;
     private CustomProgressIndicator iCustomProgressIndicator;
 
 
@@ -53,20 +57,37 @@ public class TransitionSelectionComponent extends VerticalLayout {
         iStatus = new Label("");
         this.addComponent(iStatus, 0);
 
-
         iDownloadTraML = new Button();
         iDownloadTraML.setEnabled(true);
         iDownloadTraML.setVisible(false);
         iDownloadTraML.setStyleName(Reindeer.BUTTON_LINK);
-        iDownloadTraML.setIcon(new ThemeResource("download_traml.png"));
-        iDownloadTraML.addListener(new SaveToTraMLClickListener());
-        this.addComponent(iDownloadTraML, 1);
+        iDownloadTraML.setIcon(new ThemeResource("traml_download.png"));
+        iDownloadTraML.addListener(new SaveToTraMLClickListener(Type.Download));
+
+        iTraMLConverter = new Button();
+        iTraMLConverter.setVisible(false);
+        iTraMLConverter.setIcon(new ThemeResource("traml_converter.png"));
+        iTraMLConverter.addListener(new SaveToTraMLClickListener(Type.Converter));
+        iTraMLConverter.setStyleName(Reindeer.BUTTON_LINK);
+
+        HorizontalLayout lTraMLButtons = new HorizontalLayout();
+
+        lTraMLButtons.addComponent(iDownloadTraML);
+        lTraMLButtons.addComponent(iTraMLConverter);
+
+        lTraMLButtons.setSpacing(true);
+        lTraMLButtons.setMargin(true);
+        lTraMLButtons.setComponentAlignment(iDownloadTraML, Alignment.TOP_LEFT);
+        lTraMLButtons.setComponentAlignment(iTraMLConverter, Alignment.TOP_LEFT);
+
+        this.addComponent(lTraMLButtons, 1);
 
         this.addComponent(iTreeLayout);
 
+
+        this.setComponentAlignment(lTraMLButtons, Alignment.MIDDLE_CENTER);
         this.setComponentAlignment(iStatus, Alignment.MIDDLE_LEFT);
         this.setComponentAlignment(iTreeLayout, Alignment.MIDDLE_LEFT);
-        this.setComponentAlignment(iDownloadTraML, Alignment.MIDDLE_LEFT);
 
     }
 
@@ -76,11 +97,13 @@ public class TransitionSelectionComponent extends VerticalLayout {
         if (lSize > 0) {
             iStatus.setValue(lSize + " transitions selected");
             iTreeLayout.removeAllComponents();
-            iTreeLayout.addComponent(new TransitionSetTree(iApplication.getSelectedTransitionList()));
+            iTreeLayout.addComponent(new TransitionSetTree(iApplication));
             iDownloadTraML.setVisible(true);
+            iTraMLConverter.setVisible(true);
         } else {
             iTreeLayout.removeAllComponents();
             iDownloadTraML.setVisible(false);
+            iTraMLConverter.setVisible(false);
             iStatus.setValue("no transitions selected");
         }
         super.requestRepaintAll();
@@ -88,6 +111,13 @@ public class TransitionSelectionComponent extends VerticalLayout {
 
 
     private class SaveToTraMLClickListener implements Button.ClickListener {
+
+
+        private final Type iType;
+
+        private SaveToTraMLClickListener(Type aType) {
+            iType = aType;
+        }
 
         /**
          * Called when a {@link com.vaadin.ui.Button} has been clicked. A reference to the
@@ -98,11 +128,16 @@ public class TransitionSelectionComponent extends VerticalLayout {
         public void buttonClick(Button.ClickEvent event) {
 
             //add custom progress indicator
-            iCustomProgressIndicator = new CustomProgressIndicator("creating TraML file...", 1);
+            String lMessage = PropertiesConfigurationHolder.getInstance().getString("form_progress.traml_queue");
+            iCustomProgressIndicator = new CustomProgressIndicator(lMessage, 2);
+
             iApplication.getNotifique().add(null, iCustomProgressIndicator, Notifique.Styles.MAGIC_BLACK, Boolean.FALSE);
 
-            MyVaadinApplication.getExecutorService().execute(new SigpepTraMLCreatorRunnable(iApplication));
-
+            if(iType.equals(Type.Download)){
+                MyVaadinApplication.getExecutorService().execute(new SigpepTraMLCreatorRunnable(iApplication, iCustomProgressIndicator));
+            }else if(iType.equals(Type.Converter)){
+                MyVaadinApplication.getExecutorService().execute(new SigpepTraMLCreaterToConverterRunnable(iApplication, iCustomProgressIndicator));
+            }
         }
     }
 

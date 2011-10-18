@@ -29,11 +29,14 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
 import org.vaadin.artur.icepush.ICEPush;
+import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
 import org.vaadin.notifique.Notifique;
 import org.vaadin.overlay.CustomOverlay;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -146,7 +149,7 @@ public class MyVaadinApplication extends Application implements Pushable {
             Button lButton = new Button("load test data");
             lButton.addListener(new Button.ClickListener() {
                 public void buttonClick(Button.ClickEvent event) {
-                   new BackgroundThread().run();
+                    new BackgroundThread().run();
                 }
             });
             iBottomLayoutResults.addComponent(lButton);
@@ -189,6 +192,15 @@ public class MyVaadinApplication extends Application implements Pushable {
         lMainwindow.addComponent(lVerticalLayout);
         lMainwindow.addComponent(pusher);
 
+        // Create a tracker for vaadin.com domain.
+        String lDomainName = PropertiesConfigurationHolder.getInstance().getString("analytics.domain");
+        String lPageId = PropertiesConfigurationHolder.getInstance().getString("analytics.page");
+
+        GoogleAnalyticsTracker tracker = new GoogleAnalyticsTracker("UA-26252212-1", lDomainName);
+        lMainwindow.addComponent(tracker);
+        tracker.trackPageview(lPageId);
+
+
         /**
          * Sets an UncaughtExceptionHandler and executes the thread by the ExecutorsService
          */
@@ -217,11 +229,13 @@ public class MyVaadinApplication extends Application implements Pushable {
     public void setResultTableComponent(ResultsTable aResultsTable) {
         clearResultTableComponent();
         iBottomLayoutResults.addComponent(aResultsTable);
+        System.gc();
     }
 
     public void clearResultTableComponent() {
         iBottomLayoutResults.removeAllComponents();
     }
+
 
     public class BackgroundThread extends Thread {
 
@@ -292,6 +306,73 @@ public class MyVaadinApplication extends Application implements Pushable {
             if (lSequence != null && lSequence.equals(aPeptideSequence)) {
                 lRemovables.add(lTransitionBean);
             }
+        }
+        // Remove the beans from the set.
+        for (TransitionBean lTransitionBean : lRemovables) {
+            iSelectedTransitionList.remove(lTransitionBean);
+        }
+
+        iSelectionComponent.requestRepaintAll();
+    }
+
+    public void removeTransitionBean(String aPeptideSequence, double aMZ) {
+        ArrayList<TransitionBean> lRemovables = new ArrayList<TransitionBean>();
+
+        logger.debug("removing " + aPeptideSequence + " " + aMZ);
+        // Find beans to be removed.
+        for (TransitionBean lTransitionBean : iSelectedTransitionList) {
+            String lSequence = lTransitionBean.getPeptideSequence();
+            if (lSequence != null && lSequence.equals(aPeptideSequence)) {
+                // Ok, this is the right peptide.
+                // Also the right Q3?
+                BigDecimal lQ3Mass = new BigDecimal(lTransitionBean.getQ3Mass());
+                BigDecimal lMZ = new BigDecimal(aMZ);
+                lQ3Mass.setScale(2, RoundingMode.FLOOR);
+                lMZ.setScale(2, RoundingMode.FLOOR);
+
+                logger.debug("removable " + lMZ);
+                logger.debug("runner " + lQ3Mass);
+
+                if (lQ3Mass.compareTo(lMZ) == 0) {
+                    lRemovables.add(lTransitionBean);
+                }
+            }
+        }
+        // Remove the beans from the set.
+        for (TransitionBean lTransitionBean : lRemovables) {
+            iSelectedTransitionList.remove(lTransitionBean);
+        }
+
+        iSelectionComponent.requestRepaintAll();
+    }
+
+    /**
+     * This method removes a production from the Application level TransitionSet
+     *
+     * @param aRemovableProductionIon - Expected format: y5, b15
+     *                        (b*18 Will not work!!)
+     */
+    public void removeTransitionBeansByProductIonName(String aRemovableProductionIon) {
+        ArrayList<TransitionBean> lRemovables = new ArrayList<TransitionBean>();
+        String lRemovableIonType = ("" + aRemovableProductionIon.charAt(0)).trim();
+        int lRemovableIonNumber = Integer.parseInt(aRemovableProductionIon.substring(1));
+        logger.debug("trying to remove " + aRemovableProductionIon + " from selected transitions");
+
+        // Find beans to be removed.
+        for (TransitionBean lTransitionBean : iSelectedTransitionList) {
+            String lRunningIonType =  new String(lTransitionBean.getIonType()).trim();
+            int lRunningIonNumber = lTransitionBean.getIonNumber();
+
+            logger.debug("attempt");
+            logger.debug("runner " + lRunningIonType + lRunningIonNumber);
+            logger.debug("removable " + lRemovableIonType + lRemovableIonNumber);
+
+            if (lRunningIonNumber == lRemovableIonNumber && (lRunningIonType.equals(lRemovableIonType))) {
+                logger.debug("removed " + aRemovableProductionIon);
+                lRemovables.add(lTransitionBean);
+                // Ok, this is the right transition.
+            }
+
         }
         // Remove the beans from the set.
         for (TransitionBean lTransitionBean : lRemovables) {
