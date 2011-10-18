@@ -174,9 +174,9 @@ public class PeptideCheckForm extends Form {
 
                 String lMessage = "";
                 if (lProteinAccessions.size() > 1) {
-                    lMessage = MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_found_in_protein"), iFoundPeptide.getSequenceString(), Joiner.on(", ").join(lProteinAccessions), iPeptideFormBean.getSpecies().getScientificName(), iPeptideFormBean.getProteaseName().toLowerCase());
+                    lMessage = MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_found_in_proteins"), iFoundPeptide.getSequenceString(), Joiner.on(", ").join(lProteinAccessions), iPeptideFormBean.getSpecies().getScientificName(), iPeptideFormBean.getProteaseName().toLowerCase());
                 } else if (lProteinAccessions.size() == 1) {
-                    MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_found_in_proteins"), iFoundPeptide.getSequenceString(), Joiner.on(", ").join(lProteinAccessions), iPeptideFormBean.getSpecies().getScientificName(), iPeptideFormBean.getProteaseName().toLowerCase());
+                    lMessage = MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_found_in_protein"), iFoundPeptide.getSequenceString(), Joiner.on(", ").join(lProteinAccessions), iPeptideFormBean.getSpecies().getScientificName(), iPeptideFormBean.getProteaseName().toLowerCase());
                 } else {
                     lMessage = "An unexpected error occurred. Please try again.";
                 }

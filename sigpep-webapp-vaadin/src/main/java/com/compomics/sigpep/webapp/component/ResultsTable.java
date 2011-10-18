@@ -103,7 +103,7 @@ public class ResultsTable extends VerticalLayout {
             Object id = iTable.addItem();
 
             // 1 - Filename.
-            iTable.getContainerProperty(id, COLUMN_LABEL_PEPTIDE).setValue(generateFileName(lFile));
+            iTable.getContainerProperty(id, COLUMN_LABEL_PEPTIDE).setValue(extractPeptideFromFilename(lFile));
 
             // Attempt to locate the meta information.
             String lMetaFileName = lFile.getName().substring(0, lFile.getName().indexOf(".tsv")) + ".meta.properties";
@@ -130,7 +130,7 @@ public class ResultsTable extends VerticalLayout {
             iTable.getContainerProperty(id, COLUMN_LABEL_GRAPH).setValue(lButton);
 
             // 4 - Make a prediction button
-            Button lPredictionButton = generatePredictionButton(generateFileName(lFile));
+            Button lPredictionButton = generatePredictionButton(extractPeptideFromFilename(lFile), lFile, lPeptideResultMetaBean);
             iTable.getContainerProperty(id, COLUMN_LABEL_PREDICT).setValue(lPredictionButton);
 
             // 5 - Make the select peptide button
@@ -140,7 +140,7 @@ public class ResultsTable extends VerticalLayout {
     }
 
     private Button generateSelectButton(File aFile, PeptideResultMetaBean aPeptideResultMetaBean) throws IOException {
-// Create a new button, display as a link.
+        // Create a new button, display as a link.
         CheckBox aCheckBox = new CheckBox("");
         aCheckBox.setImmediate(true);
 
@@ -150,7 +150,7 @@ public class ResultsTable extends VerticalLayout {
         return aCheckBox;
     }
 
-    private Button generatePredictionButton(String aPeptideSequence) {
+    private Button generatePredictionButton(String aPeptideSequence, File aFile, PeptideResultMetaBean aPeptideResultMetaBean) {
 
         // Create a new button, display as a link.
         Button lButton = new Button();
@@ -166,7 +166,7 @@ public class ResultsTable extends VerticalLayout {
         HashSet<PeptideInputBean> lPeptideInputBeans = new HashSet<PeptideInputBean>();
         lPeptideInputBeans.add(lPeptideInputBean);
 
-        IntensityPredictionClickListener lIntensityPredictionClickListener = new IntensityPredictionClickListener(lPeptideInputBeans, iPushable, iApplication);
+        IntensityPredictionClickListener lIntensityPredictionClickListener = new IntensityPredictionClickListener(lPeptideInputBeans, iPushable, iApplication, aFile, aPeptideResultMetaBean);
         lButton.addListener(lIntensityPredictionClickListener);
         return lButton;
 
@@ -210,7 +210,7 @@ public class ResultsTable extends VerticalLayout {
      * @param lFile
      * @return
      */
-    private String generateFileName(File lFile) {
+    private String extractPeptideFromFilename(File lFile) {
         // Remove the extension of the filename
         return lFile.getName().substring(0, lFile.getName().indexOf("."));
     }

@@ -54,4 +54,8 @@ public class PropertiesConfigurationHolder extends PropertiesConfiguration {
     public static boolean showTestDemoFolder() {
         return ourInstance.getBoolean("test.result.button.display");
     }
+
+    public static String getTraMLConverterHome() {
+        return ourInstance.getString("jtraml.home.url");
+    }
 }
