@@ -140,6 +140,9 @@ public class SignatureTransitionMassMatrix implements Writable {
             // Add the peptide sequence
             lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE.NAME, signatureTransition.getPeptide().getSequenceString());
 
+            // Add the peptide charge state
+            lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE_CHARGE.NAME, signatureTransition.getTargetPeptideChargeState());
+
             // Add the barcode information
             List<ProductIon> barcode = signatureTransition.getProductIons();
 

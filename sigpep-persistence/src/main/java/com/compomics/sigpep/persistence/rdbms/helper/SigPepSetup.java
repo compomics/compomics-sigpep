@@ -181,7 +181,7 @@ public class SigPepSetup {
         logger.info("-----------------------------------------------------");
         logger.info("retrieving protein sequences...");
 
-//        sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
+        sequencesRetrieved = retrieveSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion);
         sequencesRetrieved = true;
 
         if (!sequencesRetrieved) {
@@ -197,7 +197,7 @@ public class SigPepSetup {
         logger.info("-----------------------------------------------------");
         logger.info("digesting protein sequences...");
 
-//        sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
+        sequencesDigested = digestSequences(workingDirectory, organismScientificName, organismNcbiTaxonId, sequenceDatabaseName, sequenceDatabaseVersion, lowMass, highMass, missedCleavages, protease);
         sequencesDigested = true;
 
         if (!sequencesDigested) {
@@ -424,8 +424,9 @@ public class SigPepSetup {
         String lSequenceDatabaseVersion = "64";
 //        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Lys-N", "Arg-C", "Asp-N"};
 //        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Arg-C", "Asp-N"};
-//        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Arg-C", "PepsinA"};
-        String[] lProteases = new String[]{"Trypsin"};
+        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Arg-C", "PepsinA"};
+//        String[] lProteases = new String[]{"Lys-C", "Arg-C", "PepsinA"};
+//        String[] lProteases = new String[]{"Trypsin"};
 //        String[] lProteases = new String[]{"Trypsin", "Lys-C", "Lys-N", "Arg-C", "Asp-N"};
         int lMissedCleavages = 0;
         int lHighMass = 4000;
@@ -452,7 +453,11 @@ public class SigPepSetup {
             lOrganismNcbiTaxonId = i;
 
             boolean isSelectedOrganism = true;
-            isSelectedOrganism = lOrganismScientificName.equals("homo sapiens");
+
+//            isSelectedOrganism = lOrganismScientificName.equals("homo sapiens");
+//            isSelectedOrganism = lOrganismScientificName.equals("sus scrofa");
+            isSelectedOrganism = lOrganismScientificName.equals("saccharomyces cerevisiae");
+//            isSelectedOrganism = lOrganismScientificName.equals("mus musculus");
 
             if (isSelectedOrganism) {
                 sigpepSetup.setupDatabase(config.getString("sigpep.db.username"),
@@ -467,9 +472,7 @@ public class SigPepSetup {
                         lMissedCleavages,
                         lProteases);
             }
-
         }
-
     }
 
     /**
