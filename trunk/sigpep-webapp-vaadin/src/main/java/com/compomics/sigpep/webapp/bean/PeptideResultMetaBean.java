@@ -21,6 +21,7 @@ public class PeptideResultMetaBean {
     private ArrayList iBarcodeMasses = null;
     private ArrayList iBarcodeIonTypes = null;
     private ArrayList iBarcodeIonNumbers = null;
+    private double iRetentionTime = 0;
 
     /**
      * Construct a new meta information instance for a Peptide results file
@@ -64,6 +65,11 @@ public class PeptideResultMetaBean {
             lProperty = lConfiguration.getProperty(MetaNamesEnumeration.PEPTIDE_CHARGE.NAME);
             if (lProperty != null) {
                 iCharge = Integer.parseInt(lProperty.toString());
+            }
+
+            lProperty = lConfiguration.getProperty(MetaNamesEnumeration.PEPTIDE_RETENTION.NAME);
+            if (lProperty != null) {
+                iRetentionTime = Double.parseDouble(lProperty.toString());
             }
 
         } catch (ConfigurationException e) {
@@ -177,4 +183,11 @@ public class PeptideResultMetaBean {
         return iCharge;
     }
 
+    public double getRetentionTime() {
+        return iRetentionTime;
+    }
+
+    public void setRetentionTime(double aRetentionTime) {
+        iRetentionTime = aRetentionTime;
+    }
 }

@@ -4,7 +4,7 @@
     <parent>
         <artifactId>sigpep</artifactId>
         <groupId>com.compomics.sigpep</groupId>
-        <version>0.5</version>
+        <version>0.9</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sigpep-webapp-vaadin</artifactId>
@@ -196,7 +196,7 @@
         <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-app</artifactId>
-            <version>0.5</version>
+            <version>0.9</version>
             <!--<scope>provided</scope>-->
             <exclusions>
                 <exclusion>
@@ -273,7 +273,8 @@
             <version>0.1</version>
         </dependency>
 
-          <!--google analytics vaadin add-on-->
+
+        <!--google analytics vaadin add-on-->
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>googleanalyticstracker</artifactId>

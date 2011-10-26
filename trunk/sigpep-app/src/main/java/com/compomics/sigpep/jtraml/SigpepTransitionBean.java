@@ -3,11 +3,16 @@ package com.compomics.sigpep.jtraml;
 import com.google.common.base.Joiner;
 import org.apache.log4j.Logger;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class is a Bean representation of a single transition in the .csv file format of Thermo instruments
  */
 public class SigpepTransitionBean extends TransitionBean {
     private static Logger logger = Logger.getLogger(SigpepTransitionBean.class);
+    private Set<String> iPredictionTools = new HashSet<String>();
+    private double iCenteredRetentionTime = 0d;
 
     /**
      * Empty constructor
@@ -216,6 +221,7 @@ public class SigpepTransitionBean extends TransitionBean {
                 "" + getCollisionEnergy(),
                 getID(),
                 "" + iEndTime,
+                "" + Joiner.on(",").join(iPredictionTools)
                 };
     }
 
@@ -242,4 +248,11 @@ public class SigpepTransitionBean extends TransitionBean {
         return Joiner.on(',').join(getSeparatedOrder());
     }
 
+    public void addPredictionTool(String aPredictionTool){
+        iPredictionTools.add(aPredictionTool);
+    }
+
+    public Set<String> getPredictionTools(){
+        return iPredictionTools;
+    }
 }

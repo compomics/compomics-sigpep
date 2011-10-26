@@ -10,7 +10,8 @@ public enum MetaNamesEnumeration {
     PEPTIDE_CHARGE("sigpep.meta.peptide.charge"),
     BARCODE_MASSES("sigpep.meta.barcode.mass"),
     BARCODE_IONTYPE("sigpep.meta.barcode.iontype"),
-    BARCODE_IONNUMBER("sigpep.meta.barcode.ionnumber");
+    BARCODE_IONNUMBER("sigpep.meta.barcode.ionnumber"),
+    PEPTIDE_RETENTION("sigpep.meta.retention.elude");
 
     public String NAME;
 

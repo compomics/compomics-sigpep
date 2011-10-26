@@ -19,7 +19,10 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,11 +38,14 @@ public class ResultsTable extends VerticalLayout {
      */
     Table iTable = new Table();
 
+    HashMap<String, Object> iSequenceToIDs = new HashMap<String, Object>();
+
     public static final String COLUMN_LABEL_ADD = "add";
 
     public static final String COLUMN_LABEL_PEPTIDE = "peptide";
+    public static final String COLUMN_LABEL_RETENTION = "retention (min)";
     public static final String COLUMN_LABEL_PROTEIN = "protein";
-    public static final String COLUMN_LABEL_TRANSITION_COUNT = "transtions";
+    public static final String COLUMN_LABEL_TRANSITION_COUNT = "transitions";
 
     public static final String COLUMN_LABEL_GRAPH = "graph";
     public static final String COLUMN_LABEL_DOWNLOAD = "download";
@@ -67,9 +73,10 @@ public class ResultsTable extends VerticalLayout {
      */
     public ResultsTable(HashSet<File> aFiles, Pushable aPushable, MyVaadinApplication aApplication) {
         super();
-        String lSuffix = (aFiles.size()==1) ? "":"s";
-        setCaption(aFiles.size() + "signature peptide" + lSuffix);
-        addStyleName("formresults");
+        String lSuffix = (aFiles.size() == 1) ? "" : "s";
+        setCaption(aFiles.size() + " signature peptide" + lSuffix);
+        addStyleName("v-formresults");
+
 
         iPushable = aPushable;
         iApplication = aApplication;
@@ -91,6 +98,8 @@ public class ResultsTable extends VerticalLayout {
     }
 
 
+
+
     /**
      * Wrapper method which populates the table with an ArrayList of files.
      *
@@ -100,11 +109,16 @@ public class ResultsTable extends VerticalLayout {
     private void populateTable(Set<File> aFiles) throws IOException {
         // Iterate all given files.
         for (File lFile : aFiles) {
+            String lPeptideSequence = extractPeptideFromFilename(lFile);
+
             // Add a new item to the table.
             Object id = iTable.addItem();
 
+            // Save the peptide to tableid mappings
+            iSequenceToIDs.put(lPeptideSequence, id);
+
             // 1 - Filename.
-            iTable.getContainerProperty(id, COLUMN_LABEL_PEPTIDE).setValue(extractPeptideFromFilename(lFile));
+            iTable.getContainerProperty(id, COLUMN_LABEL_PEPTIDE).setValue(lPeptideSequence);
 
             // Attempt to locate the meta information.
             String lMetaFileName = lFile.getName().substring(0, lFile.getName().indexOf(".tsv")) + ".meta.properties";
@@ -120,6 +134,13 @@ public class ResultsTable extends VerticalLayout {
 
                 // Add number of transitions
                 iTable.getContainerProperty(id, COLUMN_LABEL_TRANSITION_COUNT).setValue(lPeptideResultMetaBean.getBarcodeCount());
+
+                // Add retention time
+                double lRetentionTime = lPeptideResultMetaBean.getRetentionTime();
+                logger.debug("rt " + lRetentionTime);
+                BigDecimal lBigDecimal = new BigDecimal(lRetentionTime).setScale(1, RoundingMode.UP);
+                logger.debug("bd rt " + lBigDecimal.doubleValue());
+                iTable.getContainerProperty(id, COLUMN_LABEL_RETENTION).setValue(lBigDecimal.doubleValue());
             }
 
             // 2 - Download link to tsv file.
@@ -131,7 +152,7 @@ public class ResultsTable extends VerticalLayout {
             iTable.getContainerProperty(id, COLUMN_LABEL_GRAPH).setValue(lButton);
 
             // 4 - Make a prediction button
-            Button lPredictionButton = generatePredictionButton(extractPeptideFromFilename(lFile), lFile, lPeptideResultMetaBean);
+            Button lPredictionButton = generatePredictionButton(lPeptideSequence, lFile, lPeptideResultMetaBean);
             iTable.getContainerProperty(id, COLUMN_LABEL_PREDICT).setValue(lPredictionButton);
 
             // 5 - Make the select peptide button
@@ -222,9 +243,10 @@ public class ResultsTable extends VerticalLayout {
     private void createTableColumns() {
         // Define the Table
         iTable.addContainerProperty(COLUMN_LABEL_ADD, CheckBox.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_TRANSITION_COUNT, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PEPTIDE, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PROTEIN, Label.class, null);
-        iTable.addContainerProperty(COLUMN_LABEL_TRANSITION_COUNT, Label.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_RETENTION, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_DOWNLOAD, Link.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_GRAPH, Button.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PREDICT, Button.class, null);

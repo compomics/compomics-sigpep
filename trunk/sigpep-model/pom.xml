@@ -4,14 +4,14 @@
     <groupId>com.compomics.sigpep</groupId>
     <artifactId>sigpep-model</artifactId>
     <packaging>jar</packaging>
-    <version>0.5</version>
+    <version>0.9</version>
     <name>sigpep-model</name>
     <url>http://www.ebi.ac.uk/~mmueller/public_html/project/sigpep/sigpep-model</url>
 
     <parent>
         <groupId>com.compomics.sigpep</groupId>
         <artifactId>sigpep</artifactId>
-        <version>0.5</version>
+        <version>0.9</version>
     </parent>
 
     <dependencies>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-util</artifactId>
-            <version>0.5</version>
+            <version>0.9</version>
         </dependency>
 
         <!--<dependency>-->

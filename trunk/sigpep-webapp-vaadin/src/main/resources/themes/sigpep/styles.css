@@ -29,9 +29,13 @@
     overflow: hidden;
 }
 
-.v-table-formresults {
+.v-formresults {
     text-align: center;
     vertical-align: middle;
+}
+
+.v-caption-formresults {
+    color: red;
 }
 
 .v-tabsheet-tabitemcell {
