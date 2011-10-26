@@ -67,7 +67,8 @@ public class ResultsTable extends VerticalLayout {
      */
     public ResultsTable(HashSet<File> aFiles, Pushable aPushable, MyVaadinApplication aApplication) {
         super();
-        setCaption("Results table");
+        String lSuffix = (aFiles.size()==1) ? "":"s";
+        setCaption(aFiles.size() + "signature peptide" + lSuffix);
         addStyleName("formresults");
 
         iPushable = aPushable;
