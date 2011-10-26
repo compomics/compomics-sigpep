@@ -6,6 +6,7 @@ import com.compomics.jtraml.interfaces.TSVFileImportModel;
 import com.compomics.sigpep.jtraml.SigpepToTraml;
 import com.compomics.sigpep.jtraml.TransitionBean;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.google.common.io.Files;
@@ -87,6 +88,8 @@ public class SigpepTraMLCreaterToConverterRunnable implements Runnable {
             logger.debug("url:" + sb.toString());
             iApplication.getMainWindow().open(new ExternalResource(sb.toString()), "_blank");
             iApplication.getMainWindow().requestRepaintAll();
+
+            AnalyticsLogger.runTraMLConversion(iApplication.getHttpSessionID());
 
         } catch (JAXBException e) {
             logger.error(e.getMessage(), e);

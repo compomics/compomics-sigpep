@@ -5,6 +5,7 @@ import com.compomics.jtraml.interfaces.TSVFileImportModel;
 import com.compomics.sigpep.jtraml.SigpepToTraml;
 import com.compomics.sigpep.jtraml.TransitionBean;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.vaadin.terminal.StreamResource;
@@ -75,6 +76,9 @@ public class SigpepTraMLCreatorRunnable implements Runnable {
             iApplication.getMainWindow().open(streamResource, "_blank");
 
             iApplication.getMainWindow().requestRepaintAll();
+
+            AnalyticsLogger.runTraMLDownload(iApplication.getHttpSessionID());
+
         } catch (JAXBException e) {
             logger.error(e.getMessage(), e);
         }

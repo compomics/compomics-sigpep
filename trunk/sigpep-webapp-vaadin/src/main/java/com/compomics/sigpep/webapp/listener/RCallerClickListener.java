@@ -4,6 +4,7 @@ import com.compomics.acromics.rcaller.RFilter;
 import com.compomics.acromics.rcaller.RRunner;
 import com.compomics.acromics.rcaller.RSource;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.component.ComponentFactory;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
@@ -110,6 +111,8 @@ public class RCallerClickListener implements Button.ClickListener {
 
                                 lDialog.addComponent(e);
                                 iApplication.getMainWindow().addWindow(lDialog);
+
+                                AnalyticsLogger.runRVisualization(iApplication.getHttpSessionID());
 
                             } catch (IOException e) {
                             }

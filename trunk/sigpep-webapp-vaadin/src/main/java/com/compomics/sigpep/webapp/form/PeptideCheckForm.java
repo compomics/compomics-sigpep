@@ -5,6 +5,7 @@ import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
@@ -126,6 +127,8 @@ public class PeptideCheckForm extends Form {
     private class PeptideCheckFormThread extends Thread {
 
         public void run() {
+
+            AnalyticsLogger.startSigpepJob(iApplication.getHttpSessionID(), AnalyticsLogger.JobType.PEPTIDECHECKFORM);
 
             SigPepSession lSigPepSession = iApplication.getSigPepSession();
 
