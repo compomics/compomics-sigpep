@@ -58,4 +58,8 @@ public class PropertiesConfigurationHolder extends PropertiesConfiguration {
     public static String getTraMLConverterHome() {
         return ourInstance.getString("jtraml.home.url");
     }
+
+    public static boolean doAnalytics() {
+        return ourInstance.getBoolean("sigpep.analytics");
+    }
 }
