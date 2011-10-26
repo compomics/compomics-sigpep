@@ -5,6 +5,7 @@ import com.compomics.pepnovo.beans.IntensityPredictionBean;
 import com.compomics.pepnovo.beans.PeptideInputBean;
 import com.compomics.pepnovo.beans.PeptideOutputBean;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.bean.PeptideResultMetaBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
@@ -126,6 +127,9 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
 
                             lDialog.addComponent(lTable);
                             iApplication.getMainWindow().addWindow(lDialog);
+
+                            AnalyticsLogger.runPepnovoPrediction(iApplication.getHttpSessionID());
+
                         }
                     }
                 });

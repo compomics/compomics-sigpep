@@ -9,6 +9,7 @@ import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.model.SignatureTransition;
 import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.bean.ProteinFormBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.component.ResultsTable;
@@ -134,6 +135,10 @@ public class ProteinForm extends Form {
     private class ProteinFormThread extends Thread {
 
         public void run() {
+
+            // Log the activity to the analytics logger
+            AnalyticsLogger.startSigpepJob(iApplication.getHttpSessionID(), AnalyticsLogger.JobType.PROTEINFORM);
+
 
             SigPepSession lSigPepSession = iApplication.getSigPepSession();
 

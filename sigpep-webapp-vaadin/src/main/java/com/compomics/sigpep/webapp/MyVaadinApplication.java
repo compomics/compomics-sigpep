@@ -20,11 +20,13 @@ import com.compomics.sigpep.SigPepQueryService;
 import com.compomics.sigpep.SigPepSession;
 import com.compomics.sigpep.SigPepSessionFactory;
 import com.compomics.sigpep.jtraml.TransitionBean;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.component.*;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.vaadin.Application;
 import com.vaadin.terminal.Terminal;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Reindeer;
 import org.apache.log4j.Logger;
@@ -33,6 +35,7 @@ import org.vaadin.googleanalytics.tracking.GoogleAnalyticsTracker;
 import org.vaadin.notifique.Notifique;
 import org.vaadin.overlay.CustomOverlay;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileFilter;
 import java.math.BigDecimal;
@@ -91,6 +94,7 @@ public class MyVaadinApplication extends Application implements Pushable {
     private VerticalLayout iBottomLayoutResults;
     private Panel iCenterRight;
     private FormTabSheet iFormTabSheet;
+    private String iHttpSessionID;
 
     /**
      * Get the static instance for executing Threads in the sigpep application.
@@ -109,8 +113,6 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         //add theme
         setTheme("sigpep");
-//        setTheme("reindeer");
-//        setTheme("my-sigpep-cameleon");
 
         //add main window
         Window lMainwindow = new Window("Sigpep Application");
@@ -172,8 +174,6 @@ public class MyVaadinApplication extends Application implements Pushable {
         GridLayout lGridLayout = new GridLayout(2, 1);
         lGridLayout.setSpacing(true);
         lGridLayout.setSizeFull();
-//      lGridLayout.setWidth(100, Sizeable.UNITS_PERCENTAGE);
-//      lGridLayout.setWidth(500, Sizeable.UNITS_PIXELS);
 
         lGridLayout.addComponent(iCenterLeft, 0, 0);
         lGridLayout.setComponentAlignment(iCenterLeft, Alignment.TOP_LEFT);
@@ -205,6 +205,8 @@ public class MyVaadinApplication extends Application implements Pushable {
          * Sets an UncaughtExceptionHandler and executes the thread by the ExecutorsService
          */
         Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+
+        parseSessionId();
     }
 
     @Override
@@ -217,6 +219,26 @@ public class MyVaadinApplication extends Application implements Pushable {
             ComponentFactory.addUncaughtExceptionWindow("Unexpected exception", "application_unexpected_error", MyVaadinApplication.this);
         }
     }
+
+    private void parseSessionId() {
+        WebApplicationContext ctx = null;
+        HttpSession session = null;
+        try {
+            ctx = ((WebApplicationContext) getContext());
+            session = ctx.getHttpSession();
+        } catch (ClassCastException cce) {
+            logger.error(cce.getMessage(), cce);
+        }
+
+        if (session != null) {
+            iHttpSessionID = session.getId();
+        } else {
+            iHttpSessionID = "TIMESTAMP_ID_" + System.currentTimeMillis();
+        }
+
+        AnalyticsLogger.newSession(iHttpSessionID);
+    }
+
 
     /**
      * Persist a push event.
@@ -350,7 +372,7 @@ public class MyVaadinApplication extends Application implements Pushable {
      * This method removes a production from the Application level TransitionSet
      *
      * @param aRemovableProductionIon - Expected format: y5, b15
-     *                        (b*18 Will not work!!)
+     *                                (b*18 Will not work!!)
      */
     public void removeTransitionBeansByProductIonName(String aRemovableProductionIon) {
         ArrayList<TransitionBean> lRemovables = new ArrayList<TransitionBean>();
@@ -360,7 +382,7 @@ public class MyVaadinApplication extends Application implements Pushable {
 
         // Find beans to be removed.
         for (TransitionBean lTransitionBean : iSelectedTransitionList) {
-            String lRunningIonType =  new String(lTransitionBean.getIonType()).trim();
+            String lRunningIonType = new String(lTransitionBean.getIonType()).trim();
             int lRunningIonNumber = lTransitionBean.getIonNumber();
 
             logger.debug("attempt");
@@ -407,4 +429,7 @@ public class MyVaadinApplication extends Application implements Pushable {
         }
     }
 
+    public String getHttpSessionID() {
+        return iHttpSessionID;
+    }
 }

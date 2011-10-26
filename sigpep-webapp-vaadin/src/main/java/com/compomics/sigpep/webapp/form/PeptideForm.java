@@ -9,6 +9,7 @@ import com.compomics.sigpep.model.Protease;
 import com.compomics.sigpep.model.SignatureTransition;
 import com.compomics.sigpep.report.SignatureTransitionMassMatrix;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
+import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.bean.PeptideFormBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.component.ResultsTable;
@@ -53,6 +54,7 @@ public class PeptideForm extends Form {
     public PeptideForm(String aCaption, PeptideFormBean aPeptideFormBean, Peptide aPeptide, MyVaadinApplication aApplication) {
         this.setCaption(aCaption);
         iApplication = aApplication;
+
 
         this.setFormFieldFactory(new PeptideFormFieldFactory(iApplication));
 
@@ -136,6 +138,10 @@ public class PeptideForm extends Form {
 
         public void run() {
 
+            // Log the activity to the analytics logger
+            AnalyticsLogger.startSigpepJob(iApplication.getHttpSessionID(), AnalyticsLogger.JobType.PEPTIDEFORM);
+
+
             SigPepSession lSigPepSession = iApplication.getSigPepSession();
 
             File outputFolder = Files.createTempDir();
@@ -213,6 +219,9 @@ public class PeptideForm extends Form {
             }
 
             logger.info("generated " + lResultFiles.size() + " peptide result files");
+
+            AnalyticsLogger.endSigpepJob(iApplication.getHttpSessionID(), AnalyticsLogger.JobType.PEPTIDEFORM);
+
             iCustomProgressIndicator.proceed(MessageFormat.format(PropertiesConfigurationHolder.getInstance().getString("form_progress.peptide_result_files"), lResultFiles.size()));
             Collections.addAll(lResultFiles, outputFolder.listFiles(new FileFilter() {
                 public boolean accept(File aFile) {
