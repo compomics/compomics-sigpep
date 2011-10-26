@@ -1,6 +1,7 @@
 package com.compomics.sigpep.jtraml;
 
 import com.compomics.jtraml.config.CoreConfiguration;
+import com.compomics.jtraml.enumeration.FrequentOBoEnum;
 import com.compomics.jtraml.exception.JTramlException;
 import com.compomics.jtraml.factory.CVFactory;
 import com.compomics.jtraml.interfaces.TSVFileImportModel;
@@ -12,8 +13,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class is a TSVFileImportModel implementation for the ABI QTRAP instrument.
@@ -94,8 +94,8 @@ public class SigpepToTraml extends TSVFileImportModel {
             logger.debug(i + "\t" + aRowValues[i]);
         }
         // validate number of line values.
-        if (aRowValues.length != 5) {
-            throw new JTramlException("Unexpected number of columns for the ABI QTRAP TSVFileImportModel!!");
+        if (aRowValues.length != 6) {
+            throw new JTramlException("Unexpected number of columns for the Sigpep TSVFileImportModel!!");
         }
 
         if (aTraMLType.getTransitionList() == null) {
@@ -111,7 +111,9 @@ public class SigpepToTraml extends TSVFileImportModel {
 
         String lRt = aRowValues[4];//OK
 
-        if(boolShiftRetentionTime){ // Do we need to shift the retention time?
+        String[] lPredictionSoftwareNames = aRowValues[5].toString().split(",");//OK
+
+        if (boolShiftRetentionTime) { // Do we need to shift the retention time?
             Double d = Double.parseDouble(lRt);
             d = d + iRetentionTimeShift;
             BigDecimal bd = new BigDecimal(d);
@@ -128,6 +130,15 @@ public class SigpepToTraml extends TSVFileImportModel {
 
             CvParamType lCV_CollisionEnergy = CVFactory.createCVType_CollisionEnergy(lEnergy);
 
+            Set<CvParamType> lPredictionTypes = new HashSet<CvParamType>();
+            for (String lPredictionSoftwareName : lPredictionSoftwareNames) {
+                logger.debug(FrequentOBoEnum.PREDICTED_TRANSITION_BY_INFORMATICS.getName());
+                logger.debug(lPredictionSoftwareName);
+                CvParamType lPredictionType = CVFactory.createCustomCVType(lPredictionSoftwareName, FrequentOBoEnum.PREDICTED_TRANSITION_BY_INFORMATICS);
+                lPredictionTypes.add(lPredictionType);
+            }
+
+
             // 1. Make the Precursor Type
             PrecursorType lPrecursorType = iObjectFactory.createPrecursorType();
             lPrecursorType.getCvParam().add(lCV_Q1);
@@ -143,6 +154,17 @@ public class SigpepToTraml extends TSVFileImportModel {
             // add this configuration to the configuration list.
             ConfigurationListType lConfigurationListType = iObjectFactory.createConfigurationListType();
             lConfigurationListType.getConfiguration().add(lConfigurationType);
+
+
+            // 3. Define the interpretationTypes
+            InterpretationType lInterpretationType = iObjectFactory.createInterpretationType();
+            for (CvParamType lPredictionType : lPredictionTypes) {
+                lInterpretationType.getCvParam().add(lPredictionType);
+            }
+
+            // add this configuration to the configuration list.
+            InterpretationListType lInterpretationListType= iObjectFactory.createInterpretationListType();
+            lInterpretationListType.getInterpretation().add(lInterpretationType);
 
 
             // 4. Parse the peptide, charge and iontypes from the id.
@@ -271,6 +293,7 @@ public class SigpepToTraml extends TSVFileImportModel {
             lTransitionType.setPeptideRef(lCurrentPeptideType);
 
             lProductType.setConfigurationList(lConfigurationListType);
+            lProductType.setInterpretationList(lInterpretationListType);
 
             lTransitionType.setPrecursor(lPrecursorType);
             lTransitionType.setProduct(lProductType);

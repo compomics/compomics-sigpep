@@ -96,6 +96,7 @@ public class SelectPepnovoTransitionListener implements Button.ClickListener {
 
 
             SigpepTransitionBean lTransitionBean = new SigpepTransitionBean();
+
             lTransitionBean.setQ1Mass(lMZ);
             lTransitionBean.setQ3Mass(lTargetMZ);
 
@@ -106,6 +107,10 @@ public class SelectPepnovoTransitionListener implements Button.ClickListener {
             lTransitionBean.setIonType(lType.getName().toCharArray());
             lTransitionBean.setIonNumber(lIonNumber);
             lTransitionBean.setIonCharge(1);
+
+            lTransitionBean.setEndTime(iPeptideResultMetaBean.getRetentionTime());
+
+            lTransitionBean.addPredictionTool("pepnovo");
 
             iApplication.addTransitionBean(lTransitionBean);
         } else {

@@ -1,5 +1,8 @@
 package com.compomics.sigpep.report;
 
+import com.compomics.jwrapper.elude.RetentionTimePredictionTask;
+import com.compomics.jwrapper.elude.beans.PeptideOutputBean;
+import com.compomics.jwrapper.elude.exception.EludeException;
 import com.compomics.sigpep.Configuration;
 import com.compomics.sigpep.model.Peptide;
 import com.compomics.sigpep.model.ProductIon;
@@ -138,7 +141,8 @@ public class SignatureTransitionMassMatrix implements Writable {
             lConfiguration.addProperty(MetaNamesEnumeration.PROTEIN.NAME, aProteinAccessions);
 
             // Add the peptide sequence
-            lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE.NAME, signatureTransition.getPeptide().getSequenceString());
+            String lPeptideSequence = signatureTransition.getPeptide().getSequenceString();
+            lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE.NAME, lPeptideSequence);
 
             // Add the peptide charge state
             lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE_CHARGE.NAME, signatureTransition.getTargetPeptideChargeState());
@@ -150,7 +154,7 @@ public class SignatureTransitionMassMatrix implements Writable {
             ArrayList lIonMasses = new ArrayList();
             ArrayList lIonNumbers = new ArrayList();
 
-            logger.debug("writing metadata for peptide " + signatureTransition.getPeptide().getSequenceString());
+            logger.debug("writing metadata for peptide " + lPeptideSequence);
             for (ProductIon lProductIon : barcode) {
                 double lBarcodeMassOverCharge = lProductIon.getMassOverCharge(1);
                 ProductIonType lProductIonType = lProductIon.getType();
@@ -175,15 +179,26 @@ public class SignatureTransitionMassMatrix implements Writable {
                 lIonMasses.add(lBarcodeMassOverCharge);
                 lIonNumbers.add(lBarcodeIonNumber);
             }
-
             lConfiguration.addProperty(MetaNamesEnumeration.BARCODE_IONNUMBER.NAME, lIonNumbers);
             lConfiguration.addProperty(MetaNamesEnumeration.BARCODE_IONTYPE.NAME, lIonTypes);
             lConfiguration.addProperty(MetaNamesEnumeration.BARCODE_MASSES.NAME, lIonMasses);
 
+            logger.debug("predicting peptide retention time using ELUDE for peptide " + lPeptideSequence);
+            Set<com.compomics.jwrapper.elude.beans.PeptideInputBean> lEludeInputBeans = new HashSet<com.compomics.jwrapper.elude.beans.PeptideInputBean>();
+            lEludeInputBeans.add(new com.compomics.jwrapper.elude.beans.PeptideInputBean(lPeptideSequence));
+            PeptideOutputBean lEludeOutputBean = RetentionTimePredictionTask.predictRetentionTimes(lEludeInputBeans).iterator().next();
+
+            Double lRetentionTime = lEludeOutputBean.getRetentionTime();
+            lConfiguration.addProperty(MetaNamesEnumeration.PEPTIDE_RETENTION.NAME, lRetentionTime);
+
+            logger.debug("saving meta information for " + lPeptideSequence);
 
             lConfiguration.save(outputStream);
         } catch (ConfigurationException e) {
             logger.error(e.getMessage(), e);
+
+        } catch (EludeException e) {
+
 
         }
     }

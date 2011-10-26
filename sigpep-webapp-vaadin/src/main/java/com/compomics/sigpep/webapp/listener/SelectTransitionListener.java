@@ -74,6 +74,10 @@ public class SelectTransitionListener implements Button.ClickListener {
                     lTransitionBean.setIonNumber(iPeptideResultMetaBean.getBarcodeIonNumber(index));
                     lTransitionBean.setIonCharge(1);
 
+                    lTransitionBean.setEndTime(iPeptideResultMetaBean.getRetentionTime());
+
+                    lTransitionBean.addPredictionTool("sigpep");
+
                     iApplication.addTransitionBean(lTransitionBean);
                 }
             }

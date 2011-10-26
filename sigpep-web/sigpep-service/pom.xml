@@ -20,7 +20,7 @@
         <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-app</artifactId>
-            <version>0.5</version>
+            <version>0.9</version>
         </dependency>
 
     </dependencies>
