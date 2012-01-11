@@ -15,7 +15,7 @@ Once the background and target calculations are established, it is straightforwa
 
 
 
-= SigPep web application interface (2) =
+= SigPep web application interface =
 Via the tabs in the top-left side, the user can choose which *peptide* or *protein* needs to be targeted.
 Next, the corresponding form must be completed by providing the information required to simulate the isobaric peptide background.(See [#form_options form options] for details on the form.) Once the form is filled out, a new Sigpep task can be started. When the task completes, a new results table appears at the bottom of the screen, providing download links to retrieve all associated transitions, a graphical display of the targeted peptide and the isobaric peptide background, or an MS/MS ranked ion intensity prediction using PepNovo. Finally, the preferred transitions can be added to an export set that can be downloaded in the standard TraML file format, or directly converted into vendor specific input files via the TraML Converter.
 [http://compomics-sigpep.googlecode.com/svn/wiki/images/ms_fig2.png]
