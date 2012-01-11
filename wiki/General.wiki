@@ -8,36 +8,44 @@ Add your content here.
 = peptide signature transition set calculation (1) =
 The image below shows shows how sigpep calculates target peptides and background peptides. 
 [http://compomics-sigpep.googlecode.com/svn/wiki/images/ms_fig1_a.png]
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/vspace.png]
 
 = peptide signature transition set calculation (2) =
 Once the background and target calculations are established, it is straightforward to define unique peptide signature transition sets.
 [http://compomics-sigpep.googlecode.com/svn/wiki/images/ms_fig1_b.png]
-
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/vspace.png]
 
 = SigPep web application interface (2) =
-[http://compomics-sigpep.googlecode.com/svn/wiki/images/ms_fig2.png]
 Via the tabs in the top-left side, the user can choose which *peptide* or *protein* needs to be targeted.
-Next, the corresponding form must be completed by providing the information required to simulate the isobaric peptide background. (See [#form_options for details on the form.) Once the form is filled out, a new Sigpep task can be started. When the task completes, a new results table appears at the bottom of the screen, providing download links to retrieve all associated transitions, a graphical display of the targeted peptide and the isobaric peptide background, or an MS/MS ranked ion intensity prediction using PepNovo. Finally, the preferred transitions can be added to an export set that can be downloaded in the standard TraML file format, or directly converted into vendor specific input files via the TraML Converter.
+Next, the corresponding form must be completed by providing the information required to simulate the isobaric peptide background.(See [#form_options form options] for details on the form.) Once the form is filled out, a new Sigpep task can be started. When the task completes, a new results table appears at the bottom of the screen, providing download links to retrieve all associated transitions, a graphical display of the targeted peptide and the isobaric peptide background, or an MS/MS ranked ion intensity prediction using PepNovo. Finally, the preferred transitions can be added to an export set that can be downloaded in the standard TraML file format, or directly converted into vendor specific input files via the TraML Converter.
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/ms_fig2.png]
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/vspace.png]
+
 
 = SigPep web application performance =
   * SigPep calculates the peptide background on-the-fly per user request. As this is highly demanding to our servers, *a maximum of three user request are performed simultaneously*. New requests will be queued, and will be executed after other request were completed. Your request status will be displayed the notification bar in the top of the screen.
   * Calculation of a unique peptide set for a single proteins takes *60 seconds* in average.
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/vspace.png]
   
 = SigPep web-graph reports (1) =
-[http://compomics-sigpep.googlecode.com/svn/wiki/images/graph_sig_bg.png]
 This graph shows the signature transitions from a single targeted peptide against all possible interfering fragment ions of the background isobaric peptides with the same m/z (within a user-specified tolerance). (A) Each horizontal line of dots in the upper plot represents the set of theoretical b(blue) and y(red) ions of a single background peptide. The y-ions of the targeted peptide are overlayed with a gray dotted line. (B) The middle plot zooms in on the mass error window around each signature transition (y2 and y5 in this particular example).
 All graphs are generated on-the-fly using the R package for statistical computing.
 [http://code.google.com/p/compomics-sigpep/source/browse/trunk/sigpep-webapp-vaadin/src/main/resources/r/barplot.r source]
 
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/graph_sig_bg.png]
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/vspace.png]
+
 = SigPep-web graph reports (2) =
-[http://compomics-sigpep.googlecode.com/svn/wiki/images/graph_sig_tg.png]
 (C) The bottom plot finally, shows a frequency plot of the theoretical overlap for each fragment ion. In this case for instance, there were about 400 isobaric peptides in ensembl-human that generated a fragmention of 1225.7Da.
 All graphs are generated on-the-fly using the R package for statistical computing.
 All graphs are generated on-the-fly using the R package for statistical computing.
 [http://code.google.com/p/compomics-sigpep/source/browse/trunk/sigpep-webapp-vaadin/src/main/resources/r/barplot.r source]
 
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/graph_sig_tg.png]
+[http://compomics-sigpep.googlecode.com/svn/wiki/images/vspace.png]
 
-= form options =
+
+=form options=
 	* species
 		* homo
 		* mouse
