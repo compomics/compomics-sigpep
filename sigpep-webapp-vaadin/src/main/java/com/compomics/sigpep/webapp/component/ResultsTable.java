@@ -47,7 +47,8 @@ public class ResultsTable extends VerticalLayout {
     public static final String COLUMN_LABEL_PROTEIN = "protein";
     public static final String COLUMN_LABEL_TRANSITION_COUNT = "transitions";
 
-    public static final String COLUMN_LABEL_GRAPH = "graph";
+    public static final String COLUMN_LABEL_GRAPH_1 = "graph-1";
+    public static final String COLUMN_LABEL_GRAPH_2 = "graph-2";
     public static final String COLUMN_LABEL_DOWNLOAD = "download";
     public static final String COLUMN_LABEL_PREDICT = "pepnovo";
 
@@ -74,8 +75,8 @@ public class ResultsTable extends VerticalLayout {
     public ResultsTable(HashSet<File> aFiles, Pushable aPushable, MyVaadinApplication aApplication) {
         super();
         String lSuffix = (aFiles.size() == 1) ? "" : "s";
-        setCaption(aFiles.size() + " signature peptide" + lSuffix);
-        addStyleName("v-formresults");
+        iTable.setCaption(aFiles.size() + " signature peptide" + lSuffix);
+        iTable.addStyleName("v-formresults");
 
 
         iPushable = aPushable;
@@ -96,8 +97,6 @@ public class ResultsTable extends VerticalLayout {
             logger.error(e.getMessage(), e);
         }
     }
-
-
 
 
     /**
@@ -148,8 +147,12 @@ public class ResultsTable extends VerticalLayout {
             iTable.getContainerProperty(id, COLUMN_LABEL_DOWNLOAD).setValue(l);
 
             // 3 - Make an R button
-            Button lButton = generateBackgroundSignatureButton(lFile);
-            iTable.getContainerProperty(id, COLUMN_LABEL_GRAPH).setValue(lButton);
+            Button lRScatterButton = generateBackgroundSignatureButton(lFile);
+            iTable.getContainerProperty(id, COLUMN_LABEL_GRAPH_1).setValue(lRScatterButton);
+
+            // 3 - Make an R button
+            Button lRBarplotButton = generateBackgroundBarchartButton(lFile);
+            iTable.getContainerProperty(id, COLUMN_LABEL_GRAPH_2).setValue(lRBarplotButton);
 
             // 4 - Make a prediction button
             Button lPredictionButton = generatePredictionButton(lPeptideSequence, lFile, lPeptideResultMetaBean);
@@ -160,6 +163,8 @@ public class ResultsTable extends VerticalLayout {
             iTable.getContainerProperty(id, COLUMN_LABEL_ADD).setValue(lSelectTransitionButton);
         }
     }
+
+
 
     private Button generateSelectButton(File aFile, PeptideResultMetaBean aPeptideResultMetaBean) throws IOException {
         // Create a new button, display as a link.
@@ -198,10 +203,10 @@ public class ResultsTable extends VerticalLayout {
     /**
      * This method creates a Button that will launch the barplot.rj sript
      *
-     * @param lFile
+     * @param aFile
      * @return
      */
-    private Button generateBackgroundSignatureButton(File lFile) {
+    private Button generateBackgroundSignatureButton(File aFile) {
         // Create a new button, display as a link.
         Button lButton = new Button();
         lButton.addStyleName(BaseTheme.BUTTON_LINK);
@@ -214,8 +219,8 @@ public class ResultsTable extends VerticalLayout {
         File lRFile = new File(aResource.getPath());
         RSource lRSource = new RSource(lRFile);
         RFilter lRFilter = new RFilter();
-        logger.debug(lFile.getAbsolutePath());
-        lRFilter.add("file.input", lFile.getPath());
+        logger.debug(aFile.getAbsolutePath());
+        lRFilter.add("file.input", aFile.getPath());
         File lTempFile = new File(iTempFolder, System.currentTimeMillis() + ".png");
         lRFilter.add("file.output", lTempFile.getPath());
 
@@ -223,6 +228,36 @@ public class ResultsTable extends VerticalLayout {
         RCallerClickListener lRCallerClickListener = new RCallerClickListener(lRSource, lRFilter, iPushable, iApplication);
         lButton.addListener(lRCallerClickListener);
         return lButton;
+    }
+
+      /**
+     * This method creates a Button that will launch the barplot2.rj sript
+     *
+     * @return
+     */
+      private Button generateBackgroundBarchartButton(File aFile) {
+        // Create a new button, display as a link.
+        Button lButton = new Button();
+        lButton.addStyleName(BaseTheme.BUTTON_LINK);
+
+        // Set the image icon from the classpath.
+        lButton.setIcon(new ClassResource("/images/graph_sig_tg.png", iApplication));
+
+        // Load the R-script.
+        URL aResource = Resources.getResource("r/barplot2.rj");
+        File lRFile = new File(aResource.getPath());
+        RSource lRSource = new RSource(lRFile);
+        RFilter lRFilter = new RFilter();
+        logger.debug(aFile.getAbsolutePath());
+        lRFilter.add("file.input", aFile.getPath());
+        File lTempFile = new File(iTempFolder, System.currentTimeMillis() + ".png");
+        lRFilter.add("file.output", lTempFile.getPath());
+
+        // Add a listener.
+        RCallerClickListener lRCallerClickListener = new RCallerClickListener(lRSource, lRFilter, iPushable, iApplication);
+        lButton.addListener(lRCallerClickListener);
+        return lButton;
+
     }
 
 
@@ -248,8 +283,11 @@ public class ResultsTable extends VerticalLayout {
         iTable.addContainerProperty(COLUMN_LABEL_PROTEIN, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_RETENTION, Label.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_DOWNLOAD, Link.class, null);
-        iTable.addContainerProperty(COLUMN_LABEL_GRAPH, Button.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_GRAPH_1, Button.class, null);
+        iTable.addContainerProperty(COLUMN_LABEL_GRAPH_2, Button.class, null);
         iTable.addContainerProperty(COLUMN_LABEL_PREDICT, Button.class, null);
+
+
 
     }
 
@@ -258,6 +296,6 @@ public class ResultsTable extends VerticalLayout {
      */
     private void doFormatting() {
         iTable.setWidth("100%");
-        iTable.setPageLength(3);
+        iTable.setPageLength(4);
     }
 }

@@ -38,14 +38,6 @@
     color: red;
 }
 
-.v-tabsheet-tabitemcell {
-    width: 25%;
-}
-
-.v-tabsheet-tabitem .v-caption {
-    width: auto !important;
-}
-
 .v-transition-selection {
     background: #ddd; /* for non-css3 browsers */
 
