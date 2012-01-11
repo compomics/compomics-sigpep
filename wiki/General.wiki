@@ -1,4 +1,4 @@
-#summary Genaral wiki page for SigPep.
+#summary General wiki page for SigPep.
 
 
 = peptide signature transition set calculation (1) =
