@@ -44,6 +44,9 @@ public class FormTabSheet extends VerticalLayout implements TabSheet.SelectedTab
         iTabSheet.addTab(lV1, "Protein", null);
         iTabSheet.addTab(lV2, "Peptide", null);
 
+        // Link to wiki
+        InfoLink info = new InfoLink(aMyVaadinApplication, InfoLink.InfoPages.GENERAL);
+        this.addComponent(info);
 
         this.addComponent(iTabSheet);
     }
