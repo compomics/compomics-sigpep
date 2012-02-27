@@ -4,7 +4,7 @@
     <parent>
         <artifactId>sigpep</artifactId>
         <groupId>com.compomics.sigpep</groupId>
-        <version>0.9</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sigpep-webapp-vaadin</artifactId>
@@ -47,8 +47,8 @@
                 <executions>
                     <execution>
                         <goals>
-                            <!--<goal>resources</goal>-->
-                            <!--<goal>compile</goal>-->
+                            <goal>resources</goal>
+                            <goal>compile</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -196,7 +196,7 @@
         <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-app</artifactId>
-            <version>0.9</version>
+            <version>1.0</version>
             <!--<scope>provided</scope>-->
             <exclusions>
                 <exclusion>
