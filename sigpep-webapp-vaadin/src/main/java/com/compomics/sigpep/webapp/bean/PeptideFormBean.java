@@ -41,7 +41,7 @@ public class PeptideFormBean extends AbstractFormBean {
     }
 
     public void setPeptideSequence(String aPeptideSequence) {
-        iPeptideSequence = aPeptideSequence;
+        iPeptideSequence = aPeptideSequence.toUpperCase();
     }
 
     public PeptideGenerator getPeptideGenerator() {
