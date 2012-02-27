@@ -5,7 +5,7 @@
     <groupId>com.compomics.sigpep</groupId>
     <artifactId>sigpep</artifactId>
     <packaging>pom</packaging>
-    <version>0.9</version>
+    <version>1.0</version>
     <name>sigpep</name>
     <url>http://compomics-sigpep.googlecode.com</url>
 

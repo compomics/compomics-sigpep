@@ -79,7 +79,7 @@
         <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-app</artifactId>
-            <version>0.9</version>
+            <version>1.0</version>
         </dependency>
 
         <!--Spring Framework-->
