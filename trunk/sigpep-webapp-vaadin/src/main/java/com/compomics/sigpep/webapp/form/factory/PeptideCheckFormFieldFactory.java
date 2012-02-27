@@ -57,7 +57,7 @@ public class PeptideCheckFormFieldFactory implements FormFieldFactory {
         //peptide field
         iPeptideSequenceTextField = new TextField("Peptide sequence");
         iPeptideSequenceTextField.setRequired(Boolean.TRUE);
-        iPeptideSequenceTextField.addValidator(new RegexpValidator("[A-Z]+", PropertiesConfigurationHolder.getInstance().getString("form_validation.peptide_sequence")));
+        iPeptideSequenceTextField.addValidator(new RegexpValidator("[a-zA-Z]+", PropertiesConfigurationHolder.getInstance().getString("form_validation.peptide_sequence")));
         iFormHelp.addHelpForComponent(iPeptideSequenceTextField, (String) PropertiesConfigurationHolder.getInstance().getProperty("form_help.peptide_sequence"));
 
         iSpeciesSelect.addListener(new Property.ValueChangeListener() {
