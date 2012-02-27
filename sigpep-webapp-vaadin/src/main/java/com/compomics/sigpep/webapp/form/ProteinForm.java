@@ -12,6 +12,7 @@ import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.bean.ProteinFormBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
+import com.compomics.sigpep.webapp.component.InfoLink;
 import com.compomics.sigpep.webapp.component.ResultsTable;
 import com.compomics.sigpep.webapp.configuration.PropertiesConfigurationHolder;
 import com.compomics.sigpep.webapp.form.factory.ProteinFormFieldFactory;
@@ -93,7 +94,13 @@ public class ProteinForm extends Form {
         iFormButtonLayout.setSpacing(Boolean.TRUE);
         iFormButtonLayout.addComponent(iSubmitButton);
         iFormButtonLayout.addComponent(iResetButton);
+
+        // Link to wiki
+        InfoLink info = new InfoLink(iApplication, InfoLink.InfoPages.FORM_OPTIONS);
+        iFormButtonLayout.addComponent(info);
+
         this.getFooter().addComponent(iFormButtonLayout);
+
 
         iOrder = new Vector();
         iOrder.add("species");
