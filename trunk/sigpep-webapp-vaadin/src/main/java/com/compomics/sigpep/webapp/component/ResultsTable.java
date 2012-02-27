@@ -81,6 +81,11 @@ public class ResultsTable extends VerticalLayout {
 
         iPushable = aPushable;
         iApplication = aApplication;
+
+        // Link to wiki
+        InfoLink info = new InfoLink(iApplication, InfoLink.InfoPages.GRAPH);
+        this.addComponent(info);
+
         try {
             // Create a tmp folder for this Table.
             iTempFolder = Files.createTempDir();
