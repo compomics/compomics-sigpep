@@ -19,7 +19,7 @@ We have created a new software platform called Sigpep that analyses transition r
 ----
 
 ## Usage
-Simply unzip (this will automatically create a new folder), enter the newly created folder, and double-click the cell-motility-x.y.z.jar file. That's all!
+Read the [wiki](https://github.com/compomics/compomics-sigpep/wiki) page for further documentation on SigPep and the SigPep web application.
 
 [Go to top of page](#compomics-sigpep)
 
