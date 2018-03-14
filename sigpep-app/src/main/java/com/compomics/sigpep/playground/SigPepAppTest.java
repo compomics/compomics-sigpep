@@ -24,7 +24,7 @@ public class SigPepAppTest {
 
     private static Logger logger = Logger.getLogger(SigPepAppTest.class);
     //private static String outputFolder = "/Users/hba041/muller_temp/";
-    private static String outputFolder = "/Users/kennyhelsens/tmp/sigpep/";
+    private static String outputFolder = "/tmp/sigpep/";
 
     /**
      * @param args

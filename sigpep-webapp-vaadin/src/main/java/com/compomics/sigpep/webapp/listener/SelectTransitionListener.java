@@ -48,7 +48,7 @@ public class SelectTransitionListener implements Button.ClickListener {
         Double lMass = new Protein("", lPeptide).getMass();
         int lCharge = iPeptideResultMetaBean.getPeptideCharge();
 
-        Double lMZ = (lMass + (lCharge * Hydrogen.H.mass)) / Math.abs(lCharge);
+        Double lMZ = (lMass + (lCharge * Hydrogen.H.getMonoisotopicMass())) / Math.abs(lCharge);
 
 
         // Is the button selected?

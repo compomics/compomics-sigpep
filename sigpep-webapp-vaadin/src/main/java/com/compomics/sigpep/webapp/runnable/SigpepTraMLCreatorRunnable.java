@@ -17,6 +17,7 @@ import org.systemsbiology.apps.tramlcreator.TraMLCreator;
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -80,6 +81,8 @@ public class SigpepTraMLCreatorRunnable implements Runnable {
             AnalyticsLogger.runTraMLDownload(iApplication.getHttpSessionID());
 
         } catch (JAXBException e) {
+            logger.error(e.getMessage(), e);
+        } catch (MalformedURLException e) {
             logger.error(e.getMessage(), e);
         }
     }

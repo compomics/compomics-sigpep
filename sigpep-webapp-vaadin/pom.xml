@@ -4,7 +4,7 @@
     <parent>
         <artifactId>sigpep</artifactId>
         <groupId>com.compomics.sigpep</groupId>
-        <version>1.0</version>
+        <version>1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sigpep-webapp-vaadin</artifactId>
@@ -24,8 +24,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 
@@ -68,13 +68,12 @@
                         <artifactId>icepush-gwt</artifactId>
                         <version>2.0.0-A3</version>
                     </dependency>
-
                 </dependencies>
             </plugin>
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2</version>
                 <executions>
                     <execution>
                         <configuration>
@@ -160,6 +159,10 @@
             <id>icefaces</id>
             <url>http://anonsvn.icefaces.org/repo/maven2/releases/</url>
         </repository>
+        <repository>
+            <id>hadoop</id>
+            <url>http://hadoop-bam.sourceforge.net/maven/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -196,7 +199,7 @@
         <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-app</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <!--<scope>provided</scope>-->
             <exclusions>
                 <exclusion>
@@ -233,7 +236,7 @@
         <dependency>
             <groupId>org.vaadin.addons</groupId>
             <artifactId>contexthelp</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
@@ -241,10 +244,20 @@
             <version>${gwt.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!--javax validation framework-->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>1.0.0.GA</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--javax validation framework-->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+            <classifier>sources</classifier>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.icepush</groupId>
@@ -256,24 +269,32 @@
             <artifactId>icepush-basic</artifactId>
             <version>2.0.0-A3</version>
         </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>10.0.1</version>
         </dependency>
         <dependency>
-            <groupId>com.compomics.acromics</groupId>
-            <artifactId>acromics-core</artifactId>
-            <version>0.2.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.compomics</groupId>
             <artifactId>pepnovo-jwrapper</artifactId>
-            <version>0.1</version>
+            <version>0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.compomics</groupId>
+                    <artifactId>utilities</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.github.jbytecode</groupId>
+            <artifactId>RCaller</artifactId>
+            <version>2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.4</version>
+        </dependency>
         <!--google analytics vaadin add-on-->
         <dependency>
             <groupId>org.vaadin.addons</groupId>

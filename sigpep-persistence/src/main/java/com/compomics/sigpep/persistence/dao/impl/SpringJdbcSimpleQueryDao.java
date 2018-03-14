@@ -1,17 +1,13 @@
 package com.compomics.sigpep.persistence.dao.impl;
 
-import com.compomics.sigpep.model.Peptide;
-import com.compomics.sigpep.model.Protease;
-import com.compomics.sigpep.model.impl.ProteaseImpl;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import com.compomics.dbtools.SqlUtil;
 import com.compomics.sigpep.persistence.dao.NamedQueryAccess;
 import com.compomics.sigpep.persistence.dao.SimpleQueryDao;
 import com.compomics.sigpep.persistence.dao.SimpleQueryDaoFactory;
+import com.compomics.sigpep.persistence.util.SqlUtil;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

@@ -7,6 +7,8 @@ import com.compomics.sigpep.report.SignatureTransitionMassMatrixReader;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideResultMetaBean;
 import com.compomics.util.experiment.biology.atoms.Hydrogen;
+import com.compomics.util.experiment.biology.ions.PeptideFragmentIon;
+import com.compomics.util.experiment.identification.matches.IonMatch;
 import com.compomics.util.protein.Protein;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -63,7 +65,7 @@ public class SelectPepnovoTransitionListener implements Button.ClickListener {
         int lCharge = iPeptideResultMetaBean.getPeptideCharge();
 
         Double lMass = new Protein("", lPeptide).getMass();
-        Double lMZ = (lMass + (lCharge * Hydrogen.H.mass)) / Math.abs(lCharge);
+        Double lMZ = (lMass + (lCharge * Hydrogen.H.getMonoisotopicMass())) / Math.abs(lCharge);
 
         // Add to list!
         SignatureTransitionMassMatrixReader stmm = new SignatureTransitionMassMatrixReader(iPeptideFile);
@@ -79,7 +81,8 @@ public class SelectPepnovoTransitionListener implements Button.ClickListener {
             }
         });
 
-        int lIonNumber = iIntensityPredictionBean.getPeptideFragmentIon().getNumber();
+        PeptideFragmentIon peptideFragmentIon = (PeptideFragmentIon) iIntensityPredictionBean.getIonMatch().ion;
+        int lIonNumber = peptideFragmentIon.getNumber();
         lTargetMZ = lMasses.get(lIonNumber - 1);
 
         // Is the button selected?

@@ -1,0 +1,18 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+sigpep-app/sigpep-app.iml
+sigpep-model/sigpep-model.iml
+sigpep-persistence/sigpep-persistence.iml
+sigpep-util/sigpep-util.iml
+sigpep-webapp-vaadin/sigpep-webapp-vaadin.iml
+sigpep.iml
+"C:\\tmp/"
+sigpep-app/target/
+sigpep-model/target/
+sigpep-persistence/src/main/java/com/compomics/sigpep/persistence/util/SqlUtil.java
+sigpep-persistence/target/
+sigpep-util/target/
+sigpep-webapp-vaadin/sigpep.analytics.log
+sigpep-webapp-vaadin/src/main/java/com/compomics/sigpep/webapp/rcaller/
+sigpep-webapp-vaadin/target/
+sigpep.analytics.log

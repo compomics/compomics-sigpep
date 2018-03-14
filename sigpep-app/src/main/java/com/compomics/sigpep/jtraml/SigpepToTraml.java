@@ -12,6 +12,7 @@ import javax.xml.rpc.ServiceException;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -305,6 +306,8 @@ public class SigpepToTraml extends TSVFileImportModel {
             logger.error(e.getMessage(), e);
         } catch (RemoteException e) {
             logger.error(e.getMessage(), e);
+        } catch (MalformedURLException e) {
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -329,6 +332,11 @@ public class SigpepToTraml extends TSVFileImportModel {
         lSourceFileListType.getSourceFile().add(lSourceFileType);
 
         return lSourceFileListType;
+    }
+
+    @Override
+    public InstrumentListType getInstrumentTypeList() {
+        return null;
     }
 
     /**

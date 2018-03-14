@@ -1,7 +1,5 @@
 package com.compomics.sigpep.webapp.component;
 
-import com.compomics.acromics.rcaller.RFilter;
-import com.compomics.acromics.rcaller.RSource;
 import com.compomics.pepnovo.beans.PeptideInputBean;
 import com.compomics.sigpep.webapp.MyVaadinApplication;
 import com.compomics.sigpep.webapp.bean.PeptideResultMetaBean;
@@ -9,6 +7,8 @@ import com.compomics.sigpep.webapp.interfaces.Pushable;
 import com.compomics.sigpep.webapp.listener.IntensityPredictionClickListener;
 import com.compomics.sigpep.webapp.listener.RCallerClickListener;
 import com.compomics.sigpep.webapp.listener.SelectTransitionListener;
+import com.compomics.sigpep.webapp.rcaller.RFilter;
+import com.compomics.sigpep.webapp.rcaller.RSource;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import com.google.common.io.Resources;

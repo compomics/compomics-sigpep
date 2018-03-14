@@ -9,6 +9,7 @@ import com.compomics.sigpep.webapp.analytics.AnalyticsLogger;
 import com.compomics.sigpep.webapp.bean.PeptideResultMetaBean;
 import com.compomics.sigpep.webapp.component.CustomProgressIndicator;
 import com.compomics.sigpep.webapp.interfaces.Pushable;
+import com.compomics.util.experiment.biology.ions.PeptideFragmentIon;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 import org.vaadin.notifique.Notifique;
@@ -116,8 +117,9 @@ public class IntensityPredictionClickListener implements Button.ClickListener {
                                 lTable.getContainerProperty(id, "add").setValue(generateSelectButton(item));
                                 lTable.getContainerProperty(id, "rank").setValue(item.getRank());
                                 lTable.getContainerProperty(id, "score").setValue(item.getScore());
-                                lTable.getContainerProperty(id, "iontype").setValue(item.getPeptideFragmentIon().getIonType());
-                                lTable.getContainerProperty(id, "ionnumber").setValue(item.getPeptideFragmentIon().getNumber());
+                                PeptideFragmentIon peptideFragmentIon = (PeptideFragmentIon) item.getIonMatch().ion;
+                                lTable.getContainerProperty(id, "iontype").setValue(peptideFragmentIon.getName());
+                                lTable.getContainerProperty(id, "ionnumber").setValue(peptideFragmentIon.getNumber());
 
                             }
 
