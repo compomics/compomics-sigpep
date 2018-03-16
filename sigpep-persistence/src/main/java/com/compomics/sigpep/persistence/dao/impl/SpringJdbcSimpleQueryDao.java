@@ -88,12 +88,12 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return protein count
      */
     public int getProteinCount() {
-        return this.getJdbcTemplate().queryForInt(SQL_SELECT_PROTEIN_COUNT);
+        return this.getJdbcTemplate().queryForObject(SQL_SELECT_PROTEIN_COUNT, Integer.class);
     }
 
     public int getProteinCountByName(String proteinAccession) {
         String sql = SqlUtil.setParameter(SQL_SELECT_PROTEIN_COUNT_BY_NAME, "protein_accession", proteinAccession);
-        return this.getJdbcTemplate().queryForInt(sql);
+        return this.getJdbcTemplate().queryForObject(sql, Integer.class);
     }
 
     /**
@@ -102,7 +102,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return gene count
      */
     public int getGeneCount() {
-        return this.getJdbcTemplate().queryForInt(SQL_SELECT_GENE_COUNT);
+        return this.getJdbcTemplate().queryForObject(SQL_SELECT_GENE_COUNT, Integer.class);
     }
 
     /**
@@ -111,7 +111,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return protein sequence count
      */
     public int getSequenceCount() {
-        return this.getJdbcTemplate().queryForInt(SQL_SELECT_SEQUENCE_COUNT);
+        return this.getJdbcTemplate().queryForObject(SQL_SELECT_SEQUENCE_COUNT, Integer.class);
     }
 
     /**
@@ -120,7 +120,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return protease count
      */
     public int getProteaseCount() {
-        return this.getJdbcTemplate().queryForInt(SQL_SELECT_PROTEASE_COUNT);
+        return this.getJdbcTemplate().queryForObject(SQL_SELECT_PROTEASE_COUNT, Integer.class);
     }
 
     /**
@@ -417,7 +417,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return the entry ID
      */
     public int getLastProteinId() {
-        return this.getJdbcTemplate().queryForInt(SQL_SELECT_LAST_PROTEIN_ID);
+        return this.getJdbcTemplate().queryForObject(SQL_SELECT_LAST_PROTEIN_ID, Integer.class);
     }
 
     /**
@@ -426,7 +426,7 @@ public class SpringJdbcSimpleQueryDao extends JdbcDaoSupport implements SimpleQu
      * @return the entry ID
      */
     public int getLastGeneId() {
-        return this.getJdbcTemplate().queryForInt(SQL_SELECT_LAST_GENE_ID);
+        return this.getJdbcTemplate().queryForObject(SQL_SELECT_LAST_GENE_ID, Integer.class);
     }
 
     /**

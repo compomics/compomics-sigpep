@@ -3,7 +3,7 @@ package com.compomics.sigpep.persistence.dao.impl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import com.compomics.sigpep.model.Organism;
 import com.compomics.sigpep.persistence.dao.CatalogDao;
 

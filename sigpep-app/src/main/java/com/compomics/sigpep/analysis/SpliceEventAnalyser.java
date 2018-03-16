@@ -3,6 +3,7 @@ package com.compomics.sigpep.analysis;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionBuilder;
 import org.hibernate.SessionFactory;
 import com.compomics.dbtools.DatabaseException;
 import com.compomics.sigpep.model.*;
@@ -167,7 +168,9 @@ public class SpliceEventAnalyser {
                 peptideIdSubset.add(id);
             }
 
-            Session session = sessionFactory.openSession(connection);
+//            Session session = sessionFactory.openSession(connection);
+            SessionBuilder sb = sessionFactory.withOptions();
+            Session session = sessionFactory.openSession();
             for (Integer peptideId : peptideIdSubset) {
                 analyseSpliceEventCoverage(peptideId, proteaseNames, session, delimitedTableWriter);
             }
@@ -371,7 +374,9 @@ public class SpliceEventAnalyser {
      */
     private Map<Integer, Set<String>> fetchSequenceId2ProteinAccessionMap() {
 
-        Session session = sessionFactory.openSession(connection);
+//        Session session = sessionFactory.openSession(connection);
+        SessionBuilder sb = sessionFactory.withOptions();
+        Session session = sessionFactory.openSession();
 
         Map<Integer, Set<String>> sequenceId2ProteinAccession = new HashMap<Integer, Set<String>>();
 
@@ -402,7 +407,9 @@ public class SpliceEventAnalyser {
      */
     private Map<String, String> fetchProteinAccession2GeneAccession() {
 
-        Session session = sessionFactory.openSession(connection);
+//        Session session = sessionFactory.openSession(connection);
+        SessionBuilder sb = sessionFactory.withOptions();
+        Session session = sessionFactory.openSession();
 
         Map<String, String> proteinAccession2GeneAccession = new HashMap<String, String>();
 
@@ -428,7 +435,9 @@ public class SpliceEventAnalyser {
      */
     private Map<String, Integer> fetchGeneAccession2ProteinCountMap() {
 
-        Session session = sessionFactory.openSession(connection);
+//        Session session = sessionFactory.openSession(connection);
+        SessionBuilder sb = sessionFactory.withOptions();
+        Session session = sessionFactory.openSession();
 
         Map<String, Integer> geneAccession2ProteinCount = new HashMap<String, Integer>();
         Query query = session.createQuery(
@@ -453,7 +462,9 @@ public class SpliceEventAnalyser {
      */
     private Map<String, Set<Integer>> fetchGeneAccession2SequenceId() {
 
-        Session session = sessionFactory.openSession(connection);
+//        Session session = sessionFactory.openSession(connection);
+        SessionBuilder sb = sessionFactory.withOptions();
+        Session session = sessionFactory.openSession();
 
         Map<String, Set<Integer>> geneAccession2SequenceId = new HashMap<String, Set<Integer>>();
 
@@ -490,7 +501,9 @@ public class SpliceEventAnalyser {
     private int[] fetchSpliceEventSpanningPeptides(Set<String> proteaseNames,
                                                    Set<Integer> peptideIds) {
 
-        Session session = sessionFactory.openSession(connection);
+//        Session session = sessionFactory.openSession(connection);
+        SessionBuilder sb = sessionFactory.withOptions();
+        Session session = sessionFactory.openSession();
 
         Query query;
         if (peptideIds == null || peptideIds.isEmpty()) {

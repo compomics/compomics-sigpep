@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.compomics.sigpep</groupId>
         <artifactId>sigpep</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </parent>
 
     <dependencies>
@@ -60,16 +60,23 @@
             </exclusions>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.mariadb.jdbc</groupId>-->
+            <!--<artifactId>mariadb-java-client</artifactId>-->
+            <!--<version>2.1.2</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>2.1.2</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.46</version>
         </dependency>
 
         <dependency>
             <groupId>com.compomics.sigpep</groupId>
             <artifactId>sigpep-model</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
         </dependency>
 
         <!--dbtools-->
@@ -89,20 +96,53 @@
             <groupId>com.compomics.ensh</groupId>
             <artifactId>ensh-api</artifactId>
             <version>0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>com.compomics.ensh</groupId>
             <artifactId>ensh-core</artifactId>
             <version>0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
 
         <!--Spring Framework-->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring</artifactId>
-            <version>2.5.4</version>
+            <artifactId>spring-jdbc</artifactId>
+            <!--<version>2.5.4</version>-->
+            <version>5.0.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <!--<version>2.5.4</version>-->
+            <version>5.0.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <!--<version>2.5.4</version>-->
+            <version>5.0.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <!--<version>2.5.4</version>-->
+            <version>5.0.3.RELEASE</version>
         </dependency>
 
         <!-- Spring AspectJ support -->
@@ -148,16 +188,11 @@
         <!--</dependency>-->
 
         <!--Hibernate-->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate</artifactId>
-            <version>3.2.5.ga</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-collections</groupId>
-                    <artifactId>commons-collections</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.0.3.Final</version>
         </dependency>
 
         <!--Hibernate second level cache-->
@@ -243,7 +278,7 @@
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
                 <excludes>
-                    <!--<exclude>**/config/*</exclude>-->
+                    <exclude>**/config/*</exclude>
                     <!--<exclude>**/sql/*</exclude>-->
                 </excludes>
                 <includes>

@@ -5,7 +5,6 @@ import org.apache.commons.configuration.ConfigurationUtils;
 import com.compomics.dbtools.SqlScript;
 import com.compomics.sigpep.persistence.config.Configuration;
 import com.compomics.sigpep.persistence.rdbms.helper.DatabaseInitialiser;
-import org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean;
 
 import java.sql.*;
 import java.net.URL;

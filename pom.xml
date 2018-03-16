@@ -21,18 +21,18 @@
 
     <repositories>
 
-        <!-- EBI internal repository -->
-        <repository>
-            <id>ebi-repo</id>
-            <name>The EBI internal repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+        <!--&lt;!&ndash; EBI internal repository &ndash;&gt;-->
+        <!--<repository>-->
+            <!--<id>ebi-repo</id>-->
+            <!--<name>The EBI internal repository</name>-->
+            <!--<url>http://www.ebi.ac.uk/~maven/m2repo</url>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
+            <!--<snapshots>-->
+                <!--<enabled>false</enabled>-->
+            <!--</snapshots>-->
+        <!--</repository>-->
 
         <!-- UGent Genesis Maven 2 repository -->
         <repository>

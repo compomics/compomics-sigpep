@@ -4,7 +4,7 @@
     <groupId>com.compomics.sigpep</groupId>
     <artifactId>sigpep-util</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>sigpep-util</name>
     <url>http://www.ebi.ac.uk/~mmueller/public_html/project/sigpep/sigpep-util</url>
 

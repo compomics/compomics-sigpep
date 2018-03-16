@@ -3,6 +3,7 @@ package com.compomics.sigpep.analysis.query;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionBuilder;
 import org.hibernate.SessionFactory;
 import com.compomics.dbtools.Database;
 import com.compomics.dbtools.DatabaseException;
@@ -207,7 +208,9 @@ public class SpliceIsoformCoverage {
             Query enshQuery = enshSession.createQuery("from Translation where stableId.stableId=:stableId");
 
             Connection sigPepConnection = sigPepDatabase.getConnection();
-            Session sigPepSession = HibernateUtil.getSessionFactory(ncbiTaxonId).openSession(sigPepConnection);
+//            Session sigPepSession = HibernateUtil.getSessionFactory(ncbiTaxonId).openSession(sigPepConnection);
+            SessionBuilder sb = HibernateUtil.getSessionFactory(ncbiTaxonId).withOptions();
+            Session sigPepSession = sb.openSession();
 
             Query sigPepQuery = sigPepSession.createQuery("from Gene");
 
